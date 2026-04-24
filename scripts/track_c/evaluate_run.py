@@ -162,6 +162,7 @@ def build_eval(run_dir: Path, scenarios: dict[str, dict[str, Any]]) -> dict[str,
             "element_scale_ratio": metrics.get("element_scale_ratio"),
             "element_anchor_padding": metrics.get("element_anchor_padding"),
             "element_mask_mode": metrics.get("element_mask_mode"),
+            "element_anchor_mode": metrics.get("element_anchor_mode"),
             "element_line_count": metrics.get("element_line_count"),
         },
         "metrics": {

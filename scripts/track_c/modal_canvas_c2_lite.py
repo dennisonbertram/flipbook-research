@@ -444,6 +444,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     element_scale_ratio = float(config.get("element_scale_ratio", 0.25))
     element_anchor_padding = int(config.get("element_anchor_padding", 3))
     element_mask_mode = str(config.get("element_mask_mode", "rectangle"))
+    element_anchor_mode = str(config.get("element_anchor_mode", "line"))
     edge_sample_ratio = float(config.get("edge_sample_ratio", 0.0))
     edge_loss_weight = float(config.get("edge_loss_weight", 0.0))
     text_box_sample_ratio = float(config.get("text_box_sample_ratio", 0.0))
@@ -527,7 +528,18 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 line_boxes.append((x0 / train_w, y0 / train_h, x1 / train_w, y1 / train_h))
         return line_boxes
 
-    element_line_boxes = build_line_boxes(scaled_text_boxes)
+    def build_word_boxes(boxes: list[tuple[int, int, int, int]]) -> list[tuple[float, float, float, float]]:
+        word_boxes = []
+        for x0, y0, x1, y1 in boxes:
+            bx0 = max(0, x0 - element_anchor_padding)
+            by0 = max(0, y0 - element_anchor_padding)
+            bx1 = min(train_w, x1 + element_anchor_padding)
+            by1 = min(train_h, y1 + element_anchor_padding)
+            if bx1 > bx0 and by1 > by0:
+                word_boxes.append((bx0 / train_w, by0 / train_h, bx1 / train_w, by1 / train_h))
+        return word_boxes
+
+    element_line_boxes = build_word_boxes(scaled_text_boxes) if element_anchor_mode == "word" else build_line_boxes(scaled_text_boxes)
 
     model = TimeCanvas(
         width=train_w,
@@ -766,6 +778,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "element_scale_ratio": element_scale_ratio,
         "element_anchor_padding": element_anchor_padding,
         "element_mask_mode": element_mask_mode,
+        "element_anchor_mode": element_anchor_mode,
         "element_line_count": len(element_line_boxes),
         "min_ocr_similarity": float(config.get("min_ocr_similarity", 0.5)),
         "min_motion_delta": float(config.get("min_motion_delta", 0.001)),
@@ -789,7 +802,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "motion_delta_model": motion_delta,
         "loop_error_model": loop_error,
         "description": (
-            f"C2.5 neural canvas: stable content with OCR line anchors, {element_mask_mode} masks, and {video_layout_mode} layout transform"
+            f"C2.6 neural canvas: stable content with OCR {element_anchor_mode} anchors, {element_mask_mode} masks, and {video_layout_mode} layout transform"
             if text_enabled and video_layout_mode == "element-frame-scale"
             else f"C2.3 neural canvas: stable content with {video_layout_mode} layout transform"
             if text_enabled and video_layout_mode != "none"
@@ -825,6 +838,7 @@ def main(
     element_scale_ratio: float = 0.25,
     element_anchor_padding: int = 3,
     element_mask_mode: str = "rectangle",
+    element_anchor_mode: str = "line",
     experiment_label: str = "",
     edge_sample_ratio: float = 0.0,
     edge_loss_weight: float = 0.0,
@@ -864,6 +878,7 @@ def main(
         "element_scale_ratio": element_scale_ratio,
         "element_anchor_padding": element_anchor_padding,
         "element_mask_mode": element_mask_mode,
+        "element_anchor_mode": element_anchor_mode,
         "experiment_label": experiment_label,
         "min_ocr_similarity": min_ocr_similarity,
         "min_motion_delta": min_motion_delta,
