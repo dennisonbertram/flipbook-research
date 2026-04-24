@@ -1,18 +1,18 @@
 {
-  "updated_utc": "2026-04-24T23:21:38+00:00",
+  "updated_utc": "2026-04-24T23:28:12+00:00",
   "active_sessions": [
     "clawtest",
     "track-c-autoresearch",
-    "track-c-c50-reflow-ablate-midtime-only",
-    "track-c-c50-reflow-ablate-target-sample-only",
-    "track-c-c50-reflow-ablate-target-weight-only",
-    "track-c-c50-reflow-target-c40h192-s11000",
-    "track-c-c50-reflow-target-clip1-c32h160-s11000",
-    "track-c-c50-reflow-target-cosine-c32h160-s11000",
-    "track-c-c50-reflow-target-freq12-c32h160-s11000",
-    "track-c-c50-reflow-target-mid40-c32h160-s11000",
-    "track-c-c50-reflow-target-mid90n-c32h160-s11000",
-    "track-c-c50-reflow-target-train1920-textw-c24h128-s11000",
+    "track-c-c51-reflow-target-b196-c32h160-s10000-seed1",
+    "track-c-c51-reflow-target-b196-c32h160-s12000",
+    "track-c-c51-reflow-target-b196-c32h160-s14000",
+    "track-c-c51-reflow-target-b229-c32h160-s10000",
+    "track-c-c51-reflow-target-mid60-c32h160-s16000",
+    "track-c-c51-reflow-target-mid60-c32h160-s18000",
+    "track-c-c51-reflow-target-train1920-c32h160-s13000",
+    "track-c-c51-reflow-target-train1920-c32h160-s15000",
+    "track-c-c51-reflow-weightonly-b196-c32h160-s10000",
+    "track-c-c51-reflow-weightonly-c32h160-s14000",
     "track-c-github-sync"
   ],
   "experiments": [
@@ -90,71 +90,148 @@
       "label": "c50-reflow-ablate-target-sample-only",
       "session": "track-c-c50-reflow-ablate-target-sample-only",
       "log": "docs/experiments/track-c/c50-reflow-ablate-target-sample-only.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.6."
     },
     {
       "label": "c50-reflow-ablate-target-weight-only",
       "session": "track-c-c50-reflow-ablate-target-weight-only",
       "log": "docs/experiments/track-c/c50-reflow-ablate-target-weight-only.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.6."
     },
     {
       "label": "c50-reflow-ablate-midtime-only",
       "session": "track-c-c50-reflow-ablate-midtime-only",
       "log": "docs/experiments/track-c/c50-reflow-ablate-midtime-only.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq10, grad clip 0.5, mid-time 0.7."
     },
     {
       "label": "c50-reflow-target-mid40-c32h160-s11000",
       "session": "track-c-c50-reflow-target-mid40-c32h160-s11000",
       "log": "docs/experiments/track-c/c50-reflow-target-mid40-c32h160-s11000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 11000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.4."
     },
     {
       "label": "c50-reflow-target-mid90n-c32h160-s11000",
       "session": "track-c-c50-reflow-target-mid90n-c32h160-s11000",
       "log": "docs/experiments/track-c/c50-reflow-target-mid90n-c32h160-s11000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 11000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.9."
     },
     {
       "label": "c50-reflow-target-freq12-c32h160-s11000",
       "session": "track-c-c50-reflow-target-freq12-c32h160-s11000",
       "log": "docs/experiments/track-c/c50-reflow-target-freq12-c32h160-s11000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 11000 steps, freq12, grad clip 0.5, target-side reflow sampling, mid-time 0.6."
     },
     {
       "label": "c50-reflow-target-c40h192-s11000",
       "session": "track-c-c50-reflow-target-c40h192-s11000",
       "log": "docs/experiments/track-c/c50-reflow-target-c40h192-s11000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 11000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.6."
     },
     {
       "label": "c50-reflow-target-cosine-c32h160-s11000",
       "session": "track-c-c50-reflow-target-cosine-c32h160-s11000",
       "log": "docs/experiments/track-c/c50-reflow-target-cosine-c32h160-s11000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 11000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.6."
     },
     {
       "label": "c50-reflow-target-clip1-c32h160-s11000",
       "session": "track-c-c50-reflow-target-clip1-c32h160-s11000",
       "log": "docs/experiments/track-c/c50-reflow-target-clip1-c32h160-s11000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 11000 steps, freq10, grad clip 1, target-side reflow sampling, mid-time 0.6."
     },
     {
       "label": "c50-reflow-target-train1920-textw-c24h128-s11000",
       "session": "track-c-c50-reflow-target-train1920-textw-c24h128-s11000",
       "log": "docs/experiments/track-c/c50-reflow-target-train1920-textw-c24h128-s11000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 11000 steps, freq10, grad clip 0.5, text-weighted, target-side reflow sampling, mid-time 0.6."
+    },
+    {
+      "label": "c51-reflow-target-b196-c32h160-s12000",
+      "session": "track-c-c51-reflow-target-b196-c32h160-s12000",
+      "log": "docs/experiments/track-c/c51-reflow-target-b196-c32h160-s12000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.6."
+    },
+    {
+      "label": "c51-reflow-target-b196-c32h160-s14000",
+      "session": "track-c-c51-reflow-target-b196-c32h160-s14000",
+      "log": "docs/experiments/track-c/c51-reflow-target-b196-c32h160-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.6."
+    },
+    {
+      "label": "c51-reflow-target-b229-c32h160-s10000",
+      "session": "track-c-c51-reflow-target-b229-c32h160-s10000",
+      "log": "docs/experiments/track-c/c51-reflow-target-b229-c32h160-s10000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.6."
+    },
+    {
+      "label": "c51-reflow-target-mid60-c32h160-s16000",
+      "session": "track-c-c51-reflow-target-mid60-c32h160-s16000",
+      "log": "docs/experiments/track-c/c51-reflow-target-mid60-c32h160-s16000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 16000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.6."
+    },
+    {
+      "label": "c51-reflow-target-mid60-c32h160-s18000",
+      "session": "track-c-c51-reflow-target-mid60-c32h160-s18000",
+      "log": "docs/experiments/track-c/c51-reflow-target-mid60-c32h160-s18000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 18000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.6."
+    },
+    {
+      "label": "c51-reflow-weightonly-b196-c32h160-s10000",
+      "session": "track-c-c51-reflow-weightonly-b196-c32h160-s10000",
+      "log": "docs/experiments/track-c/c51-reflow-weightonly-b196-c32h160-s10000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.6."
+    },
+    {
+      "label": "c51-reflow-weightonly-c32h160-s14000",
+      "session": "track-c-c51-reflow-weightonly-c32h160-s14000",
+      "log": "docs/experiments/track-c/c51-reflow-weightonly-c32h160-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.6."
+    },
+    {
+      "label": "c51-reflow-target-train1920-c32h160-s13000",
+      "session": "track-c-c51-reflow-target-train1920-c32h160-s13000",
+      "log": "docs/experiments/track-c/c51-reflow-target-train1920-c32h160-s13000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 13000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.6."
+    },
+    {
+      "label": "c51-reflow-target-train1920-c32h160-s15000",
+      "session": "track-c-c51-reflow-target-train1920-c32h160-s15000",
+      "log": "docs/experiments/track-c/c51-reflow-target-train1920-c32h160-s15000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 15000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.6."
+    },
+    {
+      "label": "c51-reflow-target-b196-c32h160-s10000-seed1",
+      "session": "track-c-c51-reflow-target-b196-c32h160-s10000-seed1",
+      "log": "docs/experiments/track-c/c51-reflow-target-b196-c32h160-s10000-seed1.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq10, grad clip 0.5, seed 1, target-side reflow sampling, mid-time 0.6."
+    },
+    {
+      "label": "c51-reflow-target-mid60-c32h160-s14000-seed1",
+      "session": "track-c-c51-reflow-target-mid60-c32h160-s14000-seed1",
+      "log": "docs/experiments/track-c/c51-reflow-target-mid60-c32h160-s14000-seed1.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 1, target-side reflow sampling, mid-time 0.6."
     },
     {
       "label": "c48-layout-reflow-100-c32h160-s12000",
