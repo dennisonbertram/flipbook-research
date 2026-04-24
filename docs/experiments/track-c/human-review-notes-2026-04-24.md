@@ -840,3 +840,42 @@ c48-layout-reflow-100-c32h160-lr007-s12000
 c48-layout-reflow-100-c32h160-cosine-s12000
 c48-layout-reflow-100-c32h160-edge16-s12000
 ```
+
+## C48 Capacity/Reflow Follow-Up Results
+
+Completed C48 layout-reflow results:
+
+```text
+c48-layout-reflow-100-train1920-c24h128-s10000: OCR 0.4739, segment 634.374ms, motion_delta 0.0488, quality_fail
+c48-layout-reflow-100-train1920-c32h160-s10000: OCR 0.4706, segment 706.145ms, motion_delta 0.0514, quality_fail
+c48-layout-reflow-100-c32h160-lr007-s12000: OCR 0.4557, segment 623.097ms, motion_delta 0.0514, quality_fail
+c48-layout-reflow-100-c32h160-s12000: OCR 0.4528, segment 708.337ms, motion_delta 0.0487, quality_fail
+c48-layout-reflow-100-c32h160-edge16-s12000: OCR 0.4455, segment 700.160ms, motion_delta 0.0499, quality_fail
+c48-layout-reflow-100-textw-strong-s11000: OCR 0.4444, segment 581.194ms, motion_delta 0.0510, quality_fail
+c48-layout-reflow-100-c32h160-textw-s12000: OCR 0.4277, segment 751.085ms, motion_delta 0.0491, quality_fail
+c48-layout-reflow-100-c32h160-cosine-s12000: OCR 0.4151, segment 717.772ms, motion_delta 0.0503, quality_fail
+c48-layout-reflow-100-c32h160-freq12-s12000: OCR 0.4079, segment 727.767ms, motion_delta 0.0502, quality_fail
+c48-layout-reflow-100-c40h192-s12000: OCR 0.4025, segment 818.575ms, motion_delta 0.0507, quality_fail
+```
+
+Interpretation:
+
+- C48 did not beat the C47 layout-reflow peak (`0.5193` OCR), despite more steps, larger capacity, and higher train resolution.
+- Latency remains excellent. Even the largest C48 branch is comfortably under the `1.3s` segment budget.
+- The `target-mid.png` artifact is now saved and included in contact sheets. Human inspection shows the synthetic target is crisp and correctly reflowed, while model output follows the layout but blurs text.
+- This points away from simple capacity scaling and toward the sampling/loss distribution. Source-side glyph/text sampling is likely spending too much budget where text used to be, not where the reflowed text lands.
+
+Next experiments:
+
+```text
+c49-reflow-target-mid60-c32h160-s12000
+c49-reflow-target-mid80-c32h160-s12000
+c49-reflow-target-mid60-c32h160-s14000
+c49-reflow-target-lr007-c32h160-s12000
+c49-reflow-target-time6-c32h160-s12000
+c49-reflow-target-edge18-c32h160-s12000
+c49-reflow-target-textw-c32h160-s12000
+c49-reflow-target-b196-c32h160-s10000
+c49-reflow-target-train1920-c24h128-s11000
+c49-reflow-target-train1920-c32h160-s11000
+```

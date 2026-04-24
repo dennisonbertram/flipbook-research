@@ -536,6 +536,10 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     text_box_sample_ratio = float(config.get("text_box_sample_ratio", 0.0))
     text_box_loss_weight = float(config.get("text_box_loss_weight", 0.0))
     text_box_padding = int(config.get("text_box_padding", 0))
+    layout_target_sampling = bool(int(config.get("layout_target_sampling", 0)))
+    layout_target_weighting = bool(int(config.get("layout_target_weighting", 0)))
+    layout_mid_time_ratio = float(config.get("layout_mid_time_ratio", 0.0))
+    layout_mid_time_width = float(config.get("layout_mid_time_width", 0.24))
 
     source = Image.open(io.BytesIO(input_png)).convert("RGB").resize((train_w, train_h), Image.Resampling.LANCZOS)
     target = torch.from_numpy(np.asarray(source, dtype=np.float32) / 255.0).to(device)
@@ -659,8 +663,36 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             canvas = patch * alpha + canvas * (1.0 - alpha)
         return canvas
 
-    def sample_layout_reflow(coords01: torch.Tensor, t_col: torch.Tensor, amount: float) -> torch.Tensor:
-        canvas = torch.ones((coords01.shape[0], 3), device=coords01.device)
+    def forward_layout_reflow_coords(coords01: torch.Tensor, t_col: torch.Tensor, amount: float) -> torch.Tensor:
+        out = coords01.clone()
+        assigned = torch.zeros((coords01.shape[0], 1), device=coords01.device, dtype=torch.bool)
+        progress = torch.sin(t_col * torch.pi).square().clamp(0.0, 1.0) * amount
+        x = coords01[:, 0:1]
+        y = coords01[:, 1:2]
+
+        for source_box, target_box in layout_reflow_regions:
+            sx0, sy0, sx1, sy1 = source_box
+            tx0, ty0, tx1, ty1 = target_box
+            dx0 = sx0 + (tx0 - sx0) * progress
+            dy0 = sy0 + (ty0 - sy0) * progress
+            dx1 = sx1 + (tx1 - sx1) * progress
+            dy1 = sy1 + (ty1 - sy1) * progress
+            in_box = (x >= sx0) & (x <= sx1) & (y >= sy0) & (y <= sy1) & ~assigned
+            dest_x = dx0 + (x - sx0) * ((dx1 - dx0) / max(1e-6, sx1 - sx0))
+            dest_y = dy0 + (y - sy0) * ((dy1 - dy0) / max(1e-6, sy1 - sy0))
+            out = torch.where(in_box, torch.cat([dest_x, dest_y], dim=-1), out)
+            assigned = assigned | in_box
+        return out.clamp(0.0, 1.0)
+
+    def sample_layout_reflow_from(
+        source_chw: torch.Tensor,
+        coords01: torch.Tensor,
+        t_col: torch.Tensor,
+        amount: float,
+        background_value: float,
+    ) -> torch.Tensor:
+        channels_local = int(source_chw.shape[1])
+        canvas = torch.full((coords01.shape[0], channels_local), float(background_value), device=coords01.device)
         edge = 0.006
         progress = torch.sin(t_col * torch.pi).square().clamp(0.0, 1.0) * amount
         x = coords01[:, 0:1]
@@ -681,9 +713,12 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             ).clamp(0.0, 1.0)
             source_x = sx0 + (x - dx0) * ((sx1 - sx0) / (dx1 - dx0).clamp_min(1e-6))
             source_y = sy0 + (y - dy0) * ((sy1 - sy0) / (dy1 - dy0).clamp_min(1e-6))
-            patch = sample_target(target_chw, torch.cat([source_x, source_y], dim=-1))
+            patch = sample_target(source_chw, torch.cat([source_x, source_y], dim=-1))
             canvas = patch * alpha + canvas * (1.0 - alpha)
         return canvas
+
+    def sample_layout_reflow(coords01: torch.Tensor, t_col: torch.Tensor, amount: float) -> torch.Tensor:
+        return sample_layout_reflow_from(target_chw, coords01, t_col, amount, 1.0)
 
     model = TimeCanvas(
         width=train_w,
@@ -709,13 +744,18 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         edge_count = max(0, min(remaining, int(batch_size * edge_sample_ratio)))
         uniform_count = batch_size - text_count - edge_count
         idx_parts = []
+        source_focus_parts = []
         if uniform_count:
             idx_parts.append(torch.randint(0, train_w * train_h, (uniform_count,), device=device))
+            source_focus_parts.append(torch.zeros((uniform_count,), device=device, dtype=torch.bool))
         if edge_count:
             idx_parts.append(torch.multinomial(glyph_prob, edge_count, replacement=True))
+            source_focus_parts.append(torch.ones((edge_count,), device=device, dtype=torch.bool))
         if text_count:
             idx_parts.append(torch.multinomial(text_prob, text_count, replacement=True))
+            source_focus_parts.append(torch.ones((text_count,), device=device, dtype=torch.bool))
         idx = torch.cat(idx_parts, dim=0)
+        source_focus = torch.cat(source_focus_parts, dim=0)
         ys = torch.div(idx, train_w, rounding_mode="floor")
         xs = idx - ys * train_w
         coords = torch.stack(
@@ -726,6 +766,15 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             dim=-1,
         )
         t = torch.rand((batch_size, 1), device=device)
+        if motion_mode in layout_reflow_motion_modes and layout_mid_time_ratio > 0.0:
+            mid_count = max(0, min(batch_size, int(batch_size * layout_mid_time_ratio)))
+            if mid_count:
+                mid_idx = torch.randperm(batch_size, device=device)[:mid_count]
+                mid_t = 0.5 + (torch.rand((mid_count, 1), device=device) - 0.5) * layout_mid_time_width
+                t[mid_idx] = mid_t.clamp(0.0, 1.0)
+        if motion_mode in layout_reflow_motion_modes and layout_target_sampling:
+            moved_coords = forward_layout_reflow_coords(coords, t, motion_strength)
+            coords = torch.where(source_focus.unsqueeze(-1), moved_coords, coords)
         target_coords = target_coords_for_motion(coords, t, motion_strength, motion_mode)
         if motion_mode in independent_sprite_motion_modes:
             truth = sample_independent_sprite_translation(coords, t, motion_strength)
@@ -735,8 +784,12 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             truth = sample_target(target_chw, target_coords)
         pred = model(coords, t)
         if edge_loss_weight > 0 or text_box_loss_weight > 0:
-            glyph_weights = sample_target(glyph_weight_chw, target_coords).squeeze(-1)
-            text_weights = sample_target(text_weight_chw, target_coords).squeeze(-1)
+            if motion_mode in layout_reflow_motion_modes and layout_target_weighting:
+                glyph_weights = sample_layout_reflow_from(glyph_weight_chw, coords, t, motion_strength, 0.0).squeeze(-1)
+                text_weights = sample_layout_reflow_from(text_weight_chw, coords, t, motion_strength, 0.0).squeeze(-1)
+            else:
+                glyph_weights = sample_target(glyph_weight_chw, target_coords).squeeze(-1)
+                text_weights = sample_target(text_weight_chw, target_coords).squeeze(-1)
             weights = 1.0 + edge_loss_weight * glyph_weights + text_box_loss_weight * text_weights
             loss = (((pred - truth).square().mean(dim=-1)) * weights).mean()
         else:
@@ -1058,6 +1111,10 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "text_box_sample_ratio": text_box_sample_ratio,
         "text_box_loss_weight": text_box_loss_weight,
         "text_box_padding": text_box_padding,
+        "layout_target_sampling": int(layout_target_sampling),
+        "layout_target_weighting": int(layout_target_weighting),
+        "layout_mid_time_ratio": layout_mid_time_ratio,
+        "layout_mid_time_width": layout_mid_time_width,
         "text_box_count": len(config.get("text_boxes", [])),
         "text_mask_coverage": float(text_mask.mean().detach().cpu()),
         "element_alpha_coverage": float((element_alpha > 0.05).float().mean().detach().cpu()),
@@ -1136,6 +1193,10 @@ def main(
     text_box_loss_weight: float = 0.0,
     text_box_padding: int = 3,
     text_box_min_conf: float = 55.0,
+    layout_target_sampling: int = 0,
+    layout_target_weighting: int = 0,
+    layout_mid_time_ratio: float = 0.0,
+    layout_mid_time_width: float = 0.24,
     min_ocr_similarity: float = 0.5,
     min_motion_delta: float = 0.001,
     seed: int = 0,
@@ -1185,6 +1246,10 @@ def main(
         "text_box_loss_weight": text_box_loss_weight,
         "text_box_padding": text_box_padding,
         "text_box_min_conf": text_box_min_conf,
+        "layout_target_sampling": layout_target_sampling,
+        "layout_target_weighting": layout_target_weighting,
+        "layout_mid_time_ratio": layout_mid_time_ratio,
+        "layout_mid_time_width": layout_mid_time_width,
         "text_boxes": text_boxes,
         "source_resolution": source_resolution,
         "frames": frames,

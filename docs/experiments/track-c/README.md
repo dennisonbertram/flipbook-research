@@ -84,6 +84,10 @@ C4.7 pivots to the real viability proof: learned layout reflow. The target now m
 
 C4.7 gives the first credible positive signal for the path. Multiple learned layout-reflow runs pass under the 1.3s segment budget while clearing motion and OCR gates. The best run is `c47-layout-reflow-100-c32h160-s10000`: OCR `0.5193`, motion `0.0520`, segment `620.732ms`. Human review shows the page is actually re-laid out: the diagram changes position/scale and the content bands move. The weak point is still text sharpness and visual inspectability, so C4.8 saves the synthetic target midpoint next to the model output and pushes higher-capacity, text-weighted, and higher-resolution reflow variants.
 
+C4.8 shows that brute-force capacity is not the missing piece. All ten stricter reflow runs stay well under the `1.3s` 33-frame plus encode budget, but none beat the C47 OCR peak. The best C48 result is `c48-layout-reflow-100-train1920-c24h128-s10000` at OCR `0.4739`, motion `0.0488`, segment `634.374ms`; the strongest `1536x864` variant is `c48-layout-reflow-100-c32h160-lr007-s12000` at OCR `0.4557`, motion `0.0514`, segment `623.097ms`. The new `target-mid.png` contact-sheet tile confirms the intended layout target is crisp while the learned midpoint is still soft.
+
+C4.9 changes the training distribution instead of only scaling the model. Layout-reflow training now has optional target-side sampling, target-side glyph/text loss weighting, and midpoint-biased time sampling. This directly addresses the C48 failure mode: source-side glyph sampling undersamples text after it moves into its target layout position.
+
 Suggested `results.tsv` header:
 
 ```text
@@ -93,7 +97,7 @@ run_id	commit	canvas_type	compile_ms	render_960_ms	render_33_wall_ms	encode_ms	o
 `eval-results.tsv` is the normalized scenario-level leaderboard:
 
 ```text
-run_id	commit	scenario_id	renderer_family	status	segment_wall_ms	render_33_wall_ms	encode_ms	effective_generated_fps	ocr_token_f1_min	ocr_token_f1_mean	layout_similarity	resize_consistency	temporal_consistency	motion_delta	loop_error	pixel_source_class	failed_gates
+run_id	commit	scenario_id	renderer_family	status	segment_wall_ms	render_33_wall_ms	encode_ms	effective_generated_fps	ocr_token_f1_min	ocr_token_f1_mean	layout_similarity	resize_consistency	temporal_consistency	motion_delta	loop_error	target_mid_delta	target_mid_similarity	pixel_source_class	failed_gates
 ```
 
 Suggested artifact shape:
@@ -104,6 +108,8 @@ outputs/track-c/<run-id>/
   render-512.png
   render-960.png
   crop-2x.png
+  target-mid.png
+  contact-sheet.jpg
   output.mp4
   metrics.json
   quality.json

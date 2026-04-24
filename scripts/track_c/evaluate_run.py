@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageChops, ImageDraw, ImageFont, ImageStat
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -116,6 +116,18 @@ def artifacts_for(run_dir: Path, metrics: dict[str, Any]) -> dict[str, str | Non
     }
 
 
+def image_delta_similarity(path_a: Path, path_b: Path) -> tuple[float | None, float | None]:
+    if not path_a.exists() or not path_b.exists():
+        return None, None
+    with Image.open(path_a) as image_a, Image.open(path_b) as image_b:
+        image_a = image_a.convert("RGB")
+        image_b = image_b.convert("RGB").resize(image_a.size, Image.Resampling.LANCZOS)
+        diff = ImageChops.difference(image_a, image_b)
+        mean_abs = sum(ImageStat.Stat(diff).mean) / 3.0
+    delta = mean_abs / 255.0
+    return delta, max(0.0, 1.0 - delta)
+
+
 def determine_status(metrics: dict[str, Any], quality: dict[str, Any], scenario: dict[str, Any]) -> tuple[str, list[str]]:
     segment_wall_ms = float(metrics.get("render_33_wall_ms") or 0.0) + float(metrics.get("encode_ms") or 0.0)
     ocr = float(quality.get("ocr_similarity", metrics.get("ocr_similarity") or 0.0))
@@ -153,6 +165,8 @@ def build_eval(run_dir: Path, scenarios: dict[str, dict[str, Any]]) -> dict[str,
     encode = float(metrics.get("encode_ms") or 0.0)
     segment_wall = render_33 + encode
     ocr = float(quality.get("ocr_similarity", metrics.get("ocr_similarity") or 0.0))
+    mid_artifact = choose_mid_artifact(run_dir) or run_dir / "render-mid.png"
+    target_mid_delta, target_mid_similarity = image_delta_similarity(mid_artifact, run_dir / "target-mid.png")
 
     scenario_result = {
         "scenario_id": scenario_id,
@@ -198,6 +212,8 @@ def build_eval(run_dir: Path, scenarios: dict[str, dict[str, Any]]) -> dict[str,
             "temporal_consistency": metrics.get("temporal_consistency"),
             "motion_delta": quality.get("motion_delta", metrics.get("motion_delta")),
             "loop_error": quality.get("loop_error", metrics.get("loop_error")),
+            "target_mid_delta": target_mid_delta,
+            "target_mid_similarity": target_mid_similarity,
             "model_rendered_pixel_ratio": 1.0,
         },
         "artifacts": artifacts_for(run_dir, metrics),
@@ -301,6 +317,7 @@ def write_summary(run_dir: Path, eval_doc: dict[str, Any]) -> Path:
         f"- OCR token-F1: `{metrics['ocr_token_f1_mid']:.4f}`",
         f"- Motion delta: `{float(metrics['motion_delta'] or 0.0):.4f}`",
         f"- Loop error: `{float(metrics['loop_error'] or 0.0):.4f}`",
+        f"- Target-mid similarity: `{float(metrics['target_mid_similarity'] or 0.0):.4f}`",
         "",
         "## Failed Gates",
         "",
@@ -335,6 +352,8 @@ TSV_FIELDS = [
     "temporal_consistency",
     "motion_delta",
     "loop_error",
+    "target_mid_delta",
+    "target_mid_similarity",
     "pixel_source_class",
     "failed_gates",
 ]
@@ -365,6 +384,8 @@ def write_tsv(path: Path, eval_docs: list[dict[str, Any]]) -> None:
                 "temporal_consistency": f'{float(metrics["temporal_consistency"] or 0.0):.4f}',
                 "motion_delta": f'{float(metrics["motion_delta"] or 0.0):.4f}',
                 "loop_error": f'{float(metrics["loop_error"] or 0.0):.4f}',
+                "target_mid_delta": f'{float(metrics["target_mid_delta"] or 0.0):.4f}',
+                "target_mid_similarity": f'{float(metrics["target_mid_similarity"] or 0.0):.4f}',
                 "pixel_source_class": doc["pixel_source_class"],
                 "failed_gates": ",".join(scenario["failed_gates"]),
             }
