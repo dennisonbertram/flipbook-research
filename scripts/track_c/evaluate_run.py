@@ -110,6 +110,7 @@ def artifacts_for(run_dir: Path, metrics: dict[str, Any]) -> dict[str, str | Non
         "crop_2x": rel(run_dir / "crop-2x.png") if (run_dir / "crop-2x.png").exists() else rel(metrics_artifacts.get("crop_2x")),
         "text_mask": rel(run_dir / "text-mask.png") if (run_dir / "text-mask.png").exists() else rel(metrics_artifacts.get("text_mask")),
         "element_alpha_mask": rel(run_dir / "element-alpha-mask.png") if (run_dir / "element-alpha-mask.png").exists() else rel(metrics_artifacts.get("element_alpha_mask")),
+        "target_mid": rel(run_dir / "target-mid.png") if (run_dir / "target-mid.png").exists() else rel(metrics_artifacts.get("target_mid")),
         "text_boxes": rel(run_dir / "text-boxes.json") if (run_dir / "text-boxes.json").exists() else rel(metrics_artifacts.get("text_boxes")),
         "video": rel(run_dir / "output.mp4") if (run_dir / "output.mp4").exists() else rel(metrics_artifacts.get("output")),
     }
@@ -256,6 +257,7 @@ def write_contact_sheet(run_dir: Path, eval_doc: dict[str, Any]) -> Path | None:
         ("input", run_dir / "input.png"),
         ("render 960", run_dir / "render-960.png"),
         ("mid", choose_mid_artifact(run_dir) or run_dir / "render-mid.png"),
+        ("target mid", run_dir / "target-mid.png"),
         ("last", run_dir / "render-last.png"),
         ("crop 2x", run_dir / "crop-2x.png"),
         ("text mask", run_dir / "text-mask.png"),

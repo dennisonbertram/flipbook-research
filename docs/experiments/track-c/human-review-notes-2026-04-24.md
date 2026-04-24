@@ -800,3 +800,43 @@ c47-layout-reflow-100-textw-c24h128-s10000
 c47-layout-reflow-100-lr007-s10000
 c47-layout-reflow-100-cosine-s10000
 ```
+
+## C47 Learned Layout-Reflow Results
+
+Completed C47 layout-reflow results:
+
+```text
+c47-layout-reflow-100-c32h160-s10000: OCR 0.5193, segment 620.732ms, motion_delta 0.0520, pass
+c47-layout-reflow-085-s9000: OCR 0.4663, segment 559.702ms, motion_delta 0.0473, pass
+c47-layout-reflow-100-lr007-s10000: OCR 0.4422, segment 570.260ms, motion_delta 0.0515, pass
+c47-layout-reflow-100-freq12-s9000: OCR 0.4403, segment 586.481ms, motion_delta 0.0545, pass
+c47-layout-reflow-100-textw-s9000: OCR 0.4025, segment 573.198ms, motion_delta 0.0462, pass
+c47-layout-reflow-100-cosine-s10000: OCR 0.4025, segment 563.481ms, motion_delta 0.0502, pass
+c47-layout-reflow-100-textw-c24h128-s10000: OCR 0.3867, segment 622.839ms, motion_delta 0.0497, quality_fail
+c47-layout-reflow-100-c24h128-s9000: OCR 0.3709, segment 639.189ms, motion_delta 0.0511, pass
+c47-layout-reflow-100-s9000: OCR 0.3660, segment 550.950ms, motion_delta 0.0536, pass
+c47-layout-reflow-070-s9000: OCR 0.3043, segment 583.513ms, motion_delta 0.0464, quality_fail
+```
+
+Interpretation:
+
+- This is the first credible proof signal for neural-canvas layout change. The best run actually renders a changed page layout, not a global wiggle: the diagram is repositioned/resized and content bands move.
+- Latency is not a blocker. The best layout-reflow run is `620.732ms` for 33 generated frames plus encode, still faster than realtime for the 24fps segment target.
+- OCR still understates and overstates different things. The visual pass is meaningful, but text remains soft; target-vs-output inspection is now necessary.
+- Higher capacity helps: `c32h160` is clearly better than the smaller baseline.
+- C48 should keep the layout-reflow proof, add a saved target midpoint artifact, and test larger/text-weighted/high-resolution variants.
+
+Next experiments:
+
+```text
+c48-layout-reflow-100-c32h160-s12000
+c48-layout-reflow-100-c32h160-freq12-s12000
+c48-layout-reflow-100-c40h192-s12000
+c48-layout-reflow-100-c32h160-textw-s12000
+c48-layout-reflow-100-textw-strong-s11000
+c48-layout-reflow-100-train1920-c24h128-s10000
+c48-layout-reflow-100-train1920-c32h160-s10000
+c48-layout-reflow-100-c32h160-lr007-s12000
+c48-layout-reflow-100-c32h160-cosine-s12000
+c48-layout-reflow-100-c32h160-edge16-s12000
+```

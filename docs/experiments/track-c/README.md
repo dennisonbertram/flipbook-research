@@ -82,6 +82,8 @@ C4.6 is still not the final proof. The best query-time translation controls are 
 
 C4.7 pivots to the real viability proof: learned layout reflow. The target now moves text/content blocks and resizes/repositions the illustration into a different page layout at the video midpoint, then loops back. Boxes are used only to synthesize the training target; the rendered frames remain direct neural-canvas pixels from `x,y,t`. This is the right test for whether the model can produce a new page layout rather than merely wiggle or elastically distort the existing one.
 
+C4.7 gives the first credible positive signal for the path. Multiple learned layout-reflow runs pass under the 1.3s segment budget while clearing motion and OCR gates. The best run is `c47-layout-reflow-100-c32h160-s10000`: OCR `0.5193`, motion `0.0520`, segment `620.732ms`. Human review shows the page is actually re-laid out: the diagram changes position/scale and the content bands move. The weak point is still text sharpness and visual inspectability, so C4.8 saves the synthetic target midpoint next to the model output and pushes higher-capacity, text-weighted, and higher-resolution reflow variants.
+
 Suggested `results.tsv` header:
 
 ```text

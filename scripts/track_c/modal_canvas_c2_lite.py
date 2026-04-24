@@ -945,6 +945,19 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             )
         return frame
 
+    def render_target_frame(width: int, height: int, t_value: float) -> torch.Tensor:
+        xs = torch.linspace(0.0, 1.0, width, device=device)
+        ys = torch.linspace(0.0, 1.0, height, device=device)
+        yy, xx = torch.meshgrid(ys, xs, indexing="ij")
+        coords = torch.stack([xx.reshape(-1), yy.reshape(-1)], dim=-1)
+        t = torch.full((coords.shape[0], 1), t_value, device=device)
+        if motion_mode in layout_reflow_motion_modes:
+            return sample_layout_reflow(coords, t, motion_strength).view(height, width, 3)
+        if motion_mode in independent_sprite_motion_modes:
+            return sample_independent_sprite_translation(coords, t, motion_strength).view(height, width, 3)
+        target_coords = target_coords_for_motion(coords, t, motion_strength, motion_mode)
+        return sample_target(target_chw, target_coords).view(height, width, 3)
+
     first = render_named("render-960.png", 960, 544, (0.0, 0.0, 1.0, 1.0), 0.0)
     render_named("render-mid.png", 960, 544, (0.0, 0.0, 1.0, 1.0), 0.5)
     render_named("render-last.png", 960, 544, (0.0, 0.0, 1.0, 1.0), 1.0)
@@ -962,6 +975,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         mid_name = "render-element-mid.png" if video_layout_mode == "element-frame-scale" else "render-layout-mid.png"
         render_times[mid_name] = (perf_counter() - start) * 1000
         artifacts[mid_name] = base64.b64encode(tensor_to_png_bytes(layout_mid)).decode("ascii")
+    if motion_mode in layout_reflow_motion_modes or motion_mode in independent_sprite_motion_modes:
+        artifacts["target-mid.png"] = base64.b64encode(tensor_to_png_bytes(render_target_frame(960, 544, 0.5))).decode("ascii")
     artifacts["text-mask.png"] = base64.b64encode(
         tensor_to_png_bytes(text_mask.unsqueeze(-1).repeat(1, 1, 3))
     ).decode("ascii")
@@ -1205,6 +1220,7 @@ def main(
         "crop_2x": str(run_dir / "crop-2x.png"),
         "text_mask": str(run_dir / "text-mask.png"),
         "element_alpha_mask": str(run_dir / "element-alpha-mask.png"),
+        "target_mid": str(run_dir / "target-mid.png"),
         "text_boxes": str(run_dir / "text-boxes.json"),
         "output": str(run_dir / "output.mp4"),
         "metrics": str(run_dir / "metrics.json"),
