@@ -1,34 +1,44 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-24T20:10:42+00:00`
+Updated UTC: `2026-04-24T20:17:05+00:00`
 
 ## Active Sessions
 
 - `clawtest`
 - `track-c-autoresearch`
-- `track-c-c39-frame-scale-0125-edge09-freq10-aa15`
-- `track-c-c39-frame-scale-0125-edge09-freq10-cap24h128`
-- `track-c-c39-frame-scale-0125-edge09-freq10-s6000`
-- `track-c-c39-frame-scale-0125-edge09-freq10-train1536`
-- `track-c-c39-frame-scale-014-edge09-aa175`
-- `track-c-c39-frame-scale-014-edge09-aa175-cap24h128`
-- `track-c-c39-frame-scale-014-edge09-aa175-freq10`
-- `track-c-c39-frame-scale-014-edge09-freq10-cap24h128`
-- `track-c-c39-frame-scale-014-edge09-freq10-s6000`
-- `track-c-c39-frame-scale-014-edge09-freq10-train1536`
+- `track-c-c40-frame-scale-0125-edge075-freq10-train1536`
+- `track-c-c40-frame-scale-0125-edge09-freq10-train1536-seed1`
+- `track-c-c40-frame-scale-0125-edge09-freq10-train1920`
+- `track-c-c40-frame-scale-0125-edge09-freq12-train1536`
+- `track-c-c40-frame-scale-014-edge075-freq10-train1536`
+- `track-c-c40-frame-scale-014-edge09-freq10-train1536-seed1`
+- `track-c-c40-frame-scale-014-edge09-freq10-train1920`
+- `track-c-c40-frame-scale-014-edge09-freq12-train1536`
+- `track-c-c40-frame-scale-0145-edge09-freq10-train1536`
+- `track-c-c40-frame-scale-016-edge09-freq10-train1536`
 
 ## Queue
 
-- `c39-frame-scale-0125-edge09-freq10-cap24h128`: pending/running - C39 resize representation: combine higher coordinate frequency with larger latent/channel capacity at 0.125.
-- `c39-frame-scale-014-edge09-freq10-cap24h128`: pending/running - C39 resize representation: combine higher frequency and capacity at the 0.14 stress bracket.
-- `c39-frame-scale-0125-edge09-freq10-s6000`: pending/running - C39 resize representation: more optimization steps on the current fast C38 freq10 winner.
-- `c39-frame-scale-014-edge09-freq10-s6000`: pending/running - C39 resize representation: more optimization steps for high-frequency coordinates at 0.14.
-- `c39-frame-scale-014-edge09-aa175`: pending/running - C39 resize sampling: 1.75x neural supersampling to search between C38 1.5x and 2x.
-- `c39-frame-scale-014-edge09-aa175-freq10`: pending/running - C39 resize sampling: combine 1.75x supersampling with the C38 high-frequency improvement.
-- `c39-frame-scale-014-edge09-aa175-cap24h128`: pending/running - C39 resize sampling: combine 1.75x supersampling with larger capacity at 0.14.
-- `c39-frame-scale-0125-edge09-freq10-aa15`: pending/running - C39 resize sampling: test whether light supersampling stacks with the fast 0.125 freq10 winner.
-- `c39-frame-scale-0125-edge09-freq10-train1536`: pending/running - C39 resize representation: train the high-frequency renderer on a denser 1536x864 latent canvas.
-- `c39-frame-scale-014-edge09-freq10-train1536`: pending/running - C39 resize representation: denser 1536x864 latent canvas at the 0.14 stress bracket.
+- `c40-frame-scale-0125-edge09-freq10-train1536-seed1`: pending/running - C40 denser-canvas robustness: seed repeat for the C39 0.125 train1536/freq10 winner.
+- `c40-frame-scale-014-edge09-freq10-train1536-seed1`: pending/running - C40 denser-canvas robustness: seed repeat for the C39 0.14 train1536/freq10 pass.
+- `c40-frame-scale-0125-edge09-freq12-train1536`: pending/running - C40 denser-canvas frequency ladder: test freq12 at the 0.125 train1536 bracket.
+- `c40-frame-scale-014-edge09-freq12-train1536`: pending/running - C40 denser-canvas frequency ladder: test freq12 at the 0.14 train1536 bracket.
+- `c40-frame-scale-0125-edge075-freq10-train1536`: pending/running - C40 denser-canvas edge bracket: lighter edge weighting around the C39 0.125 winner.
+- `c40-frame-scale-014-edge075-freq10-train1536`: pending/running - C40 denser-canvas edge bracket: lighter edge weighting at the 0.14 train1536 bracket.
+- `c40-frame-scale-0125-edge09-freq10-train1920`: pending/running - C40 denser-canvas resolution ladder: test 1920x1088 latent training at the 0.125 bracket.
+- `c40-frame-scale-014-edge09-freq10-train1920`: pending/running - C40 denser-canvas resolution ladder: test 1920x1088 latent training at the 0.14 bracket.
+- `c40-frame-scale-0145-edge09-freq10-train1536`: pending/running - C40 denser-canvas stress ladder: push train1536/freq10 past the 0.14 bracket.
+- `c40-frame-scale-016-edge09-freq10-train1536`: pending/running - C40 denser-canvas stress ladder: test whether train1536/freq10 can hold 0.16 resize.
+- `c39-frame-scale-0125-edge09-freq10-cap24h128`: done - C39 resize representation: combine higher coordinate frequency with larger latent/channel capacity at 0.125.
+- `c39-frame-scale-014-edge09-freq10-cap24h128`: done - C39 resize representation: combine higher frequency and capacity at the 0.14 stress bracket.
+- `c39-frame-scale-0125-edge09-freq10-s6000`: done - C39 resize representation: more optimization steps on the current fast C38 freq10 winner.
+- `c39-frame-scale-014-edge09-freq10-s6000`: done - C39 resize representation: more optimization steps for high-frequency coordinates at 0.14.
+- `c39-frame-scale-014-edge09-aa175`: done - C39 resize sampling: 1.75x neural supersampling to search between C38 1.5x and 2x.
+- `c39-frame-scale-014-edge09-aa175-freq10`: done - C39 resize sampling: combine 1.75x supersampling with the C38 high-frequency improvement.
+- `c39-frame-scale-014-edge09-aa175-cap24h128`: done - C39 resize sampling: combine 1.75x supersampling with larger capacity at 0.14.
+- `c39-frame-scale-0125-edge09-freq10-aa15`: done - C39 resize sampling: test whether light supersampling stacks with the fast 0.125 freq10 winner.
+- `c39-frame-scale-0125-edge09-freq10-train1536`: done - C39 resize representation: train the high-frequency renderer on a denser 1536x864 latent canvas.
+- `c39-frame-scale-014-edge09-freq10-train1536`: done - C39 resize representation: denser 1536x864 latent canvas at the 0.14 stress bracket.
 - `c38-frame-scale-0125-edge09-aa15`: done - C38 resize model/render test: 1.5x neural supersampling at the C37 best 0.125 bracket.
 - `c38-frame-scale-014-edge09-aa15`: done - C38 resize model/render test: 1.5x neural supersampling at 0.14 to test aliasing versus identity loss.
 - `c38-frame-scale-014-edge09-aa2`: done - C38 resize model/render test: 2x neural supersampling to measure quality/latency tradeoff directly.

@@ -1,88 +1,158 @@
 {
-  "updated_utc": "2026-04-24T20:10:42+00:00",
+  "updated_utc": "2026-04-24T20:17:05+00:00",
   "active_sessions": [
     "clawtest",
     "track-c-autoresearch",
-    "track-c-c39-frame-scale-0125-edge09-freq10-aa15",
-    "track-c-c39-frame-scale-0125-edge09-freq10-cap24h128",
-    "track-c-c39-frame-scale-0125-edge09-freq10-s6000",
-    "track-c-c39-frame-scale-0125-edge09-freq10-train1536",
-    "track-c-c39-frame-scale-014-edge09-aa175",
-    "track-c-c39-frame-scale-014-edge09-aa175-cap24h128",
-    "track-c-c39-frame-scale-014-edge09-aa175-freq10",
-    "track-c-c39-frame-scale-014-edge09-freq10-cap24h128",
-    "track-c-c39-frame-scale-014-edge09-freq10-s6000",
-    "track-c-c39-frame-scale-014-edge09-freq10-train1536"
+    "track-c-c40-frame-scale-0125-edge075-freq10-train1536",
+    "track-c-c40-frame-scale-0125-edge09-freq10-train1536-seed1",
+    "track-c-c40-frame-scale-0125-edge09-freq10-train1920",
+    "track-c-c40-frame-scale-0125-edge09-freq12-train1536",
+    "track-c-c40-frame-scale-014-edge075-freq10-train1536",
+    "track-c-c40-frame-scale-014-edge09-freq10-train1536-seed1",
+    "track-c-c40-frame-scale-014-edge09-freq10-train1920",
+    "track-c-c40-frame-scale-014-edge09-freq12-train1536",
+    "track-c-c40-frame-scale-0145-edge09-freq10-train1536",
+    "track-c-c40-frame-scale-016-edge09-freq10-train1536"
   ],
   "experiments": [
+    {
+      "label": "c40-frame-scale-0125-edge09-freq10-train1536-seed1",
+      "session": "track-c-c40-frame-scale-0125-edge09-freq10-train1536-seed1",
+      "log": "docs/experiments/track-c/c40-frame-scale-0125-edge09-freq10-train1536-seed1.log",
+      "done": false,
+      "notes": "C40 denser-canvas robustness: seed repeat for the C39 0.125 train1536/freq10 winner."
+    },
+    {
+      "label": "c40-frame-scale-014-edge09-freq10-train1536-seed1",
+      "session": "track-c-c40-frame-scale-014-edge09-freq10-train1536-seed1",
+      "log": "docs/experiments/track-c/c40-frame-scale-014-edge09-freq10-train1536-seed1.log",
+      "done": false,
+      "notes": "C40 denser-canvas robustness: seed repeat for the C39 0.14 train1536/freq10 pass."
+    },
+    {
+      "label": "c40-frame-scale-0125-edge09-freq12-train1536",
+      "session": "track-c-c40-frame-scale-0125-edge09-freq12-train1536",
+      "log": "docs/experiments/track-c/c40-frame-scale-0125-edge09-freq12-train1536.log",
+      "done": false,
+      "notes": "C40 denser-canvas frequency ladder: test freq12 at the 0.125 train1536 bracket."
+    },
+    {
+      "label": "c40-frame-scale-014-edge09-freq12-train1536",
+      "session": "track-c-c40-frame-scale-014-edge09-freq12-train1536",
+      "log": "docs/experiments/track-c/c40-frame-scale-014-edge09-freq12-train1536.log",
+      "done": false,
+      "notes": "C40 denser-canvas frequency ladder: test freq12 at the 0.14 train1536 bracket."
+    },
+    {
+      "label": "c40-frame-scale-0125-edge075-freq10-train1536",
+      "session": "track-c-c40-frame-scale-0125-edge075-freq10-train1536",
+      "log": "docs/experiments/track-c/c40-frame-scale-0125-edge075-freq10-train1536.log",
+      "done": false,
+      "notes": "C40 denser-canvas edge bracket: lighter edge weighting around the C39 0.125 winner."
+    },
+    {
+      "label": "c40-frame-scale-014-edge075-freq10-train1536",
+      "session": "track-c-c40-frame-scale-014-edge075-freq10-train1536",
+      "log": "docs/experiments/track-c/c40-frame-scale-014-edge075-freq10-train1536.log",
+      "done": false,
+      "notes": "C40 denser-canvas edge bracket: lighter edge weighting at the 0.14 train1536 bracket."
+    },
+    {
+      "label": "c40-frame-scale-0125-edge09-freq10-train1920",
+      "session": "track-c-c40-frame-scale-0125-edge09-freq10-train1920",
+      "log": "docs/experiments/track-c/c40-frame-scale-0125-edge09-freq10-train1920.log",
+      "done": false,
+      "notes": "C40 denser-canvas resolution ladder: test 1920x1088 latent training at the 0.125 bracket."
+    },
+    {
+      "label": "c40-frame-scale-014-edge09-freq10-train1920",
+      "session": "track-c-c40-frame-scale-014-edge09-freq10-train1920",
+      "log": "docs/experiments/track-c/c40-frame-scale-014-edge09-freq10-train1920.log",
+      "done": false,
+      "notes": "C40 denser-canvas resolution ladder: test 1920x1088 latent training at the 0.14 bracket."
+    },
+    {
+      "label": "c40-frame-scale-0145-edge09-freq10-train1536",
+      "session": "track-c-c40-frame-scale-0145-edge09-freq10-train1536",
+      "log": "docs/experiments/track-c/c40-frame-scale-0145-edge09-freq10-train1536.log",
+      "done": false,
+      "notes": "C40 denser-canvas stress ladder: push train1536/freq10 past the 0.14 bracket."
+    },
+    {
+      "label": "c40-frame-scale-016-edge09-freq10-train1536",
+      "session": "track-c-c40-frame-scale-016-edge09-freq10-train1536",
+      "log": "docs/experiments/track-c/c40-frame-scale-016-edge09-freq10-train1536.log",
+      "done": false,
+      "notes": "C40 denser-canvas stress ladder: test whether train1536/freq10 can hold 0.16 resize."
+    },
     {
       "label": "c39-frame-scale-0125-edge09-freq10-cap24h128",
       "session": "track-c-c39-frame-scale-0125-edge09-freq10-cap24h128",
       "log": "docs/experiments/track-c/c39-frame-scale-0125-edge09-freq10-cap24h128.log",
-      "done": false,
+      "done": true,
       "notes": "C39 resize representation: combine higher coordinate frequency with larger latent/channel capacity at 0.125."
     },
     {
       "label": "c39-frame-scale-014-edge09-freq10-cap24h128",
       "session": "track-c-c39-frame-scale-014-edge09-freq10-cap24h128",
       "log": "docs/experiments/track-c/c39-frame-scale-014-edge09-freq10-cap24h128.log",
-      "done": false,
+      "done": true,
       "notes": "C39 resize representation: combine higher frequency and capacity at the 0.14 stress bracket."
     },
     {
       "label": "c39-frame-scale-0125-edge09-freq10-s6000",
       "session": "track-c-c39-frame-scale-0125-edge09-freq10-s6000",
       "log": "docs/experiments/track-c/c39-frame-scale-0125-edge09-freq10-s6000.log",
-      "done": false,
+      "done": true,
       "notes": "C39 resize representation: more optimization steps on the current fast C38 freq10 winner."
     },
     {
       "label": "c39-frame-scale-014-edge09-freq10-s6000",
       "session": "track-c-c39-frame-scale-014-edge09-freq10-s6000",
       "log": "docs/experiments/track-c/c39-frame-scale-014-edge09-freq10-s6000.log",
-      "done": false,
+      "done": true,
       "notes": "C39 resize representation: more optimization steps for high-frequency coordinates at 0.14."
     },
     {
       "label": "c39-frame-scale-014-edge09-aa175",
       "session": "track-c-c39-frame-scale-014-edge09-aa175",
       "log": "docs/experiments/track-c/c39-frame-scale-014-edge09-aa175.log",
-      "done": false,
+      "done": true,
       "notes": "C39 resize sampling: 1.75x neural supersampling to search between C38 1.5x and 2x."
     },
     {
       "label": "c39-frame-scale-014-edge09-aa175-freq10",
       "session": "track-c-c39-frame-scale-014-edge09-aa175-freq10",
       "log": "docs/experiments/track-c/c39-frame-scale-014-edge09-aa175-freq10.log",
-      "done": false,
+      "done": true,
       "notes": "C39 resize sampling: combine 1.75x supersampling with the C38 high-frequency improvement."
     },
     {
       "label": "c39-frame-scale-014-edge09-aa175-cap24h128",
       "session": "track-c-c39-frame-scale-014-edge09-aa175-cap24h128",
       "log": "docs/experiments/track-c/c39-frame-scale-014-edge09-aa175-cap24h128.log",
-      "done": false,
+      "done": true,
       "notes": "C39 resize sampling: combine 1.75x supersampling with larger capacity at 0.14."
     },
     {
       "label": "c39-frame-scale-0125-edge09-freq10-aa15",
       "session": "track-c-c39-frame-scale-0125-edge09-freq10-aa15",
       "log": "docs/experiments/track-c/c39-frame-scale-0125-edge09-freq10-aa15.log",
-      "done": false,
+      "done": true,
       "notes": "C39 resize sampling: test whether light supersampling stacks with the fast 0.125 freq10 winner."
     },
     {
       "label": "c39-frame-scale-0125-edge09-freq10-train1536",
       "session": "track-c-c39-frame-scale-0125-edge09-freq10-train1536",
       "log": "docs/experiments/track-c/c39-frame-scale-0125-edge09-freq10-train1536.log",
-      "done": false,
+      "done": true,
       "notes": "C39 resize representation: train the high-frequency renderer on a denser 1536x864 latent canvas."
     },
     {
       "label": "c39-frame-scale-014-edge09-freq10-train1536",
       "session": "track-c-c39-frame-scale-014-edge09-freq10-train1536",
       "log": "docs/experiments/track-c/c39-frame-scale-014-edge09-freq10-train1536.log",
-      "done": false,
+      "done": true,
       "notes": "C39 resize representation: denser 1536x864 latent canvas at the 0.14 stress bracket."
     },
     {
