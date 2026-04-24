@@ -1,18 +1,8 @@
 {
-  "updated_utc": "2026-04-24T20:41:52+00:00",
+  "updated_utc": "2026-04-24T20:47:03+00:00",
   "active_sessions": [
     "clawtest",
     "track-c-autoresearch",
-    "track-c-c34-general-flow-014-edge09-seed0",
-    "track-c-c34-general-flow-014-edge1-seed0",
-    "track-c-c34-general-flow-014-edge1-seed1",
-    "track-c-c34-general-flow-014-edge1-seed2",
-    "track-c-c34-general-flow-014-edge1-seed3",
-    "track-c-c34-general-flow-0141-edge1-seed0",
-    "track-c-c34-general-flow-01415-edge1-seed0",
-    "track-c-c34-general-flow-0142-edge1-seed0",
-    "track-c-c34-general-responsive-014-edge1-seed0",
-    "track-c-c34-general-viewport-014-edge1-seed0",
     "track-c-github-sync"
   ],
   "experiments": [
@@ -650,70 +640,70 @@
       "label": "c34-general-flow-014-edge1-seed0",
       "session": "track-c-c34-general-flow-014-edge1-seed0",
       "log": "docs/experiments/track-c/c34-general-flow-014-edge1-seed0.log",
-      "done": false,
+      "done": true,
       "notes": "C34 robustness: repeat the C33 no-OCR winner with explicit deterministic seed 0."
     },
     {
       "label": "c34-general-flow-014-edge1-seed1",
       "session": "track-c-c34-general-flow-014-edge1-seed1",
       "log": "docs/experiments/track-c/c34-general-flow-014-edge1-seed1.log",
-      "done": false,
+      "done": true,
       "notes": "C34 robustness: repeat the C33 no-OCR winner with seed 1."
     },
     {
       "label": "c34-general-flow-014-edge1-seed2",
       "session": "track-c-c34-general-flow-014-edge1-seed2",
       "log": "docs/experiments/track-c/c34-general-flow-014-edge1-seed2.log",
-      "done": false,
+      "done": true,
       "notes": "C34 robustness: repeat the C33 no-OCR winner with seed 2."
     },
     {
       "label": "c34-general-flow-014-edge1-seed3",
       "session": "track-c-c34-general-flow-014-edge1-seed3",
       "log": "docs/experiments/track-c/c34-general-flow-014-edge1-seed3.log",
-      "done": false,
+      "done": true,
       "notes": "C34 robustness: repeat the C33 no-OCR winner with seed 3."
     },
     {
       "label": "c34-general-flow-0141-edge1-seed0",
       "session": "track-c-c34-general-flow-0141-edge1-seed0",
       "log": "docs/experiments/track-c/c34-general-flow-0141-edge1-seed0.log",
-      "done": false,
+      "done": true,
       "notes": "C34 cliff test: nudge pure no-OCR flow just above the C33 winner."
     },
     {
       "label": "c34-general-flow-01415-edge1-seed0",
       "session": "track-c-c34-general-flow-01415-edge1-seed0",
       "log": "docs/experiments/track-c/c34-general-flow-01415-edge1-seed0.log",
-      "done": false,
+      "done": true,
       "notes": "C34 cliff test: bracket the narrow gap before the C33 0.01425 near-miss."
     },
     {
       "label": "c34-general-flow-0142-edge1-seed0",
       "session": "track-c-c34-general-flow-0142-edge1-seed0",
       "log": "docs/experiments/track-c/c34-general-flow-0142-edge1-seed0.log",
-      "done": false,
+      "done": true,
       "notes": "C34 cliff test: test whether 0.0142 remains viable before the 0.01425 readability drop."
     },
     {
       "label": "c34-general-flow-014-edge09-seed0",
       "session": "track-c-c34-general-flow-014-edge09-seed0",
       "log": "docs/experiments/track-c/c34-general-flow-014-edge09-seed0.log",
-      "done": false,
+      "done": true,
       "notes": "C34 edge bracket: test slightly lighter edge weighting at the C33 winner flow."
     },
     {
       "label": "c34-general-responsive-014-edge1-seed0",
       "session": "track-c-c34-general-responsive-014-edge1-seed0",
       "log": "docs/experiments/track-c/c34-general-responsive-014-edge1-seed0.log",
-      "done": false,
+      "done": true,
       "notes": "C34 responsive stress: apply the current winner flow to the no-OCR responsive-squeeze case."
     },
     {
       "label": "c34-general-viewport-014-edge1-seed0",
       "session": "track-c-c34-general-viewport-014-edge1-seed0",
       "log": "docs/experiments/track-c/c34-general-viewport-014-edge1-seed0.log",
-      "done": false,
+      "done": true,
       "notes": "C34 viewport stress: keep learned jiggle but add viewport zoom/pan to test query stability."
     },
     {
