@@ -64,6 +64,8 @@ C4.0 focuses on the denser-canvas path: seed robustness, a `freq12` ladder, ligh
 
 C4.0 improves the best `0.125` resize result again: seed `1` of `1536x864 + freq10` reaches OCR `0.7222`, segment `559.324ms`, and motion `0.0574`. `freq12` at the same bracket is also strong at OCR `0.7032`. The harder `0.14` bracket remains unstable, with seed `1` collapsing to OCR `0.3143` after seed `0` passed in C39; `0.16` still passes at OCR `0.5660`. C4.1 focuses on optimizer stability and seed variance rather than bigger canvases, since `1920x1088` regressed.
 
+C4.1 confirms that stability is the main issue. The `0.125` bracket holds across seeds but ranges from OCR `0.6636` to `0.7222`. The `0.14` bracket can recover with lower LR on some seeds (`lr007-seed1` reaches OCR `0.6849`) but lower LR hurts others, so a single constant LR is not a complete fix. C4.2 tests optimizer schedules: cosine LR decay and gradient clipping.
+
 Suggested `results.tsv` header:
 
 ```text
