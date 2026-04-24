@@ -1,14 +1,27 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-24T18:54:44+00:00`
+Updated UTC: `2026-04-24T19:06:49+00:00`
 
 ## Active Sessions
 
 - `track-c-autoresearch`
+- `track-c-c31-general-flow-010-edge4`
+- `track-c-c31-general-flow-0125-edge1`
+- `track-c-c31-general-flow-0125-edge4`
+- `track-c-c31-general-flow-0125-edge8`
+- `track-c-c31-text-flow-0135-box8`
 - `track-c-github-sync`
 
 ## Queue
 
+- `c31-general-flow-0125-edge1`: pending/running - General neural-canvas direction: no OCR boxes, baseline edge/glyph weighting at the C30 sweet-spot flow.
+- `c31-general-flow-0125-edge4`: pending/running - General neural-canvas direction: no OCR boxes, stronger dense edge/glyph weighting at the C30 sweet-spot flow.
+- `c31-general-flow-010-edge4`: pending/running - General neural-canvas direction: no OCR boxes, lower-flow recovery point with dense edge/glyph weighting.
+- `c31-general-flow-0125-edge8`: pending/running - General neural-canvas direction: no OCR boxes, very strong dense edge/glyph weighting to test over-sharpening versus readability.
+- `c31-text-flow-0135-box8`: pending/running - Text-aware learned-flow bridge: OCR boxes affect training loss only, no output masks or layout anchors.
+- `c31-text-flow-014-box8`: pending/running - Text-aware learned-flow bridge: push just past the C30 boundary without render-time masks.
+- `c31-text-flow-0125-box12`: pending/running - Text-aware learned-flow bridge: stronger OCR-box sampling/loss at the C30 sweet spot, still no output masks.
+- `c31-alpha-layout-r0025-s004`: pending/running - Shape-aware bridge: glyph alpha selection under gentle layout motion, testing a non-rectangle rescue path.
 - `c30-gentle-flow-0125`: done - Pleasant-motion boundary between the C29 0.010 pass and 0.020 quality drop.
 - `c30-gentle-flow-015`: done - Pleasant-motion boundary probe near the likely readability cliff.
 - `c30-product-layout-r0025-s008`: done - Pleasant layout-motion with best line ratio and moderate layout strength.

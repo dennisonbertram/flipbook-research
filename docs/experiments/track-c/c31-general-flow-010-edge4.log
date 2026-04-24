@@ -1,0 +1,177 @@
+✓ Initialized. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-xnPCpEeKGRn68jOIJWF2Wi
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/dennisonbertram/Develop/flipbook-research/scripts/track_c/modal_canva
+│   s_c2_lite.py
+└── 🔨 Created function train_and_render_motion.
+START 20260424T190605918153Z-c2-lite-glyph-c31-general-flow-010-edge4-1280x736-s4500 config={"batch_size": 131072, "channels": 16, "edge_loss_weight": 4.0, "edge_sample_ratio": 0.35, "element_anchor_mode": "line", "element_anchor_padding": 3, "element_mask_mode": "rectangle", "element_render_mode": "sequential", "element_scale_ratio": 0.25, "experiment_label": "c31-general-flow-010-edge4", "flow_scale": 0.01, "fps": 24, "frames": 33, "freq_bands": 8, "hidden": 96, "layout_transform_pan": 0.0, "layout_transform_strength": 0.0, "lr": 0.01, "min_motion_delta": 0.01, "min_ocr_similarity": 0.8, "motion_mode": "jiggle", "motion_strength": 0.01, "source_resolution": [1280, 736], "steps": 4500, "text_box_loss_weight": 0.0, "text_box_min_conf": 55.0, "text_box_padding": 0, "text_box_sample_ratio": 0.0, "text_boxes": "0 boxes", "time_bands": 4, "train_resolution": "1280x736", "video_layout_mode": "none", "video_viewport_mode": "static", "viewport_pan": 0.0, "viewport_zoom": 0.0}
+{
+  "canvas_type": "time-conditioned-latent-feature-grid-learned-flow-mlp-glyph-weighted",
+  "train_resolution": "1280x736",
+  "steps": 4500,
+  "batch_size": 131072,
+  "channels": 16,
+  "hidden": 96,
+  "freq_bands": 8,
+  "time_bands": 4,
+  "lr": 0.01,
+  "flow_scale": 0.01,
+  "motion_mode": "jiggle",
+  "motion_strength": 0.01,
+  "video_viewport_mode": "static",
+  "viewport_zoom": 0.0,
+  "viewport_pan": 0.0,
+  "video_layout_mode": "none",
+  "layout_transform_strength": 0.0,
+  "layout_transform_pan": 0.0,
+  "element_scale_ratio": 0.25,
+  "element_anchor_padding": 3,
+  "element_mask_mode": "rectangle",
+  "element_anchor_mode": "line",
+  "element_render_mode": "sequential",
+  "element_line_count": 0,
+  "min_ocr_similarity": 0.8,
+  "min_motion_delta": 0.01,
+  "edge_sample_ratio": 0.35,
+  "edge_loss_weight": 4.0,
+  "text_box_sample_ratio": 0.0,
+  "text_box_loss_weight": 0.0,
+  "text_box_padding": 0,
+  "text_box_count": 0,
+  "text_mask_coverage": 0.0,
+  "element_alpha_coverage": 0.0,
+  "compile_ms": 28323.301066,
+  "final_mse": 0.00047498184721916914,
+  "losses": [
+    {
+      "step": 0,
+      "mse": 0.27717381715774536
+    },
+    {
+      "step": 225,
+      "mse": 0.01348645519465208
+    },
+    {
+      "step": 450,
+      "mse": 0.005746227689087391
+    },
+    {
+      "step": 675,
+      "mse": 0.003520932048559189
+    },
+    {
+      "step": 900,
+      "mse": 0.002680545672774315
+    },
+    {
+      "step": 1125,
+      "mse": 0.0017556865932419896
+    },
+    {
+      "step": 1350,
+      "mse": 0.0014686426147818565
+    },
+    {
+      "step": 1575,
+      "mse": 0.0012350438628345728
+    },
+    {
+      "step": 1800,
+      "mse": 0.001087613170966506
+    },
+    {
+      "step": 2025,
+      "mse": 0.0010532763553783298
+    },
+    {
+      "step": 2250,
+      "mse": 0.0009132919367402792
+    },
+    {
+      "step": 2475,
+      "mse": 0.0007344883633777499
+    },
+    {
+      "step": 2700,
+      "mse": 0.0006770392647013068
+    },
+    {
+      "step": 2925,
+      "mse": 0.0006667673587799072
+    },
+    {
+      "step": 3150,
+      "mse": 0.000609008246101439
+    },
+    {
+      "step": 3375,
+      "mse": 0.0008467018487863243
+    },
+    {
+      "step": 3600,
+      "mse": 0.0006918685394339263
+    },
+    {
+      "step": 3825,
+      "mse": 0.0010116209741681814
+    },
+    {
+      "step": 4050,
+      "mse": 0.0005687011871486902
+    },
+    {
+      "step": 4275,
+      "mse": 0.0005131869111210108
+    },
+    {
+      "step": 4499,
+      "mse": 0.00047498184721916914
+    }
+  ],
+  "render_times": {
+    "render-960.png": 20.311135000000036,
+    "render-mid.png": 9.649705000001063,
+    "render-last.png": 9.678447000005974,
+    "render-512.png": 2.7854379999965317,
+    "crop-2x.png": 9.621664000000862
+  },
+  "render_960_ms": 20.311135000000036,
+  "render_33_wall_ms": 300.19299700000346,
+  "encode_ms": 593.8623580000026,
+  "resize_consistency": 0.9982335690121062,
+  "temporal_consistency": 0.9975165736395866,
+  "motion_delta_model": 0.04835205152630806,
+  "loop_error_model": 0.002483426360413432,
+  "description": "C2-lite neural canvas: learned time-conditioned motion field with glyph-weighted sampling/loss",
+  "run_id": "20260424T190605918153Z-c2-lite-glyph-c31-general-flow-010-edge4-1280x736-s4500",
+  "commit": "3c3c271",
+  "track": "C",
+  "width": 960,
+  "height": 544,
+  "frames": 33,
+  "fps": 24,
+  "artifacts": {
+    "input": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T190605918153Z-c2-lite-glyph-c31-general-flow-010-edge4-1280x736-s4500/input.png",
+    "render_960": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T190605918153Z-c2-lite-glyph-c31-general-flow-010-edge4-1280x736-s4500/render-960.png",
+    "render_mid": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T190605918153Z-c2-lite-glyph-c31-general-flow-010-edge4-1280x736-s4500/render-mid.png",
+    "render_last": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T190605918153Z-c2-lite-glyph-c31-general-flow-010-edge4-1280x736-s4500/render-last.png",
+    "render_512": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T190605918153Z-c2-lite-glyph-c31-general-flow-010-edge4-1280x736-s4500/render-512.png",
+    "crop_2x": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T190605918153Z-c2-lite-glyph-c31-general-flow-010-edge4-1280x736-s4500/crop-2x.png",
+    "text_mask": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T190605918153Z-c2-lite-glyph-c31-general-flow-010-edge4-1280x736-s4500/text-mask.png",
+    "element_alpha_mask": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T190605918153Z-c2-lite-glyph-c31-general-flow-010-edge4-1280x736-s4500/element-alpha-mask.png",
+    "text_boxes": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T190605918153Z-c2-lite-glyph-c31-general-flow-010-edge4-1280x736-s4500/text-boxes.json",
+    "output": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T190605918153Z-c2-lite-glyph-c31-general-flow-010-edge4-1280x736-s4500/output.mp4",
+    "metrics": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T190605918153Z-c2-lite-glyph-c31-general-flow-010-edge4-1280x736-s4500/metrics.json",
+    "quality": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T190605918153Z-c2-lite-glyph-c31-general-flow-010-edge4-1280x736-s4500/quality.json"
+  },
+  "ocr_similarity": 0.8288288288288289,
+  "layout_similarity": 0.9982335690121062,
+  "motion_delta": 0.02922794036567211,
+  "loop_error": 0.0012886559125036001,
+  "status": "pass"
+}
+DONE 20260424T190605918153Z-c2-lite-glyph-c31-general-flow-010-edge4-1280x736-s4500 quality=0.8288 motion=0.0292
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-xnPCpEeKGRn68jOIJWF2Wi
