@@ -96,6 +96,8 @@ C5.0 confirms the useful ingredient is target-side loss weighting plus enough op
 
 C5.1 shows more target sampling and more batch are not monotonic. Early C5.1 results regress from C4.9, while `weightonly-c32h160-s14000` stays strong at OCR `0.5614`. C5.2 adds partial target-sampling ratios (`0.25/0.50/0.75`) and a weight-only scale/seed sweep.
 
+C5.2 stays near the frontier without beating it: partial target sampling ratio `0.50` reaches OCR `0.5742`, while `weightonly-b196-s14000` reaches `0.5729`. C5.3 changes the loss itself by adding an L1 term to the weighted MSE objective, testing whether sharper pointwise error reduces text blur/ghosting at the reflow midpoint.
+
 Suggested `results.tsv` header:
 
 ```text

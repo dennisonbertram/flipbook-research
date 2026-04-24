@@ -517,6 +517,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     lr_schedule = str(config.get("lr_schedule", "constant"))
     min_lr_ratio = float(config.get("min_lr_ratio", 0.1))
     grad_clip = float(config.get("grad_clip", 0.0))
+    l1_loss_weight = float(config.get("l1_loss_weight", 0.0))
     motion_mode = str(config.get("motion_mode", "jiggle"))
     motion_strength = float(config.get("motion_strength", flow_scale))
     video_viewport_mode = str(config.get("video_viewport_mode", "static"))
@@ -787,6 +788,10 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         else:
             truth = sample_target(target_chw, target_coords)
         pred = model(coords, t)
+        error = pred - truth
+        loss_per_sample = error.square().mean(dim=-1)
+        if l1_loss_weight > 0.0:
+            loss_per_sample = loss_per_sample + l1_loss_weight * error.abs().mean(dim=-1)
         if edge_loss_weight > 0 or text_box_loss_weight > 0:
             if motion_mode in layout_reflow_motion_modes and layout_target_weighting:
                 glyph_weights = sample_layout_reflow_from(glyph_weight_chw, coords, t, motion_strength, 0.0).squeeze(-1)
@@ -795,9 +800,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 glyph_weights = sample_target(glyph_weight_chw, target_coords).squeeze(-1)
                 text_weights = sample_target(text_weight_chw, target_coords).squeeze(-1)
             weights = 1.0 + edge_loss_weight * glyph_weights + text_box_loss_weight * text_weights
-            loss = (((pred - truth).square().mean(dim=-1)) * weights).mean()
+            loss = (loss_per_sample * weights).mean()
         else:
-            loss = F.mse_loss(pred, truth)
+            loss = loss_per_sample.mean()
         optimizer.zero_grad(set_to_none=True)
         loss.backward()
         if grad_clip > 0.0:
@@ -1086,6 +1091,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "lr_schedule": lr_schedule,
         "min_lr_ratio": min_lr_ratio,
         "grad_clip": grad_clip,
+        "l1_loss_weight": l1_loss_weight,
         "seed": seed,
         "experiment_label": config.get("experiment_label", ""),
         "flow_scale": flow_scale,
@@ -1177,6 +1183,7 @@ def main(
     lr_schedule: str = "constant",
     min_lr_ratio: float = 0.1,
     grad_clip: float = 0.0,
+    l1_loss_weight: float = 0.0,
     flow_scale: float = 0.006,
     motion_mode: str = "jiggle",
     motion_strength: float = -1.0,
@@ -1228,6 +1235,7 @@ def main(
         "lr_schedule": lr_schedule,
         "min_lr_ratio": min_lr_ratio,
         "grad_clip": grad_clip,
+        "l1_loss_weight": l1_loss_weight,
         "seed": seed,
         "flow_scale": flow_scale,
         "motion_mode": motion_mode,

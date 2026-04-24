@@ -991,3 +991,40 @@ c52-reflow-weightonly-c32h160-s14000-seed1
 c52-reflow-weightonly-c32h160-s14000-seed2
 c52-reflow-target-b196-c32h160-s10000-seed2
 ```
+
+Partial C52 read:
+
+```text
+c52-reflow-target-s050-c32h160-s14000: OCR 0.5742, motion_delta 0.0502, pass
+c52-reflow-weightonly-b196-c32h160-s14000: OCR 0.5729, motion_delta 0.0522, pass
+c52-reflow-weightonly-train1920-c32h160-s13000: OCR 0.5524, motion_delta 0.0485, pass
+c52-reflow-target-b196-c32h160-s10000-seed2: OCR 0.5490, motion_delta 0.0436, quality_fail
+c52-reflow-target-s025-c32h160-s14000: OCR 0.5349, motion_delta 0.0513, quality_fail
+c52-reflow-weightonly-c32h160-s18000: OCR 0.5029, motion_delta 0.0507, quality_fail
+c52-reflow-weightonly-c32h160-s14000-seed1: OCR 0.4945, motion_delta 0.0482, quality_fail
+c52-reflow-weightonly-c32h160-s14000-seed2: OCR 0.4875, motion_delta 0.0477, quality_fail
+c52-reflow-target-s075-c32h160-s14000: OCR 0.4834, motion_delta 0.0475, quality_fail
+c52-reflow-weightonly-c32h160-s16000: OCR 0.4505, motion_delta 0.0566, quality_fail
+c52-reflow-weightonly-b196-c32h160-s12000: OCR 0.4375, motion_delta 0.0499, quality_fail
+```
+
+Interpretation:
+
+- Partial target sampling helps, with `0.50` near the C49 best, but still does not pass `0.5761`.
+- Bigger batch and more steps remain non-monotonic.
+- The visible weak point is still blur/ghosting, so C53 tests whether adding L1 to weighted MSE sharpens the reflowed page.
+
+Next experiments:
+
+```text
+c53-reflow-weightonly-l1-025-c32h160-s14000
+c53-reflow-weightonly-l1-050-c32h160-s14000
+c53-reflow-weightonly-l1-100-c32h160-s14000
+c53-reflow-target-s050-l1-025-c32h160-s14000
+c53-reflow-target-s050-l1-050-c32h160-s14000
+c53-reflow-target-full-l1-025-b196-s10000
+c53-reflow-target-full-l1-050-b196-s10000
+c53-reflow-target-full-l1-025-c32h160-s14000
+c53-reflow-target-full-l1-050-c32h160-s14000
+c53-reflow-weightonly-l1-025-train1920-s13000
+```
