@@ -66,6 +66,8 @@ C4.0 improves the best `0.125` resize result again: seed `1` of `1536x864 + freq
 
 C4.1 confirms that stability is the main issue. The `0.125` bracket holds across seeds but ranges from OCR `0.6636` to `0.7222`. The `0.14` bracket can recover with lower LR on some seeds (`lr007-seed1` reaches OCR `0.6849`) but lower LR hurts others, so a single constant LR is not a complete fix. C4.2 tests optimizer schedules: cosine LR decay and gradient clipping.
 
+C4.2 shows gradient clipping is more promising than cosine LR for the hard `0.14` resize bracket. `c42-frame-scale-014-edge09-freq10-train1536-clip1-seed1` reaches OCR `0.6944`, segment `565.820ms`, and motion `0.0601`. Cosine LR helps the weak `0.125` seed (`0.7064`) but does not rescue the `0.14` bracket reliably. C4.3 expands gradient clipping across clip strengths and seeds.
+
 Suggested `results.tsv` header:
 
 ```text

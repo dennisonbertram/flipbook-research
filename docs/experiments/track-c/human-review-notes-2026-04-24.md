@@ -585,3 +585,45 @@ c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine-seed1
 c42-frame-scale-0125-edge09-freq10-train1536-seed3-cosine
 c42-frame-scale-016-edge09-freq10-train1536-lr007-cosine
 ```
+
+## C42 Optimizer Schedule Results
+
+Completed C42 results:
+
+```text
+c42-frame-scale-014-edge09-freq10-train1536-clip1-seed1: OCR 0.6944, segment 565.820ms, motion_delta 0.0601, pass
+c42-frame-scale-0125-edge09-freq10-train1536-seed3-cosine: OCR 0.7064, segment 557.783ms, motion_delta 0.0583, pass
+c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine-seed1: OCR 0.6091, segment 583.468ms, motion_delta 0.0604, pass
+c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine-seed1: OCR 0.6019, segment 554.481ms, motion_delta 0.0604, quality_fail
+c42-frame-scale-014-edge09-freq10-train1536-cosine: OCR 0.5833, segment 731.012ms, motion_delta 0.0605, quality_fail
+c42-frame-scale-014-edge09-freq10-train1536-clip1: OCR 0.5650, segment 564.015ms, motion_delta 0.0600, quality_fail
+c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine: OCR 0.5495, segment 589.680ms, motion_delta 0.0602, quality_fail
+c42-frame-scale-016-edge09-freq10-train1536-lr007-cosine: OCR 0.5395, segment 550.171ms, motion_delta 0.0610, quality_fail
+c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine: OCR 0.5273, segment 869.496ms, motion_delta 0.0593, quality_fail
+c42-frame-scale-014-edge09-freq10-train1536-cosine-seed1: OCR 0.3834, segment 562.706ms, motion_delta 0.0603, quality_fail
+```
+
+Interpretation:
+
+- Gradient clipping is the strongest new stability lead for `0.14`: clip `1.0` on seed `1` reaches OCR `0.6944`.
+- Cosine LR is useful for one weak `0.125` seed but does not solve the harder `0.14` bracket.
+- The next test should not broaden architecture again; it should characterize clipping strength and seed behavior.
+
+Decision:
+
+- Queue C43 as a gradient-clipping robustness sweep across clip `0.5`, `1.0`, `2.0`, seeds, and `lr007 + clip1`.
+
+Next experiments:
+
+```text
+c43-frame-scale-014-edge09-freq10-train1536-clip05
+c43-frame-scale-014-edge09-freq10-train1536-clip05-seed1
+c43-frame-scale-014-edge09-freq10-train1536-clip05-seed2
+c43-frame-scale-014-edge09-freq10-train1536-clip05-seed3
+c43-frame-scale-014-edge09-freq10-train1536-clip1-seed2
+c43-frame-scale-014-edge09-freq10-train1536-clip1-seed3
+c43-frame-scale-014-edge09-freq10-train1536-clip2
+c43-frame-scale-014-edge09-freq10-train1536-clip2-seed1
+c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1
+c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1-seed1
+```
