@@ -36,6 +36,8 @@ The C3.0 batched strong-control result, `c30-line-batched-r0025-strong`, is fast
 
 C3.1 pivots toward the more general path while keeping the bridge path alive. The general runs use learned-flow neural canvas rendering without OCR boxes, line anchors, word anchors, or rectangular text replacement. The text-aware bridge runs keep OCR boxes as a training signal only, not a render-time mask. A lower-stress alpha-layout run tests whether glyph-shaped selection can help without assuming clean rectangular text regions.
 
+Early C3.1 results support testing both tracks. The best no-OCR run so far, `c31-general-flow-0125-edge1`, reaches OCR `0.8219` and segment `521.440ms`; heavier edge weighting gets worse. The best bridge run so far, `c31-text-flow-0135-box8`, reaches OCR `0.8440`, motion `0.0384`, and segment `546.841ms` while still avoiding render-time masks.
+
 Suggested `results.tsv` header:
 
 ```text

@@ -154,3 +154,28 @@ Decision:
 - Track C31-general tests the thesis: neural canvas pixels stay readable without text boxes.
 - Track C31-text keeps OCR boxes only as a training signal, not a render-time mask.
 - Track C31-alpha tests a shape-aware bridge for cases where a practical text-preserving mechanism is still useful.
+
+Early C31 results:
+
+```text
+c31-general-flow-0125-edge1: OCR 0.8219, segment 521.440ms, motion_delta 0.0341, pass
+c31-general-flow-010-edge4: OCR 0.8288, segment 894.055ms, motion_delta 0.0292, pass
+c31-general-flow-0125-edge4: OCR 0.4679, segment 544.087ms, motion_delta 0.0348, quality_fail
+c31-general-flow-0125-edge8: OCR 0.7037, segment 584.051ms, motion_delta 0.0347, quality_fail
+c31-text-flow-0135-box8: OCR 0.8440, segment 546.841ms, motion_delta 0.0384, pass
+```
+
+Interpretation:
+
+- Dense visual weighting can work without OCR boxes, but over-weighting edges hurts text more than it helps.
+- The best no-OCR result so far is light edge weighting at the C30 flow sweet spot.
+- The best bridge result so far is OCR-box training loss only at `flow_scale=0.0135`; there is still no render-time text mask.
+
+Next experiments:
+
+```text
+c32-general-flow-0125-edge05
+c32-general-flow-0135-edge1
+c32-text-flow-0145-box8
+c32-text-flow-0135-box12
+```

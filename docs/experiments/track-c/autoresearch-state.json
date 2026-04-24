@@ -1,12 +1,10 @@
 {
-  "updated_utc": "2026-04-24T19:06:49+00:00",
+  "updated_utc": "2026-04-24T19:08:55+00:00",
   "active_sessions": [
     "track-c-autoresearch",
-    "track-c-c31-general-flow-010-edge4",
-    "track-c-c31-general-flow-0125-edge1",
-    "track-c-c31-general-flow-0125-edge4",
-    "track-c-c31-general-flow-0125-edge8",
-    "track-c-c31-text-flow-0135-box8",
+    "track-c-c31-alpha-layout-r0025-s004",
+    "track-c-c31-text-flow-0125-box12",
+    "track-c-c31-text-flow-014-box8",
     "track-c-github-sync"
   ],
   "experiments": [
@@ -14,35 +12,35 @@
       "label": "c31-general-flow-0125-edge1",
       "session": "track-c-c31-general-flow-0125-edge1",
       "log": "docs/experiments/track-c/c31-general-flow-0125-edge1.log",
-      "done": false,
+      "done": true,
       "notes": "General neural-canvas direction: no OCR boxes, baseline edge/glyph weighting at the C30 sweet-spot flow."
     },
     {
       "label": "c31-general-flow-0125-edge4",
       "session": "track-c-c31-general-flow-0125-edge4",
       "log": "docs/experiments/track-c/c31-general-flow-0125-edge4.log",
-      "done": false,
+      "done": true,
       "notes": "General neural-canvas direction: no OCR boxes, stronger dense edge/glyph weighting at the C30 sweet-spot flow."
     },
     {
       "label": "c31-general-flow-010-edge4",
       "session": "track-c-c31-general-flow-010-edge4",
       "log": "docs/experiments/track-c/c31-general-flow-010-edge4.log",
-      "done": false,
+      "done": true,
       "notes": "General neural-canvas direction: no OCR boxes, lower-flow recovery point with dense edge/glyph weighting."
     },
     {
       "label": "c31-general-flow-0125-edge8",
       "session": "track-c-c31-general-flow-0125-edge8",
       "log": "docs/experiments/track-c/c31-general-flow-0125-edge8.log",
-      "done": false,
+      "done": true,
       "notes": "General neural-canvas direction: no OCR boxes, very strong dense edge/glyph weighting to test over-sharpening versus readability."
     },
     {
       "label": "c31-text-flow-0135-box8",
       "session": "track-c-c31-text-flow-0135-box8",
       "log": "docs/experiments/track-c/c31-text-flow-0135-box8.log",
-      "done": false,
+      "done": true,
       "notes": "Text-aware learned-flow bridge: OCR boxes affect training loss only, no output masks or layout anchors."
     },
     {
