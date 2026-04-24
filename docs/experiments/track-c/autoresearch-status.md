@@ -1,35 +1,25 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-24T21:12:07+00:00`
+Updated UTC: `2026-04-24T21:17:16+00:00`
 
 ## Active Sessions
 
 - `clawtest`
 - `track-c-autoresearch`
-- `track-c-c46-learned-translate-004-s7000`
-- `track-c-c46-learned-translate-006-s7000`
-- `track-c-c46-learned-translate-008-s7000`
-- `track-c-c46-translate-pan030-clip05`
-- `track-c-c46-translate-pan045-clip05`
-- `track-c-c46-translate-pan060-clip05`
-- `track-c-c46-translate-pan060-freq12-clip05`
-- `track-c-c46-translate-pan075-clip05`
-- `track-c-c46-translate-pan075-clip05-seed1`
-- `track-c-c46-translate-pan090-clip05`
 - `track-c-github-sync`
 
 ## Queue
 
-- `c46-translate-pan030-clip05`: pending/running - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.03, freq10, grad clip 0.5.
-- `c46-translate-pan045-clip05`: pending/running - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.045, freq10, grad clip 0.5.
-- `c46-translate-pan060-clip05`: pending/running - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.06, freq10, grad clip 0.5.
-- `c46-translate-pan075-clip05`: pending/running - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.075, freq10, grad clip 0.5.
-- `c46-translate-pan090-clip05`: pending/running - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.09, freq10, grad clip 0.5.
-- `c46-translate-pan060-freq12-clip05`: pending/running - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.06, freq12, grad clip 0.5.
-- `c46-translate-pan075-clip05-seed1`: pending/running - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.075, freq10, grad clip 0.5, seed 1.
-- `c46-learned-translate-004-s7000`: pending/running - C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.04, 7000 steps, freq10, grad clip 0.5.
-- `c46-learned-translate-006-s7000`: pending/running - C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.06, 7000 steps, freq10, grad clip 0.5.
-- `c46-learned-translate-008-s7000`: pending/running - C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.08, 7000 steps, freq10, grad clip 0.5.
+- `c46-translate-pan030-clip05`: done - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.03, freq10, grad clip 0.5.
+- `c46-translate-pan045-clip05`: done - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.045, freq10, grad clip 0.5.
+- `c46-translate-pan060-clip05`: done - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.06, freq10, grad clip 0.5.
+- `c46-translate-pan075-clip05`: done - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.075, freq10, grad clip 0.5.
+- `c46-translate-pan090-clip05`: done - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.09, freq10, grad clip 0.5.
+- `c46-translate-pan060-freq12-clip05`: done - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.06, freq12, grad clip 0.5.
+- `c46-translate-pan075-clip05-seed1`: done - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.075, freq10, grad clip 0.5, seed 1.
+- `c46-learned-translate-004-s7000`: done - C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.04, 7000 steps, freq10, grad clip 0.5.
+- `c46-learned-translate-006-s7000`: done - C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.06, 7000 steps, freq10, grad clip 0.5.
+- `c46-learned-translate-008-s7000`: done - C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.08, 7000 steps, freq10, grad clip 0.5.
 - `c45-field-006-pan018-clip05`: done - C45 smooth independent-field stress: no hard region blanking; separate local affine fields blend continuously with strength 0.06, pan 0.018, freq10, grad clip 0.5.
 - `c45-field-010-pan024-clip05`: done - C45 smooth independent-field stress: no hard region blanking; separate local affine fields blend continuously with strength 0.1, pan 0.024, freq10, grad clip 0.5.
 - `c45-field-014-pan030-clip05`: done - C45 smooth independent-field stress: no hard region blanking; separate local affine fields blend continuously with strength 0.14, pan 0.03, freq10, grad clip 0.5.
