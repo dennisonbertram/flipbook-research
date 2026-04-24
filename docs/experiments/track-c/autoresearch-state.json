@@ -1,88 +1,158 @@
 {
-  "updated_utc": "2026-04-24T20:05:24+00:00",
+  "updated_utc": "2026-04-24T20:10:42+00:00",
   "active_sessions": [
     "clawtest",
     "track-c-autoresearch",
-    "track-c-c38-frame-scale-0125-edge09-aa15",
-    "track-c-c38-frame-scale-0125-edge09-cap24h128",
-    "track-c-c38-frame-scale-0125-edge09-freq10",
-    "track-c-c38-frame-scale-0125-edge09-seed1",
-    "track-c-c38-frame-scale-014-edge09-aa15",
-    "track-c-c38-frame-scale-014-edge09-aa2",
-    "track-c-c38-frame-scale-014-edge09-cap24h128",
-    "track-c-c38-frame-scale-014-edge09-freq10",
-    "track-c-c38-frame-scale-014-edge09-seed1",
-    "track-c-c38-frame-scale-016-edge075-aa15"
+    "track-c-c39-frame-scale-0125-edge09-freq10-aa15",
+    "track-c-c39-frame-scale-0125-edge09-freq10-cap24h128",
+    "track-c-c39-frame-scale-0125-edge09-freq10-s6000",
+    "track-c-c39-frame-scale-0125-edge09-freq10-train1536",
+    "track-c-c39-frame-scale-014-edge09-aa175",
+    "track-c-c39-frame-scale-014-edge09-aa175-cap24h128",
+    "track-c-c39-frame-scale-014-edge09-aa175-freq10",
+    "track-c-c39-frame-scale-014-edge09-freq10-cap24h128",
+    "track-c-c39-frame-scale-014-edge09-freq10-s6000",
+    "track-c-c39-frame-scale-014-edge09-freq10-train1536"
   ],
   "experiments": [
+    {
+      "label": "c39-frame-scale-0125-edge09-freq10-cap24h128",
+      "session": "track-c-c39-frame-scale-0125-edge09-freq10-cap24h128",
+      "log": "docs/experiments/track-c/c39-frame-scale-0125-edge09-freq10-cap24h128.log",
+      "done": false,
+      "notes": "C39 resize representation: combine higher coordinate frequency with larger latent/channel capacity at 0.125."
+    },
+    {
+      "label": "c39-frame-scale-014-edge09-freq10-cap24h128",
+      "session": "track-c-c39-frame-scale-014-edge09-freq10-cap24h128",
+      "log": "docs/experiments/track-c/c39-frame-scale-014-edge09-freq10-cap24h128.log",
+      "done": false,
+      "notes": "C39 resize representation: combine higher frequency and capacity at the 0.14 stress bracket."
+    },
+    {
+      "label": "c39-frame-scale-0125-edge09-freq10-s6000",
+      "session": "track-c-c39-frame-scale-0125-edge09-freq10-s6000",
+      "log": "docs/experiments/track-c/c39-frame-scale-0125-edge09-freq10-s6000.log",
+      "done": false,
+      "notes": "C39 resize representation: more optimization steps on the current fast C38 freq10 winner."
+    },
+    {
+      "label": "c39-frame-scale-014-edge09-freq10-s6000",
+      "session": "track-c-c39-frame-scale-014-edge09-freq10-s6000",
+      "log": "docs/experiments/track-c/c39-frame-scale-014-edge09-freq10-s6000.log",
+      "done": false,
+      "notes": "C39 resize representation: more optimization steps for high-frequency coordinates at 0.14."
+    },
+    {
+      "label": "c39-frame-scale-014-edge09-aa175",
+      "session": "track-c-c39-frame-scale-014-edge09-aa175",
+      "log": "docs/experiments/track-c/c39-frame-scale-014-edge09-aa175.log",
+      "done": false,
+      "notes": "C39 resize sampling: 1.75x neural supersampling to search between C38 1.5x and 2x."
+    },
+    {
+      "label": "c39-frame-scale-014-edge09-aa175-freq10",
+      "session": "track-c-c39-frame-scale-014-edge09-aa175-freq10",
+      "log": "docs/experiments/track-c/c39-frame-scale-014-edge09-aa175-freq10.log",
+      "done": false,
+      "notes": "C39 resize sampling: combine 1.75x supersampling with the C38 high-frequency improvement."
+    },
+    {
+      "label": "c39-frame-scale-014-edge09-aa175-cap24h128",
+      "session": "track-c-c39-frame-scale-014-edge09-aa175-cap24h128",
+      "log": "docs/experiments/track-c/c39-frame-scale-014-edge09-aa175-cap24h128.log",
+      "done": false,
+      "notes": "C39 resize sampling: combine 1.75x supersampling with larger capacity at 0.14."
+    },
+    {
+      "label": "c39-frame-scale-0125-edge09-freq10-aa15",
+      "session": "track-c-c39-frame-scale-0125-edge09-freq10-aa15",
+      "log": "docs/experiments/track-c/c39-frame-scale-0125-edge09-freq10-aa15.log",
+      "done": false,
+      "notes": "C39 resize sampling: test whether light supersampling stacks with the fast 0.125 freq10 winner."
+    },
+    {
+      "label": "c39-frame-scale-0125-edge09-freq10-train1536",
+      "session": "track-c-c39-frame-scale-0125-edge09-freq10-train1536",
+      "log": "docs/experiments/track-c/c39-frame-scale-0125-edge09-freq10-train1536.log",
+      "done": false,
+      "notes": "C39 resize representation: train the high-frequency renderer on a denser 1536x864 latent canvas."
+    },
+    {
+      "label": "c39-frame-scale-014-edge09-freq10-train1536",
+      "session": "track-c-c39-frame-scale-014-edge09-freq10-train1536",
+      "log": "docs/experiments/track-c/c39-frame-scale-014-edge09-freq10-train1536.log",
+      "done": false,
+      "notes": "C39 resize representation: denser 1536x864 latent canvas at the 0.14 stress bracket."
+    },
     {
       "label": "c38-frame-scale-0125-edge09-aa15",
       "session": "track-c-c38-frame-scale-0125-edge09-aa15",
       "log": "docs/experiments/track-c/c38-frame-scale-0125-edge09-aa15.log",
-      "done": false,
+      "done": true,
       "notes": "C38 resize model/render test: 1.5x neural supersampling at the C37 best 0.125 bracket."
     },
     {
       "label": "c38-frame-scale-014-edge09-aa15",
       "session": "track-c-c38-frame-scale-014-edge09-aa15",
       "log": "docs/experiments/track-c/c38-frame-scale-014-edge09-aa15.log",
-      "done": false,
+      "done": true,
       "notes": "C38 resize model/render test: 1.5x neural supersampling at 0.14 to test aliasing versus identity loss."
     },
     {
       "label": "c38-frame-scale-014-edge09-aa2",
       "session": "track-c-c38-frame-scale-014-edge09-aa2",
       "log": "docs/experiments/track-c/c38-frame-scale-014-edge09-aa2.log",
-      "done": false,
+      "done": true,
       "notes": "C38 resize model/render test: 2x neural supersampling to measure quality/latency tradeoff directly."
     },
     {
       "label": "c38-frame-scale-016-edge075-aa15",
       "session": "track-c-c38-frame-scale-016-edge075-aa15",
       "log": "docs/experiments/track-c/c38-frame-scale-016-edge075-aa15.log",
-      "done": false,
+      "done": true,
       "notes": "C38 resize model/render test: 1.5x neural supersampling on the strong 0.16 bracket."
     },
     {
       "label": "c38-frame-scale-0125-edge09-cap24h128",
       "session": "track-c-c38-frame-scale-0125-edge09-cap24h128",
       "log": "docs/experiments/track-c/c38-frame-scale-0125-edge09-cap24h128.log",
-      "done": false,
+      "done": true,
       "notes": "C38 resize model test: larger latent/channel capacity at the C37 best 0.125 bracket."
     },
     {
       "label": "c38-frame-scale-014-edge09-cap24h128",
       "session": "track-c-c38-frame-scale-014-edge09-cap24h128",
       "log": "docs/experiments/track-c/c38-frame-scale-014-edge09-cap24h128.log",
-      "done": false,
+      "done": true,
       "notes": "C38 resize model test: larger latent/channel capacity at the 0.14 resize bracket."
     },
     {
       "label": "c38-frame-scale-0125-edge09-freq10",
       "session": "track-c-c38-frame-scale-0125-edge09-freq10",
       "log": "docs/experiments/track-c/c38-frame-scale-0125-edge09-freq10.log",
-      "done": false,
+      "done": true,
       "notes": "C38 resize model test: higher coordinate frequency at the C37 best 0.125 bracket."
     },
     {
       "label": "c38-frame-scale-014-edge09-freq10",
       "session": "track-c-c38-frame-scale-014-edge09-freq10",
       "log": "docs/experiments/track-c/c38-frame-scale-014-edge09-freq10.log",
-      "done": false,
+      "done": true,
       "notes": "C38 resize model test: higher coordinate frequency at the 0.14 resize bracket."
     },
     {
       "label": "c38-frame-scale-0125-edge09-seed1",
       "session": "track-c-c38-frame-scale-0125-edge09-seed1",
       "log": "docs/experiments/track-c/c38-frame-scale-0125-edge09-seed1.log",
-      "done": false,
+      "done": true,
       "notes": "C38 resize robustness: seed repeat at the C37 best 0.125 bracket."
     },
     {
       "label": "c38-frame-scale-014-edge09-seed1",
       "session": "track-c-c38-frame-scale-014-edge09-seed1",
       "log": "docs/experiments/track-c/c38-frame-scale-014-edge09-seed1.log",
-      "done": false,
+      "done": true,
       "notes": "C38 resize robustness: seed repeat at the unstable 0.14 bracket."
     },
     {
