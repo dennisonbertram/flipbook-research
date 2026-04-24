@@ -81,6 +81,12 @@ def normalize_text(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+def slugify(value: str) -> str:
+    value = value.lower()
+    value = re.sub(r"[^a-z0-9]+", "-", value)
+    return value.strip("-")
+
+
 def token_f1(a: str, b: str) -> float:
     a_tokens = normalize_text(a).split()
     b_tokens = normalize_text(b).split()
@@ -819,6 +825,7 @@ def main(
     element_scale_ratio: float = 0.25,
     element_anchor_padding: int = 3,
     element_mask_mode: str = "rectangle",
+    experiment_label: str = "",
     edge_sample_ratio: float = 0.0,
     edge_loss_weight: float = 0.0,
     text_box_sample_ratio: float = 0.0,
@@ -857,6 +864,7 @@ def main(
         "element_scale_ratio": element_scale_ratio,
         "element_anchor_padding": element_anchor_padding,
         "element_mask_mode": element_mask_mode,
+        "experiment_label": experiment_label,
         "min_ocr_similarity": min_ocr_similarity,
         "min_motion_delta": min_motion_delta,
         "edge_sample_ratio": edge_sample_ratio,
@@ -874,7 +882,9 @@ def main(
     if video_layout_mode != "none":
         motion_suffix += f"-layout-{video_layout_mode}"
     suffix = "-text" if text_box_sample_ratio > 0 or text_box_loss_weight > 0 else "-glyph" if edge_sample_ratio > 0 or edge_loss_weight > 0 else ""
-    run_id = f"{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-c2-lite{suffix}{motion_suffix}-{train_resolution}-s{steps}"
+    label_suffix = f"-{slugify(experiment_label)}" if experiment_label else ""
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+    run_id = f"{timestamp}-c2-lite{suffix}{motion_suffix}{label_suffix}-{train_resolution}-s{steps}"
     run_dir = OUTPUT_ROOT / run_id
     run_dir.mkdir(parents=True, exist_ok=False)
     input_path = run_dir / "input.png"

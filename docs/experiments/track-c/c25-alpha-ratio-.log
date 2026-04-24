@@ -1,0 +1,5 @@
+Usage: modal run scripts/track_c/modal_canvas_c2_lite.py [OPTIONS]
+Try 'modal run scripts/track_c/modal_canvas_c2_lite.py -h' for help.
+╭─ Error ──────────────────────────────────────────────────────────────────────╮
+│ Invalid value for '--element-scale-ratio': '' is not a valid float.          │
+╰──────────────────────────────────────────────────────────────────────────────╯
