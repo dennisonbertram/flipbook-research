@@ -108,3 +108,49 @@ Interpretation:
 - Low-strength layout motion with line anchors gives similar visible motion while preserving text better than raw learned flow.
 - Moderate layout-anchor motion still passes, but `c30-gentle-flow-0125` is the cleanest pleasant-motion result so far because it preserves the original C2.1 OCR while adding more motion and lowering segment time.
 - Batching the best strong-stress `r0.025` line-anchor setting preserves latency but loses too much text quality versus the earlier sequential result, so the next batching work should focus on exact pixel parity or overlap/order effects.
+
+## Generalizable Neural-Canvas Direction
+
+Run:
+
+```text
+outputs/track-c/20260424T183934556364Z-c2-lite-text-c30-gentle-flow-0125-1280x736-s4500/output.mp4
+```
+
+User review:
+
+```text
+"something tells me this is probably more of the correct direction ... the text masking works, but it's not really generalizable. Not all text will be clean squares."
+```
+
+Interpretation:
+
+- The promising direction is learned-flow neural canvas rendering where every output pixel still comes from the model query path.
+- OCR boxes, line anchors, word anchors, and rectangular replacement masks are useful probes, but they are too shape-specific to be the core product mechanism.
+- The next experiments should test whether dense visual priors, especially edge/glyph weighting without OCR text boxes, can keep arbitrary high-frequency marks readable.
+
+Next experiments:
+
+```text
+c31-general-flow-0125-edge1
+c31-general-flow-0125-edge4
+c31-general-flow-010-edge4
+c31-general-flow-0125-edge8
+c31-text-flow-0135-box8
+c31-text-flow-014-box8
+c31-text-flow-0125-box12
+c31-alpha-layout-r0025-s004
+```
+
+Parallelism update:
+
+```text
+MAX_PARALLEL = 6
+```
+
+Decision:
+
+- Pursue both tracks in parallel.
+- Track C31-general tests the thesis: neural canvas pixels stay readable without text boxes.
+- Track C31-text keeps OCR boxes only as a training signal, not a render-time mask.
+- Track C31-alpha tests a shape-aware bridge for cases where a practical text-preserving mechanism is still useful.
