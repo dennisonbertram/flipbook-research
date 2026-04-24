@@ -1,9 +1,37 @@
 {
-  "updated_utc": "2026-04-24T17:39:22+00:00",
+  "updated_utc": "2026-04-24T18:10:31+00:00",
   "active_sessions": [
     "track-c-autoresearch"
   ],
   "experiments": [
+    {
+      "label": "c26-word-rect-r010",
+      "session": "track-c-c26-word-rect-r010",
+      "log": "docs/experiments/track-c/c26-word-rect-r010.log",
+      "done": true,
+      "notes": "Word-level support rectangles: preserve text background while avoiding large line boxes that can catch illustration pixels."
+    },
+    {
+      "label": "c26-word-rect-moderate-r010",
+      "session": "track-c-c26-word-rect-moderate-r010",
+      "log": "docs/experiments/track-c/c26-word-rect-moderate-r010.log",
+      "done": true,
+      "notes": "Moderate stress word-level support rectangle control."
+    },
+    {
+      "label": "c26-line-rect-r005",
+      "session": "track-c-c26-line-rect-r005",
+      "log": "docs/experiments/track-c/c26-line-rect-r005.log",
+      "done": true,
+      "notes": "Line anchor scale-ratio refinement below the current best 0.10."
+    },
+    {
+      "label": "c26-responsive-xstrong",
+      "session": "track-c-c26-responsive-xstrong",
+      "log": "docs/experiments/track-c/c26-responsive-xstrong.log",
+      "done": true,
+      "notes": "Very strong responsive-squeeze boundary after the strong run still passed."
+    },
     {
       "label": "c25-alpha-r000",
       "session": "track-c-c25-alpha-r000",
