@@ -1,35 +1,45 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-24T19:46:31+00:00`
+Updated UTC: `2026-04-24T19:51:41+00:00`
 
 ## Active Sessions
 
 - `clawtest`
 - `track-c-autoresearch`
-- `track-c-c35-control-wiggle-014-edge1`
-- `track-c-c35-frame-scale-008-edge1`
-- `track-c-c35-frame-scale-012-edge09`
-- `track-c-c35-frame-scale-012-edge1`
-- `track-c-c35-frame-scale-016-edge1`
-- `track-c-c35-responsive-014-edge1-z006`
-- `track-c-c35-responsive-016-edge1-z008`
-- `track-c-c35-viewport-014-edge1-z006`
-- `track-c-c35-viewport-014-edge1-z010`
-- `track-c-c35-viewport-014-edge1-z014`
+- `track-c-c36-frame-scale-014-edge075`
+- `track-c-c36-frame-scale-014-edge09`
+- `track-c-c36-frame-scale-014-edge1`
+- `track-c-c36-frame-scale-016-edge075`
+- `track-c-c36-frame-scale-016-edge09`
+- `track-c-c36-frame-scale-016-edge09-s6000`
+- `track-c-c36-frame-scale-018-edge05`
+- `track-c-c36-frame-scale-018-edge075`
+- `track-c-c36-learned-frame-scale-006-flow04`
+- `track-c-c36-learned-frame-scale-008-flow05`
 - `track-c-github-sync`
 
 ## Queue
 
-- `c35-viewport-014-edge1-z006`: pending/running - C35 aggressive viewport stress: no-OCR winner under zoom-pulse viewport movement.
-- `c35-viewport-014-edge1-z010`: pending/running - C35 aggressive viewport stress: larger zoom/pan, still no OCR boxes or masks.
-- `c35-viewport-014-edge1-z014`: pending/running - C35 aggressive viewport stress: high zoom/pan to find query-stability failure modes.
-- `c35-frame-scale-008-edge1`: pending/running - C35 resize stress: global frame-scale layout transform with no OCR boxes.
-- `c35-frame-scale-012-edge1`: pending/running - C35 resize stress: stronger global frame-scale layout transform with no OCR boxes.
-- `c35-frame-scale-016-edge1`: pending/running - C35 resize stress: strong global frame-scale layout transform to expose text repainting.
-- `c35-responsive-014-edge1-z006`: pending/running - C35 combined stress: responsive-squeeze plus viewport zoom, no OCR boxes.
-- `c35-responsive-016-edge1-z008`: pending/running - C35 combined stress: stronger responsive-squeeze plus viewport zoom.
-- `c35-frame-scale-012-edge09`: pending/running - C35 resize bracket: frame-scale with slightly lighter edge weighting.
-- `c35-control-wiggle-014-edge1`: pending/running - C35 control only: one local-motion repeat so aggressive tests can be compared to the known winner.
+- `c36-frame-scale-014-edge075`: pending/running - C36 resize cliff: frame-scale 0.14 with lighter edge weighting, no OCR boxes.
+- `c36-frame-scale-014-edge09`: pending/running - C36 resize cliff: frame-scale 0.14 at the better C35 edge09 setting.
+- `c36-frame-scale-014-edge1`: pending/running - C36 resize cliff: frame-scale 0.14 at edge1 to locate the degradation slope.
+- `c36-frame-scale-016-edge075`: pending/running - C36 strong resize: test whether lighter edge weighting rescues the C35 0.16 near-miss.
+- `c36-frame-scale-016-edge09`: pending/running - C36 strong resize: edge09 version of the 0.16 resize stress.
+- `c36-frame-scale-016-edge09-s6000`: pending/running - C36 strong resize: more optimization steps at the best likely 0.16 edge bracket.
+- `c36-frame-scale-018-edge075`: pending/running - C36 over-stress: frame-scale 0.18 with lighter edge weighting to find the hard failure point.
+- `c36-frame-scale-018-edge05`: pending/running - C36 over-stress: frame-scale 0.18 with very light edge weighting.
+- `c36-learned-frame-scale-006-flow04`: pending/running - C36 learned resize: train the neural renderer itself on mild frame-scale motion, no layout transform.
+- `c36-learned-frame-scale-008-flow05`: pending/running - C36 learned resize: stronger learned frame-scale motion with higher flow budget.
+- `c35-viewport-014-edge1-z006`: done - C35 aggressive viewport stress: no-OCR winner under zoom-pulse viewport movement.
+- `c35-viewport-014-edge1-z010`: done - C35 aggressive viewport stress: larger zoom/pan, still no OCR boxes or masks.
+- `c35-viewport-014-edge1-z014`: done - C35 aggressive viewport stress: high zoom/pan to find query-stability failure modes.
+- `c35-frame-scale-008-edge1`: done - C35 resize stress: global frame-scale layout transform with no OCR boxes.
+- `c35-frame-scale-012-edge1`: done - C35 resize stress: stronger global frame-scale layout transform with no OCR boxes.
+- `c35-frame-scale-016-edge1`: done - C35 resize stress: strong global frame-scale layout transform to expose text repainting.
+- `c35-responsive-014-edge1-z006`: done - C35 combined stress: responsive-squeeze plus viewport zoom, no OCR boxes.
+- `c35-responsive-016-edge1-z008`: done - C35 combined stress: stronger responsive-squeeze plus viewport zoom.
+- `c35-frame-scale-012-edge09`: done - C35 resize bracket: frame-scale with slightly lighter edge weighting.
+- `c35-control-wiggle-014-edge1`: done - C35 control only: one local-motion repeat so aggressive tests can be compared to the known winner.
 - `c34-general-flow-014-edge1-seed0`: pending/running - C34 robustness: repeat the C33 no-OCR winner with explicit deterministic seed 0.
 - `c34-general-flow-014-edge1-seed1`: pending/running - C34 robustness: repeat the C33 no-OCR winner with seed 1.
 - `c34-general-flow-014-edge1-seed2`: pending/running - C34 robustness: repeat the C33 no-OCR winner with seed 2.

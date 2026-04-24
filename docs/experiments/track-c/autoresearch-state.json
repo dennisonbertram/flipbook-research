@@ -1,89 +1,159 @@
 {
-  "updated_utc": "2026-04-24T19:46:31+00:00",
+  "updated_utc": "2026-04-24T19:51:41+00:00",
   "active_sessions": [
     "clawtest",
     "track-c-autoresearch",
-    "track-c-c35-control-wiggle-014-edge1",
-    "track-c-c35-frame-scale-008-edge1",
-    "track-c-c35-frame-scale-012-edge09",
-    "track-c-c35-frame-scale-012-edge1",
-    "track-c-c35-frame-scale-016-edge1",
-    "track-c-c35-responsive-014-edge1-z006",
-    "track-c-c35-responsive-016-edge1-z008",
-    "track-c-c35-viewport-014-edge1-z006",
-    "track-c-c35-viewport-014-edge1-z010",
-    "track-c-c35-viewport-014-edge1-z014",
+    "track-c-c36-frame-scale-014-edge075",
+    "track-c-c36-frame-scale-014-edge09",
+    "track-c-c36-frame-scale-014-edge1",
+    "track-c-c36-frame-scale-016-edge075",
+    "track-c-c36-frame-scale-016-edge09",
+    "track-c-c36-frame-scale-016-edge09-s6000",
+    "track-c-c36-frame-scale-018-edge05",
+    "track-c-c36-frame-scale-018-edge075",
+    "track-c-c36-learned-frame-scale-006-flow04",
+    "track-c-c36-learned-frame-scale-008-flow05",
     "track-c-github-sync"
   ],
   "experiments": [
     {
+      "label": "c36-frame-scale-014-edge075",
+      "session": "track-c-c36-frame-scale-014-edge075",
+      "log": "docs/experiments/track-c/c36-frame-scale-014-edge075.log",
+      "done": false,
+      "notes": "C36 resize cliff: frame-scale 0.14 with lighter edge weighting, no OCR boxes."
+    },
+    {
+      "label": "c36-frame-scale-014-edge09",
+      "session": "track-c-c36-frame-scale-014-edge09",
+      "log": "docs/experiments/track-c/c36-frame-scale-014-edge09.log",
+      "done": false,
+      "notes": "C36 resize cliff: frame-scale 0.14 at the better C35 edge09 setting."
+    },
+    {
+      "label": "c36-frame-scale-014-edge1",
+      "session": "track-c-c36-frame-scale-014-edge1",
+      "log": "docs/experiments/track-c/c36-frame-scale-014-edge1.log",
+      "done": false,
+      "notes": "C36 resize cliff: frame-scale 0.14 at edge1 to locate the degradation slope."
+    },
+    {
+      "label": "c36-frame-scale-016-edge075",
+      "session": "track-c-c36-frame-scale-016-edge075",
+      "log": "docs/experiments/track-c/c36-frame-scale-016-edge075.log",
+      "done": false,
+      "notes": "C36 strong resize: test whether lighter edge weighting rescues the C35 0.16 near-miss."
+    },
+    {
+      "label": "c36-frame-scale-016-edge09",
+      "session": "track-c-c36-frame-scale-016-edge09",
+      "log": "docs/experiments/track-c/c36-frame-scale-016-edge09.log",
+      "done": false,
+      "notes": "C36 strong resize: edge09 version of the 0.16 resize stress."
+    },
+    {
+      "label": "c36-frame-scale-016-edge09-s6000",
+      "session": "track-c-c36-frame-scale-016-edge09-s6000",
+      "log": "docs/experiments/track-c/c36-frame-scale-016-edge09-s6000.log",
+      "done": false,
+      "notes": "C36 strong resize: more optimization steps at the best likely 0.16 edge bracket."
+    },
+    {
+      "label": "c36-frame-scale-018-edge075",
+      "session": "track-c-c36-frame-scale-018-edge075",
+      "log": "docs/experiments/track-c/c36-frame-scale-018-edge075.log",
+      "done": false,
+      "notes": "C36 over-stress: frame-scale 0.18 with lighter edge weighting to find the hard failure point."
+    },
+    {
+      "label": "c36-frame-scale-018-edge05",
+      "session": "track-c-c36-frame-scale-018-edge05",
+      "log": "docs/experiments/track-c/c36-frame-scale-018-edge05.log",
+      "done": false,
+      "notes": "C36 over-stress: frame-scale 0.18 with very light edge weighting."
+    },
+    {
+      "label": "c36-learned-frame-scale-006-flow04",
+      "session": "track-c-c36-learned-frame-scale-006-flow04",
+      "log": "docs/experiments/track-c/c36-learned-frame-scale-006-flow04.log",
+      "done": false,
+      "notes": "C36 learned resize: train the neural renderer itself on mild frame-scale motion, no layout transform."
+    },
+    {
+      "label": "c36-learned-frame-scale-008-flow05",
+      "session": "track-c-c36-learned-frame-scale-008-flow05",
+      "log": "docs/experiments/track-c/c36-learned-frame-scale-008-flow05.log",
+      "done": false,
+      "notes": "C36 learned resize: stronger learned frame-scale motion with higher flow budget."
+    },
+    {
       "label": "c35-viewport-014-edge1-z006",
       "session": "track-c-c35-viewport-014-edge1-z006",
       "log": "docs/experiments/track-c/c35-viewport-014-edge1-z006.log",
-      "done": false,
+      "done": true,
       "notes": "C35 aggressive viewport stress: no-OCR winner under zoom-pulse viewport movement."
     },
     {
       "label": "c35-viewport-014-edge1-z010",
       "session": "track-c-c35-viewport-014-edge1-z010",
       "log": "docs/experiments/track-c/c35-viewport-014-edge1-z010.log",
-      "done": false,
+      "done": true,
       "notes": "C35 aggressive viewport stress: larger zoom/pan, still no OCR boxes or masks."
     },
     {
       "label": "c35-viewport-014-edge1-z014",
       "session": "track-c-c35-viewport-014-edge1-z014",
       "log": "docs/experiments/track-c/c35-viewport-014-edge1-z014.log",
-      "done": false,
+      "done": true,
       "notes": "C35 aggressive viewport stress: high zoom/pan to find query-stability failure modes."
     },
     {
       "label": "c35-frame-scale-008-edge1",
       "session": "track-c-c35-frame-scale-008-edge1",
       "log": "docs/experiments/track-c/c35-frame-scale-008-edge1.log",
-      "done": false,
+      "done": true,
       "notes": "C35 resize stress: global frame-scale layout transform with no OCR boxes."
     },
     {
       "label": "c35-frame-scale-012-edge1",
       "session": "track-c-c35-frame-scale-012-edge1",
       "log": "docs/experiments/track-c/c35-frame-scale-012-edge1.log",
-      "done": false,
+      "done": true,
       "notes": "C35 resize stress: stronger global frame-scale layout transform with no OCR boxes."
     },
     {
       "label": "c35-frame-scale-016-edge1",
       "session": "track-c-c35-frame-scale-016-edge1",
       "log": "docs/experiments/track-c/c35-frame-scale-016-edge1.log",
-      "done": false,
+      "done": true,
       "notes": "C35 resize stress: strong global frame-scale layout transform to expose text repainting."
     },
     {
       "label": "c35-responsive-014-edge1-z006",
       "session": "track-c-c35-responsive-014-edge1-z006",
       "log": "docs/experiments/track-c/c35-responsive-014-edge1-z006.log",
-      "done": false,
+      "done": true,
       "notes": "C35 combined stress: responsive-squeeze plus viewport zoom, no OCR boxes."
     },
     {
       "label": "c35-responsive-016-edge1-z008",
       "session": "track-c-c35-responsive-016-edge1-z008",
       "log": "docs/experiments/track-c/c35-responsive-016-edge1-z008.log",
-      "done": false,
+      "done": true,
       "notes": "C35 combined stress: stronger responsive-squeeze plus viewport zoom."
     },
     {
       "label": "c35-frame-scale-012-edge09",
       "session": "track-c-c35-frame-scale-012-edge09",
       "log": "docs/experiments/track-c/c35-frame-scale-012-edge09.log",
-      "done": false,
+      "done": true,
       "notes": "C35 resize bracket: frame-scale with slightly lighter edge weighting."
     },
     {
       "label": "c35-control-wiggle-014-edge1",
       "session": "track-c-c35-control-wiggle-014-edge1",
       "log": "docs/experiments/track-c/c35-control-wiggle-014-edge1.log",
-      "done": false,
+      "done": true,
       "notes": "C35 control only: one local-motion repeat so aggressive tests can be compared to the known winner."
     },
     {
