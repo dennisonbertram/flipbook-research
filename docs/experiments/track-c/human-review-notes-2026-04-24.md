@@ -315,3 +315,48 @@ Decision:
 - Focus C36 on the resize/reposition cliff.
 - Keep the main path no-OCR and mask-free.
 - Add two learned frame-scale runs to test whether the renderer can learn nonlocal resize motion directly, rather than only using a canonical canvas query transform.
+
+## C36 Resize Cliff Results
+
+Completed C36 results:
+
+```text
+c36-frame-scale-014-edge09: OCR 0.5634, segment 547.378ms, motion_delta 0.0592, pass
+c36-frame-scale-014-edge075: OCR 0.5505, segment 556.587ms, motion_delta 0.0593, pass
+c36-frame-scale-014-edge1: OCR 0.5278, segment 543.993ms, motion_delta 0.0599, pass
+c36-frame-scale-016-edge075: OCR 0.4327, segment 553.084ms, motion_delta 0.0597, pass
+c36-frame-scale-016-edge09: OCR 0.2657, segment 544.929ms, motion_delta 0.0615, quality_fail
+c36-frame-scale-016-edge09-s6000: OCR 0.4607, segment 554.590ms, motion_delta 0.0588, pass
+c36-frame-scale-018-edge075: OCR 0.3689, segment 552.580ms, motion_delta 0.0607, pass
+c36-frame-scale-018-edge05: OCR 0.3925, segment 555.626ms, motion_delta 0.0611, pass
+c36-learned-frame-scale-006-flow04: OCR 0.1215, segment 553.610ms, motion_delta 0.0446, quality_fail
+c36-learned-frame-scale-008-flow05: OCR 0.0513, segment 547.657ms, motion_delta 0.0513, quality_fail
+```
+
+Interpretation:
+
+- The user's concern is right: local text wiggle is not a strong enough proof.
+- Viewport zoom/pan survives, responsive squeeze survives, but frame-scale resize/reposition is the active boundary.
+- Query-space/global frame scaling is much healthier than learned frame-scale motion. The learned nonlocal resize motion collapses text under the current architecture and training setup.
+- More optimization steps help some strong-resize settings, but they do not erase the resize cliff.
+
+Decision:
+
+- Treat wiggle as a control only.
+- Keep the main path pure neural-canvas: no OCR boxes, masks, or anchors at render time.
+- Run C37 as a resize-focused bracket around strengths `0.12-0.14`, with no-pan and reduced-pan variants to separate scale damage from reposition damage.
+
+Next experiments:
+
+```text
+c37-frame-scale-012-edge09-s6000
+c37-frame-scale-0125-edge09
+c37-frame-scale-013-edge09
+c37-frame-scale-0135-edge09
+c37-frame-scale-014-edge09-s6000
+c37-frame-scale-014-edge075-s6000
+c37-frame-scale-016-edge075-s6000
+c37-frame-scale-014-edge09-pan000
+c37-frame-scale-014-edge09-pan018
+c37-frame-scale-014-edge075-pan000
+```

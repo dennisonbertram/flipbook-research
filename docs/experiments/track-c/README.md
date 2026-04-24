@@ -6,16 +6,22 @@ Use compact TSV summaries here and keep generated images/videos under `outputs/t
 
 Track C is intentionally a one-page overfit renderer lab. It answers whether the neural canvas renderer can preserve identity and run fast after compile. Generalization moves to Track D: `docs/research/track-d-general-neural-canvas.md`.
 
-Latest result:
+Current reference results:
 
 ```text
-20260424T183934556364Z-c2-lite-text-c30-gentle-flow-0125-1280x736-s4500
-33 renders: 299.811ms
-encode:     225.342ms
-segment:    525.153ms
-OCR F1:     0.8545
-motion:     0.0353
-status:     pass
+Local-motion winner:
+  run:     20260424T193446279047Z-c2-lite-glyph-c33-general-flow-014-edge1-1280x736-s4500
+  segment: 565.333ms
+  OCR F1:  0.8767
+  motion:  0.0371
+  status:  pass
+
+Resize/reposition stress:
+  run:     20260424T195138593473Z-c2-lite-glyph-static-layout-frame-scale-c36-frame-scale-014-edge09-1280x736-s4500
+  segment: 547.378ms
+  OCR F1:  0.5634
+  motion:  0.0592
+  status:  pass
 ```
 
 The glyph-weighted sampler/loss preserved speed but did not beat the previous unweighted C2-lite OCR score of `0.8326`. The OCR-box-weighted C2.1 run did improve the OCR score to `0.8545`.
@@ -44,7 +50,11 @@ C3.2 makes the pure no-OCR path the leading candidate: `c32-general-flow-0135-ed
 
 C3.3 found a new pure no-OCR local-motion winner: `c33-general-flow-014-edge1` reaches OCR `0.8767`, segment `565.333ms`, and motion `0.0371`. That is strong but too wiggle-specific. C3.5 pivots the next wave toward aggressive viewport zoom/pan, global frame-scale resize, and responsive squeeze tests so the renderer has to preserve text through query movement and resizing, not just local sinusoidal motion.
 
-C3.5 shows viewport movement is less fragile than resize: all three zoom/pan runs pass with OCR `0.8624-0.8727`, and combined responsive+zoom passes around OCR `0.86`. Frame-scale resize is the active cliff: OCR falls from `0.7558` at strength `0.08` to `0.5806-0.6636` at `0.12`, then `0.4039` at `0.16`. C3.6 focuses on that resize/reposition boundary.
+C3.5 shows viewport movement is less fragile than resize: all three zoom/pan runs pass with OCR `0.8624-0.8727`, and combined responsive+zoom passes around OCR `0.86`. Frame-scale resize is the active cliff: OCR falls from `0.7558` at strength `0.08` to `0.5806-0.6636` at `0.12`, then `0.4039` at `0.16`.
+
+C3.6 confirms that this is not just a wiggle benchmark. Query-space/global frame-scale rendering remains fast and degrades gradually: the best C36 resize bracket is `c36-frame-scale-014-edge09` at OCR `0.5634`, segment `547.378ms`, and motion `0.0592`. Stronger `0.16` resize improves from OCR `0.2657` to `0.4607` with `6000` steps, which suggests optimization helps but does not solve the cliff. Learned frame-scale motion collapses text directly (`0.1215` and `0.0513` OCR), so the next work should not rely on a generic motion field learning nonlocal resize on its own.
+
+C3.7 narrows the resize/reposition boundary. It brackets frame-scale strength `0.12-0.14`, adds `6000`-step repeats at promising points, and isolates no-pan versus reduced-pan variants to measure whether the OCR loss comes mostly from scaling or from scaling plus repositioning.
 
 Suggested `results.tsv` header:
 
