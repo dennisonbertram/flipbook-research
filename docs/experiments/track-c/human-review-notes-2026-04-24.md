@@ -879,3 +879,18 @@ c49-reflow-target-b196-c32h160-s10000
 c49-reflow-target-train1920-c24h128-s11000
 c49-reflow-target-train1920-c32h160-s11000
 ```
+
+Queued behind C49:
+
+```text
+c50-reflow-ablate-target-sample-only
+c50-reflow-ablate-target-weight-only
+c50-reflow-ablate-midtime-only
+c50-reflow-target-mid40-c32h160-s11000
+c50-reflow-target-mid90n-c32h160-s11000
+c50-reflow-target-freq12-c32h160-s11000
+c50-reflow-target-c40h192-s11000
+c50-reflow-target-cosine-c32h160-s11000
+c50-reflow-target-clip1-c32h160-s11000
+c50-reflow-target-train1920-textw-c24h128-s11000
+```
