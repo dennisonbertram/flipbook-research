@@ -1,35 +1,26 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-24T22:59:07+00:00`
+Updated UTC: `2026-04-24T23:04:58+00:00`
 
 ## Active Sessions
 
 - `clawtest`
 - `track-c-autoresearch`
-- `track-c-c48-layout-reflow-100-c32h160-cosine-s12000`
-- `track-c-c48-layout-reflow-100-c32h160-edge16-s12000`
-- `track-c-c48-layout-reflow-100-c32h160-freq12-s12000`
-- `track-c-c48-layout-reflow-100-c32h160-lr007-s12000`
-- `track-c-c48-layout-reflow-100-c32h160-s12000`
-- `track-c-c48-layout-reflow-100-c32h160-textw-s12000`
-- `track-c-c48-layout-reflow-100-c40h192-s12000`
-- `track-c-c48-layout-reflow-100-textw-strong-s11000`
-- `track-c-c48-layout-reflow-100-train1920-c24h128-s10000`
-- `track-c-c48-layout-reflow-100-train1920-c32h160-s10000`
+- `track-c-evaluate-c48`
 - `track-c-github-sync`
 
 ## Queue
 
-- `c48-layout-reflow-100-c32h160-s12000`: pending/running - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5.
-- `c48-layout-reflow-100-c32h160-freq12-s12000`: pending/running - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq12, grad clip 0.5.
-- `c48-layout-reflow-100-c40h192-s12000`: pending/running - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5.
-- `c48-layout-reflow-100-c32h160-textw-s12000`: pending/running - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, text-weighted.
-- `c48-layout-reflow-100-textw-strong-s11000`: pending/running - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 11000 steps, freq10, grad clip 0.5, text-weighted.
-- `c48-layout-reflow-100-train1920-c24h128-s10000`: pending/running - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 10000 steps, freq10, grad clip 0.5.
-- `c48-layout-reflow-100-train1920-c32h160-s10000`: pending/running - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq10, grad clip 0.5.
-- `c48-layout-reflow-100-c32h160-lr007-s12000`: pending/running - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5.
-- `c48-layout-reflow-100-c32h160-cosine-s12000`: pending/running - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5.
-- `c48-layout-reflow-100-c32h160-edge16-s12000`: pending/running - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5.
+- `c48-layout-reflow-100-c32h160-s12000`: done - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5.
+- `c48-layout-reflow-100-c32h160-freq12-s12000`: done - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq12, grad clip 0.5.
+- `c48-layout-reflow-100-c40h192-s12000`: done - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5.
+- `c48-layout-reflow-100-c32h160-textw-s12000`: done - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, text-weighted.
+- `c48-layout-reflow-100-textw-strong-s11000`: done - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 11000 steps, freq10, grad clip 0.5, text-weighted.
+- `c48-layout-reflow-100-train1920-c24h128-s10000`: done - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 10000 steps, freq10, grad clip 0.5.
+- `c48-layout-reflow-100-train1920-c32h160-s10000`: done - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq10, grad clip 0.5.
+- `c48-layout-reflow-100-c32h160-lr007-s12000`: done - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5.
+- `c48-layout-reflow-100-c32h160-cosine-s12000`: done - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5.
+- `c48-layout-reflow-100-c32h160-edge16-s12000`: done - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5.
 - `c47-layout-reflow-070-s9000`: done - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 0.7, flow scale 0.06, 9000 steps, freq10, grad clip 0.5.
 - `c47-layout-reflow-085-s9000`: done - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 0.85, flow scale 0.08, 9000 steps, freq10, grad clip 0.5.
 - `c47-layout-reflow-100-s9000`: done - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 9000 steps, freq10, grad clip 0.5.

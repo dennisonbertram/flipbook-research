@@ -1,18 +1,9 @@
 {
-  "updated_utc": "2026-04-24T22:59:07+00:00",
+  "updated_utc": "2026-04-24T23:04:58+00:00",
   "active_sessions": [
     "clawtest",
     "track-c-autoresearch",
-    "track-c-c48-layout-reflow-100-c32h160-cosine-s12000",
-    "track-c-c48-layout-reflow-100-c32h160-edge16-s12000",
-    "track-c-c48-layout-reflow-100-c32h160-freq12-s12000",
-    "track-c-c48-layout-reflow-100-c32h160-lr007-s12000",
-    "track-c-c48-layout-reflow-100-c32h160-s12000",
-    "track-c-c48-layout-reflow-100-c32h160-textw-s12000",
-    "track-c-c48-layout-reflow-100-c40h192-s12000",
-    "track-c-c48-layout-reflow-100-textw-strong-s11000",
-    "track-c-c48-layout-reflow-100-train1920-c24h128-s10000",
-    "track-c-c48-layout-reflow-100-train1920-c32h160-s10000",
+    "track-c-evaluate-c48",
     "track-c-github-sync"
   ],
   "experiments": [
@@ -20,70 +11,70 @@
       "label": "c48-layout-reflow-100-c32h160-s12000",
       "session": "track-c-c48-layout-reflow-100-c32h160-s12000",
       "log": "docs/experiments/track-c/c48-layout-reflow-100-c32h160-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5."
     },
     {
       "label": "c48-layout-reflow-100-c32h160-freq12-s12000",
       "session": "track-c-c48-layout-reflow-100-c32h160-freq12-s12000",
       "log": "docs/experiments/track-c/c48-layout-reflow-100-c32h160-freq12-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq12, grad clip 0.5."
     },
     {
       "label": "c48-layout-reflow-100-c40h192-s12000",
       "session": "track-c-c48-layout-reflow-100-c40h192-s12000",
       "log": "docs/experiments/track-c/c48-layout-reflow-100-c40h192-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5."
     },
     {
       "label": "c48-layout-reflow-100-c32h160-textw-s12000",
       "session": "track-c-c48-layout-reflow-100-c32h160-textw-s12000",
       "log": "docs/experiments/track-c/c48-layout-reflow-100-c32h160-textw-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, text-weighted."
     },
     {
       "label": "c48-layout-reflow-100-textw-strong-s11000",
       "session": "track-c-c48-layout-reflow-100-textw-strong-s11000",
       "log": "docs/experiments/track-c/c48-layout-reflow-100-textw-strong-s11000.log",
-      "done": false,
+      "done": true,
       "notes": "C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 11000 steps, freq10, grad clip 0.5, text-weighted."
     },
     {
       "label": "c48-layout-reflow-100-train1920-c24h128-s10000",
       "session": "track-c-c48-layout-reflow-100-train1920-c24h128-s10000",
       "log": "docs/experiments/track-c/c48-layout-reflow-100-train1920-c24h128-s10000.log",
-      "done": false,
+      "done": true,
       "notes": "C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 10000 steps, freq10, grad clip 0.5."
     },
     {
       "label": "c48-layout-reflow-100-train1920-c32h160-s10000",
       "session": "track-c-c48-layout-reflow-100-train1920-c32h160-s10000",
       "log": "docs/experiments/track-c/c48-layout-reflow-100-train1920-c32h160-s10000.log",
-      "done": false,
+      "done": true,
       "notes": "C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq10, grad clip 0.5."
     },
     {
       "label": "c48-layout-reflow-100-c32h160-lr007-s12000",
       "session": "track-c-c48-layout-reflow-100-c32h160-lr007-s12000",
       "log": "docs/experiments/track-c/c48-layout-reflow-100-c32h160-lr007-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5."
     },
     {
       "label": "c48-layout-reflow-100-c32h160-cosine-s12000",
       "session": "track-c-c48-layout-reflow-100-c32h160-cosine-s12000",
       "log": "docs/experiments/track-c/c48-layout-reflow-100-c32h160-cosine-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5."
     },
     {
       "label": "c48-layout-reflow-100-c32h160-edge16-s12000",
       "session": "track-c-c48-layout-reflow-100-c32h160-edge16-s12000",
       "log": "docs/experiments/track-c/c48-layout-reflow-100-c32h160-edge16-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5."
     },
     {
