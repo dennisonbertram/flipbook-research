@@ -1,0 +1,179 @@
+✓ Initialized. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-bRgdAc1VSGfCvweywRRPSK
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/dennisonbertram/Develop/flipbook-research/scripts/track_c/modal_canva
+│   s_c2_lite.py
+└── 🔨 Created function train_and_render_motion.
+START 20260424T183608005020Z-c2-lite-text-static-layout-element-frame-scale-c29-product-layout-r0025-1280x736-s4500 config={"batch_size": 131072, "channels": 16, "edge_loss_weight": 1.0, "edge_sample_ratio": 0.1, "element_anchor_mode": "line", "element_anchor_padding": 4, "element_mask_mode": "rectangle", "element_render_mode": "batched", "element_scale_ratio": 0.025, "experiment_label": "c29-product-layout-r0025", "flow_scale": 0.0, "fps": 24, "frames": 33, "freq_bands": 8, "hidden": 96, "layout_transform_pan": 0.008, "layout_transform_strength": 0.04, "lr": 0.01, "min_motion_delta": 0.015, "min_ocr_similarity": 0.75, "motion_mode": "static", "motion_strength": 0.0, "source_resolution": [1280, 736], "steps": 4500, "text_box_loss_weight": 8.0, "text_box_min_conf": 55.0, "text_box_padding": 4, "text_box_sample_ratio": 0.55, "text_boxes": "105 boxes", "time_bands": 4, "train_resolution": "1280x736", "video_layout_mode": "element-frame-scale", "video_viewport_mode": "static", "viewport_pan": 0.0, "viewport_zoom": 0.0}
+{
+  "canvas_type": "stable-latent-feature-grid-element-anchor-layout-text-box-weighted",
+  "train_resolution": "1280x736",
+  "steps": 4500,
+  "batch_size": 131072,
+  "channels": 16,
+  "hidden": 96,
+  "freq_bands": 8,
+  "time_bands": 4,
+  "lr": 0.01,
+  "flow_scale": 0.0,
+  "motion_mode": "static",
+  "motion_strength": 0.0,
+  "video_viewport_mode": "static",
+  "viewport_zoom": 0.0,
+  "viewport_pan": 0.0,
+  "video_layout_mode": "element-frame-scale",
+  "layout_transform_strength": 0.04,
+  "layout_transform_pan": 0.008,
+  "element_scale_ratio": 0.025,
+  "element_anchor_padding": 4,
+  "element_mask_mode": "rectangle",
+  "element_anchor_mode": "line",
+  "element_render_mode": "batched",
+  "element_line_count": 12,
+  "min_ocr_similarity": 0.75,
+  "min_motion_delta": 0.015,
+  "edge_sample_ratio": 0.1,
+  "edge_loss_weight": 1.0,
+  "text_box_sample_ratio": 0.55,
+  "text_box_loss_weight": 8.0,
+  "text_box_padding": 4,
+  "text_box_count": 105,
+  "text_mask_coverage": 0.15400177240371704,
+  "element_alpha_coverage": 0.10876782983541489,
+  "compile_ms": 29221.300308999995,
+  "final_mse": 0.0001653486251598224,
+  "losses": [
+    {
+      "step": 0,
+      "mse": 0.632317304611206
+    },
+    {
+      "step": 225,
+      "mse": 0.00045420476817525923
+    },
+    {
+      "step": 450,
+      "mse": 0.00031414011027663946
+    },
+    {
+      "step": 675,
+      "mse": 0.00024992061662487686
+    },
+    {
+      "step": 900,
+      "mse": 7.140338129829615e-05
+    },
+    {
+      "step": 1125,
+      "mse": 6.149809632916003e-05
+    },
+    {
+      "step": 1350,
+      "mse": 5.303347279550508e-05
+    },
+    {
+      "step": 1575,
+      "mse": 4.544178591459058e-05
+    },
+    {
+      "step": 1800,
+      "mse": 6.00246166868601e-05
+    },
+    {
+      "step": 2025,
+      "mse": 4.6362933062482625e-05
+    },
+    {
+      "step": 2250,
+      "mse": 6.467863568104804e-05
+    },
+    {
+      "step": 2475,
+      "mse": 3.495459532132372e-05
+    },
+    {
+      "step": 2700,
+      "mse": 0.00013644079444929957
+    },
+    {
+      "step": 2925,
+      "mse": 4.478858318179846e-05
+    },
+    {
+      "step": 3150,
+      "mse": 5.1855364290531725e-05
+    },
+    {
+      "step": 3375,
+      "mse": 3.070306411245838e-05
+    },
+    {
+      "step": 3600,
+      "mse": 0.00013529264833778143
+    },
+    {
+      "step": 3825,
+      "mse": 1.4253295375965536e-05
+    },
+    {
+      "step": 4050,
+      "mse": 4.4221229472896084e-05
+    },
+    {
+      "step": 4275,
+      "mse": 0.000111839544842951
+    },
+    {
+      "step": 4499,
+      "mse": 0.0001653486251598224
+    }
+  ],
+  "render_times": {
+    "render-960.png": 14.375553000000707,
+    "render-mid.png": 9.335978999999384,
+    "render-last.png": 9.324604999996211,
+    "render-512.png": 2.41137700000138,
+    "crop-2x.png": 9.25017400000172,
+    "render-element-mid.png": 26.651501999999994
+  },
+  "render_960_ms": 14.375553000000707,
+  "render_33_wall_ms": 385.57221399999975,
+  "encode_ms": 241.8767110000033,
+  "resize_consistency": 0.999963570517423,
+  "temporal_consistency": 0.9919921914115548,
+  "motion_delta_model": 0.05555197596549988,
+  "loop_error_model": 0.008007808588445187,
+  "description": "C2.6 neural canvas: stable content with OCR line anchors, rectangle masks, and element-frame-scale layout transform",
+  "run_id": "20260424T183608005020Z-c2-lite-text-static-layout-element-frame-scale-c29-product-layout-r0025-1280x736-s4500",
+  "commit": "952ffcb",
+  "track": "C",
+  "width": 960,
+  "height": 544,
+  "frames": 33,
+  "fps": 24,
+  "artifacts": {
+    "input": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T183608005020Z-c2-lite-text-static-layout-element-frame-scale-c29-product-layout-r0025-1280x736-s4500/input.png",
+    "render_960": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T183608005020Z-c2-lite-text-static-layout-element-frame-scale-c29-product-layout-r0025-1280x736-s4500/render-960.png",
+    "render_mid": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T183608005020Z-c2-lite-text-static-layout-element-frame-scale-c29-product-layout-r0025-1280x736-s4500/render-mid.png",
+    "render_last": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T183608005020Z-c2-lite-text-static-layout-element-frame-scale-c29-product-layout-r0025-1280x736-s4500/render-last.png",
+    "render_512": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T183608005020Z-c2-lite-text-static-layout-element-frame-scale-c29-product-layout-r0025-1280x736-s4500/render-512.png",
+    "crop_2x": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T183608005020Z-c2-lite-text-static-layout-element-frame-scale-c29-product-layout-r0025-1280x736-s4500/crop-2x.png",
+    "text_mask": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T183608005020Z-c2-lite-text-static-layout-element-frame-scale-c29-product-layout-r0025-1280x736-s4500/text-mask.png",
+    "element_alpha_mask": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T183608005020Z-c2-lite-text-static-layout-element-frame-scale-c29-product-layout-r0025-1280x736-s4500/element-alpha-mask.png",
+    "text_boxes": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T183608005020Z-c2-lite-text-static-layout-element-frame-scale-c29-product-layout-r0025-1280x736-s4500/text-boxes.json",
+    "output": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T183608005020Z-c2-lite-text-static-layout-element-frame-scale-c29-product-layout-r0025-1280x736-s4500/output.mp4",
+    "metrics": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T183608005020Z-c2-lite-text-static-layout-element-frame-scale-c29-product-layout-r0025-1280x736-s4500/metrics.json",
+    "quality": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T183608005020Z-c2-lite-text-static-layout-element-frame-scale-c29-product-layout-r0025-1280x736-s4500/quality.json",
+    "render_element_mid": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T183608005020Z-c2-lite-text-static-layout-element-frame-scale-c29-product-layout-r0025-1280x736-s4500/render-element-mid.png"
+  },
+  "ocr_similarity": 0.7713004484304933,
+  "layout_similarity": 0.999963570517423,
+  "motion_delta": 0.029491951689124107,
+  "loop_error": 0.0004147376457694918,
+  "status": "pass"
+}
+DONE 20260424T183608005020Z-c2-lite-text-static-layout-element-frame-scale-c29-product-layout-r0025-1280x736-s4500 quality=0.7713 motion=0.0295
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-bRgdAc1VSGfCvweywRRPSK

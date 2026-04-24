@@ -1,9 +1,59 @@
 {
-  "updated_utc": "2026-04-24T18:31:17+00:00",
+  "updated_utc": "2026-04-24T18:44:37+00:00",
   "active_sessions": [
-    "track-c-autoresearch"
+    "track-c-autoresearch",
+    "track-c-c30-line-batched-r0025-strong"
   ],
   "experiments": [
+    {
+      "label": "c30-gentle-flow-0125",
+      "session": "track-c-c30-gentle-flow-0125",
+      "log": "docs/experiments/track-c/c30-gentle-flow-0125.log",
+      "done": true,
+      "notes": "Pleasant-motion boundary between the C29 0.010 pass and 0.020 quality drop."
+    },
+    {
+      "label": "c30-gentle-flow-015",
+      "session": "track-c-c30-gentle-flow-015",
+      "log": "docs/experiments/track-c/c30-gentle-flow-015.log",
+      "done": true,
+      "notes": "Pleasant-motion boundary probe near the likely readability cliff."
+    },
+    {
+      "label": "c30-product-layout-r0025-s008",
+      "session": "track-c-c30-product-layout-r0025-s008",
+      "log": "docs/experiments/track-c/c30-product-layout-r0025-s008.log",
+      "done": true,
+      "notes": "Pleasant layout-motion with best line ratio and moderate layout strength."
+    },
+    {
+      "label": "c30-line-batched-r0025-strong",
+      "session": "track-c-c30-line-batched-r0025-strong",
+      "log": "docs/experiments/track-c/c30-line-batched-r0025-strong.log",
+      "done": false,
+      "notes": "Batched control for the current best strong-stress line ratio."
+    },
+    {
+      "label": "c29-gentle-flow-010",
+      "session": "track-c-c29-gentle-flow-010",
+      "log": "docs/experiments/track-c/c29-gentle-flow-010.log",
+      "done": true,
+      "notes": "Pleasant-motion ladder: double the C2.1 flow while trying to preserve text."
+    },
+    {
+      "label": "c29-gentle-flow-020",
+      "session": "track-c-c29-gentle-flow-020",
+      "log": "docs/experiments/track-c/c29-gentle-flow-020.log",
+      "done": true,
+      "notes": "Pleasant-motion ladder: stronger learned motion, still below resize/reflow stress."
+    },
+    {
+      "label": "c29-product-layout-r0025",
+      "session": "track-c-c29-product-layout-r0025",
+      "log": "docs/experiments/track-c/c29-product-layout-r0025.log",
+      "done": true,
+      "notes": "Pleasant layout-motion baseline using the best strong-stress line ratio at low layout strength."
+    },
     {
       "label": "c28-word-batched-r010",
       "session": "track-c-c28-word-batched-r010",

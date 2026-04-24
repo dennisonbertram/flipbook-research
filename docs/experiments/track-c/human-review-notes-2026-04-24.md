@@ -89,3 +89,20 @@ Decision:
 Keep C2.1 as the positive gentle-motion baseline.
 Add a gentle-motion ladder so the pleasant-motion boundary is measured, not guessed.
 ```
+
+Follow-up measurements:
+
+```text
+c29-gentle-flow-010: OCR 0.8402, segment 548.963ms, motion_delta 0.0297, pass
+c29-gentle-flow-020: OCR 0.7123, segment 509.898ms, motion_delta 0.0489, quality_fail
+c29-product-layout-r0025: OCR 0.7713, segment 627.449ms, motion_delta 0.0295, pass
+c30-gentle-flow-0125: OCR 0.8545, segment 525.153ms, motion_delta 0.0353, pass
+c30-gentle-flow-015: OCR 0.7615, segment 540.984ms, motion_delta 0.0411, quality_fail
+c30-product-layout-r0025-s008: OCR 0.7580, segment 631.642ms, motion_delta 0.0455, pass
+```
+
+Interpretation:
+
+- The text-friendly motion boundary appears between `flow_scale=0.0125` and `flow_scale=0.015` for learned jiggle motion.
+- Low-strength layout motion with line anchors gives similar visible motion while preserving text better than raw learned flow.
+- Moderate layout-anchor motion still passes, but `c30-gentle-flow-0125` is the cleanest pleasant-motion result so far because it preserves the original C2.1 OCR while adding more motion and lowering segment time.
