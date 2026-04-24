@@ -894,3 +894,29 @@ c50-reflow-target-cosine-c32h160-s11000
 c50-reflow-target-clip1-c32h160-s11000
 c50-reflow-target-train1920-textw-c24h128-s11000
 ```
+
+## C49 Target-Side Reflow Results
+
+Completed C49 results:
+
+```text
+c49-reflow-target-b196-c32h160-s10000: OCR 0.5761, segment 867.931ms, motion_delta 0.0517, pass
+c49-reflow-target-mid60-c32h160-s14000: OCR 0.5714, segment 724.892ms, motion_delta 0.0498, pass
+c49-reflow-target-train1920-c32h160-s11000: OCR 0.5497, segment 631.621ms, motion_delta 0.0489, pass
+c49-reflow-target-mid60-c32h160-s12000: OCR 0.4875, segment 709.629ms, motion_delta 0.0501, quality_fail
+c49-reflow-target-edge18-c32h160-s12000: OCR 0.4780, segment 706.553ms, motion_delta 0.0491, quality_fail
+c49-reflow-target-textw-c32h160-s12000: OCR 0.4625, segment 705.667ms, motion_delta 0.0500, quality_fail
+c49-reflow-target-train1920-c24h128-s11000: OCR 0.4568, segment 694.017ms, motion_delta 0.0533, quality_fail
+c49-reflow-target-mid80-c32h160-s12000: OCR 0.4500, segment 638.482ms, motion_delta 0.0497, quality_fail
+c49-reflow-target-time6-c32h160-s12000: OCR 0.4267, segment 728.181ms, motion_delta 0.0518, quality_fail
+c49-reflow-target-lr007-c32h160-s12000: OCR 0.4198, segment 619.204ms, motion_delta 0.0516, quality_fail
+```
+
+Interpretation:
+
+- Target-side reflow sampling is the first change since C47 that clearly improves learned layout reflow. The best C49 result beats the C47 OCR peak (`0.5193`) by about `0.0568`.
+- Larger batch helped: `196608` samples per step at `10000` steps produced the best OCR, even though it is slower than the other C49 passes.
+- More steps helped at the normal batch: `14000` steps beat `12000` steps by a wide margin (`0.5714` vs `0.4875`).
+- `1920x1088` with `c32h160` is the fastest strong pass at `631.621ms`, but the `c24h128` high-res variant underperformed.
+- Text-box weighting still did not help in this setup, which supports the pure neural-canvas direction rather than returning to box-specific tricks.
+- Human contact-sheet review shows the target layout is being followed and the title/text are noticeably more stable, though text still has blur/ghosting at the reflow midpoint.

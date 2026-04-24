@@ -88,6 +88,8 @@ C4.8 shows that brute-force capacity is not the missing piece. All ten stricter 
 
 C4.9 changes the training distribution instead of only scaling the model. Layout-reflow training now has optional target-side sampling, target-side glyph/text loss weighting, and midpoint-biased time sampling. This directly addresses the C48 failure mode: source-side glyph sampling undersamples text after it moves into its target layout position.
 
+C4.9 produced the new learned layout-reflow best. `c49-reflow-target-b196-c32h160-s10000` reaches OCR `0.5761`, motion `0.0517`, segment `867.931ms`. Two other variants also beat C47: `c49-reflow-target-mid60-c32h160-s14000` at OCR `0.5714`, segment `724.892ms`, and `c49-reflow-target-train1920-c32h160-s11000` at OCR `0.5497`, segment `631.621ms`. The most important signal is that target-side sampling helped more than raw capacity did in C48.
+
 C5.0 is queued behind C4.9 as an ablation wave. It separates target-side sampling, target-side weighting, and midpoint time bias, then tests a few sharper variants (`freq12`, `c40h192`, cosine LR, clip `1.0`, and `1920x1088` text-weighting). The goal is to learn which part of the C4.9 intervention matters before adding another model abstraction.
 
 Suggested `results.tsv` header:
