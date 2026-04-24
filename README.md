@@ -2,6 +2,8 @@
 
 Research notes, experiments, and proof-of-concept code for realtime neural-canvas rendering inspired by Flipbook-style model-rendered interfaces.
 
+See the tweet that got me excited: https://x.com/zan2434/status/2046982383430496444?s=20
+
 The core investigation is whether we can render interactive visual pages as pixels from a learned canvas, without repainting the entire screen through a video model every frame.
 
 ## Current Direction
