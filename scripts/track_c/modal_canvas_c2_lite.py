@@ -445,6 +445,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     element_anchor_padding = int(config.get("element_anchor_padding", 3))
     element_mask_mode = str(config.get("element_mask_mode", "rectangle"))
     element_anchor_mode = str(config.get("element_anchor_mode", "line"))
+    element_render_mode = str(config.get("element_render_mode", "sequential"))
     edge_sample_ratio = float(config.get("edge_sample_ratio", 0.0))
     edge_loss_weight = float(config.get("edge_loss_weight", 0.0))
     text_box_sample_ratio = float(config.get("text_box_sample_ratio", 0.0))
@@ -664,6 +665,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             pan_y = layout_transform_pan * 0.45 * float(np.cos(2.0 * np.pi * t_value)) * envelope
             elem_scale_x = 1.0 - (1.0 - scale_x) * element_scale_ratio
             elem_scale_y = 1.0 - (1.0 - scale_y) * element_scale_ratio
+            patch_specs = []
+            patch_coord_parts = []
             for bx0, by0, bx1, by1 in element_line_boxes:
                 bw = bx1 - bx0
                 bh = by1 - by0
@@ -687,16 +690,41 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 patch_ys = torch.linspace(by0, by1, patch_h, device=device)
                 patch_yy, patch_xx = torch.meshgrid(patch_ys, patch_xs, indexing="ij")
                 patch_coords = torch.stack([patch_xx.reshape(-1), patch_yy.reshape(-1)], dim=-1).clamp(0.0, 1.0)
-                patch_t = torch.zeros((patch_coords.shape[0], 1), device=device)
+                patch_specs.append((ox0, oy0, ox1, oy1, patch_h, patch_w, patch_coords.shape[0]))
+                patch_coord_parts.append(patch_coords)
+
+            if element_render_mode == "batched" and patch_coord_parts:
+                all_patch_coords = torch.cat(patch_coord_parts, dim=0)
+                all_patch_t = torch.zeros((all_patch_coords.shape[0], 1), device=device)
                 patch_parts = []
-                for start in range(0, patch_coords.shape[0], chunk):
-                    patch_parts.append(model.forward(patch_coords[start : start + chunk], patch_t[start : start + chunk]))
-                patch = torch.cat(patch_parts, dim=0).view(patch_h, patch_w, 3)
+                for start in range(0, all_patch_coords.shape[0], chunk):
+                    patch_parts.append(model.forward(all_patch_coords[start : start + chunk], all_patch_t[start : start + chunk]))
+                all_patch = torch.cat(patch_parts, dim=0)
+                all_alpha = None
                 if element_mask_mode == "text-alpha":
-                    alpha = sample_target(element_alpha_chw, patch_coords).view(patch_h, patch_w, 1).clamp(0.0, 1.0)
-                    frame[oy0:oy1, ox0:ox1] = patch * alpha + frame[oy0:oy1, ox0:ox1] * (1.0 - alpha)
-                else:
-                    frame[oy0:oy1, ox0:ox1] = patch
+                    all_alpha = sample_target(element_alpha_chw, all_patch_coords).clamp(0.0, 1.0)
+                offset = 0
+                for ox0, oy0, ox1, oy1, patch_h, patch_w, count in patch_specs:
+                    patch = all_patch[offset : offset + count].view(patch_h, patch_w, 3)
+                    if element_mask_mode == "text-alpha" and all_alpha is not None:
+                        alpha = all_alpha[offset : offset + count].view(patch_h, patch_w, 1)
+                        frame[oy0:oy1, ox0:ox1] = patch * alpha + frame[oy0:oy1, ox0:ox1] * (1.0 - alpha)
+                    else:
+                        frame[oy0:oy1, ox0:ox1] = patch
+                    offset += count
+            elif patch_coord_parts:
+                for spec, patch_coords in zip(patch_specs, patch_coord_parts):
+                    ox0, oy0, ox1, oy1, patch_h, patch_w, _count = spec
+                    patch_t = torch.zeros((patch_coords.shape[0], 1), device=device)
+                    patch_parts = []
+                    for start in range(0, patch_coords.shape[0], chunk):
+                        patch_parts.append(model.forward(patch_coords[start : start + chunk], patch_t[start : start + chunk]))
+                    patch = torch.cat(patch_parts, dim=0).view(patch_h, patch_w, 3)
+                    if element_mask_mode == "text-alpha":
+                        alpha = sample_target(element_alpha_chw, patch_coords).view(patch_h, patch_w, 1).clamp(0.0, 1.0)
+                        frame[oy0:oy1, ox0:ox1] = patch * alpha + frame[oy0:oy1, ox0:ox1] * (1.0 - alpha)
+                    else:
+                        frame[oy0:oy1, ox0:ox1] = patch
 
         return frame
 
@@ -779,6 +807,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "element_anchor_padding": element_anchor_padding,
         "element_mask_mode": element_mask_mode,
         "element_anchor_mode": element_anchor_mode,
+        "element_render_mode": element_render_mode,
         "element_line_count": len(element_line_boxes),
         "min_ocr_similarity": float(config.get("min_ocr_similarity", 0.5)),
         "min_motion_delta": float(config.get("min_motion_delta", 0.001)),
@@ -839,6 +868,7 @@ def main(
     element_anchor_padding: int = 3,
     element_mask_mode: str = "rectangle",
     element_anchor_mode: str = "line",
+    element_render_mode: str = "sequential",
     experiment_label: str = "",
     edge_sample_ratio: float = 0.0,
     edge_loss_weight: float = 0.0,
@@ -879,6 +909,7 @@ def main(
         "element_anchor_padding": element_anchor_padding,
         "element_mask_mode": element_mask_mode,
         "element_anchor_mode": element_anchor_mode,
+        "element_render_mode": element_render_mode,
         "experiment_label": experiment_label,
         "min_ocr_similarity": min_ocr_similarity,
         "min_motion_delta": min_motion_delta,

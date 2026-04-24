@@ -361,3 +361,87 @@
 [2026-04-24T18:10:31+00:00] eval 20260424T174026360652Z-c2-lite-text-static-layout-element-frame-scale-c26-line-rect-r005-1280x736-s4500	frame-scale-strong	pass	655.300ms	ocr=0.5243
 [2026-04-24T18:10:31+00:00] eval 20260424T174558341805Z-c2-lite-text-responsive-squeeze-c26-responsive-xstrong-1280x736-s4500	responsive-squeeze	quality_fail	555.266ms	ocr=0.2000
 [2026-04-24T18:10:31+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-24T18:15:32+00:00] eval 20260424T141533Z-c0-canvas-960x544-s1500	still-full-resize	quality_fail	364.071ms	ocr=0.7397
+[2026-04-24T18:15:32+00:00] eval 20260424T141858Z-c0-canvas-960x544-s5000	still-full-resize	quality_fail	396.555ms	ocr=0.7281
+[2026-04-24T18:15:32+00:00] eval 20260424T142739Z-c2-lite-960x544-s3000	still-full-resize	quality_fail	530.142ms	ocr=0.8326
+[2026-04-24T18:15:32+00:00] eval 20260424T145821Z-c2-lite-glyph-960x544-s4000	still-full-resize	quality_fail	567.599ms	ocr=0.8288
+[2026-04-24T18:15:32+00:00] eval 20260424T151017Z-c2-lite-text-1280x736-s4500	still-full-resize	pass	935.276ms	ocr=0.8545
+[2026-04-24T18:15:32+00:00] eval 20260424T152249Z-c2-lite-text-frame-scale-1280x736-s4500	frame-scale-strong	quality_fail	553.306ms	ocr=0.0000
+[2026-04-24T18:15:32+00:00] eval 20260424T152418Z-c2-lite-text-frame-scale-1280x736-s4500	frame-scale-moderate	quality_fail	558.141ms	ocr=0.1053
+[2026-04-24T18:15:32+00:00] eval 20260424T153539Z-c2-lite-text-static-layout-frame-scale-1280x736-s4500	frame-scale-moderate	pass	541.976ms	ocr=0.7091
+[2026-04-24T18:15:32+00:00] eval 20260424T153736Z-c2-lite-text-static-layout-frame-scale-1280x736-s4500	frame-scale-strong	pass	559.048ms	ocr=0.3610
+[2026-04-24T18:15:32+00:00] eval 20260424T155703Z-c2-lite-text-static-layout-element-frame-scale-1280x736-s4500	frame-scale-moderate	pass	686.369ms	ocr=0.7321
+[2026-04-24T18:15:32+00:00] eval 20260424T155913Z-c2-lite-text-static-layout-element-frame-scale-1280x736-s4500	frame-scale-strong	pass	947.475ms	ocr=0.4124
+[2026-04-24T18:15:32+00:00] eval 20260424T165342Z-c2-lite-text-responsive-squeeze-1280x736-s4500	responsive-squeeze	pass	575.923ms	ocr=0.7265
+[2026-04-24T18:15:32+00:00] eval 20260424T165342Z-c2-lite-text-static-layout-element-frame-scale-1536x864-s5500	frame-scale-strong	quality_fail	678.824ms	ocr=0.0824
+[2026-04-24T18:15:32+00:00] eval 20260424T165508Z-c2-lite-text-static-layout-element-frame-scale-1280x736-s4500	frame-scale-strong	quality_fail	654.193ms	ocr=0.0982
+[2026-04-24T18:15:32+00:00] eval 20260424T165529Z-c2-lite-text-static-layout-element-frame-scale-1280x736-s4500	frame-scale-strong	quality_fail	655.405ms	ocr=0.0468
+[2026-04-24T18:15:32+00:00] eval 20260424T165916796904Z-c2-lite-text-static-layout-element-frame-scale-c25-alpha-r000-1280x736-s4500	frame-scale-strong	quality_fail	658.768ms	ocr=0.0759
+[2026-04-24T18:15:32+00:00] eval 20260424T165916869371Z-c2-lite-text-static-layout-element-frame-scale-c25-alpha-r025-1280x736-s4500	frame-scale-strong	quality_fail	710.178ms	ocr=0.0597
+[2026-04-24T18:15:32+00:00] eval 20260424T165916871669Z-c2-lite-text-static-layout-element-frame-scale-c25-alpha-moderate-r010-1280x736-s4500	frame-scale-moderate	quality_fail	655.525ms	ocr=0.1183
+[2026-04-24T18:15:32+00:00] eval 20260424T170416744300Z-c2-lite-text-responsive-squeeze-c25-responsive-strong-1280x736-s4500	responsive-squeeze	pass	547.337ms	ocr=0.4178
+[2026-04-24T18:15:32+00:00] eval 20260424T170416775674Z-c2-lite-text-static-layout-element-frame-scale-c25-rectangle-r010-1280x736-s4500	frame-scale-strong	pass	669.494ms	ocr=0.4195
+[2026-04-24T18:15:32+00:00] eval 20260424T174025843756Z-c2-lite-text-static-layout-element-frame-scale-c26-word-rect-moderate-r010-1280x736-s4500	frame-scale-moderate	latency_fail	3290.873ms	ocr=0.5438
+[2026-04-24T18:15:32+00:00] eval 20260424T174026078431Z-c2-lite-text-static-layout-element-frame-scale-c26-word-rect-r010-1280x736-s4500	frame-scale-strong	quality_fail	3698.959ms	ocr=0.1143
+[2026-04-24T18:15:32+00:00] eval 20260424T174026360652Z-c2-lite-text-static-layout-element-frame-scale-c26-line-rect-r005-1280x736-s4500	frame-scale-strong	pass	655.300ms	ocr=0.5243
+[2026-04-24T18:15:32+00:00] eval 20260424T174558341805Z-c2-lite-text-responsive-squeeze-c26-responsive-xstrong-1280x736-s4500	responsive-squeeze	quality_fail	555.266ms	ocr=0.2000
+[2026-04-24T18:15:32+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-24T18:15:40+00:00] autoresearch loop started
+[2026-04-24T18:15:40+00:00] launched c27-line-rect-r0025: Line anchor ratio sweep below current best 0.05.
+[2026-04-24T18:15:40+00:00] launched c27-line-rect-r0075: Line anchor ratio sweep above current best 0.05 but below previous 0.10.
+[2026-04-24T18:15:40+00:00] launched c27-line-rect-r005-pad2: Current best ratio with tighter support boxes to reduce unrelated illustration capture.
+[2026-04-24T18:15:41+00:00] eval 20260424T141533Z-c0-canvas-960x544-s1500	still-full-resize	quality_fail	364.071ms	ocr=0.7397
+[2026-04-24T18:15:41+00:00] eval 20260424T141858Z-c0-canvas-960x544-s5000	still-full-resize	quality_fail	396.555ms	ocr=0.7281
+[2026-04-24T18:15:41+00:00] eval 20260424T142739Z-c2-lite-960x544-s3000	still-full-resize	quality_fail	530.142ms	ocr=0.8326
+[2026-04-24T18:15:41+00:00] eval 20260424T145821Z-c2-lite-glyph-960x544-s4000	still-full-resize	quality_fail	567.599ms	ocr=0.8288
+[2026-04-24T18:15:41+00:00] eval 20260424T151017Z-c2-lite-text-1280x736-s4500	still-full-resize	pass	935.276ms	ocr=0.8545
+[2026-04-24T18:15:41+00:00] eval 20260424T152249Z-c2-lite-text-frame-scale-1280x736-s4500	frame-scale-strong	quality_fail	553.306ms	ocr=0.0000
+[2026-04-24T18:15:41+00:00] eval 20260424T152418Z-c2-lite-text-frame-scale-1280x736-s4500	frame-scale-moderate	quality_fail	558.141ms	ocr=0.1053
+[2026-04-24T18:15:41+00:00] eval 20260424T153539Z-c2-lite-text-static-layout-frame-scale-1280x736-s4500	frame-scale-moderate	pass	541.976ms	ocr=0.7091
+[2026-04-24T18:15:41+00:00] eval 20260424T153736Z-c2-lite-text-static-layout-frame-scale-1280x736-s4500	frame-scale-strong	pass	559.048ms	ocr=0.3610
+[2026-04-24T18:15:41+00:00] eval 20260424T155703Z-c2-lite-text-static-layout-element-frame-scale-1280x736-s4500	frame-scale-moderate	pass	686.369ms	ocr=0.7321
+[2026-04-24T18:15:41+00:00] eval 20260424T155913Z-c2-lite-text-static-layout-element-frame-scale-1280x736-s4500	frame-scale-strong	pass	947.475ms	ocr=0.4124
+[2026-04-24T18:15:41+00:00] eval 20260424T165342Z-c2-lite-text-responsive-squeeze-1280x736-s4500	responsive-squeeze	pass	575.923ms	ocr=0.7265
+[2026-04-24T18:15:41+00:00] eval 20260424T165342Z-c2-lite-text-static-layout-element-frame-scale-1536x864-s5500	frame-scale-strong	quality_fail	678.824ms	ocr=0.0824
+[2026-04-24T18:15:41+00:00] eval 20260424T165508Z-c2-lite-text-static-layout-element-frame-scale-1280x736-s4500	frame-scale-strong	quality_fail	654.193ms	ocr=0.0982
+[2026-04-24T18:15:41+00:00] eval 20260424T165529Z-c2-lite-text-static-layout-element-frame-scale-1280x736-s4500	frame-scale-strong	quality_fail	655.405ms	ocr=0.0468
+[2026-04-24T18:15:41+00:00] eval 20260424T165916796904Z-c2-lite-text-static-layout-element-frame-scale-c25-alpha-r000-1280x736-s4500	frame-scale-strong	quality_fail	658.768ms	ocr=0.0759
+[2026-04-24T18:15:41+00:00] eval 20260424T165916869371Z-c2-lite-text-static-layout-element-frame-scale-c25-alpha-r025-1280x736-s4500	frame-scale-strong	quality_fail	710.178ms	ocr=0.0597
+[2026-04-24T18:15:41+00:00] eval 20260424T165916871669Z-c2-lite-text-static-layout-element-frame-scale-c25-alpha-moderate-r010-1280x736-s4500	frame-scale-moderate	quality_fail	655.525ms	ocr=0.1183
+[2026-04-24T18:15:41+00:00] eval 20260424T170416744300Z-c2-lite-text-responsive-squeeze-c25-responsive-strong-1280x736-s4500	responsive-squeeze	pass	547.337ms	ocr=0.4178
+[2026-04-24T18:15:41+00:00] eval 20260424T170416775674Z-c2-lite-text-static-layout-element-frame-scale-c25-rectangle-r010-1280x736-s4500	frame-scale-strong	pass	669.494ms	ocr=0.4195
+[2026-04-24T18:15:41+00:00] eval 20260424T174025843756Z-c2-lite-text-static-layout-element-frame-scale-c26-word-rect-moderate-r010-1280x736-s4500	frame-scale-moderate	latency_fail	3290.873ms	ocr=0.5438
+[2026-04-24T18:15:41+00:00] eval 20260424T174026078431Z-c2-lite-text-static-layout-element-frame-scale-c26-word-rect-r010-1280x736-s4500	frame-scale-strong	quality_fail	3698.959ms	ocr=0.1143
+[2026-04-24T18:15:41+00:00] eval 20260424T174026360652Z-c2-lite-text-static-layout-element-frame-scale-c26-line-rect-r005-1280x736-s4500	frame-scale-strong	pass	655.300ms	ocr=0.5243
+[2026-04-24T18:15:41+00:00] eval 20260424T174558341805Z-c2-lite-text-responsive-squeeze-c26-responsive-xstrong-1280x736-s4500	responsive-squeeze	quality_fail	555.266ms	ocr=0.2000
+[2026-04-24T18:15:41+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-24T18:20:41+00:00] launched c27-line-rect-r005-pad6: Current best ratio with wider support boxes to check whether extra local context improves OCR.
+[2026-04-24T18:20:41+00:00] launched c27-responsive-018: Responsive-squeeze boundary between strong 0.16 pass and xstrong 0.22 fail.
+[2026-04-24T18:20:43+00:00] eval 20260424T141533Z-c0-canvas-960x544-s1500	still-full-resize	quality_fail	364.071ms	ocr=0.7397
+[2026-04-24T18:20:43+00:00] eval 20260424T141858Z-c0-canvas-960x544-s5000	still-full-resize	quality_fail	396.555ms	ocr=0.7281
+[2026-04-24T18:20:43+00:00] eval 20260424T142739Z-c2-lite-960x544-s3000	still-full-resize	quality_fail	530.142ms	ocr=0.8326
+[2026-04-24T18:20:43+00:00] eval 20260424T145821Z-c2-lite-glyph-960x544-s4000	still-full-resize	quality_fail	567.599ms	ocr=0.8288
+[2026-04-24T18:20:43+00:00] eval 20260424T151017Z-c2-lite-text-1280x736-s4500	still-full-resize	pass	935.276ms	ocr=0.8545
+[2026-04-24T18:20:43+00:00] eval 20260424T152249Z-c2-lite-text-frame-scale-1280x736-s4500	frame-scale-strong	quality_fail	553.306ms	ocr=0.0000
+[2026-04-24T18:20:43+00:00] eval 20260424T152418Z-c2-lite-text-frame-scale-1280x736-s4500	frame-scale-moderate	quality_fail	558.141ms	ocr=0.1053
+[2026-04-24T18:20:43+00:00] eval 20260424T153539Z-c2-lite-text-static-layout-frame-scale-1280x736-s4500	frame-scale-moderate	pass	541.976ms	ocr=0.7091
+[2026-04-24T18:20:43+00:00] eval 20260424T153736Z-c2-lite-text-static-layout-frame-scale-1280x736-s4500	frame-scale-strong	pass	559.048ms	ocr=0.3610
+[2026-04-24T18:20:43+00:00] eval 20260424T155703Z-c2-lite-text-static-layout-element-frame-scale-1280x736-s4500	frame-scale-moderate	pass	686.369ms	ocr=0.7321
+[2026-04-24T18:20:43+00:00] eval 20260424T155913Z-c2-lite-text-static-layout-element-frame-scale-1280x736-s4500	frame-scale-strong	pass	947.475ms	ocr=0.4124
+[2026-04-24T18:20:43+00:00] eval 20260424T165342Z-c2-lite-text-responsive-squeeze-1280x736-s4500	responsive-squeeze	pass	575.923ms	ocr=0.7265
+[2026-04-24T18:20:43+00:00] eval 20260424T165342Z-c2-lite-text-static-layout-element-frame-scale-1536x864-s5500	frame-scale-strong	quality_fail	678.824ms	ocr=0.0824
+[2026-04-24T18:20:43+00:00] eval 20260424T165508Z-c2-lite-text-static-layout-element-frame-scale-1280x736-s4500	frame-scale-strong	quality_fail	654.193ms	ocr=0.0982
+[2026-04-24T18:20:43+00:00] eval 20260424T165529Z-c2-lite-text-static-layout-element-frame-scale-1280x736-s4500	frame-scale-strong	quality_fail	655.405ms	ocr=0.0468
+[2026-04-24T18:20:43+00:00] eval 20260424T165916796904Z-c2-lite-text-static-layout-element-frame-scale-c25-alpha-r000-1280x736-s4500	frame-scale-strong	quality_fail	658.768ms	ocr=0.0759
+[2026-04-24T18:20:43+00:00] eval 20260424T165916869371Z-c2-lite-text-static-layout-element-frame-scale-c25-alpha-r025-1280x736-s4500	frame-scale-strong	quality_fail	710.178ms	ocr=0.0597
+[2026-04-24T18:20:43+00:00] eval 20260424T165916871669Z-c2-lite-text-static-layout-element-frame-scale-c25-alpha-moderate-r010-1280x736-s4500	frame-scale-moderate	quality_fail	655.525ms	ocr=0.1183
+[2026-04-24T18:20:43+00:00] eval 20260424T170416744300Z-c2-lite-text-responsive-squeeze-c25-responsive-strong-1280x736-s4500	responsive-squeeze	pass	547.337ms	ocr=0.4178
+[2026-04-24T18:20:43+00:00] eval 20260424T170416775674Z-c2-lite-text-static-layout-element-frame-scale-c25-rectangle-r010-1280x736-s4500	frame-scale-strong	pass	669.494ms	ocr=0.4195
+[2026-04-24T18:20:43+00:00] eval 20260424T174025843756Z-c2-lite-text-static-layout-element-frame-scale-c26-word-rect-moderate-r010-1280x736-s4500	frame-scale-moderate	latency_fail	3290.873ms	ocr=0.5438
+[2026-04-24T18:20:43+00:00] eval 20260424T174026078431Z-c2-lite-text-static-layout-element-frame-scale-c26-word-rect-r010-1280x736-s4500	frame-scale-strong	quality_fail	3698.959ms	ocr=0.1143
+[2026-04-24T18:20:43+00:00] eval 20260424T174026360652Z-c2-lite-text-static-layout-element-frame-scale-c26-line-rect-r005-1280x736-s4500	frame-scale-strong	pass	655.300ms	ocr=0.5243
+[2026-04-24T18:20:43+00:00] eval 20260424T174558341805Z-c2-lite-text-responsive-squeeze-c26-responsive-xstrong-1280x736-s4500	responsive-squeeze	quality_fail	555.266ms	ocr=0.2000
+[2026-04-24T18:20:43+00:00] eval 20260424T181541437774Z-c2-lite-text-static-layout-element-frame-scale-c27-line-rect-r005-pad2-1280x736-s4500	frame-scale-strong	pass	603.633ms	ocr=0.3673
+[2026-04-24T18:20:43+00:00] eval 20260424T181541511063Z-c2-lite-text-static-layout-element-frame-scale-c27-line-rect-r0075-1280x736-s4500	frame-scale-strong	pass	650.038ms	ocr=0.3981
+[2026-04-24T18:20:43+00:00] eval 20260424T181541520698Z-c2-lite-text-static-layout-element-frame-scale-c27-line-rect-r0025-1280x736-s4500	frame-scale-strong	pass	841.603ms	ocr=0.7097
+[2026-04-24T18:20:43+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv

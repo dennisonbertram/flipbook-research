@@ -1,9 +1,46 @@
 {
-  "updated_utc": "2026-04-24T18:10:31+00:00",
+  "updated_utc": "2026-04-24T18:20:43+00:00",
   "active_sessions": [
-    "track-c-autoresearch"
+    "track-c-autoresearch",
+    "track-c-c27-line-rect-r005-pad6",
+    "track-c-c27-responsive-018"
   ],
   "experiments": [
+    {
+      "label": "c27-line-rect-r0025",
+      "session": "track-c-c27-line-rect-r0025",
+      "log": "docs/experiments/track-c/c27-line-rect-r0025.log",
+      "done": true,
+      "notes": "Line anchor ratio sweep below current best 0.05."
+    },
+    {
+      "label": "c27-line-rect-r0075",
+      "session": "track-c-c27-line-rect-r0075",
+      "log": "docs/experiments/track-c/c27-line-rect-r0075.log",
+      "done": true,
+      "notes": "Line anchor ratio sweep above current best 0.05 but below previous 0.10."
+    },
+    {
+      "label": "c27-line-rect-r005-pad2",
+      "session": "track-c-c27-line-rect-r005-pad2",
+      "log": "docs/experiments/track-c/c27-line-rect-r005-pad2.log",
+      "done": true,
+      "notes": "Current best ratio with tighter support boxes to reduce unrelated illustration capture."
+    },
+    {
+      "label": "c27-line-rect-r005-pad6",
+      "session": "track-c-c27-line-rect-r005-pad6",
+      "log": "docs/experiments/track-c/c27-line-rect-r005-pad6.log",
+      "done": false,
+      "notes": "Current best ratio with wider support boxes to check whether extra local context improves OCR."
+    },
+    {
+      "label": "c27-responsive-018",
+      "session": "track-c-c27-responsive-018",
+      "log": "docs/experiments/track-c/c27-responsive-018.log",
+      "done": false,
+      "notes": "Responsive-squeeze boundary between strong 0.16 pass and xstrong 0.22 fail."
+    },
     {
       "label": "c26-word-rect-r010",
       "session": "track-c-c26-word-rect-r010",

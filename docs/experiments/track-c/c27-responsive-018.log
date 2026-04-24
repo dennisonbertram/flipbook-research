@@ -1,0 +1,8 @@
+✓ Initialized. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-n4rJTIGAvQnnthFAZ2uzWE
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/dennisonbertram/Develop/flipbook-research/scripts/track_c/modal_canva
+│   s_c2_lite.py
+└── 🔨 Created function train_and_render_motion.
+START 20260424T182043479928Z-c2-lite-text-responsive-squeeze-c27-responsive-018-1280x736-s4500 config={"batch_size": 131072, "channels": 16, "edge_loss_weight": 1.0, "edge_sample_ratio": 0.1, "element_anchor_mode": "line", "element_anchor_padding": 3, "element_mask_mode": "rectangle", "element_render_mode": "sequential", "element_scale_ratio": 0.25, "experiment_label": "c27-responsive-018", "flow_scale": 0.18, "fps": 24, "frames": 33, "freq_bands": 8, "hidden": 96, "layout_transform_pan": 0.0, "layout_transform_strength": 0.0, "lr": 0.01, "min_motion_delta": 0.001, "min_ocr_similarity": 0.25, "motion_mode": "responsive-squeeze", "motion_strength": 0.18, "source_resolution": [1280, 736], "steps": 4500, "text_box_loss_weight": 8.0, "text_box_min_conf": 55.0, "text_box_padding": 4, "text_box_sample_ratio": 0.55, "text_boxes": "105 boxes", "time_bands": 4, "train_resolution": "1280x736", "video_layout_mode": "none", "video_viewport_mode": "zoom-pulse", "viewport_pan": 0.03, "viewport_zoom": 0.14}
