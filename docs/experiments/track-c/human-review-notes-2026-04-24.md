@@ -179,3 +179,69 @@ c32-general-flow-0135-edge1
 c32-text-flow-0145-box8
 c32-text-flow-0135-box12
 ```
+
+## Modal Scale-Up
+
+Decision:
+
+- Raise the default autonomous loop cap to `10` concurrent Track C experiment sessions.
+- Keep the cap configurable with `TRACK_C_MAX_PARALLEL`.
+- Scale horizontally across independent Modal L40S runs before changing the renderer architecture.
+- Run both pure no-OCR and text-aware bridge experiments in the same wave.
+
+Completed C32 results:
+
+```text
+c32-general-flow-0125-edge05: OCR 0.8440, segment 575.076ms, motion_delta 0.0342, pass
+c32-general-flow-0135-edge1: OCR 0.8519, segment 560.209ms, motion_delta 0.0358, pass
+c32-text-flow-0145-box8: OCR 0.7421, segment 557.677ms, motion_delta 0.0393, quality_fail
+c32-text-flow-0135-box12: OCR 0.8402, segment 573.293ms, motion_delta 0.0373, pass
+```
+
+Interpretation:
+
+- The pure no-OCR path is now the strongest current direction: `c32-general-flow-0135-edge1` nearly matches the original C2.1 OCR while avoiding text boxes entirely.
+- The bridge path still helps, but pushing box-weighted flow past `0.0135` is fragile.
+- The next larger Modal wave should emphasize no-OCR flow/edge/capacity sweeps while keeping a smaller bridge bracket alive.
+
+Next experiments:
+
+```text
+c33-general-flow-0135-edge075
+c33-general-flow-0135-edge15
+c33-general-flow-014-edge1
+c33-general-flow-01425-edge1
+c33-general-flow-0135-edge1-s6000
+c33-general-flow-0135-edge1-cap24h128
+c33-general-flow-014-edge05
+c33-text-flow-01375-box8
+c33-text-flow-0135-box6
+c33-general-responsive-012-edge1
+```
+
+## Overfitting And Generalization
+
+Status:
+
+```text
+Track C is overfit by design.
+Track D is the generalization track.
+```
+
+Interpretation:
+
+- The current Track C renderer fits one page and asks whether a persistent neural canvas can render it fast, resize it, animate it, and preserve high-frequency detail.
+- This is the right first proof because a general model will not fix a renderer that cannot preserve a known page.
+- The C32 no-OCR result reduces the risk that the approach only works through text boxes or rectangular masks, but it is still a single-page result.
+
+Decision:
+
+- Keep scaling Track C on Modal to characterize the renderer.
+- Start Track D once the C33 no-OCR sweeps settle: build a multi-page fixture generator, train an amortized encoder/prior, and evaluate held-out pages.
+- Do not claim generality until held-out pages pass without render-time text masks.
+
+Reference:
+
+```text
+docs/research/track-d-general-neural-canvas.md
+```

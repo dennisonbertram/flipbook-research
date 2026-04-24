@@ -9,6 +9,7 @@ This directory keeps the research organized around testable questions. The curre
 - `poc/track-a-full-ltx.md` documents the full-frame LTX image-to-video benchmark path.
 - `poc/track-b-codec-style-animation.md` documents the static-image-plus-motion path.
 - `poc/track-c-neural-canvas-renderer.md` documents the persistent neural canvas renderer path.
+- `research/track-d-general-neural-canvas.md` defines the path from one-page overfit renderer experiments to a general amortized neural canvas model.
 - `poc/README.md` explains how the two tracks fit together and how to compare them.
 - `research/neural-canvas-renderer.md` frames the model-rendered-pixels architecture and research questions.
 - `research/track-a-autoresearch-program.md` adapts Karpathy's `autoresearch` loop to Track A model-layer experiments.
