@@ -4,6 +4,7 @@ from __future__ import annotations
 import base64
 import io
 import json
+import os
 import re
 import subprocess
 import tempfile
@@ -57,6 +58,9 @@ def ensure_fixture() -> None:
 
 
 def git_commit() -> str:
+    override = os.environ.get("FLIPBOOK_COMMIT")
+    if override:
+        return override
     try:
         result = subprocess.run(
             ["git", "rev-parse", "--short=7", "HEAD"],
