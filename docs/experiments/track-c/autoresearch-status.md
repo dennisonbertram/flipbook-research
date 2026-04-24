@@ -1,21 +1,11 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-24T22:20:10+00:00`
+Updated UTC: `2026-04-24T22:25:20+00:00`
 
 ## Active Sessions
 
 - `clawtest`
 - `track-c-autoresearch`
-- `track-c-c47-learned-translate-0035-s9000`
-- `track-c-c47-learned-translate-004-c24h128-s9000`
-- `track-c-c47-learned-translate-004-s9000`
-- `track-c-c47-learned-translate-004-textw-s9000`
-- `track-c-c47-learned-translate-0045-s9000`
-- `track-c-c47-sprite-translate-0035-s9000`
-- `track-c-c47-sprite-translate-004-c24h128-s9000`
-- `track-c-c47-sprite-translate-004-s9000`
-- `track-c-c47-sprite-translate-004-textw-s9000`
-- `track-c-c47-translate-pan040-clip05`
 - `track-c-github-sync`
 
 ## Queue
@@ -30,16 +20,16 @@ Updated UTC: `2026-04-24T22:20:10+00:00`
 - `c47-layout-reflow-100-textw-c24h128-s10000`: done - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 10000 steps, freq10, grad clip 0.5, text-weighted.
 - `c47-layout-reflow-100-lr007-s10000`: done - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 10000 steps, freq10, grad clip 0.5.
 - `c47-layout-reflow-100-cosine-s10000`: done - C47 learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 10000 steps, freq10, grad clip 0.5.
-- `c47-learned-translate-0035-s9000`: pending/running - C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.035, 9000 steps, freq10, grad clip 0.5.
-- `c47-learned-translate-004-s9000`: pending/running - C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.04, 9000 steps, freq10, grad clip 0.5.
-- `c47-learned-translate-0045-s9000`: pending/running - C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.045, 9000 steps, freq10, grad clip 0.5.
-- `c47-learned-translate-004-c24h128-s9000`: pending/running - C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.04, 9000 steps, freq10, grad clip 0.5.
-- `c47-learned-translate-004-textw-s9000`: pending/running - C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.04, 9000 steps, freq10, grad clip 0.5.
-- `c47-sprite-translate-0035-s9000`: pending/running - C47 learned sprite-translation stress: region content translates as a region in the training target, but output is still direct neural-canvas pixels; motion 0.035, 9000 steps, freq10, grad clip 0.5.
-- `c47-sprite-translate-004-s9000`: pending/running - C47 learned sprite-translation stress: region content translates as a region in the training target, but output is still direct neural-canvas pixels; motion 0.04, 9000 steps, freq10, grad clip 0.5.
-- `c47-sprite-translate-004-c24h128-s9000`: pending/running - C47 learned sprite-translation stress: region content translates as a region in the training target, but output is still direct neural-canvas pixels; motion 0.04, 9000 steps, freq10, grad clip 0.5.
-- `c47-sprite-translate-004-textw-s9000`: pending/running - C47 learned sprite-translation stress: region content translates as a region in the training target, but output is still direct neural-canvas pixels; motion 0.04, 9000 steps, freq10, grad clip 0.5, text-weighted.
-- `c47-translate-pan040-clip05`: pending/running - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.04, freq10, grad clip 0.5.
+- `c47-learned-translate-0035-s9000`: done - C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.035, 9000 steps, freq10, grad clip 0.5.
+- `c47-learned-translate-004-s9000`: done - C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.04, 9000 steps, freq10, grad clip 0.5.
+- `c47-learned-translate-0045-s9000`: done - C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.045, 9000 steps, freq10, grad clip 0.5.
+- `c47-learned-translate-004-c24h128-s9000`: done - C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.04, 9000 steps, freq10, grad clip 0.5.
+- `c47-learned-translate-004-textw-s9000`: done - C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.04, 9000 steps, freq10, grad clip 0.5.
+- `c47-sprite-translate-0035-s9000`: done - C47 learned sprite-translation stress: region content translates as a region in the training target, but output is still direct neural-canvas pixels; motion 0.035, 9000 steps, freq10, grad clip 0.5.
+- `c47-sprite-translate-004-s9000`: done - C47 learned sprite-translation stress: region content translates as a region in the training target, but output is still direct neural-canvas pixels; motion 0.04, 9000 steps, freq10, grad clip 0.5.
+- `c47-sprite-translate-004-c24h128-s9000`: done - C47 learned sprite-translation stress: region content translates as a region in the training target, but output is still direct neural-canvas pixels; motion 0.04, 9000 steps, freq10, grad clip 0.5.
+- `c47-sprite-translate-004-textw-s9000`: done - C47 learned sprite-translation stress: region content translates as a region in the training target, but output is still direct neural-canvas pixels; motion 0.04, 9000 steps, freq10, grad clip 0.5, text-weighted.
+- `c47-translate-pan040-clip05`: done - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.04, freq10, grad clip 0.5.
 - `c46-translate-pan030-clip05`: done - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.03, freq10, grad clip 0.5.
 - `c46-translate-pan045-clip05`: done - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.045, freq10, grad clip 0.5.
 - `c46-translate-pan060-clip05`: done - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.06, freq10, grad clip 0.5.

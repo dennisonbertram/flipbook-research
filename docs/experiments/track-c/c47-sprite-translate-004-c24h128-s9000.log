@@ -1,0 +1,183 @@
+✓ Initialized. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-4wAumVBXjVMd6Eowjak2Vy
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/dennisonbertram/Develop/flipbook-research/scripts/track_c/modal_canva
+│   s_c2_lite.py
+└── 🔨 Created function train_and_render_motion.
+START 20260424T221942834445Z-c2-lite-glyph-independent-sprite-translate-c47-sprite-translate-004-c24h128-s9000-1536x864-s9000 config={"batch_size": 131072, "channels": 24, "edge_loss_weight": 0.9, "edge_sample_ratio": 0.09, "element_anchor_mode": "line", "element_anchor_padding": 3, "element_mask_mode": "rectangle", "element_render_mode": "sequential", "element_scale_ratio": 0.25, "experiment_label": "c47-sprite-translate-004-c24h128-s9000", "flow_scale": 0.04, "fps": 24, "frames": 33, "freq_bands": 10, "grad_clip": 0.5, "hidden": 128, "layout_supersample": 1.0, "layout_transform_pan": 0.0, "layout_transform_strength": 0.0, "lr": 0.01, "lr_schedule": "constant", "min_lr_ratio": 0.1, "min_motion_delta": 0.025, "min_ocr_similarity": 0.38, "motion_mode": "independent-sprite-translate", "motion_strength": 0.04, "seed": 0, "source_resolution": [1280, 736], "steps": 9000, "text_box_loss_weight": 0.0, "text_box_min_conf": 55.0, "text_box_padding": 0, "text_box_sample_ratio": 0.0, "text_boxes": "0 boxes", "time_bands": 4, "train_resolution": "1536x864", "video_layout_mode": "none", "video_viewport_mode": "static", "viewport_pan": 0.0, "viewport_zoom": 0.0}
+{
+  "canvas_type": "time-conditioned-latent-feature-grid-learned-flow-mlp-glyph-weighted",
+  "train_resolution": "1536x864",
+  "steps": 9000,
+  "batch_size": 131072,
+  "channels": 24,
+  "hidden": 128,
+  "freq_bands": 10,
+  "time_bands": 4,
+  "lr": 0.01,
+  "lr_schedule": "constant",
+  "min_lr_ratio": 0.1,
+  "grad_clip": 0.5,
+  "seed": 0,
+  "flow_scale": 0.04,
+  "motion_mode": "independent-sprite-translate",
+  "motion_strength": 0.04,
+  "video_viewport_mode": "static",
+  "viewport_zoom": 0.0,
+  "viewport_pan": 0.0,
+  "video_layout_mode": "none",
+  "layout_transform_strength": 0.0,
+  "layout_transform_pan": 0.0,
+  "layout_supersample": 1.0,
+  "layout_region_count": 0,
+  "element_scale_ratio": 0.25,
+  "element_anchor_padding": 3,
+  "element_mask_mode": "rectangle",
+  "element_anchor_mode": "line",
+  "element_render_mode": "sequential",
+  "element_line_count": 0,
+  "min_ocr_similarity": 0.38,
+  "min_motion_delta": 0.025,
+  "edge_sample_ratio": 0.09,
+  "edge_loss_weight": 0.9,
+  "text_box_sample_ratio": 0.0,
+  "text_box_loss_weight": 0.0,
+  "text_box_padding": 0,
+  "text_box_count": 0,
+  "text_mask_coverage": 0.0,
+  "element_alpha_coverage": 0.0,
+  "compile_ms": 101890.041979,
+  "final_mse": 0.003848589025437832,
+  "losses": [
+    {
+      "step": 0,
+      "mse": 0.2248101681470871
+    },
+    {
+      "step": 450,
+      "mse": 0.011166604235768318
+    },
+    {
+      "step": 900,
+      "mse": 0.008151078596711159
+    },
+    {
+      "step": 1350,
+      "mse": 0.006828881800174713
+    },
+    {
+      "step": 1800,
+      "mse": 0.006027786061167717
+    },
+    {
+      "step": 2250,
+      "mse": 0.0056543853133916855
+    },
+    {
+      "step": 2700,
+      "mse": 0.0053070965223014355
+    },
+    {
+      "step": 3150,
+      "mse": 0.005119011737406254
+    },
+    {
+      "step": 3600,
+      "mse": 0.004997676238417625
+    },
+    {
+      "step": 4050,
+      "mse": 0.0047226110473275185
+    },
+    {
+      "step": 4500,
+      "mse": 0.004562707617878914
+    },
+    {
+      "step": 4950,
+      "mse": 0.004458179231733084
+    },
+    {
+      "step": 5400,
+      "mse": 0.004337523132562637
+    },
+    {
+      "step": 5850,
+      "mse": 0.0044623613357543945
+    },
+    {
+      "step": 6300,
+      "mse": 0.004324972629547119
+    },
+    {
+      "step": 6750,
+      "mse": 0.004173173103481531
+    },
+    {
+      "step": 7200,
+      "mse": 0.004098306875675917
+    },
+    {
+      "step": 7650,
+      "mse": 0.004191199317574501
+    },
+    {
+      "step": 8100,
+      "mse": 0.0041054957546293736
+    },
+    {
+      "step": 8550,
+      "mse": 0.003910453524440527
+    },
+    {
+      "step": 8999,
+      "mse": 0.003848589025437832
+    }
+  ],
+  "render_times": {
+    "render-960.png": 15.197920999995063,
+    "render-mid.png": 9.98205199999802,
+    "render-last.png": 9.951541999996039,
+    "render-512.png": 2.7252269999991086,
+    "crop-2x.png": 9.818074999998316
+  },
+  "render_960_ms": 15.197920999995063,
+  "render_33_wall_ms": 320.8991519999955,
+  "encode_ms": 249.05924000000823,
+  "resize_consistency": 0.9997137370800706,
+  "temporal_consistency": 0.9954198207706213,
+  "motion_delta_model": 0.04912206158041954,
+  "loop_error_model": 0.0045801792293787,
+  "description": "C4.7 neural canvas: learned independent sprite translation from x,y,t",
+  "run_id": "20260424T221942834445Z-c2-lite-glyph-independent-sprite-translate-c47-sprite-translate-004-c24h128-s9000-1536x864-s9000",
+  "commit": "4e33831",
+  "track": "C",
+  "width": 960,
+  "height": 544,
+  "frames": 33,
+  "fps": 24,
+  "artifacts": {
+    "input": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T221942834445Z-c2-lite-glyph-independent-sprite-translate-c47-sprite-translate-004-c24h128-s9000-1536x864-s9000/input.png",
+    "render_960": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T221942834445Z-c2-lite-glyph-independent-sprite-translate-c47-sprite-translate-004-c24h128-s9000-1536x864-s9000/render-960.png",
+    "render_mid": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T221942834445Z-c2-lite-glyph-independent-sprite-translate-c47-sprite-translate-004-c24h128-s9000-1536x864-s9000/render-mid.png",
+    "render_last": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T221942834445Z-c2-lite-glyph-independent-sprite-translate-c47-sprite-translate-004-c24h128-s9000-1536x864-s9000/render-last.png",
+    "render_512": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T221942834445Z-c2-lite-glyph-independent-sprite-translate-c47-sprite-translate-004-c24h128-s9000-1536x864-s9000/render-512.png",
+    "crop_2x": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T221942834445Z-c2-lite-glyph-independent-sprite-translate-c47-sprite-translate-004-c24h128-s9000-1536x864-s9000/crop-2x.png",
+    "text_mask": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T221942834445Z-c2-lite-glyph-independent-sprite-translate-c47-sprite-translate-004-c24h128-s9000-1536x864-s9000/text-mask.png",
+    "element_alpha_mask": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T221942834445Z-c2-lite-glyph-independent-sprite-translate-c47-sprite-translate-004-c24h128-s9000-1536x864-s9000/element-alpha-mask.png",
+    "text_boxes": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T221942834445Z-c2-lite-glyph-independent-sprite-translate-c47-sprite-translate-004-c24h128-s9000-1536x864-s9000/text-boxes.json",
+    "output": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T221942834445Z-c2-lite-glyph-independent-sprite-translate-c47-sprite-translate-004-c24h128-s9000-1536x864-s9000/output.mp4",
+    "metrics": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T221942834445Z-c2-lite-glyph-independent-sprite-translate-c47-sprite-translate-004-c24h128-s9000-1536x864-s9000/metrics.json",
+    "quality": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T221942834445Z-c2-lite-glyph-independent-sprite-translate-c47-sprite-translate-004-c24h128-s9000-1536x864-s9000/quality.json"
+  },
+  "ocr_similarity": 0.20689655172413793,
+  "layout_similarity": 0.9997137370800706,
+  "motion_delta": 0.034424927085638046,
+  "loop_error": 0.003260409226641059,
+  "status": "near_miss"
+}
+DONE 20260424T221942834445Z-c2-lite-glyph-independent-sprite-translate-c47-sprite-translate-004-c24h128-s9000-1536x864-s9000 quality=0.2069 motion=0.0344
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-4wAumVBXjVMd6Eowjak2Vy

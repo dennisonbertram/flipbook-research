@@ -1,18 +1,8 @@
 {
-  "updated_utc": "2026-04-24T22:20:10+00:00",
+  "updated_utc": "2026-04-24T22:25:20+00:00",
   "active_sessions": [
     "clawtest",
     "track-c-autoresearch",
-    "track-c-c47-learned-translate-0035-s9000",
-    "track-c-c47-learned-translate-004-c24h128-s9000",
-    "track-c-c47-learned-translate-004-s9000",
-    "track-c-c47-learned-translate-004-textw-s9000",
-    "track-c-c47-learned-translate-0045-s9000",
-    "track-c-c47-sprite-translate-0035-s9000",
-    "track-c-c47-sprite-translate-004-c24h128-s9000",
-    "track-c-c47-sprite-translate-004-s9000",
-    "track-c-c47-sprite-translate-004-textw-s9000",
-    "track-c-c47-translate-pan040-clip05",
     "track-c-github-sync"
   ],
   "experiments": [
@@ -90,70 +80,70 @@
       "label": "c47-learned-translate-0035-s9000",
       "session": "track-c-c47-learned-translate-0035-s9000",
       "log": "docs/experiments/track-c/c47-learned-translate-0035-s9000.log",
-      "done": false,
+      "done": true,
       "notes": "C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.035, 9000 steps, freq10, grad clip 0.5."
     },
     {
       "label": "c47-learned-translate-004-s9000",
       "session": "track-c-c47-learned-translate-004-s9000",
       "log": "docs/experiments/track-c/c47-learned-translate-004-s9000.log",
-      "done": false,
+      "done": true,
       "notes": "C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.04, 9000 steps, freq10, grad clip 0.5."
     },
     {
       "label": "c47-learned-translate-0045-s9000",
       "session": "track-c-c47-learned-translate-0045-s9000",
       "log": "docs/experiments/track-c/c47-learned-translate-0045-s9000.log",
-      "done": false,
+      "done": true,
       "notes": "C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.045, 9000 steps, freq10, grad clip 0.5."
     },
     {
       "label": "c47-learned-translate-004-c24h128-s9000",
       "session": "track-c-c47-learned-translate-004-c24h128-s9000",
       "log": "docs/experiments/track-c/c47-learned-translate-004-c24h128-s9000.log",
-      "done": false,
+      "done": true,
       "notes": "C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.04, 9000 steps, freq10, grad clip 0.5."
     },
     {
       "label": "c47-learned-translate-004-textw-s9000",
       "session": "track-c-c47-learned-translate-004-textw-s9000",
       "log": "docs/experiments/track-c/c47-learned-translate-004-textw-s9000.log",
-      "done": false,
+      "done": true,
       "notes": "C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.04, 9000 steps, freq10, grad clip 0.5."
     },
     {
       "label": "c47-sprite-translate-0035-s9000",
       "session": "track-c-c47-sprite-translate-0035-s9000",
       "log": "docs/experiments/track-c/c47-sprite-translate-0035-s9000.log",
-      "done": false,
+      "done": true,
       "notes": "C47 learned sprite-translation stress: region content translates as a region in the training target, but output is still direct neural-canvas pixels; motion 0.035, 9000 steps, freq10, grad clip 0.5."
     },
     {
       "label": "c47-sprite-translate-004-s9000",
       "session": "track-c-c47-sprite-translate-004-s9000",
       "log": "docs/experiments/track-c/c47-sprite-translate-004-s9000.log",
-      "done": false,
+      "done": true,
       "notes": "C47 learned sprite-translation stress: region content translates as a region in the training target, but output is still direct neural-canvas pixels; motion 0.04, 9000 steps, freq10, grad clip 0.5."
     },
     {
       "label": "c47-sprite-translate-004-c24h128-s9000",
       "session": "track-c-c47-sprite-translate-004-c24h128-s9000",
       "log": "docs/experiments/track-c/c47-sprite-translate-004-c24h128-s9000.log",
-      "done": false,
+      "done": true,
       "notes": "C47 learned sprite-translation stress: region content translates as a region in the training target, but output is still direct neural-canvas pixels; motion 0.04, 9000 steps, freq10, grad clip 0.5."
     },
     {
       "label": "c47-sprite-translate-004-textw-s9000",
       "session": "track-c-c47-sprite-translate-004-textw-s9000",
       "log": "docs/experiments/track-c/c47-sprite-translate-004-textw-s9000.log",
-      "done": false,
+      "done": true,
       "notes": "C47 learned sprite-translation stress: region content translates as a region in the training target, but output is still direct neural-canvas pixels; motion 0.04, 9000 steps, freq10, grad clip 0.5, text-weighted."
     },
     {
       "label": "c47-translate-pan040-clip05",
       "session": "track-c-c47-translate-pan040-clip05",
       "log": "docs/experiments/track-c/c47-translate-pan040-clip05.log",
-      "done": false,
+      "done": true,
       "notes": "C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.04, freq10, grad clip 0.5."
     },
     {
