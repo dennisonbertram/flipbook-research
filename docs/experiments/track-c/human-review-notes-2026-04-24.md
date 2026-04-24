@@ -960,3 +960,34 @@ c51-reflow-target-train1920-c32h160-s15000
 c51-reflow-target-b196-c32h160-s10000-seed1
 c51-reflow-target-mid60-c32h160-s14000-seed1
 ```
+
+Partial C51 read while the last seed was still running:
+
+```text
+c51-reflow-weightonly-c32h160-s14000: OCR 0.5614, segment pending eval, motion_delta 0.0459, pass
+c51-reflow-target-b196-c32h160-s14000: OCR 0.5238, motion_delta 0.0517, quality_fail
+c51-reflow-weightonly-b196-c32h160-s10000: OCR 0.5023, motion_delta 0.0483, quality_fail
+c51-reflow-target-b196-c32h160-s12000: OCR 0.4860, motion_delta 0.0504, quality_fail
+c51-reflow-target-mid60-c32h160-s16000: OCR 0.4845, motion_delta 0.0529, quality_fail
+c51-reflow-target-mid60-c32h160-s18000: OCR 0.4845, motion_delta 0.0488, quality_fail
+c51-reflow-target-train1920-c32h160-s15000: OCR 0.4875, motion_delta 0.0509, quality_fail
+c51-reflow-target-train1920-c32h160-s13000: OCR 0.4673, motion_delta 0.0505, quality_fail
+c51-reflow-target-b229-c32h160-s10000: OCR 0.4596, motion_delta 0.0513, quality_fail
+c51-reflow-target-b196-c32h160-s10000-seed1: OCR 0.4500, motion_delta 0.0476, quality_fail
+```
+
+Next experiments:
+
+```text
+c52-reflow-target-s025-c32h160-s14000
+c52-reflow-target-s050-c32h160-s14000
+c52-reflow-target-s075-c32h160-s14000
+c52-reflow-weightonly-c32h160-s16000
+c52-reflow-weightonly-c32h160-s18000
+c52-reflow-weightonly-b196-c32h160-s12000
+c52-reflow-weightonly-b196-c32h160-s14000
+c52-reflow-weightonly-train1920-c32h160-s13000
+c52-reflow-weightonly-c32h160-s14000-seed1
+c52-reflow-weightonly-c32h160-s14000-seed2
+c52-reflow-target-b196-c32h160-s10000-seed2
+```

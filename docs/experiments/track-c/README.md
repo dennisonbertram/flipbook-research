@@ -94,6 +94,8 @@ C5.0 is queued behind C4.9 as an ablation wave. It separates target-side samplin
 
 C5.0 confirms the useful ingredient is target-side loss weighting plus enough optimization budget. The best ablation is target-weight-only at OCR `0.5000`, motion `0.0488`, segment `620.067ms`; target-sample-only drops to OCR `0.4277`, and midpoint-only lands near the gate at `0.4767`. C5.1 therefore focuses on the C4.9 winner family: larger batches, longer runs, high-res `c32h160`, and seed repeats.
 
+C5.1 shows more target sampling and more batch are not monotonic. Early C5.1 results regress from C4.9, while `weightonly-c32h160-s14000` stays strong at OCR `0.5614`. C5.2 adds partial target-sampling ratios (`0.25/0.50/0.75`) and a weight-only scale/seed sweep.
+
 Suggested `results.tsv` header:
 
 ```text

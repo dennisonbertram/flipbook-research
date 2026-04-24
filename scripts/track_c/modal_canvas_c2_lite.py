@@ -538,6 +538,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     text_box_padding = int(config.get("text_box_padding", 0))
     layout_target_sampling = bool(int(config.get("layout_target_sampling", 0)))
     layout_target_weighting = bool(int(config.get("layout_target_weighting", 0)))
+    layout_target_sampling_ratio = float(config.get("layout_target_sampling_ratio", 1.0))
     layout_mid_time_ratio = float(config.get("layout_mid_time_ratio", 0.0))
     layout_mid_time_width = float(config.get("layout_mid_time_width", 0.24))
 
@@ -774,7 +775,10 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 t[mid_idx] = mid_t.clamp(0.0, 1.0)
         if motion_mode in layout_reflow_motion_modes and layout_target_sampling:
             moved_coords = forward_layout_reflow_coords(coords, t, motion_strength)
-            coords = torch.where(source_focus.unsqueeze(-1), moved_coords, coords)
+            focus = source_focus
+            if layout_target_sampling_ratio < 1.0:
+                focus = focus & (torch.rand((batch_size,), device=device) < layout_target_sampling_ratio)
+            coords = torch.where(focus.unsqueeze(-1), moved_coords, coords)
         target_coords = target_coords_for_motion(coords, t, motion_strength, motion_mode)
         if motion_mode in independent_sprite_motion_modes:
             truth = sample_independent_sprite_translation(coords, t, motion_strength)
@@ -1114,6 +1118,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "text_box_padding": text_box_padding,
         "layout_target_sampling": int(layout_target_sampling),
         "layout_target_weighting": int(layout_target_weighting),
+        "layout_target_sampling_ratio": layout_target_sampling_ratio,
         "layout_mid_time_ratio": layout_mid_time_ratio,
         "layout_mid_time_width": layout_mid_time_width,
         "text_box_count": len(config.get("text_boxes", [])),
@@ -1196,6 +1201,7 @@ def main(
     text_box_min_conf: float = 55.0,
     layout_target_sampling: int = 0,
     layout_target_weighting: int = 0,
+    layout_target_sampling_ratio: float = 1.0,
     layout_mid_time_ratio: float = 0.0,
     layout_mid_time_width: float = 0.24,
     min_ocr_similarity: float = 0.5,
@@ -1249,6 +1255,7 @@ def main(
         "text_box_min_conf": text_box_min_conf,
         "layout_target_sampling": layout_target_sampling,
         "layout_target_weighting": layout_target_weighting,
+        "layout_target_sampling_ratio": layout_target_sampling_ratio,
         "layout_mid_time_ratio": layout_mid_time_ratio,
         "layout_mid_time_width": layout_mid_time_width,
         "text_boxes": text_boxes,
