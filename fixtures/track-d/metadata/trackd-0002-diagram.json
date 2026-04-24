@@ -1,0 +1,231 @@
+{
+  "expected_text": "Neural Canvas Compiler A labeled flow diagram for spatial identity and small technical labels. Prompt Page Image Encoder Latent Canvas Renderer Query text never overlays held-out split persistent grid viewport + time 33 frames <= 1.3s",
+  "height": 736,
+  "id": "trackd-0002-diagram",
+  "image": "fixtures/track-d/pages/trackd-0002-diagram.png",
+  "metadata": "fixtures/track-d/metadata/trackd-0002-diagram.json",
+  "motion_program": {
+    "id": "responsive-squeeze",
+    "motion_mode": "responsive-squeeze",
+    "motion_strength": 0.012
+  },
+  "regions": [
+    {
+      "bbox": [
+        62,
+        52,
+        1156,
+        632
+      ],
+      "id": "r000",
+      "kind": "semantic",
+      "role": "diagram-page"
+    },
+    {
+      "bbox": [
+        96,
+        90,
+        441,
+        35
+      ],
+      "id": "r001",
+      "kind": "text",
+      "role": "title",
+      "text": "Neural Canvas Compiler"
+    },
+    {
+      "bbox": [
+        99,
+        135,
+        512,
+        16
+      ],
+      "id": "r002",
+      "kind": "text",
+      "role": "subtitle",
+      "text": "A labeled flow diagram for spatial identity and small technical labels."
+    },
+    {
+      "bbox": [
+        110,
+        260,
+        190,
+        90
+      ],
+      "id": "r003",
+      "kind": "semantic",
+      "role": "diagram-node"
+    },
+    {
+      "bbox": [
+        136,
+        295,
+        74,
+        19
+      ],
+      "id": "r004",
+      "kind": "text",
+      "role": "node-label",
+      "text": "Prompt"
+    },
+    {
+      "bbox": [
+        110,
+        430,
+        190,
+        90
+      ],
+      "id": "r005",
+      "kind": "semantic",
+      "role": "diagram-node"
+    },
+    {
+      "bbox": [
+        136,
+        465,
+        117,
+        19
+      ],
+      "id": "r006",
+      "kind": "text",
+      "role": "node-label",
+      "text": "Page Image"
+    },
+    {
+      "bbox": [
+        450,
+        340,
+        190,
+        90
+      ],
+      "id": "r007",
+      "kind": "semantic",
+      "role": "diagram-node"
+    },
+    {
+      "bbox": [
+        476,
+        375,
+        85,
+        15
+      ],
+      "id": "r008",
+      "kind": "text",
+      "role": "node-label",
+      "text": "Encoder"
+    },
+    {
+      "bbox": [
+        780,
+        260,
+        252,
+        90
+      ],
+      "id": "r009",
+      "kind": "semantic",
+      "role": "diagram-node"
+    },
+    {
+      "bbox": [
+        806,
+        295,
+        144,
+        15
+      ],
+      "id": "r010",
+      "kind": "text",
+      "role": "node-label",
+      "text": "Latent Canvas"
+    },
+    {
+      "bbox": [
+        780,
+        430,
+        252,
+        90
+      ],
+      "id": "r011",
+      "kind": "semantic",
+      "role": "diagram-node"
+    },
+    {
+      "bbox": [
+        806,
+        465,
+        159,
+        19
+      ],
+      "id": "r012",
+      "kind": "text",
+      "role": "node-label",
+      "text": "Renderer Query"
+    },
+    {
+      "bbox": [
+        326,
+        252,
+        117,
+        14
+      ],
+      "id": "r013",
+      "kind": "text",
+      "role": "diagram-caption",
+      "text": "text never overlays"
+    },
+    {
+      "bbox": [
+        326,
+        530,
+        79,
+        14
+      ],
+      "id": "r014",
+      "kind": "text",
+      "role": "diagram-caption",
+      "text": "held-out split"
+    },
+    {
+      "bbox": [
+        700,
+        234,
+        88,
+        14
+      ],
+      "id": "r015",
+      "kind": "text",
+      "role": "diagram-caption",
+      "text": "persistent grid"
+    },
+    {
+      "bbox": [
+        1038,
+        464,
+        95,
+        14
+      ],
+      "id": "r016",
+      "kind": "text",
+      "role": "diagram-caption",
+      "text": "viewport + time"
+    },
+    {
+      "bbox": [
+        820,
+        563,
+        113,
+        10
+      ],
+      "id": "r017",
+      "kind": "text",
+      "role": "diagram-caption",
+      "text": "33 frames <= 1.3s"
+    }
+  ],
+  "seed": 20262442,
+  "semantic_region_count": 6,
+  "split": "train",
+  "template": "diagram",
+  "text_region_count": 12,
+  "track": "track-d",
+  "width": 1280
+}

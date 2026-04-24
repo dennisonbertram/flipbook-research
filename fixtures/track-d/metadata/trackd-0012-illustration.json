@@ -1,0 +1,104 @@
+{
+  "expected_text": "Low-Text Illustration Page This fixture checks visual identity without leaning on OCR. Illustration pages expose whether the model can preserve visual motifs when text is sparse. caption: hills, masts, and panel edges should remain coherent",
+  "height": 736,
+  "id": "trackd-0012-illustration",
+  "image": "fixtures/track-d/pages/trackd-0012-illustration.png",
+  "metadata": "fixtures/track-d/metadata/trackd-0012-illustration.json",
+  "motion_program": {
+    "id": "subtle-motion-loop",
+    "motion_mode": "jiggle",
+    "motion_strength": 0.0125
+  },
+  "regions": [
+    {
+      "bbox": [
+        70,
+        62,
+        470,
+        35
+      ],
+      "id": "r000",
+      "kind": "text",
+      "role": "title",
+      "text": "Low-Text Illustration Page"
+    },
+    {
+      "bbox": [
+        74,
+        107,
+        436,
+        16
+      ],
+      "id": "r001",
+      "kind": "text",
+      "role": "subtitle",
+      "text": "This fixture checks visual identity without leaning on OCR."
+    },
+    {
+      "bbox": [
+        814,
+        126,
+        342,
+        142
+      ],
+      "id": "r002",
+      "kind": "semantic",
+      "role": "caption"
+    },
+    {
+      "bbox": [
+        842,
+        155,
+        265,
+        15
+      ],
+      "id": "r003",
+      "kind": "text",
+      "role": "body",
+      "text": "Illustration pages expose whether the"
+    },
+    {
+      "bbox": [
+        842,
+        179,
+        276,
+        15
+      ],
+      "id": "r004",
+      "kind": "text",
+      "role": "body",
+      "text": "model can preserve visual motifs when"
+    },
+    {
+      "bbox": [
+        842,
+        203,
+        99,
+        15
+      ],
+      "id": "r005",
+      "kind": "text",
+      "role": "body",
+      "text": "text is sparse."
+    },
+    {
+      "bbox": [
+        92,
+        612,
+        384,
+        14
+      ],
+      "id": "r006",
+      "kind": "text",
+      "role": "caption",
+      "text": "caption: hills, masts, and panel edges should remain coherent"
+    }
+  ],
+  "seed": 20272532,
+  "semantic_region_count": 1,
+  "split": "train",
+  "template": "illustration",
+  "text_region_count": 6,
+  "track": "track-d",
+  "width": 1280
+}

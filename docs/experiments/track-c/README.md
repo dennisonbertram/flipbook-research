@@ -42,6 +42,8 @@ Early C3.1 results support testing both tracks. The best no-OCR run so far, `c31
 
 C3.2 makes the pure no-OCR path the leading candidate: `c32-general-flow-0135-edge1` reaches OCR `0.8519`, segment `560.209ms`, and motion `0.0358` without OCR boxes, masks, or anchors. C3.3 scales Modal concurrency to `10` by default and launches a wider pure neural-canvas wave across flow, edge weighting, model capacity, optimization steps, and one responsive-squeeze stress case.
 
+C3.3 found a new pure no-OCR local-motion winner: `c33-general-flow-014-edge1` reaches OCR `0.8767`, segment `565.333ms`, and motion `0.0371`. That is strong but too wiggle-specific. C3.5 pivots the next wave toward aggressive viewport zoom/pan, global frame-scale resize, and responsive squeeze tests so the renderer has to preserve text through query movement and resizing, not just local sinusoidal motion.
+
 Suggested `results.tsv` header:
 
 ```text

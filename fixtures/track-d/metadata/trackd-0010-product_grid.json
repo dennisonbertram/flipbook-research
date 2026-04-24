@@ -1,0 +1,472 @@
+{
+  "expected_text": "Solar Workshop Catalog Product cards mix images, prices, badges, and dense labels. Flux Lamp $48 sku 1842-Q rated for outdoor rigs limited batch Copper Shade $128 sku 1843-Q rated for outdoor rigs limited batch Field Meter $76 sku 1844-Q rated for outdoor rigs limited batch Panel Clip $19 sku 1845-Q rated for outdoor rigs limited batch Night Lens $54 sku 1846-Q rated for outdoor rigs limited batch Signal Loom $210 sku 1847-Q rated for outdoor rigs limited batch",
+  "height": 736,
+  "id": "trackd-0010-product_grid",
+  "image": "fixtures/track-d/pages/trackd-0010-product_grid.png",
+  "metadata": "fixtures/track-d/metadata/trackd-0010-product_grid.json",
+  "motion_program": {
+    "id": "viewport-zoom-pulse",
+    "motion_mode": "jiggle",
+    "motion_strength": 0.01,
+    "viewport_zoom": 0.05
+  },
+  "regions": [
+    {
+      "bbox": [
+        54,
+        49,
+        429,
+        34
+      ],
+      "id": "r000",
+      "kind": "text",
+      "role": "title",
+      "text": "Solar Workshop Catalog"
+    },
+    {
+      "bbox": [
+        58,
+        95,
+        458,
+        16
+      ],
+      "id": "r001",
+      "kind": "text",
+      "role": "subtitle",
+      "text": "Product cards mix images, prices, badges, and dense labels."
+    },
+    {
+      "bbox": [
+        58,
+        142,
+        350,
+        220
+      ],
+      "id": "r002",
+      "kind": "semantic",
+      "role": "product-card"
+    },
+    {
+      "bbox": [
+        238,
+        178,
+        110,
+        20
+      ],
+      "id": "r003",
+      "kind": "text",
+      "role": "product-name",
+      "text": "Flux Lamp"
+    },
+    {
+      "bbox": [
+        238,
+        218,
+        43,
+        22
+      ],
+      "id": "r004",
+      "kind": "text",
+      "role": "price",
+      "text": "$48"
+    },
+    {
+      "bbox": [
+        238,
+        256,
+        67,
+        11
+      ],
+      "id": "r005",
+      "kind": "text",
+      "role": "sku",
+      "text": "sku 1842-Q"
+    },
+    {
+      "bbox": [
+        238,
+        286,
+        121,
+        13
+      ],
+      "id": "r006",
+      "kind": "text",
+      "role": "description",
+      "text": "rated for outdoor rigs"
+    },
+    {
+      "bbox": [
+        86,
+        314,
+        74,
+        9
+      ],
+      "id": "r007",
+      "kind": "text",
+      "role": "badge",
+      "text": "limited batch"
+    },
+    {
+      "bbox": [
+        463,
+        142,
+        350,
+        220
+      ],
+      "id": "r008",
+      "kind": "semantic",
+      "role": "product-card"
+    },
+    {
+      "bbox": [
+        643,
+        178,
+        149,
+        20
+      ],
+      "id": "r009",
+      "kind": "text",
+      "role": "product-name",
+      "text": "Copper Shade"
+    },
+    {
+      "bbox": [
+        643,
+        218,
+        58,
+        22
+      ],
+      "id": "r010",
+      "kind": "text",
+      "role": "price",
+      "text": "$128"
+    },
+    {
+      "bbox": [
+        643,
+        256,
+        67,
+        11
+      ],
+      "id": "r011",
+      "kind": "text",
+      "role": "sku",
+      "text": "sku 1843-Q"
+    },
+    {
+      "bbox": [
+        643,
+        286,
+        121,
+        13
+      ],
+      "id": "r012",
+      "kind": "text",
+      "role": "description",
+      "text": "rated for outdoor rigs"
+    },
+    {
+      "bbox": [
+        491,
+        314,
+        74,
+        9
+      ],
+      "id": "r013",
+      "kind": "text",
+      "role": "badge",
+      "text": "limited batch"
+    },
+    {
+      "bbox": [
+        868,
+        142,
+        350,
+        220
+      ],
+      "id": "r014",
+      "kind": "semantic",
+      "role": "product-card"
+    },
+    {
+      "bbox": [
+        1048,
+        178,
+        117,
+        16
+      ],
+      "id": "r015",
+      "kind": "text",
+      "role": "product-name",
+      "text": "Field Meter"
+    },
+    {
+      "bbox": [
+        1048,
+        218,
+        43,
+        22
+      ],
+      "id": "r016",
+      "kind": "text",
+      "role": "price",
+      "text": "$76"
+    },
+    {
+      "bbox": [
+        1048,
+        256,
+        67,
+        11
+      ],
+      "id": "r017",
+      "kind": "text",
+      "role": "sku",
+      "text": "sku 1844-Q"
+    },
+    {
+      "bbox": [
+        1048,
+        286,
+        121,
+        13
+      ],
+      "id": "r018",
+      "kind": "text",
+      "role": "description",
+      "text": "rated for outdoor rigs"
+    },
+    {
+      "bbox": [
+        896,
+        314,
+        74,
+        9
+      ],
+      "id": "r019",
+      "kind": "text",
+      "role": "badge",
+      "text": "limited batch"
+    },
+    {
+      "bbox": [
+        58,
+        402,
+        350,
+        220
+      ],
+      "id": "r020",
+      "kind": "semantic",
+      "role": "product-card"
+    },
+    {
+      "bbox": [
+        238,
+        438,
+        106,
+        20
+      ],
+      "id": "r021",
+      "kind": "text",
+      "role": "product-name",
+      "text": "Panel Clip"
+    },
+    {
+      "bbox": [
+        238,
+        478,
+        43,
+        22
+      ],
+      "id": "r022",
+      "kind": "text",
+      "role": "price",
+      "text": "$19"
+    },
+    {
+      "bbox": [
+        238,
+        516,
+        67,
+        11
+      ],
+      "id": "r023",
+      "kind": "text",
+      "role": "sku",
+      "text": "sku 1845-Q"
+    },
+    {
+      "bbox": [
+        238,
+        546,
+        121,
+        13
+      ],
+      "id": "r024",
+      "kind": "text",
+      "role": "description",
+      "text": "rated for outdoor rigs"
+    },
+    {
+      "bbox": [
+        86,
+        574,
+        74,
+        9
+      ],
+      "id": "r025",
+      "kind": "text",
+      "role": "badge",
+      "text": "limited batch"
+    },
+    {
+      "bbox": [
+        463,
+        402,
+        350,
+        220
+      ],
+      "id": "r026",
+      "kind": "semantic",
+      "role": "product-card"
+    },
+    {
+      "bbox": [
+        643,
+        438,
+        114,
+        20
+      ],
+      "id": "r027",
+      "kind": "text",
+      "role": "product-name",
+      "text": "Night Lens"
+    },
+    {
+      "bbox": [
+        643,
+        478,
+        43,
+        22
+      ],
+      "id": "r028",
+      "kind": "text",
+      "role": "price",
+      "text": "$54"
+    },
+    {
+      "bbox": [
+        643,
+        516,
+        67,
+        11
+      ],
+      "id": "r029",
+      "kind": "text",
+      "role": "sku",
+      "text": "sku 1846-Q"
+    },
+    {
+      "bbox": [
+        643,
+        546,
+        121,
+        13
+      ],
+      "id": "r030",
+      "kind": "text",
+      "role": "description",
+      "text": "rated for outdoor rigs"
+    },
+    {
+      "bbox": [
+        491,
+        574,
+        74,
+        9
+      ],
+      "id": "r031",
+      "kind": "text",
+      "role": "badge",
+      "text": "limited batch"
+    },
+    {
+      "bbox": [
+        868,
+        402,
+        350,
+        220
+      ],
+      "id": "r032",
+      "kind": "semantic",
+      "role": "product-card"
+    },
+    {
+      "bbox": [
+        1048,
+        438,
+        132,
+        20
+      ],
+      "id": "r033",
+      "kind": "text",
+      "role": "product-name",
+      "text": "Signal Loom"
+    },
+    {
+      "bbox": [
+        1048,
+        478,
+        58,
+        22
+      ],
+      "id": "r034",
+      "kind": "text",
+      "role": "price",
+      "text": "$210"
+    },
+    {
+      "bbox": [
+        1048,
+        516,
+        67,
+        11
+      ],
+      "id": "r035",
+      "kind": "text",
+      "role": "sku",
+      "text": "sku 1847-Q"
+    },
+    {
+      "bbox": [
+        1048,
+        546,
+        121,
+        13
+      ],
+      "id": "r036",
+      "kind": "text",
+      "role": "description",
+      "text": "rated for outdoor rigs"
+    },
+    {
+      "bbox": [
+        896,
+        574,
+        74,
+        9
+      ],
+      "id": "r037",
+      "kind": "text",
+      "role": "badge",
+      "text": "limited batch"
+    }
+  ],
+  "seed": 20270514,
+  "semantic_region_count": 6,
+  "split": "train",
+  "template": "product_grid",
+  "text_region_count": 32,
+  "track": "track-d",
+  "width": 1280
+}

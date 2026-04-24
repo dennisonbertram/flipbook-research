@@ -1,0 +1,788 @@
+{
+  "expected_text": "Small Print Stress Sheet Many tiny tokens create a brutal but useful held-out OCR target. Column 1 A00-231 validation token stable under resize A01-464 validation token stable under resize A02-391 validation token stable under resize A03-714 validation token stable under resize A04-257 validation token stable under resize A05-953 validation token stable under resize A06-637 validation token stable under resize A07-599 validation token stable under resize A08-934 validation token stable under resize A09-305 validation token stable under resize A10-284 validation token stable under resize A11-298 validation token stable under resize A12-295 validation token stable under resize Column 2 B00-154 validation token stable under resize B01-552 validation token stable under resize B02-283 validation token stable under resize B03-464 validation token stable under resize B04-644 validation token stable under resize B05-863 validation token stable under resize B06-567 validation token stable under resize B07-893 validation token stable under resize B08-641 validation token stable under resize B09-814 validation token stable under resize B10-143 validation token stable under resize B11-589 validation token stable under resize B12-579 validation token stable under resize Column 3 C00-564 validation token stable under resize C01-244 validation token stable under resize C02-284 validation token stable under resize C03-102 validation token stable under resize C04-258 validation token stable under resize C05-765 validation token stable under resize C06-961 validation token stable under resize C07-865 validation token stable under resize C08-108 validation token stable under resize C09-732 validation token stable under resize C10-488 validation token stable under resize C11-895 validation token stable under resize C12-502 validation token stable under resize Column 4 D00-160 validation token stable under resize D01-999 validation token stable under resize D02-254 validation token stable under resize D03-519 validation token stable under resize D04-718 validation token stable under resize D05-907 validation token stable under resize D06-904 validation token stable under resize D07-588 validation token stable under resize D08-691 validation token stable under resize D09-768 validation token stable under resize D10-926 validation token stable under resize D11-898 validation token stable under resize D12-972 validation token stable under resize alpha-13 beta-29 gamma-47 delta-88 epsilon-05",
+  "height": 736,
+  "id": "trackd-0020-microtext",
+  "image": "fixtures/track-d/pages/trackd-0020-microtext.png",
+  "metadata": "fixtures/track-d/metadata/trackd-0020-microtext.json",
+  "motion_program": {
+    "id": "responsive-squeeze",
+    "motion_mode": "responsive-squeeze",
+    "motion_strength": 0.012
+  },
+  "regions": [
+    {
+      "bbox": [
+        50,
+        42,
+        1180,
+        652
+      ],
+      "id": "r000",
+      "kind": "semantic",
+      "role": "microtext-page"
+    },
+    {
+      "bbox": [
+        84,
+        81,
+        405,
+        25
+      ],
+      "id": "r001",
+      "kind": "text",
+      "role": "title",
+      "text": "Small Print Stress Sheet"
+    },
+    {
+      "bbox": [
+        88,
+        123,
+        453,
+        15
+      ],
+      "id": "r002",
+      "kind": "text",
+      "role": "subtitle",
+      "text": "Many tiny tokens create a brutal but useful held-out OCR target."
+    },
+    {
+      "bbox": [
+        86,
+        177,
+        64,
+        10
+      ],
+      "id": "r003",
+      "kind": "text",
+      "role": "small-heading",
+      "text": "Column 1"
+    },
+    {
+      "bbox": [
+        85,
+        209,
+        199,
+        7
+      ],
+      "id": "r004",
+      "kind": "text",
+      "role": "small-print",
+      "text": "A00-231 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        85,
+        237,
+        199,
+        7
+      ],
+      "id": "r005",
+      "kind": "text",
+      "role": "small-print",
+      "text": "A01-464 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        85,
+        265,
+        199,
+        7
+      ],
+      "id": "r006",
+      "kind": "text",
+      "role": "small-print",
+      "text": "A02-391 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        85,
+        293,
+        199,
+        7
+      ],
+      "id": "r007",
+      "kind": "text",
+      "role": "small-print",
+      "text": "A03-714 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        85,
+        321,
+        199,
+        7
+      ],
+      "id": "r008",
+      "kind": "text",
+      "role": "small-print",
+      "text": "A04-257 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        85,
+        349,
+        199,
+        7
+      ],
+      "id": "r009",
+      "kind": "text",
+      "role": "small-print",
+      "text": "A05-953 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        85,
+        377,
+        199,
+        7
+      ],
+      "id": "r010",
+      "kind": "text",
+      "role": "small-print",
+      "text": "A06-637 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        85,
+        405,
+        199,
+        7
+      ],
+      "id": "r011",
+      "kind": "text",
+      "role": "small-print",
+      "text": "A07-599 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        85,
+        433,
+        199,
+        7
+      ],
+      "id": "r012",
+      "kind": "text",
+      "role": "small-print",
+      "text": "A08-934 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        85,
+        461,
+        199,
+        7
+      ],
+      "id": "r013",
+      "kind": "text",
+      "role": "small-print",
+      "text": "A09-305 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        85,
+        489,
+        199,
+        7
+      ],
+      "id": "r014",
+      "kind": "text",
+      "role": "small-print",
+      "text": "A10-284 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        85,
+        517,
+        198,
+        7
+      ],
+      "id": "r015",
+      "kind": "text",
+      "role": "small-print",
+      "text": "A11-298 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        85,
+        545,
+        199,
+        7
+      ],
+      "id": "r016",
+      "kind": "text",
+      "role": "small-print",
+      "text": "A12-295 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        372,
+        177,
+        64,
+        10
+      ],
+      "id": "r017",
+      "kind": "text",
+      "role": "small-heading",
+      "text": "Column 2"
+    },
+    {
+      "bbox": [
+        372,
+        209,
+        198,
+        7
+      ],
+      "id": "r018",
+      "kind": "text",
+      "role": "small-print",
+      "text": "B00-154 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        372,
+        237,
+        198,
+        7
+      ],
+      "id": "r019",
+      "kind": "text",
+      "role": "small-print",
+      "text": "B01-552 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        372,
+        265,
+        198,
+        7
+      ],
+      "id": "r020",
+      "kind": "text",
+      "role": "small-print",
+      "text": "B02-283 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        372,
+        293,
+        198,
+        7
+      ],
+      "id": "r021",
+      "kind": "text",
+      "role": "small-print",
+      "text": "B03-464 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        372,
+        321,
+        198,
+        7
+      ],
+      "id": "r022",
+      "kind": "text",
+      "role": "small-print",
+      "text": "B04-644 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        372,
+        349,
+        198,
+        7
+      ],
+      "id": "r023",
+      "kind": "text",
+      "role": "small-print",
+      "text": "B05-863 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        372,
+        377,
+        198,
+        7
+      ],
+      "id": "r024",
+      "kind": "text",
+      "role": "small-print",
+      "text": "B06-567 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        372,
+        405,
+        198,
+        7
+      ],
+      "id": "r025",
+      "kind": "text",
+      "role": "small-print",
+      "text": "B07-893 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        372,
+        433,
+        198,
+        7
+      ],
+      "id": "r026",
+      "kind": "text",
+      "role": "small-print",
+      "text": "B08-641 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        372,
+        461,
+        198,
+        7
+      ],
+      "id": "r027",
+      "kind": "text",
+      "role": "small-print",
+      "text": "B09-814 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        372,
+        489,
+        198,
+        7
+      ],
+      "id": "r028",
+      "kind": "text",
+      "role": "small-print",
+      "text": "B10-143 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        372,
+        517,
+        197,
+        7
+      ],
+      "id": "r029",
+      "kind": "text",
+      "role": "small-print",
+      "text": "B11-589 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        372,
+        545,
+        198,
+        7
+      ],
+      "id": "r030",
+      "kind": "text",
+      "role": "small-print",
+      "text": "B12-579 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        658,
+        177,
+        64,
+        10
+      ],
+      "id": "r031",
+      "kind": "text",
+      "role": "small-heading",
+      "text": "Column 3"
+    },
+    {
+      "bbox": [
+        658,
+        209,
+        198,
+        7
+      ],
+      "id": "r032",
+      "kind": "text",
+      "role": "small-print",
+      "text": "C00-564 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        658,
+        237,
+        198,
+        7
+      ],
+      "id": "r033",
+      "kind": "text",
+      "role": "small-print",
+      "text": "C01-244 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        658,
+        265,
+        198,
+        7
+      ],
+      "id": "r034",
+      "kind": "text",
+      "role": "small-print",
+      "text": "C02-284 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        658,
+        293,
+        198,
+        7
+      ],
+      "id": "r035",
+      "kind": "text",
+      "role": "small-print",
+      "text": "C03-102 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        658,
+        321,
+        198,
+        7
+      ],
+      "id": "r036",
+      "kind": "text",
+      "role": "small-print",
+      "text": "C04-258 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        658,
+        349,
+        198,
+        7
+      ],
+      "id": "r037",
+      "kind": "text",
+      "role": "small-print",
+      "text": "C05-765 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        658,
+        377,
+        198,
+        7
+      ],
+      "id": "r038",
+      "kind": "text",
+      "role": "small-print",
+      "text": "C06-961 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        658,
+        405,
+        198,
+        7
+      ],
+      "id": "r039",
+      "kind": "text",
+      "role": "small-print",
+      "text": "C07-865 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        658,
+        433,
+        198,
+        7
+      ],
+      "id": "r040",
+      "kind": "text",
+      "role": "small-print",
+      "text": "C08-108 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        658,
+        461,
+        198,
+        7
+      ],
+      "id": "r041",
+      "kind": "text",
+      "role": "small-print",
+      "text": "C09-732 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        658,
+        489,
+        198,
+        7
+      ],
+      "id": "r042",
+      "kind": "text",
+      "role": "small-print",
+      "text": "C10-488 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        658,
+        517,
+        198,
+        7
+      ],
+      "id": "r043",
+      "kind": "text",
+      "role": "small-print",
+      "text": "C11-895 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        658,
+        545,
+        198,
+        7
+      ],
+      "id": "r044",
+      "kind": "text",
+      "role": "small-print",
+      "text": "C12-502 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        944,
+        177,
+        64,
+        10
+      ],
+      "id": "r045",
+      "kind": "text",
+      "role": "small-heading",
+      "text": "Column 4"
+    },
+    {
+      "bbox": [
+        944,
+        209,
+        198,
+        7
+      ],
+      "id": "r046",
+      "kind": "text",
+      "role": "small-print",
+      "text": "D00-160 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        944,
+        237,
+        198,
+        7
+      ],
+      "id": "r047",
+      "kind": "text",
+      "role": "small-print",
+      "text": "D01-999 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        944,
+        265,
+        198,
+        7
+      ],
+      "id": "r048",
+      "kind": "text",
+      "role": "small-print",
+      "text": "D02-254 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        944,
+        293,
+        198,
+        7
+      ],
+      "id": "r049",
+      "kind": "text",
+      "role": "small-print",
+      "text": "D03-519 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        944,
+        321,
+        198,
+        7
+      ],
+      "id": "r050",
+      "kind": "text",
+      "role": "small-print",
+      "text": "D04-718 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        944,
+        349,
+        198,
+        7
+      ],
+      "id": "r051",
+      "kind": "text",
+      "role": "small-print",
+      "text": "D05-907 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        944,
+        377,
+        198,
+        7
+      ],
+      "id": "r052",
+      "kind": "text",
+      "role": "small-print",
+      "text": "D06-904 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        944,
+        405,
+        198,
+        7
+      ],
+      "id": "r053",
+      "kind": "text",
+      "role": "small-print",
+      "text": "D07-588 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        944,
+        433,
+        198,
+        7
+      ],
+      "id": "r054",
+      "kind": "text",
+      "role": "small-print",
+      "text": "D08-691 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        944,
+        461,
+        198,
+        7
+      ],
+      "id": "r055",
+      "kind": "text",
+      "role": "small-print",
+      "text": "D09-768 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        944,
+        489,
+        198,
+        7
+      ],
+      "id": "r056",
+      "kind": "text",
+      "role": "small-print",
+      "text": "D10-926 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        944,
+        517,
+        198,
+        7
+      ],
+      "id": "r057",
+      "kind": "text",
+      "role": "small-print",
+      "text": "D11-898 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        944,
+        545,
+        198,
+        7
+      ],
+      "id": "r058",
+      "kind": "text",
+      "role": "small-print",
+      "text": "D12-972 validation token stable under resize"
+    },
+    {
+      "bbox": [
+        134,
+        628,
+        53,
+        13
+      ],
+      "id": "r059",
+      "kind": "text",
+      "role": "tag",
+      "text": "alpha-13"
+    },
+    {
+      "bbox": [
+        340,
+        628,
+        46,
+        10
+      ],
+      "id": "r060",
+      "kind": "text",
+      "role": "tag",
+      "text": "beta-29"
+    },
+    {
+      "bbox": [
+        546,
+        628,
+        64,
+        13
+      ],
+      "id": "r061",
+      "kind": "text",
+      "role": "tag",
+      "text": "gamma-47"
+    },
+    {
+      "bbox": [
+        752,
+        628,
+        49,
+        10
+      ],
+      "id": "r062",
+      "kind": "text",
+      "role": "tag",
+      "text": "delta-88"
+    },
+    {
+      "bbox": [
+        958,
+        628,
+        64,
+        13
+      ],
+      "id": "r063",
+      "kind": "text",
+      "role": "tag",
+      "text": "epsilon-05"
+    }
+  ],
+  "seed": 20280604,
+  "semantic_region_count": 1,
+  "split": "train",
+  "template": "microtext",
+  "text_region_count": 63,
+  "track": "track-d",
+  "width": 1280
+}

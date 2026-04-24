@@ -1,0 +1,462 @@
+{
+  "expected_text": "Field Notes: Cities That Learn A page fixture with dense copy, captions, small labels, and diagrams. Transit Signals Sensors record demand, but the visible interface must stay legible while the scene moves around it. Public Memory Archives, plaques, and pedestrian maps become a shared operating system for streets and civic rooms. Water Edges Canals, ferries, and flood marks create spatial labels that are easy to redraw incorrectly. Pilot Log Zone Load Drift North Gate 42% +1.2 Canal East 67% -0.4 Archive Row 58% +0.8 Harbor Loop 73% +1.5 Signal Stability OCR floor motion loop quiet",
+  "height": 736,
+  "id": "trackd-0000-article",
+  "image": "fixtures/track-d/pages/trackd-0000-article.png",
+  "metadata": "fixtures/track-d/metadata/trackd-0000-article.json",
+  "motion_program": {
+    "id": "subtle-motion-loop",
+    "motion_mode": "jiggle",
+    "motion_strength": 0.0125
+  },
+  "regions": [
+    {
+      "bbox": [
+        58,
+        44,
+        1164,
+        648
+      ],
+      "id": "r000",
+      "kind": "semantic",
+      "role": "article-page"
+    },
+    {
+      "bbox": [
+        96,
+        90,
+        607,
+        31
+      ],
+      "id": "r001",
+      "kind": "text",
+      "role": "title",
+      "text": "Field Notes: Cities That Learn"
+    },
+    {
+      "bbox": [
+        99,
+        140,
+        579,
+        18
+      ],
+      "id": "r002",
+      "kind": "text",
+      "role": "subtitle",
+      "text": "A page fixture with dense copy, captions, small labels, and diagrams."
+    },
+    {
+      "bbox": [
+        100,
+        212,
+        156,
+        20
+      ],
+      "id": "r003",
+      "kind": "text",
+      "role": "section-heading",
+      "text": "Transit Signals"
+    },
+    {
+      "bbox": [
+        100,
+        263,
+        278,
+        15
+      ],
+      "id": "r004",
+      "kind": "text",
+      "role": "body",
+      "text": "Sensors record demand, but the visible"
+    },
+    {
+      "bbox": [
+        100,
+        287,
+        300,
+        15
+      ],
+      "id": "r005",
+      "kind": "text",
+      "role": "body",
+      "text": "interface must stay legible while the scene"
+    },
+    {
+      "bbox": [
+        100,
+        311,
+        118,
+        12
+      ],
+      "id": "r006",
+      "kind": "text",
+      "role": "body",
+      "text": "moves around it."
+    },
+    {
+      "bbox": [
+        455,
+        212,
+        156,
+        20
+      ],
+      "id": "r007",
+      "kind": "text",
+      "role": "section-heading",
+      "text": "Public Memory"
+    },
+    {
+      "bbox": [
+        454,
+        263,
+        286,
+        15
+      ],
+      "id": "r008",
+      "kind": "text",
+      "role": "body",
+      "text": "Archives, plaques, and pedestrian maps"
+    },
+    {
+      "bbox": [
+        455,
+        287,
+        274,
+        15
+      ],
+      "id": "r009",
+      "kind": "text",
+      "role": "body",
+      "text": "become a shared operating system for"
+    },
+    {
+      "bbox": [
+        455,
+        311,
+        168,
+        12
+      ],
+      "id": "r010",
+      "kind": "text",
+      "role": "body",
+      "text": "streets and civic rooms."
+    },
+    {
+      "bbox": [
+        810,
+        212,
+        132,
+        20
+      ],
+      "id": "r011",
+      "kind": "text",
+      "role": "section-heading",
+      "text": "Water Edges"
+    },
+    {
+      "bbox": [
+        810,
+        263,
+        275,
+        15
+      ],
+      "id": "r012",
+      "kind": "text",
+      "role": "body",
+      "text": "Canals, ferries, and flood marks create"
+    },
+    {
+      "bbox": [
+        810,
+        287,
+        261,
+        15
+      ],
+      "id": "r013",
+      "kind": "text",
+      "role": "body",
+      "text": "spatial labels that are easy to redraw"
+    },
+    {
+      "bbox": [
+        810,
+        311,
+        76,
+        15
+      ],
+      "id": "r014",
+      "kind": "text",
+      "role": "body",
+      "text": "incorrectly."
+    },
+    {
+      "bbox": [
+        96,
+        438,
+        444,
+        204
+      ],
+      "id": "r015",
+      "kind": "semantic",
+      "role": "data-table"
+    },
+    {
+      "bbox": [
+        124,
+        466,
+        94,
+        20
+      ],
+      "id": "r016",
+      "kind": "text",
+      "role": "table-title",
+      "text": "Pilot Log"
+    },
+    {
+      "bbox": [
+        124,
+        504,
+        31,
+        10
+      ],
+      "id": "r017",
+      "kind": "text",
+      "role": "table-cell",
+      "text": "Zone"
+    },
+    {
+      "bbox": [
+        252,
+        504,
+        31,
+        10
+      ],
+      "id": "r018",
+      "kind": "text",
+      "role": "table-cell",
+      "text": "Load"
+    },
+    {
+      "bbox": [
+        380,
+        504,
+        27,
+        10
+      ],
+      "id": "r019",
+      "kind": "text",
+      "role": "table-cell",
+      "text": "Drift"
+    },
+    {
+      "bbox": [
+        124,
+        531,
+        59,
+        10
+      ],
+      "id": "r020",
+      "kind": "text",
+      "role": "table-cell",
+      "text": "North Gate"
+    },
+    {
+      "bbox": [
+        252,
+        532,
+        24,
+        9
+      ],
+      "id": "r021",
+      "kind": "text",
+      "role": "table-cell",
+      "text": "42%"
+    },
+    {
+      "bbox": [
+        380,
+        532,
+        24,
+        9
+      ],
+      "id": "r022",
+      "kind": "text",
+      "role": "table-cell",
+      "text": "+1.2"
+    },
+    {
+      "bbox": [
+        124,
+        559,
+        59,
+        10
+      ],
+      "id": "r023",
+      "kind": "text",
+      "role": "table-cell",
+      "text": "Canal East"
+    },
+    {
+      "bbox": [
+        252,
+        560,
+        24,
+        9
+      ],
+      "id": "r024",
+      "kind": "text",
+      "role": "table-cell",
+      "text": "67%"
+    },
+    {
+      "bbox": [
+        380,
+        560,
+        21,
+        9
+      ],
+      "id": "r025",
+      "kind": "text",
+      "role": "table-cell",
+      "text": "-0.4"
+    },
+    {
+      "bbox": [
+        123,
+        588,
+        69,
+        9
+      ],
+      "id": "r026",
+      "kind": "text",
+      "role": "table-cell",
+      "text": "Archive Row"
+    },
+    {
+      "bbox": [
+        252,
+        588,
+        24,
+        9
+      ],
+      "id": "r027",
+      "kind": "text",
+      "role": "table-cell",
+      "text": "58%"
+    },
+    {
+      "bbox": [
+        380,
+        588,
+        24,
+        9
+      ],
+      "id": "r028",
+      "kind": "text",
+      "role": "table-cell",
+      "text": "+0.8"
+    },
+    {
+      "bbox": [
+        124,
+        616,
+        67,
+        11
+      ],
+      "id": "r029",
+      "kind": "text",
+      "role": "table-cell",
+      "text": "Harbor Loop"
+    },
+    {
+      "bbox": [
+        252,
+        616,
+        24,
+        9
+      ],
+      "id": "r030",
+      "kind": "text",
+      "role": "table-cell",
+      "text": "73%"
+    },
+    {
+      "bbox": [
+        380,
+        616,
+        24,
+        9
+      ],
+      "id": "r031",
+      "kind": "text",
+      "role": "table-cell",
+      "text": "+1.5"
+    },
+    {
+      "bbox": [
+        604,
+        430,
+        560,
+        212
+      ],
+      "id": "r032",
+      "kind": "semantic",
+      "role": "annotated-chart"
+    },
+    {
+      "bbox": [
+        632,
+        460,
+        158,
+        20
+      ],
+      "id": "r033",
+      "kind": "text",
+      "role": "chart-title",
+      "text": "Signal Stability"
+    },
+    {
+      "bbox": [
+        1048,
+        517,
+        54,
+        9
+      ],
+      "id": "r034",
+      "kind": "text",
+      "role": "chart-label",
+      "text": "OCR floor"
+    },
+    {
+      "bbox": [
+        732,
+        533,
+        36,
+        10
+      ],
+      "id": "r035",
+      "kind": "text",
+      "role": "chart-label",
+      "text": "motion"
+    },
+    {
+      "bbox": [
+        896,
+        487,
+        53,
+        12
+      ],
+      "id": "r036",
+      "kind": "text",
+      "role": "chart-label",
+      "text": "loop quiet"
+    }
+  ],
+  "seed": 20260424,
+  "semantic_region_count": 3,
+  "split": "train",
+  "template": "article",
+  "text_region_count": 34,
+  "track": "track-d",
+  "width": 1280
+}

@@ -1,0 +1,543 @@
+{
+  "expected_text": "Realtime Operations Canvas Held-out dashboard fixture with numbers that should not repaint. Revenue $42.8k +12% Latency 548 ms -7% Streams 24 fps stable Failures 0.8% -0.3 GPU Segment Wall Time 900 700 500 300 Experiment Queue c33-edge075 running 0.82 c33-edge15 running 0.82 c33-cap24 queued 0.84 track-d-000 draft 0.75 track-d-001 draft 0.75 track-d-002 heldout 0.82",
+  "height": 736,
+  "id": "trackd-0008-dashboard",
+  "image": "fixtures/track-d/pages/trackd-0008-dashboard.png",
+  "metadata": "fixtures/track-d/metadata/trackd-0008-dashboard.json",
+  "motion_program": {
+    "id": "responsive-squeeze",
+    "motion_mode": "responsive-squeeze",
+    "motion_strength": 0.012
+  },
+  "regions": [
+    {
+      "bbox": [
+        54,
+        40,
+        461,
+        32
+      ],
+      "id": "r000",
+      "kind": "text",
+      "role": "title",
+      "text": "Realtime Operations Canvas"
+    },
+    {
+      "bbox": [
+        58,
+        85,
+        456,
+        15
+      ],
+      "id": "r001",
+      "kind": "text",
+      "role": "subtitle",
+      "text": "Held-out dashboard fixture with numbers that should not repaint."
+    },
+    {
+      "bbox": [
+        54,
+        124,
+        270,
+        120
+      ],
+      "id": "r002",
+      "kind": "semantic",
+      "role": "metric-card"
+    },
+    {
+      "bbox": [
+        76,
+        147,
+        60,
+        11
+      ],
+      "id": "r003",
+      "kind": "text",
+      "role": "metric-label",
+      "text": "Revenue"
+    },
+    {
+      "bbox": [
+        76,
+        176,
+        98,
+        28
+      ],
+      "id": "r004",
+      "kind": "text",
+      "role": "metric-value",
+      "text": "$42.8k"
+    },
+    {
+      "bbox": [
+        232,
+        191,
+        39,
+        11
+      ],
+      "id": "r005",
+      "kind": "text",
+      "role": "metric-delta",
+      "text": "+12%"
+    },
+    {
+      "bbox": [
+        354,
+        124,
+        270,
+        120
+      ],
+      "id": "r006",
+      "kind": "semantic",
+      "role": "metric-card"
+    },
+    {
+      "bbox": [
+        376,
+        147,
+        53,
+        14
+      ],
+      "id": "r007",
+      "kind": "text",
+      "role": "metric-label",
+      "text": "Latency"
+    },
+    {
+      "bbox": [
+        376,
+        178,
+        109,
+        23
+      ],
+      "id": "r008",
+      "kind": "text",
+      "role": "metric-value",
+      "text": "548 ms"
+    },
+    {
+      "bbox": [
+        532,
+        191,
+        27,
+        11
+      ],
+      "id": "r009",
+      "kind": "text",
+      "role": "metric-delta",
+      "text": "-7%"
+    },
+    {
+      "bbox": [
+        654,
+        124,
+        270,
+        120
+      ],
+      "id": "r010",
+      "kind": "semantic",
+      "role": "metric-card"
+    },
+    {
+      "bbox": [
+        676,
+        147,
+        56,
+        11
+      ],
+      "id": "r011",
+      "kind": "text",
+      "role": "metric-label",
+      "text": "Streams"
+    },
+    {
+      "bbox": [
+        676,
+        178,
+        92,
+        29
+      ],
+      "id": "r012",
+      "kind": "text",
+      "role": "metric-value",
+      "text": "24 fps"
+    },
+    {
+      "bbox": [
+        832,
+        191,
+        43,
+        11
+      ],
+      "id": "r013",
+      "kind": "text",
+      "role": "metric-delta",
+      "text": "stable"
+    },
+    {
+      "bbox": [
+        954,
+        124,
+        270,
+        120
+      ],
+      "id": "r014",
+      "kind": "semantic",
+      "role": "metric-card"
+    },
+    {
+      "bbox": [
+        976,
+        147,
+        53,
+        11
+      ],
+      "id": "r015",
+      "kind": "text",
+      "role": "metric-label",
+      "text": "Failures"
+    },
+    {
+      "bbox": [
+        976,
+        178,
+        73,
+        24
+      ],
+      "id": "r016",
+      "kind": "text",
+      "role": "metric-value",
+      "text": "0.8%"
+    },
+    {
+      "bbox": [
+        1132,
+        191,
+        26,
+        11
+      ],
+      "id": "r017",
+      "kind": "text",
+      "role": "metric-delta",
+      "text": "-0.3"
+    },
+    {
+      "bbox": [
+        54,
+        282,
+        696,
+        384
+      ],
+      "id": "r018",
+      "kind": "semantic",
+      "role": "trend-chart"
+    },
+    {
+      "bbox": [
+        82,
+        314,
+        254,
+        20
+      ],
+      "id": "r019",
+      "kind": "text",
+      "role": "chart-title",
+      "text": "GPU Segment Wall Time"
+    },
+    {
+      "bbox": [
+        104,
+        343,
+        18,
+        8
+      ],
+      "id": "r020",
+      "kind": "text",
+      "role": "axis-label",
+      "text": "900"
+    },
+    {
+      "bbox": [
+        104,
+        431,
+        18,
+        8
+      ],
+      "id": "r021",
+      "kind": "text",
+      "role": "axis-label",
+      "text": "700"
+    },
+    {
+      "bbox": [
+        104,
+        519,
+        18,
+        8
+      ],
+      "id": "r022",
+      "kind": "text",
+      "role": "axis-label",
+      "text": "500"
+    },
+    {
+      "bbox": [
+        104,
+        603,
+        18,
+        8
+      ],
+      "id": "r023",
+      "kind": "text",
+      "role": "axis-label",
+      "text": "300"
+    },
+    {
+      "bbox": [
+        790,
+        282,
+        436,
+        384
+      ],
+      "id": "r024",
+      "kind": "semantic",
+      "role": "run-table"
+    },
+    {
+      "bbox": [
+        818,
+        314,
+        194,
+        20
+      ],
+      "id": "r025",
+      "kind": "text",
+      "role": "table-title",
+      "text": "Experiment Queue"
+    },
+    {
+      "bbox": [
+        822,
+        363,
+        88,
+        14
+      ],
+      "id": "r026",
+      "kind": "text",
+      "role": "run-name",
+      "text": "c33-edge075"
+    },
+    {
+      "bbox": [
+        988,
+        363,
+        50,
+        14
+      ],
+      "id": "r027",
+      "kind": "text",
+      "role": "run-status",
+      "text": "running"
+    },
+    {
+      "bbox": [
+        1128,
+        363,
+        29,
+        11
+      ],
+      "id": "r028",
+      "kind": "text",
+      "role": "run-gate",
+      "text": "0.82"
+    },
+    {
+      "bbox": [
+        822,
+        405,
+        79,
+        14
+      ],
+      "id": "r029",
+      "kind": "text",
+      "role": "run-name",
+      "text": "c33-edge15"
+    },
+    {
+      "bbox": [
+        988,
+        405,
+        50,
+        14
+      ],
+      "id": "r030",
+      "kind": "text",
+      "role": "run-status",
+      "text": "running"
+    },
+    {
+      "bbox": [
+        1128,
+        405,
+        29,
+        11
+      ],
+      "id": "r031",
+      "kind": "text",
+      "role": "run-gate",
+      "text": "0.82"
+    },
+    {
+      "bbox": [
+        822,
+        447,
+        70,
+        14
+      ],
+      "id": "r032",
+      "kind": "text",
+      "role": "run-name",
+      "text": "c33-cap24"
+    },
+    {
+      "bbox": [
+        988,
+        447,
+        50,
+        14
+      ],
+      "id": "r033",
+      "kind": "text",
+      "role": "run-status",
+      "text": "queued"
+    },
+    {
+      "bbox": [
+        1128,
+        447,
+        29,
+        11
+      ],
+      "id": "r034",
+      "kind": "text",
+      "role": "run-gate",
+      "text": "0.84"
+    },
+    {
+      "bbox": [
+        822,
+        489,
+        76,
+        11
+      ],
+      "id": "r035",
+      "kind": "text",
+      "role": "run-name",
+      "text": "track-d-000"
+    },
+    {
+      "bbox": [
+        988,
+        489,
+        31,
+        11
+      ],
+      "id": "r036",
+      "kind": "text",
+      "role": "run-status",
+      "text": "draft"
+    },
+    {
+      "bbox": [
+        1128,
+        489,
+        29,
+        11
+      ],
+      "id": "r037",
+      "kind": "text",
+      "role": "run-gate",
+      "text": "0.75"
+    },
+    {
+      "bbox": [
+        822,
+        531,
+        76,
+        11
+      ],
+      "id": "r038",
+      "kind": "text",
+      "role": "run-name",
+      "text": "track-d-001"
+    },
+    {
+      "bbox": [
+        988,
+        531,
+        31,
+        11
+      ],
+      "id": "r039",
+      "kind": "text",
+      "role": "run-status",
+      "text": "draft"
+    },
+    {
+      "bbox": [
+        1128,
+        531,
+        29,
+        11
+      ],
+      "id": "r040",
+      "kind": "text",
+      "role": "run-gate",
+      "text": "0.75"
+    },
+    {
+      "bbox": [
+        822,
+        573,
+        76,
+        11
+      ],
+      "id": "r041",
+      "kind": "text",
+      "role": "run-name",
+      "text": "track-d-002"
+    },
+    {
+      "bbox": [
+        988,
+        573,
+        50,
+        11
+      ],
+      "id": "r042",
+      "kind": "text",
+      "role": "run-status",
+      "text": "heldout"
+    },
+    {
+      "bbox": [
+        1128,
+        573,
+        29,
+        11
+      ],
+      "id": "r043",
+      "kind": "text",
+      "role": "run-gate",
+      "text": "0.82"
+    }
+  ],
+  "seed": 20268496,
+  "semantic_region_count": 6,
+  "split": "test",
+  "template": "dashboard",
+  "text_region_count": 38,
+  "track": "track-d",
+  "width": 1280
+}

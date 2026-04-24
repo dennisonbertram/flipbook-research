@@ -428,6 +428,10 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             return output_path.read_bytes(), encode_ms
 
     device = "cuda"
+    seed = int(config.get("seed", 0))
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
     torch.backends.cuda.matmul.allow_tf32 = True
     train_w, train_h = parse_resolution(config["train_resolution"])
     steps = int(config["steps"])
@@ -794,6 +798,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "freq_bands": int(config["freq_bands"]),
         "time_bands": int(config["time_bands"]),
         "lr": float(config["lr"]),
+        "seed": seed,
         "flow_scale": flow_scale,
         "motion_mode": motion_mode,
         "motion_strength": motion_strength,
@@ -878,6 +883,7 @@ def main(
     text_box_min_conf: float = 55.0,
     min_ocr_similarity: float = 0.5,
     min_motion_delta: float = 0.001,
+    seed: int = 0,
     frames: int = 33,
     fps: int = 24,
 ):
@@ -896,6 +902,7 @@ def main(
         "freq_bands": freq_bands,
         "time_bands": time_bands,
         "lr": lr,
+        "seed": seed,
         "flow_scale": flow_scale,
         "motion_mode": motion_mode,
         "motion_strength": motion_strength,

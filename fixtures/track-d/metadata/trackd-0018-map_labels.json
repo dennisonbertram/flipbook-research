@@ -1,0 +1,273 @@
+{
+  "expected_text": "Harbor Floorplan Rotated labels and irregular regions catch text-box overfitting. North Gallery Archive Hall Canal Studio Service Court Market Walk Gate A Lift 02 Dock labels should stay fixed Scale 1:240",
+  "height": 736,
+  "id": "trackd-0018-map_labels",
+  "image": "fixtures/track-d/pages/trackd-0018-map_labels.png",
+  "metadata": "fixtures/track-d/metadata/trackd-0018-map_labels.json",
+  "motion_program": {
+    "id": "subtle-motion-loop",
+    "motion_mode": "jiggle",
+    "motion_strength": 0.0125
+  },
+  "regions": [
+    {
+      "bbox": [
+        54,
+        48,
+        1172,
+        640
+      ],
+      "id": "r000",
+      "kind": "semantic",
+      "role": "map-page"
+    },
+    {
+      "bbox": [
+        92,
+        90,
+        308,
+        35
+      ],
+      "id": "r001",
+      "kind": "text",
+      "role": "title",
+      "text": "Harbor Floorplan"
+    },
+    {
+      "bbox": [
+        96,
+        135,
+        463,
+        16
+      ],
+      "id": "r002",
+      "kind": "text",
+      "role": "subtitle",
+      "text": "Rotated labels and irregular regions catch text-box overfitting."
+    },
+    {
+      "bbox": [
+        120,
+        220,
+        300,
+        220
+      ],
+      "id": "r003",
+      "kind": "semantic",
+      "label": "North Gallery",
+      "role": "map-region"
+    },
+    {
+      "bbox": [
+        430,
+        190,
+        280,
+        186
+      ],
+      "id": "r004",
+      "kind": "semantic",
+      "label": "Archive Hall",
+      "role": "map-region"
+    },
+    {
+      "bbox": [
+        730,
+        220,
+        390,
+        280
+      ],
+      "id": "r005",
+      "kind": "semantic",
+      "label": "Canal Studio",
+      "role": "map-region"
+    },
+    {
+      "bbox": [
+        220,
+        470,
+        400,
+        150
+      ],
+      "id": "r006",
+      "kind": "semantic",
+      "label": "Service Court",
+      "role": "map-region"
+    },
+    {
+      "bbox": [
+        650,
+        520,
+        410,
+        118
+      ],
+      "id": "r007",
+      "kind": "semantic",
+      "label": "Market Walk",
+      "role": "map-region"
+    },
+    {
+      "bbox": [
+        420,
+        300,
+        310,
+        46
+      ],
+      "id": "r008",
+      "kind": "semantic",
+      "role": "corridor"
+    },
+    {
+      "bbox": [
+        560,
+        376,
+        60,
+        144
+      ],
+      "id": "r009",
+      "kind": "semantic",
+      "role": "corridor"
+    },
+    {
+      "bbox": [
+        620,
+        552,
+        30,
+        52
+      ],
+      "id": "r010",
+      "kind": "semantic",
+      "role": "corridor"
+    },
+    {
+      "bbox": [
+        710,
+        340,
+        70,
+        70
+      ],
+      "id": "r011",
+      "kind": "semantic",
+      "role": "corridor"
+    },
+    {
+      "angle": -8,
+      "bbox": [
+        193,
+        303,
+        155,
+        54
+      ],
+      "id": "r012",
+      "kind": "text",
+      "role": "label",
+      "text": "North Gallery"
+    },
+    {
+      "angle": 5,
+      "bbox": [
+        503,
+        265,
+        135,
+        39
+      ],
+      "id": "r013",
+      "kind": "text",
+      "role": "label",
+      "text": "Archive Hall"
+    },
+    {
+      "angle": 12,
+      "bbox": [
+        844,
+        323,
+        163,
+        63
+      ],
+      "id": "r014",
+      "kind": "text",
+      "role": "label",
+      "text": "Canal Studio"
+    },
+    {
+      "angle": -3,
+      "bbox": [
+        358,
+        531,
+        144,
+        35
+      ],
+      "id": "r015",
+      "kind": "text",
+      "role": "label",
+      "text": "Service Court"
+    },
+    {
+      "angle": 2,
+      "bbox": [
+        783,
+        569,
+        130,
+        33
+      ],
+      "id": "r016",
+      "kind": "text",
+      "role": "label",
+      "text": "Market Walk"
+    },
+    {
+      "bbox": [
+        124,
+        192,
+        40,
+        10
+      ],
+      "id": "r017",
+      "kind": "text",
+      "role": "map-note",
+      "text": "Gate A"
+    },
+    {
+      "bbox": [
+        644,
+        404,
+        35,
+        10
+      ],
+      "id": "r018",
+      "kind": "text",
+      "role": "map-note",
+      "text": "Lift 02"
+    },
+    {
+      "bbox": [
+        812,
+        156,
+        168,
+        13
+      ],
+      "id": "r019",
+      "kind": "text",
+      "role": "map-note",
+      "text": "Dock labels should stay fixed"
+    },
+    {
+      "bbox": [
+        1000,
+        652,
+        69,
+        10
+      ],
+      "id": "r020",
+      "kind": "text",
+      "role": "map-note",
+      "text": "Scale 1:240"
+    }
+  ],
+  "seed": 20278586,
+  "semantic_region_count": 10,
+  "split": "test",
+  "template": "map_labels",
+  "text_region_count": 11,
+  "track": "track-d",
+  "width": 1280
+}

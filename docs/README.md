@@ -19,6 +19,7 @@ This directory keeps the research organized around testable questions. The curre
 - `evaluation/neural-canvas-eval-framework.md` defines the scorecard for neural canvas experiments.
 - `experiments/track-a/README.md` defines the Track A experiment-log format.
 - `experiments/track-c/README.md` defines the Track C neural canvas experiment-log format.
+- `experiments/track-d/README.md` defines the Track D held-out fixture and generalization experiment format.
 - `benchmarks/nano-banana-latency-2026-04-24.md` records Google Nano Banana latency, 512-output, and simple-illustration tests.
 - `benchmarks/track-a-ltx-modal-2026-04-24.md` records the first real Modal/LTX Track A benchmark run.
 - `benchmarks/track-c-c0-neural-canvas-2026-04-24.md` records the first overfit neural canvas renderer benchmark.

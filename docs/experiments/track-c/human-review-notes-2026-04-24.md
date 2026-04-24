@@ -245,3 +245,30 @@ Reference:
 ```text
 docs/research/track-d-general-neural-canvas.md
 ```
+
+## C33 Result And C35 Stress Pivot
+
+Completed C33 highlights:
+
+```text
+c33-general-flow-014-edge1: OCR 0.8767, segment 565.333ms, motion_delta 0.0371, pass
+c33-general-responsive-012-edge1: OCR 0.8676, segment 570.907ms, motion_delta 0.0405, pass
+c33-general-flow-014-edge05: OCR 0.8430, segment 559.672ms, motion_delta 0.0370, pass
+c33-text-flow-0135-box6: OCR 0.8479, segment 545.589ms, motion_delta 0.0379, pass
+```
+
+Interpretation:
+
+- The best pure no-OCR run now beats the earlier text-box-weighted C30 local-motion score.
+- This is excellent renderer evidence, but the current best case is still mostly local wiggle.
+- Local wiggle can hide failures that show up when the viewport moves, the frame scales, or text must be repositioned.
+
+Decision:
+
+- Treat local wiggle as a control, not the main proof.
+- Make C35 primarily an aggressive movement suite:
+  - viewport zoom/pan at multiple amplitudes
+  - global frame-scale resize/reposition pressure
+  - responsive squeeze plus viewport zoom
+  - one local-motion control for comparison
+- Keep all C35 primary tests on the pure no-OCR path: no text boxes, no masks, no anchors.

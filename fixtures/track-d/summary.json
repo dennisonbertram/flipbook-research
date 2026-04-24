@@ -1,0 +1,17 @@
+{
+  "count": 21,
+  "splits": {
+    "test": 4,
+    "train": 15,
+    "val": 2
+  },
+  "templates": {
+    "article": 3,
+    "dashboard": 3,
+    "diagram": 3,
+    "illustration": 3,
+    "map_labels": 3,
+    "microtext": 3,
+    "product_grid": 3
+  }
+}
