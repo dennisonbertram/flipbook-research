@@ -1,88 +1,159 @@
 {
-  "updated_utc": "2026-04-24T20:30:28+00:00",
+  "updated_utc": "2026-04-24T20:36:45+00:00",
   "active_sessions": [
     "clawtest",
     "track-c-autoresearch",
-    "track-c-c42-frame-scale-0125-edge09-freq10-train1536-seed3-cosine",
-    "track-c-c42-frame-scale-014-edge09-freq10-train1536-clip1",
-    "track-c-c42-frame-scale-014-edge09-freq10-train1536-clip1-seed1",
-    "track-c-c42-frame-scale-014-edge09-freq10-train1536-cosine",
-    "track-c-c42-frame-scale-014-edge09-freq10-train1536-cosine-seed1",
-    "track-c-c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine",
-    "track-c-c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine-seed1",
-    "track-c-c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine",
-    "track-c-c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine-seed1",
-    "track-c-c42-frame-scale-016-edge09-freq10-train1536-lr007-cosine"
+    "track-c-c43-frame-scale-014-edge09-freq10-train1536-clip05",
+    "track-c-c43-frame-scale-014-edge09-freq10-train1536-clip05-seed1",
+    "track-c-c43-frame-scale-014-edge09-freq10-train1536-clip05-seed2",
+    "track-c-c43-frame-scale-014-edge09-freq10-train1536-clip05-seed3",
+    "track-c-c43-frame-scale-014-edge09-freq10-train1536-clip1-seed2",
+    "track-c-c43-frame-scale-014-edge09-freq10-train1536-clip1-seed3",
+    "track-c-c43-frame-scale-014-edge09-freq10-train1536-clip2",
+    "track-c-c43-frame-scale-014-edge09-freq10-train1536-clip2-seed1",
+    "track-c-c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1",
+    "track-c-c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1-seed1",
+    "track-c-github-sync"
   ],
   "experiments": [
+    {
+      "label": "c43-frame-scale-014-edge09-freq10-train1536-clip05",
+      "session": "track-c-c43-frame-scale-014-edge09-freq10-train1536-clip05",
+      "log": "docs/experiments/track-c/c43-frame-scale-014-edge09-freq10-train1536-clip05.log",
+      "done": false,
+      "notes": "C43 clipping robustness: grad clip 0.5 at the hard 0.14 train1536/freq10 bracket."
+    },
+    {
+      "label": "c43-frame-scale-014-edge09-freq10-train1536-clip05-seed1",
+      "session": "track-c-c43-frame-scale-014-edge09-freq10-train1536-clip05-seed1",
+      "log": "docs/experiments/track-c/c43-frame-scale-014-edge09-freq10-train1536-clip05-seed1.log",
+      "done": false,
+      "notes": "C43 clipping robustness: grad clip 0.5 seed1 repeat at the hard 0.14 bracket."
+    },
+    {
+      "label": "c43-frame-scale-014-edge09-freq10-train1536-clip05-seed2",
+      "session": "track-c-c43-frame-scale-014-edge09-freq10-train1536-clip05-seed2",
+      "log": "docs/experiments/track-c/c43-frame-scale-014-edge09-freq10-train1536-clip05-seed2.log",
+      "done": false,
+      "notes": "C43 clipping robustness: grad clip 0.5 seed2 repeat at the hard 0.14 bracket."
+    },
+    {
+      "label": "c43-frame-scale-014-edge09-freq10-train1536-clip05-seed3",
+      "session": "track-c-c43-frame-scale-014-edge09-freq10-train1536-clip05-seed3",
+      "log": "docs/experiments/track-c/c43-frame-scale-014-edge09-freq10-train1536-clip05-seed3.log",
+      "done": false,
+      "notes": "C43 clipping robustness: grad clip 0.5 seed3 repeat at the hard 0.14 bracket."
+    },
+    {
+      "label": "c43-frame-scale-014-edge09-freq10-train1536-clip1-seed2",
+      "session": "track-c-c43-frame-scale-014-edge09-freq10-train1536-clip1-seed2",
+      "log": "docs/experiments/track-c/c43-frame-scale-014-edge09-freq10-train1536-clip1-seed2.log",
+      "done": false,
+      "notes": "C43 clipping robustness: grad clip 1.0 seed2 repeat after C42 seed1 success."
+    },
+    {
+      "label": "c43-frame-scale-014-edge09-freq10-train1536-clip1-seed3",
+      "session": "track-c-c43-frame-scale-014-edge09-freq10-train1536-clip1-seed3",
+      "log": "docs/experiments/track-c/c43-frame-scale-014-edge09-freq10-train1536-clip1-seed3.log",
+      "done": false,
+      "notes": "C43 clipping robustness: grad clip 1.0 seed3 repeat after C42 seed1 success."
+    },
+    {
+      "label": "c43-frame-scale-014-edge09-freq10-train1536-clip2",
+      "session": "track-c-c43-frame-scale-014-edge09-freq10-train1536-clip2",
+      "log": "docs/experiments/track-c/c43-frame-scale-014-edge09-freq10-train1536-clip2.log",
+      "done": false,
+      "notes": "C43 clipping robustness: looser grad clip 2.0 at the hard 0.14 bracket."
+    },
+    {
+      "label": "c43-frame-scale-014-edge09-freq10-train1536-clip2-seed1",
+      "session": "track-c-c43-frame-scale-014-edge09-freq10-train1536-clip2-seed1",
+      "log": "docs/experiments/track-c/c43-frame-scale-014-edge09-freq10-train1536-clip2-seed1.log",
+      "done": false,
+      "notes": "C43 clipping robustness: looser grad clip 2.0 seed1 repeat at the hard 0.14 bracket."
+    },
+    {
+      "label": "c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1",
+      "session": "track-c-c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1",
+      "log": "docs/experiments/track-c/c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1.log",
+      "done": false,
+      "notes": "C43 clipping robustness: combine lr007 with grad clip 1.0 at the hard 0.14 bracket."
+    },
+    {
+      "label": "c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1-seed1",
+      "session": "track-c-c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1-seed1",
+      "log": "docs/experiments/track-c/c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1-seed1.log",
+      "done": false,
+      "notes": "C43 clipping robustness: combine lr007 with grad clip 1.0 seed1 repeat."
+    },
     {
       "label": "c42-frame-scale-014-edge09-freq10-train1536-cosine",
       "session": "track-c-c42-frame-scale-014-edge09-freq10-train1536-cosine",
       "log": "docs/experiments/track-c/c42-frame-scale-014-edge09-freq10-train1536-cosine.log",
-      "done": false,
+      "done": true,
       "notes": "C42 optimizer schedule: cosine LR decay at the fragile 0.14 train1536/freq10 bracket."
     },
     {
       "label": "c42-frame-scale-014-edge09-freq10-train1536-cosine-seed1",
       "session": "track-c-c42-frame-scale-014-edge09-freq10-train1536-cosine-seed1",
       "log": "docs/experiments/track-c/c42-frame-scale-014-edge09-freq10-train1536-cosine-seed1.log",
-      "done": false,
+      "done": true,
       "notes": "C42 optimizer schedule: cosine LR decay seed repeat at the 0.14 train1536/freq10 bracket."
     },
     {
       "label": "c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine",
       "session": "track-c-c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine",
       "log": "docs/experiments/track-c/c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine.log",
-      "done": false,
+      "done": true,
       "notes": "C42 optimizer schedule: lower LR plus cosine decay at the 0.14 train1536/freq10 bracket."
     },
     {
       "label": "c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine-seed1",
       "session": "track-c-c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine-seed1",
       "log": "docs/experiments/track-c/c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine-seed1.log",
-      "done": false,
+      "done": true,
       "notes": "C42 optimizer schedule: lower LR plus cosine decay seed repeat for the 0.14 bracket."
     },
     {
       "label": "c42-frame-scale-014-edge09-freq10-train1536-clip1",
       "session": "track-c-c42-frame-scale-014-edge09-freq10-train1536-clip1",
       "log": "docs/experiments/track-c/c42-frame-scale-014-edge09-freq10-train1536-clip1.log",
-      "done": false,
+      "done": true,
       "notes": "C42 optimizer schedule: gradient clipping at the 0.14 train1536/freq10 bracket."
     },
     {
       "label": "c42-frame-scale-014-edge09-freq10-train1536-clip1-seed1",
       "session": "track-c-c42-frame-scale-014-edge09-freq10-train1536-clip1-seed1",
       "log": "docs/experiments/track-c/c42-frame-scale-014-edge09-freq10-train1536-clip1-seed1.log",
-      "done": false,
+      "done": true,
       "notes": "C42 optimizer schedule: gradient clipping seed repeat at the 0.14 train1536/freq10 bracket."
     },
     {
       "label": "c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine",
       "session": "track-c-c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine",
       "log": "docs/experiments/track-c/c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine.log",
-      "done": false,
+      "done": true,
       "notes": "C42 optimizer schedule: freq12 plus lower LR/cosine at the 0.14 bracket."
     },
     {
       "label": "c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine-seed1",
       "session": "track-c-c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine-seed1",
       "log": "docs/experiments/track-c/c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine-seed1.log",
-      "done": false,
+      "done": true,
       "notes": "C42 optimizer schedule: freq12 plus lower LR/cosine seed repeat at the 0.14 bracket."
     },
     {
       "label": "c42-frame-scale-0125-edge09-freq10-train1536-seed3-cosine",
       "session": "track-c-c42-frame-scale-0125-edge09-freq10-train1536-seed3-cosine",
       "log": "docs/experiments/track-c/c42-frame-scale-0125-edge09-freq10-train1536-seed3-cosine.log",
-      "done": false,
+      "done": true,
       "notes": "C42 robustness: cosine LR on the weak 0.125 seed3 repeat."
     },
     {
       "label": "c42-frame-scale-016-edge09-freq10-train1536-lr007-cosine",
       "session": "track-c-c42-frame-scale-016-edge09-freq10-train1536-lr007-cosine",
       "log": "docs/experiments/track-c/c42-frame-scale-016-edge09-freq10-train1536-lr007-cosine.log",
-      "done": false,
+      "done": true,
       "notes": "C42 strong-resize optimizer schedule: lower LR/cosine on the 0.16 bracket."
     },
     {
