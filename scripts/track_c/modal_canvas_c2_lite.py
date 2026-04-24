@@ -437,6 +437,10 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     steps = int(config["steps"])
     batch_size = int(config["batch_size"])
     flow_scale = float(config["flow_scale"])
+    base_lr = float(config["lr"])
+    lr_schedule = str(config.get("lr_schedule", "constant"))
+    min_lr_ratio = float(config.get("min_lr_ratio", 0.1))
+    grad_clip = float(config.get("grad_clip", 0.0))
     motion_mode = str(config.get("motion_mode", "jiggle"))
     motion_strength = float(config.get("motion_strength", flow_scale))
     video_viewport_mode = str(config.get("video_viewport_mode", "static"))
@@ -557,10 +561,15 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         flow_scale=flow_scale * 1.4,
     ).to(device)
 
-    optimizer = torch.optim.AdamW(model.parameters(), lr=float(config["lr"]), weight_decay=0.0)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=base_lr, weight_decay=0.0)
     compile_start = perf_counter()
     losses = []
     for step in range(steps):
+        if lr_schedule == "cosine":
+            progress = min(1.0, step / max(1, steps - 1))
+            lr_scale = min_lr_ratio + 0.5 * (1.0 - min_lr_ratio) * (1.0 + float(np.cos(np.pi * progress)))
+            for group in optimizer.param_groups:
+                group["lr"] = base_lr * lr_scale
         text_count = max(0, min(batch_size, int(batch_size * text_box_sample_ratio))) if text_has_pixels else 0
         remaining = batch_size - text_count
         edge_count = max(0, min(remaining, int(batch_size * edge_sample_ratio)))
@@ -595,6 +604,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             loss = F.mse_loss(pred, truth)
         optimizer.zero_grad(set_to_none=True)
         loss.backward()
+        if grad_clip > 0.0:
+            torch.nn.utils.clip_grad_norm_(model.parameters(), grad_clip)
         optimizer.step()
         if step % max(1, steps // 20) == 0 or step == steps - 1:
             losses.append({"step": step, "mse": float(loss.detach().cpu())})
@@ -814,7 +825,10 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "hidden": int(config["hidden"]),
         "freq_bands": int(config["freq_bands"]),
         "time_bands": int(config["time_bands"]),
-        "lr": float(config["lr"]),
+        "lr": base_lr,
+        "lr_schedule": lr_schedule,
+        "min_lr_ratio": min_lr_ratio,
+        "grad_clip": grad_clip,
         "seed": seed,
         "flow_scale": flow_scale,
         "motion_mode": motion_mode,
@@ -878,6 +892,9 @@ def main(
     freq_bands: int = 8,
     time_bands: int = 4,
     lr: float = 0.01,
+    lr_schedule: str = "constant",
+    min_lr_ratio: float = 0.1,
+    grad_clip: float = 0.0,
     flow_scale: float = 0.006,
     motion_mode: str = "jiggle",
     motion_strength: float = -1.0,
@@ -921,6 +938,9 @@ def main(
         "freq_bands": freq_bands,
         "time_bands": time_bands,
         "lr": lr,
+        "lr_schedule": lr_schedule,
+        "min_lr_ratio": min_lr_ratio,
+        "grad_clip": grad_clip,
         "seed": seed,
         "flow_scale": flow_scale,
         "motion_mode": motion_mode,

@@ -540,3 +540,48 @@ c41-frame-scale-014-edge09-freq10-train1536-seed2
 c41-frame-scale-014-edge09-freq10-train1536-seed3
 c41-frame-scale-016-edge09-freq10-train1536-lr007
 ```
+
+## C41 Optimizer Stability Results
+
+Completed C41 results:
+
+```text
+c41-frame-scale-0125-edge09-freq10-train1536-seed2: OCR 0.7097, segment 561.222ms, motion_delta 0.0579, pass
+c41-frame-scale-014-edge09-freq10-train1536-lr007-seed1: OCR 0.6849, segment 561.626ms, motion_delta 0.0597, pass
+c41-frame-scale-014-edge09-freq12-train1536-seed1: OCR 0.6452, segment 564.720ms, motion_delta 0.0586, pass
+c41-frame-scale-014-edge09-freq10-train1536-lr005-seed1: OCR 0.6419, segment 575.406ms, motion_delta 0.0604, pass
+c41-frame-scale-014-edge09-freq10-train1536-seed3: OCR 0.6267, segment 585.656ms, motion_delta 0.0593, pass
+c41-frame-scale-014-edge09-freq10-train1536-seed2: OCR 0.6083, segment 516.502ms, motion_delta 0.0594, quality_fail
+c41-frame-scale-014-edge09-freq10-train1536-lr007: OCR 0.5769, segment 575.461ms, motion_delta 0.0594, quality_fail
+c41-frame-scale-016-edge09-freq10-train1536-lr007: OCR 0.5673, segment 563.275ms, motion_delta 0.0604, pass
+c41-frame-scale-014-edge09-freq10-train1536-lr005: OCR 0.4571, segment 564.228ms, motion_delta 0.0602, quality_fail
+c41-frame-scale-0125-edge09-freq10-train1536-seed3: OCR 0.6636, segment 563.232ms, motion_delta 0.0578, quality_fail
+```
+
+Interpretation:
+
+- The `0.125` denser-canvas family is meaningfully robust, but not perfectly stable: seeds land between OCR `0.6636` and `0.7222`.
+- The `0.14` family is recoverable but unstable. Lower LR rescues seed `1`, while hurting seed `0`.
+- Constant LR is probably the wrong control knob; the next test should try schedules and gradient clipping.
+- The current model can handle `0.16` resize at pass-level OCR, but not yet with the quality we want.
+
+Decision:
+
+- Keep the `1536x864 + freq10` baseline.
+- Test optimizer schedules before changing architecture again.
+- C42 should try cosine LR decay, lower-LR cosine, and gradient clipping across the fragile `0.14` bracket and the weak `0.125` seed.
+
+Next experiments:
+
+```text
+c42-frame-scale-014-edge09-freq10-train1536-cosine
+c42-frame-scale-014-edge09-freq10-train1536-cosine-seed1
+c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine
+c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine-seed1
+c42-frame-scale-014-edge09-freq10-train1536-clip1
+c42-frame-scale-014-edge09-freq10-train1536-clip1-seed1
+c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine
+c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine-seed1
+c42-frame-scale-0125-edge09-freq10-train1536-seed3-cosine
+c42-frame-scale-016-edge09-freq10-train1536-lr007-cosine
+```
