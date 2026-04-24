@@ -17,10 +17,10 @@ Local-motion winner:
   status:  pass
 
 Resize/reposition stress:
-  run:     20260424T201039058492Z-c2-lite-glyph-static-layout-frame-scale-c39-frame-scale-0125-edge09-freq10-train1536-1536x864-s5500
-  segment: 571.260ms
-  OCR F1:  0.7000
-  motion:  0.0578
+  run:     20260424T201700836238Z-c2-lite-glyph-static-layout-frame-scale-c40-frame-scale-0125-edge09-freq10-train1536-seed1-1536x864-s5500
+  segment: 559.324ms
+  OCR F1:  0.7222
+  motion:  0.0574
   status:  pass
 ```
 
@@ -61,6 +61,8 @@ C3.8 moves from parameter bracketing to model/render diagnosis. The best fast re
 C3.9 combines the winning signals. The best result is now `c39-frame-scale-0125-edge09-freq10-train1536` at OCR `0.7000`, segment `571.260ms`, and motion `0.0562`. More importantly, the harder `0.14` bracket reaches OCR `0.6667` at segment `560.830ms` with `freq10 + 1536x864` training. `1.75x` supersampling also passes at `0.14` with OCR `0.6635`, but it is slower at `1191.003ms`, so denser latent training is the cleaner model-layer path.
 
 C4.0 focuses on the denser-canvas path: seed robustness, a `freq12` ladder, lighter edge weighting, a `1920x1088` latent-resolution test, and stronger `0.145/0.16` resize stress.
+
+C4.0 improves the best `0.125` resize result again: seed `1` of `1536x864 + freq10` reaches OCR `0.7222`, segment `559.324ms`, and motion `0.0574`. `freq12` at the same bracket is also strong at OCR `0.7032`. The harder `0.14` bracket remains unstable, with seed `1` collapsing to OCR `0.3143` after seed `0` passed in C39; `0.16` still passes at OCR `0.5660`. C4.1 focuses on optimizer stability and seed variance rather than bigger canvases, since `1920x1088` regressed.
 
 Suggested `results.tsv` header:
 
