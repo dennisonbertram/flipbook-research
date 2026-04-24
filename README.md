@@ -6,6 +6,18 @@ See the tweet that got me excited: https://x.com/zan2434/status/2046982383430496
 
 The core investigation is whether we can render interactive visual pages as pixels from a learned canvas, without repainting the entire screen through a video model every frame.
 
+Current progress examples: 
+
+Rendered ~2.5x realtime by the model!
+
+https://github.com/user-attachments/assets/6fcdb84c-d5e7-40e3-b885-a03fd29fcea6
+
+https://github.com/user-attachments/assets/328edda6-f908-4b04-9333-1b11749a1f04
+
+
+Initial results: 
+
+
 ## Current Direction
 
 Track C is the most promising path:
