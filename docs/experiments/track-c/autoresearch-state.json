@@ -1,89 +1,158 @@
 {
-  "updated_utc": "2026-04-24T19:51:41+00:00",
+  "updated_utc": "2026-04-24T19:58:59+00:00",
   "active_sessions": [
     "clawtest",
     "track-c-autoresearch",
-    "track-c-c36-frame-scale-014-edge075",
-    "track-c-c36-frame-scale-014-edge09",
-    "track-c-c36-frame-scale-014-edge1",
-    "track-c-c36-frame-scale-016-edge075",
-    "track-c-c36-frame-scale-016-edge09",
-    "track-c-c36-frame-scale-016-edge09-s6000",
-    "track-c-c36-frame-scale-018-edge05",
-    "track-c-c36-frame-scale-018-edge075",
-    "track-c-c36-learned-frame-scale-006-flow04",
-    "track-c-c36-learned-frame-scale-008-flow05",
-    "track-c-github-sync"
+    "track-c-c37-frame-scale-012-edge09-s6000",
+    "track-c-c37-frame-scale-0125-edge09",
+    "track-c-c37-frame-scale-013-edge09",
+    "track-c-c37-frame-scale-0135-edge09",
+    "track-c-c37-frame-scale-014-edge075-pan000",
+    "track-c-c37-frame-scale-014-edge075-s6000",
+    "track-c-c37-frame-scale-014-edge09-pan000",
+    "track-c-c37-frame-scale-014-edge09-pan018",
+    "track-c-c37-frame-scale-014-edge09-s6000",
+    "track-c-c37-frame-scale-016-edge075-s6000"
   ],
   "experiments": [
+    {
+      "label": "c37-frame-scale-012-edge09-s6000",
+      "session": "track-c-c37-frame-scale-012-edge09-s6000",
+      "log": "docs/experiments/track-c/c37-frame-scale-012-edge09-s6000.log",
+      "done": false,
+      "notes": "C37 resize refinement: repeat the best C35 0.12/edge09 bracket with more optimization steps."
+    },
+    {
+      "label": "c37-frame-scale-0125-edge09",
+      "session": "track-c-c37-frame-scale-0125-edge09",
+      "log": "docs/experiments/track-c/c37-frame-scale-0125-edge09.log",
+      "done": false,
+      "notes": "C37 resize refinement: locate the cliff just above the C35 0.12 pass."
+    },
+    {
+      "label": "c37-frame-scale-013-edge09",
+      "session": "track-c-c37-frame-scale-013-edge09",
+      "log": "docs/experiments/track-c/c37-frame-scale-013-edge09.log",
+      "done": false,
+      "notes": "C37 resize refinement: mid-point between C35 0.12 and C36 0.14."
+    },
+    {
+      "label": "c37-frame-scale-0135-edge09",
+      "session": "track-c-c37-frame-scale-0135-edge09",
+      "log": "docs/experiments/track-c/c37-frame-scale-0135-edge09.log",
+      "done": false,
+      "notes": "C37 resize refinement: upper mid-point before the C36 0.14 quality drop."
+    },
+    {
+      "label": "c37-frame-scale-014-edge09-s6000",
+      "session": "track-c-c37-frame-scale-014-edge09-s6000",
+      "log": "docs/experiments/track-c/c37-frame-scale-014-edge09-s6000.log",
+      "done": false,
+      "notes": "C37 resize refinement: test whether more steps rescue the C36 0.14/edge09 setting."
+    },
+    {
+      "label": "c37-frame-scale-014-edge075-s6000",
+      "session": "track-c-c37-frame-scale-014-edge075-s6000",
+      "log": "docs/experiments/track-c/c37-frame-scale-014-edge075-s6000.log",
+      "done": false,
+      "notes": "C37 resize refinement: more steps on the lighter-edge 0.14 bracket."
+    },
+    {
+      "label": "c37-frame-scale-016-edge075-s6000",
+      "session": "track-c-c37-frame-scale-016-edge075-s6000",
+      "log": "docs/experiments/track-c/c37-frame-scale-016-edge075-s6000.log",
+      "done": false,
+      "notes": "C37 resize refinement: check whether the 0.16 strong-resize pass improves with more steps."
+    },
+    {
+      "label": "c37-frame-scale-014-edge09-pan000",
+      "session": "track-c-c37-frame-scale-014-edge09-pan000",
+      "log": "docs/experiments/track-c/c37-frame-scale-014-edge09-pan000.log",
+      "done": false,
+      "notes": "C37 resize isolation: remove pan at 0.14/edge09 to separate scaling from repositioning."
+    },
+    {
+      "label": "c37-frame-scale-014-edge09-pan018",
+      "session": "track-c-c37-frame-scale-014-edge09-pan018",
+      "log": "docs/experiments/track-c/c37-frame-scale-014-edge09-pan018.log",
+      "done": false,
+      "notes": "C37 resize isolation: reduced pan at 0.14/edge09 to quantify scale-plus-reposition cost."
+    },
+    {
+      "label": "c37-frame-scale-014-edge075-pan000",
+      "session": "track-c-c37-frame-scale-014-edge075-pan000",
+      "log": "docs/experiments/track-c/c37-frame-scale-014-edge075-pan000.log",
+      "done": false,
+      "notes": "C37 resize isolation: no-pan version of the lighter-edge 0.14 bracket."
+    },
     {
       "label": "c36-frame-scale-014-edge075",
       "session": "track-c-c36-frame-scale-014-edge075",
       "log": "docs/experiments/track-c/c36-frame-scale-014-edge075.log",
-      "done": false,
+      "done": true,
       "notes": "C36 resize cliff: frame-scale 0.14 with lighter edge weighting, no OCR boxes."
     },
     {
       "label": "c36-frame-scale-014-edge09",
       "session": "track-c-c36-frame-scale-014-edge09",
       "log": "docs/experiments/track-c/c36-frame-scale-014-edge09.log",
-      "done": false,
+      "done": true,
       "notes": "C36 resize cliff: frame-scale 0.14 at the better C35 edge09 setting."
     },
     {
       "label": "c36-frame-scale-014-edge1",
       "session": "track-c-c36-frame-scale-014-edge1",
       "log": "docs/experiments/track-c/c36-frame-scale-014-edge1.log",
-      "done": false,
+      "done": true,
       "notes": "C36 resize cliff: frame-scale 0.14 at edge1 to locate the degradation slope."
     },
     {
       "label": "c36-frame-scale-016-edge075",
       "session": "track-c-c36-frame-scale-016-edge075",
       "log": "docs/experiments/track-c/c36-frame-scale-016-edge075.log",
-      "done": false,
+      "done": true,
       "notes": "C36 strong resize: test whether lighter edge weighting rescues the C35 0.16 near-miss."
     },
     {
       "label": "c36-frame-scale-016-edge09",
       "session": "track-c-c36-frame-scale-016-edge09",
       "log": "docs/experiments/track-c/c36-frame-scale-016-edge09.log",
-      "done": false,
+      "done": true,
       "notes": "C36 strong resize: edge09 version of the 0.16 resize stress."
     },
     {
       "label": "c36-frame-scale-016-edge09-s6000",
       "session": "track-c-c36-frame-scale-016-edge09-s6000",
       "log": "docs/experiments/track-c/c36-frame-scale-016-edge09-s6000.log",
-      "done": false,
+      "done": true,
       "notes": "C36 strong resize: more optimization steps at the best likely 0.16 edge bracket."
     },
     {
       "label": "c36-frame-scale-018-edge075",
       "session": "track-c-c36-frame-scale-018-edge075",
       "log": "docs/experiments/track-c/c36-frame-scale-018-edge075.log",
-      "done": false,
+      "done": true,
       "notes": "C36 over-stress: frame-scale 0.18 with lighter edge weighting to find the hard failure point."
     },
     {
       "label": "c36-frame-scale-018-edge05",
       "session": "track-c-c36-frame-scale-018-edge05",
       "log": "docs/experiments/track-c/c36-frame-scale-018-edge05.log",
-      "done": false,
+      "done": true,
       "notes": "C36 over-stress: frame-scale 0.18 with very light edge weighting."
     },
     {
       "label": "c36-learned-frame-scale-006-flow04",
       "session": "track-c-c36-learned-frame-scale-006-flow04",
       "log": "docs/experiments/track-c/c36-learned-frame-scale-006-flow04.log",
-      "done": false,
+      "done": true,
       "notes": "C36 learned resize: train the neural renderer itself on mild frame-scale motion, no layout transform."
     },
     {
       "label": "c36-learned-frame-scale-008-flow05",
       "session": "track-c-c36-learned-frame-scale-008-flow05",
       "log": "docs/experiments/track-c/c36-learned-frame-scale-008-flow05.log",
-      "done": false,
+      "done": true,
       "notes": "C36 learned resize: stronger learned frame-scale motion with higher flow budget."
     },
     {

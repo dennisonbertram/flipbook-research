@@ -1,35 +1,44 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-24T19:51:41+00:00`
+Updated UTC: `2026-04-24T19:58:59+00:00`
 
 ## Active Sessions
 
 - `clawtest`
 - `track-c-autoresearch`
-- `track-c-c36-frame-scale-014-edge075`
-- `track-c-c36-frame-scale-014-edge09`
-- `track-c-c36-frame-scale-014-edge1`
-- `track-c-c36-frame-scale-016-edge075`
-- `track-c-c36-frame-scale-016-edge09`
-- `track-c-c36-frame-scale-016-edge09-s6000`
-- `track-c-c36-frame-scale-018-edge05`
-- `track-c-c36-frame-scale-018-edge075`
-- `track-c-c36-learned-frame-scale-006-flow04`
-- `track-c-c36-learned-frame-scale-008-flow05`
-- `track-c-github-sync`
+- `track-c-c37-frame-scale-012-edge09-s6000`
+- `track-c-c37-frame-scale-0125-edge09`
+- `track-c-c37-frame-scale-013-edge09`
+- `track-c-c37-frame-scale-0135-edge09`
+- `track-c-c37-frame-scale-014-edge075-pan000`
+- `track-c-c37-frame-scale-014-edge075-s6000`
+- `track-c-c37-frame-scale-014-edge09-pan000`
+- `track-c-c37-frame-scale-014-edge09-pan018`
+- `track-c-c37-frame-scale-014-edge09-s6000`
+- `track-c-c37-frame-scale-016-edge075-s6000`
 
 ## Queue
 
-- `c36-frame-scale-014-edge075`: pending/running - C36 resize cliff: frame-scale 0.14 with lighter edge weighting, no OCR boxes.
-- `c36-frame-scale-014-edge09`: pending/running - C36 resize cliff: frame-scale 0.14 at the better C35 edge09 setting.
-- `c36-frame-scale-014-edge1`: pending/running - C36 resize cliff: frame-scale 0.14 at edge1 to locate the degradation slope.
-- `c36-frame-scale-016-edge075`: pending/running - C36 strong resize: test whether lighter edge weighting rescues the C35 0.16 near-miss.
-- `c36-frame-scale-016-edge09`: pending/running - C36 strong resize: edge09 version of the 0.16 resize stress.
-- `c36-frame-scale-016-edge09-s6000`: pending/running - C36 strong resize: more optimization steps at the best likely 0.16 edge bracket.
-- `c36-frame-scale-018-edge075`: pending/running - C36 over-stress: frame-scale 0.18 with lighter edge weighting to find the hard failure point.
-- `c36-frame-scale-018-edge05`: pending/running - C36 over-stress: frame-scale 0.18 with very light edge weighting.
-- `c36-learned-frame-scale-006-flow04`: pending/running - C36 learned resize: train the neural renderer itself on mild frame-scale motion, no layout transform.
-- `c36-learned-frame-scale-008-flow05`: pending/running - C36 learned resize: stronger learned frame-scale motion with higher flow budget.
+- `c37-frame-scale-012-edge09-s6000`: pending/running - C37 resize refinement: repeat the best C35 0.12/edge09 bracket with more optimization steps.
+- `c37-frame-scale-0125-edge09`: pending/running - C37 resize refinement: locate the cliff just above the C35 0.12 pass.
+- `c37-frame-scale-013-edge09`: pending/running - C37 resize refinement: mid-point between C35 0.12 and C36 0.14.
+- `c37-frame-scale-0135-edge09`: pending/running - C37 resize refinement: upper mid-point before the C36 0.14 quality drop.
+- `c37-frame-scale-014-edge09-s6000`: pending/running - C37 resize refinement: test whether more steps rescue the C36 0.14/edge09 setting.
+- `c37-frame-scale-014-edge075-s6000`: pending/running - C37 resize refinement: more steps on the lighter-edge 0.14 bracket.
+- `c37-frame-scale-016-edge075-s6000`: pending/running - C37 resize refinement: check whether the 0.16 strong-resize pass improves with more steps.
+- `c37-frame-scale-014-edge09-pan000`: pending/running - C37 resize isolation: remove pan at 0.14/edge09 to separate scaling from repositioning.
+- `c37-frame-scale-014-edge09-pan018`: pending/running - C37 resize isolation: reduced pan at 0.14/edge09 to quantify scale-plus-reposition cost.
+- `c37-frame-scale-014-edge075-pan000`: pending/running - C37 resize isolation: no-pan version of the lighter-edge 0.14 bracket.
+- `c36-frame-scale-014-edge075`: done - C36 resize cliff: frame-scale 0.14 with lighter edge weighting, no OCR boxes.
+- `c36-frame-scale-014-edge09`: done - C36 resize cliff: frame-scale 0.14 at the better C35 edge09 setting.
+- `c36-frame-scale-014-edge1`: done - C36 resize cliff: frame-scale 0.14 at edge1 to locate the degradation slope.
+- `c36-frame-scale-016-edge075`: done - C36 strong resize: test whether lighter edge weighting rescues the C35 0.16 near-miss.
+- `c36-frame-scale-016-edge09`: done - C36 strong resize: edge09 version of the 0.16 resize stress.
+- `c36-frame-scale-016-edge09-s6000`: done - C36 strong resize: more optimization steps at the best likely 0.16 edge bracket.
+- `c36-frame-scale-018-edge075`: done - C36 over-stress: frame-scale 0.18 with lighter edge weighting to find the hard failure point.
+- `c36-frame-scale-018-edge05`: done - C36 over-stress: frame-scale 0.18 with very light edge weighting.
+- `c36-learned-frame-scale-006-flow04`: done - C36 learned resize: train the neural renderer itself on mild frame-scale motion, no layout transform.
+- `c36-learned-frame-scale-008-flow05`: done - C36 learned resize: stronger learned frame-scale motion with higher flow budget.
 - `c35-viewport-014-edge1-z006`: done - C35 aggressive viewport stress: no-OCR winner under zoom-pulse viewport movement.
 - `c35-viewport-014-edge1-z010`: done - C35 aggressive viewport stress: larger zoom/pan, still no OCR boxes or masks.
 - `c35-viewport-014-edge1-z014`: done - C35 aggressive viewport stress: high zoom/pan to find query-stability failure modes.
