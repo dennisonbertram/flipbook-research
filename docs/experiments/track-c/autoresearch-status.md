@@ -1,35 +1,25 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-24T19:34:56+00:00`
+Updated UTC: `2026-04-24T19:40:27+00:00`
 
 ## Active Sessions
 
 - `clawtest`
 - `track-c-autoresearch`
-- `track-c-c33-general-flow-0135-edge075`
-- `track-c-c33-general-flow-0135-edge1-cap24h128`
-- `track-c-c33-general-flow-0135-edge1-s6000`
-- `track-c-c33-general-flow-0135-edge15`
-- `track-c-c33-general-flow-014-edge05`
-- `track-c-c33-general-flow-014-edge1`
-- `track-c-c33-general-flow-01425-edge1`
-- `track-c-c33-general-responsive-012-edge1`
-- `track-c-c33-text-flow-0135-box6`
-- `track-c-c33-text-flow-01375-box8`
 - `track-c-github-sync`
 
 ## Queue
 
-- `c33-general-flow-0135-edge075`: pending/running - Scale-up pure neural canvas: bracket the C32 no-OCR winner with slightly lighter edge weighting.
-- `c33-general-flow-0135-edge15`: pending/running - Scale-up pure neural canvas: bracket the C32 no-OCR winner with slightly stronger edge weighting.
-- `c33-general-flow-014-edge1`: pending/running - Scale-up pure neural canvas: push no-OCR flow beyond the C32 winner at the best edge setting.
-- `c33-general-flow-01425-edge1`: pending/running - Scale-up pure neural canvas: find the no-OCR readability cliff above flow 0.014.
-- `c33-general-flow-0135-edge1-s6000`: pending/running - Scale-up pure neural canvas: more optimization steps at the C32 no-OCR winner.
-- `c33-general-flow-0135-edge1-cap24h128`: pending/running - Scale-up pure neural canvas: larger latent canvas/channel capacity on the current no-OCR winner.
-- `c33-general-flow-014-edge05`: pending/running - Scale-up pure neural canvas: push motion with lighter edge weighting after C32 edge05 improved quality.
-- `c33-text-flow-01375-box8`: pending/running - Scale-up bridge: split the gap between C31 box8 success and C32/C31 higher-flow failures.
-- `c33-text-flow-0135-box6`: pending/running - Scale-up bridge: reduce OCR-box loss at the bridge winner flow to see if text boxes can be less dominant.
-- `c33-general-responsive-012-edge1`: pending/running - Scale-up pure neural canvas: no-OCR responsive-squeeze stress at a lower amplitude.
+- `c33-general-flow-0135-edge075`: done - Scale-up pure neural canvas: bracket the C32 no-OCR winner with slightly lighter edge weighting.
+- `c33-general-flow-0135-edge15`: done - Scale-up pure neural canvas: bracket the C32 no-OCR winner with slightly stronger edge weighting.
+- `c33-general-flow-014-edge1`: done - Scale-up pure neural canvas: push no-OCR flow beyond the C32 winner at the best edge setting.
+- `c33-general-flow-01425-edge1`: done - Scale-up pure neural canvas: find the no-OCR readability cliff above flow 0.014.
+- `c33-general-flow-0135-edge1-s6000`: done - Scale-up pure neural canvas: more optimization steps at the C32 no-OCR winner.
+- `c33-general-flow-0135-edge1-cap24h128`: done - Scale-up pure neural canvas: larger latent canvas/channel capacity on the current no-OCR winner.
+- `c33-general-flow-014-edge05`: done - Scale-up pure neural canvas: push motion with lighter edge weighting after C32 edge05 improved quality.
+- `c33-text-flow-01375-box8`: done - Scale-up bridge: split the gap between C31 box8 success and C32/C31 higher-flow failures.
+- `c33-text-flow-0135-box6`: done - Scale-up bridge: reduce OCR-box loss at the bridge winner flow to see if text boxes can be less dominant.
+- `c33-general-responsive-012-edge1`: done - Scale-up pure neural canvas: no-OCR responsive-squeeze stress at a lower amplitude.
 - `c32-general-flow-0125-edge05`: done - General neural-canvas refinement: lighter dense edge weighting around the C31 no-OCR winner.
 - `c32-general-flow-0135-edge1`: done - General neural-canvas refinement: push the best no-OCR edge setting to the bridge winner's motion level.
 - `c32-text-flow-0145-box8`: done - Text-aware learned-flow bridge: push beyond the C31 0.0135 bridge while avoiding render-time masks.

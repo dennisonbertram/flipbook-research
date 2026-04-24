@@ -1,18 +1,8 @@
 {
-  "updated_utc": "2026-04-24T19:34:56+00:00",
+  "updated_utc": "2026-04-24T19:40:27+00:00",
   "active_sessions": [
     "clawtest",
     "track-c-autoresearch",
-    "track-c-c33-general-flow-0135-edge075",
-    "track-c-c33-general-flow-0135-edge1-cap24h128",
-    "track-c-c33-general-flow-0135-edge1-s6000",
-    "track-c-c33-general-flow-0135-edge15",
-    "track-c-c33-general-flow-014-edge05",
-    "track-c-c33-general-flow-014-edge1",
-    "track-c-c33-general-flow-01425-edge1",
-    "track-c-c33-general-responsive-012-edge1",
-    "track-c-c33-text-flow-0135-box6",
-    "track-c-c33-text-flow-01375-box8",
     "track-c-github-sync"
   ],
   "experiments": [
@@ -20,70 +10,70 @@
       "label": "c33-general-flow-0135-edge075",
       "session": "track-c-c33-general-flow-0135-edge075",
       "log": "docs/experiments/track-c/c33-general-flow-0135-edge075.log",
-      "done": false,
+      "done": true,
       "notes": "Scale-up pure neural canvas: bracket the C32 no-OCR winner with slightly lighter edge weighting."
     },
     {
       "label": "c33-general-flow-0135-edge15",
       "session": "track-c-c33-general-flow-0135-edge15",
       "log": "docs/experiments/track-c/c33-general-flow-0135-edge15.log",
-      "done": false,
+      "done": true,
       "notes": "Scale-up pure neural canvas: bracket the C32 no-OCR winner with slightly stronger edge weighting."
     },
     {
       "label": "c33-general-flow-014-edge1",
       "session": "track-c-c33-general-flow-014-edge1",
       "log": "docs/experiments/track-c/c33-general-flow-014-edge1.log",
-      "done": false,
+      "done": true,
       "notes": "Scale-up pure neural canvas: push no-OCR flow beyond the C32 winner at the best edge setting."
     },
     {
       "label": "c33-general-flow-01425-edge1",
       "session": "track-c-c33-general-flow-01425-edge1",
       "log": "docs/experiments/track-c/c33-general-flow-01425-edge1.log",
-      "done": false,
+      "done": true,
       "notes": "Scale-up pure neural canvas: find the no-OCR readability cliff above flow 0.014."
     },
     {
       "label": "c33-general-flow-0135-edge1-s6000",
       "session": "track-c-c33-general-flow-0135-edge1-s6000",
       "log": "docs/experiments/track-c/c33-general-flow-0135-edge1-s6000.log",
-      "done": false,
+      "done": true,
       "notes": "Scale-up pure neural canvas: more optimization steps at the C32 no-OCR winner."
     },
     {
       "label": "c33-general-flow-0135-edge1-cap24h128",
       "session": "track-c-c33-general-flow-0135-edge1-cap24h128",
       "log": "docs/experiments/track-c/c33-general-flow-0135-edge1-cap24h128.log",
-      "done": false,
+      "done": true,
       "notes": "Scale-up pure neural canvas: larger latent canvas/channel capacity on the current no-OCR winner."
     },
     {
       "label": "c33-general-flow-014-edge05",
       "session": "track-c-c33-general-flow-014-edge05",
       "log": "docs/experiments/track-c/c33-general-flow-014-edge05.log",
-      "done": false,
+      "done": true,
       "notes": "Scale-up pure neural canvas: push motion with lighter edge weighting after C32 edge05 improved quality."
     },
     {
       "label": "c33-text-flow-01375-box8",
       "session": "track-c-c33-text-flow-01375-box8",
       "log": "docs/experiments/track-c/c33-text-flow-01375-box8.log",
-      "done": false,
+      "done": true,
       "notes": "Scale-up bridge: split the gap between C31 box8 success and C32/C31 higher-flow failures."
     },
     {
       "label": "c33-text-flow-0135-box6",
       "session": "track-c-c33-text-flow-0135-box6",
       "log": "docs/experiments/track-c/c33-text-flow-0135-box6.log",
-      "done": false,
+      "done": true,
       "notes": "Scale-up bridge: reduce OCR-box loss at the bridge winner flow to see if text boxes can be less dominant."
     },
     {
       "label": "c33-general-responsive-012-edge1",
       "session": "track-c-c33-general-responsive-012-edge1",
       "log": "docs/experiments/track-c/c33-general-responsive-012-edge1.log",
-      "done": false,
+      "done": true,
       "notes": "Scale-up pure neural canvas: no-OCR responsive-squeeze stress at a lower amplitude."
     },
     {
