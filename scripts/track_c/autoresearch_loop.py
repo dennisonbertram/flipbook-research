@@ -413,6 +413,7 @@ def learned_sprite_translation_experiment(
     lr_schedule: str | None = None,
     min_lr_ratio: float | None = None,
     grad_clip: float | None = 0.5,
+    l1_loss_weight: float | None = None,
     edge_ratio: float = 0.09,
     edge_weight: float = 0.9,
     text_box_sample_ratio: float = 0.0,
@@ -422,6 +423,7 @@ def learned_sprite_translation_experiment(
     min_motion: float = 0.025,
 ) -> Experiment:
     clip_note = f", grad clip {grad_clip:g}" if grad_clip is not None else ""
+    l1_note = f", L1 {l1_loss_weight:g}" if l1_loss_weight else ""
     seed_note = f", seed {seed}" if seed else ""
     text_note = ", text-weighted" if text_box_loss_weight > 0 or text_box_sample_ratio > 0 else ""
     return Experiment(
@@ -474,6 +476,7 @@ def learned_layout_reflow_experiment(
     lr_schedule: str | None = None,
     min_lr_ratio: float | None = None,
     grad_clip: float | None = 0.5,
+    l1_loss_weight: float | None = None,
     edge_ratio: float = 0.09,
     edge_weight: float = 0.9,
     text_box_sample_ratio: float = 0.0,
@@ -488,6 +491,7 @@ def learned_layout_reflow_experiment(
     min_motion: float = 0.035,
 ) -> Experiment:
     clip_note = f", grad clip {grad_clip:g}" if grad_clip is not None else ""
+    l1_note = f", L1 {l1_loss_weight:g}" if l1_loss_weight else ""
     seed_note = f", seed {seed}" if seed else ""
     text_note = ", text-weighted" if text_box_loss_weight > 0 or text_box_sample_ratio > 0 else ""
     target_note = ", target-side reflow sampling" if layout_target_sampling or layout_target_weighting else ""
