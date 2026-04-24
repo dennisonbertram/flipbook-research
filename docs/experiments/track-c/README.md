@@ -44,6 +44,8 @@ C3.2 makes the pure no-OCR path the leading candidate: `c32-general-flow-0135-ed
 
 C3.3 found a new pure no-OCR local-motion winner: `c33-general-flow-014-edge1` reaches OCR `0.8767`, segment `565.333ms`, and motion `0.0371`. That is strong but too wiggle-specific. C3.5 pivots the next wave toward aggressive viewport zoom/pan, global frame-scale resize, and responsive squeeze tests so the renderer has to preserve text through query movement and resizing, not just local sinusoidal motion.
 
+C3.5 shows viewport movement is less fragile than resize: all three zoom/pan runs pass with OCR `0.8624-0.8727`, and combined responsive+zoom passes around OCR `0.86`. Frame-scale resize is the active cliff: OCR falls from `0.7558` at strength `0.08` to `0.5806-0.6636` at `0.12`, then `0.4039` at `0.16`. C3.6 focuses on that resize/reposition boundary.
+
 Suggested `results.tsv` header:
 
 ```text

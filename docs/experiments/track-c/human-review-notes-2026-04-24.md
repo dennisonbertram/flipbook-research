@@ -272,3 +272,46 @@ Decision:
   - responsive squeeze plus viewport zoom
   - one local-motion control for comparison
 - Keep all C35 primary tests on the pure no-OCR path: no text boxes, no masks, no anchors.
+
+Completed C35 results:
+
+```text
+c35-viewport-014-edge1-z006: OCR 0.8727, segment 550.121ms, motion_delta 0.0488, pass
+c35-viewport-014-edge1-z010: OCR 0.8624, segment 561.603ms, motion_delta 0.0549, pass
+c35-viewport-014-edge1-z014: OCR 0.8664, segment 521.386ms, motion_delta 0.0608, pass
+c35-responsive-014-edge1-z006: OCR 0.8597, segment 572.338ms, motion_delta 0.0411, pass
+c35-responsive-016-edge1-z008: OCR 0.8636, segment 562.553ms, motion_delta 0.0501, pass
+c35-frame-scale-008-edge1: OCR 0.7558, segment 555.382ms, motion_delta 0.0470, pass
+c35-frame-scale-012-edge09: OCR 0.6636, segment 558.614ms, motion_delta 0.0567, pass
+c35-frame-scale-012-edge1: OCR 0.5806, segment 596.264ms, motion_delta 0.0563, pass
+c35-frame-scale-016-edge1: OCR 0.4039, segment 548.567ms, motion_delta 0.0599, near_miss
+c35-control-wiggle-014-edge1: OCR 0.7854, segment 571.064ms, motion_delta 0.0373, near_miss
+```
+
+Interpretation:
+
+- Viewport zoom/pan is not the weak point; it preserves text better than expected even at the highest C35 zoom.
+- Responsive squeeze plus zoom is also strong on the pure no-OCR path.
+- Global frame-scale resize is the real cliff: 0.08 is comfortable, 0.12 degrades but passes, 0.16 is near the failure boundary.
+- The seeded wiggle control dropped far below the earlier unseeded C33 best, so optimization variance matters and single-seed wins should not be over-trusted.
+
+Next experiments:
+
+```text
+c36-frame-scale-014-edge075
+c36-frame-scale-014-edge09
+c36-frame-scale-014-edge1
+c36-frame-scale-016-edge075
+c36-frame-scale-016-edge09
+c36-frame-scale-016-edge09-s6000
+c36-frame-scale-018-edge075
+c36-frame-scale-018-edge05
+c36-learned-frame-scale-006-flow04
+c36-learned-frame-scale-008-flow05
+```
+
+Decision:
+
+- Focus C36 on the resize/reposition cliff.
+- Keep the main path no-OCR and mask-free.
+- Add two learned frame-scale runs to test whether the renderer can learn nonlocal resize motion directly, rather than only using a canonical canvas query transform.
