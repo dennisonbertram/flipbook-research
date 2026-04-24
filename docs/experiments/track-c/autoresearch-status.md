@@ -1,15 +1,35 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-24T20:47:03+00:00`
+Updated UTC: `2026-04-24T20:52:40+00:00`
 
 ## Active Sessions
 
 - `clawtest`
 - `track-c-autoresearch`
+- `track-c-c44-regions-006-pan018-clip05`
+- `track-c-c44-regions-010-pan024-clip05`
+- `track-c-c44-regions-010-pan024-clip05-seed1`
+- `track-c-c44-regions-010-pan024-clip05-seed2`
+- `track-c-c44-regions-010-pan024-clip1`
+- `track-c-c44-regions-010-pan024-freq12-clip05`
+- `track-c-c44-regions-014-pan030-clip05`
+- `track-c-c44-regions-014-pan030-clip1`
+- `track-c-c44-regions-014-pan030-freq12-clip05`
+- `track-c-c44-regions-016-pan036-clip05`
 - `track-c-github-sync`
 
 ## Queue
 
+- `c44-regions-006-pan018-clip05`: pending/running - C44 independent-region stress: coarse page regions move/scale at separate speeds with strength 0.06, pan 0.018, freq10, grad clip 0.5.
+- `c44-regions-010-pan024-clip05`: pending/running - C44 independent-region stress: coarse page regions move/scale at separate speeds with strength 0.1, pan 0.024, freq10, grad clip 0.5.
+- `c44-regions-014-pan030-clip05`: pending/running - C44 independent-region stress: coarse page regions move/scale at separate speeds with strength 0.14, pan 0.03, freq10, grad clip 0.5.
+- `c44-regions-010-pan024-clip1`: pending/running - C44 independent-region stress: coarse page regions move/scale at separate speeds with strength 0.1, pan 0.024, freq10, grad clip 1.
+- `c44-regions-014-pan030-clip1`: pending/running - C44 independent-region stress: coarse page regions move/scale at separate speeds with strength 0.14, pan 0.03, freq10, grad clip 1.
+- `c44-regions-010-pan024-freq12-clip05`: pending/running - C44 independent-region stress: coarse page regions move/scale at separate speeds with strength 0.1, pan 0.024, freq12, grad clip 0.5.
+- `c44-regions-014-pan030-freq12-clip05`: pending/running - C44 independent-region stress: coarse page regions move/scale at separate speeds with strength 0.14, pan 0.03, freq12, grad clip 0.5.
+- `c44-regions-010-pan024-clip05-seed1`: pending/running - C44 independent-region stress: coarse page regions move/scale at separate speeds with strength 0.1, pan 0.024, freq10, grad clip 0.5, seed 1.
+- `c44-regions-010-pan024-clip05-seed2`: pending/running - C44 independent-region stress: coarse page regions move/scale at separate speeds with strength 0.1, pan 0.024, freq10, grad clip 0.5, seed 2.
+- `c44-regions-016-pan036-clip05`: pending/running - C44 independent-region stress: coarse page regions move/scale at separate speeds with strength 0.16, pan 0.036, freq10, grad clip 0.5.
 - `c43-frame-scale-014-edge09-freq10-train1536-clip05`: done - C43 clipping robustness: grad clip 0.5 at the hard 0.14 train1536/freq10 bracket.
 - `c43-frame-scale-014-edge09-freq10-train1536-clip05-seed1`: done - C43 clipping robustness: grad clip 0.5 seed1 repeat at the hard 0.14 bracket.
 - `c43-frame-scale-014-edge09-freq10-train1536-clip05-seed2`: done - C43 clipping robustness: grad clip 0.5 seed2 repeat at the hard 0.14 bracket.
