@@ -360,3 +360,48 @@ c37-frame-scale-014-edge09-pan000
 c37-frame-scale-014-edge09-pan018
 c37-frame-scale-014-edge075-pan000
 ```
+
+## C37 Resize Bracket Results
+
+Completed C37 results:
+
+```text
+c37-frame-scale-0125-edge09: OCR 0.6573, segment 560.983ms, motion_delta 0.0574, pass
+c37-frame-scale-012-edge09-s6000: OCR 0.6204, segment 541.334ms, motion_delta 0.0563, pass
+c37-frame-scale-014-edge075-pan000: OCR 0.5833, segment 577.247ms, motion_delta 0.0593, pass
+c37-frame-scale-014-edge09-s6000: OCR 0.5860, segment 553.948ms, motion_delta 0.0588, pass
+c37-frame-scale-0135-edge09: OCR 0.4766, segment 594.438ms, motion_delta 0.0581, quality_fail
+c37-frame-scale-014-edge075-s6000: OCR 0.5634, segment 533.535ms, motion_delta 0.0590, pass
+c37-frame-scale-016-edge075-s6000: OCR 0.4828, segment 554.838ms, motion_delta 0.0597, pass
+c37-frame-scale-014-edge09-pan018: OCR 0.2937, segment 521.267ms, motion_delta 0.0601, quality_fail
+c37-frame-scale-013-edge09: OCR 0.5110, segment 525.197ms, motion_delta 0.0577, quality_fail
+c37-frame-scale-014-edge09-pan000: OCR 0.5024, segment 554.766ms, motion_delta 0.0594, quality_fail
+```
+
+Interpretation:
+
+- The strongest resize bracket so far is `0.125/edge09`, not the old local-motion winner.
+- The results are non-monotonic, which points to optimization basin sensitivity or aliasing rather than a clean single-parameter cliff.
+- Removing pan does not automatically fix text. Some no-pan and reduced-pan variants are worse, so pan is not the only culprit.
+- More steps help some stronger-resize cases, especially around `0.14-0.16`, but they do not restore the local-motion OCR range.
+
+Decision:
+
+- Stop spending the next batch on local wiggle.
+- Diagnose the resize failure source directly: aliasing, model capacity, coordinate frequency, and seed variance.
+- Keep the tests pure neural-canvas. No OCR boxes, render-time text masks, line anchors, or word anchors.
+
+Next experiments:
+
+```text
+c38-frame-scale-0125-edge09-aa15
+c38-frame-scale-014-edge09-aa15
+c38-frame-scale-014-edge09-aa2
+c38-frame-scale-016-edge075-aa15
+c38-frame-scale-0125-edge09-cap24h128
+c38-frame-scale-014-edge09-cap24h128
+c38-frame-scale-0125-edge09-freq10
+c38-frame-scale-014-edge09-freq10
+c38-frame-scale-0125-edge09-seed1
+c38-frame-scale-014-edge09-seed1
+```

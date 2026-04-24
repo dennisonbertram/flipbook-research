@@ -54,7 +54,9 @@ C3.5 shows viewport movement is less fragile than resize: all three zoom/pan run
 
 C3.6 confirms that this is not just a wiggle benchmark. Query-space/global frame-scale rendering remains fast and degrades gradually: the best C36 resize bracket is `c36-frame-scale-014-edge09` at OCR `0.5634`, segment `547.378ms`, and motion `0.0592`. Stronger `0.16` resize improves from OCR `0.2657` to `0.4607` with `6000` steps, which suggests optimization helps but does not solve the cliff. Learned frame-scale motion collapses text directly (`0.1215` and `0.0513` OCR), so the next work should not rely on a generic motion field learning nonlocal resize on its own.
 
-C3.7 narrows the resize/reposition boundary. It brackets frame-scale strength `0.12-0.14`, adds `6000`-step repeats at promising points, and isolates no-pan versus reduced-pan variants to measure whether the OCR loss comes mostly from scaling or from scaling plus repositioning.
+C3.7 narrows the resize/reposition boundary. The best result is `c37-frame-scale-0125-edge09` at OCR `0.6573`, segment `560.983ms`, and motion `0.0574`. More steps rescue the `0.14` bracket somewhat (`0.5860`), but the pan/no-pan results are unstable enough to treat the current renderer as optimization-sensitive. The good news is that this is no longer a wiggle result: it is a resize/reposition stress result running faster than realtime.
+
+C3.8 moves from parameter bracketing to model/render diagnosis. It tests whether resize text loss is mostly sampling aliasing (`1.5x` and `2x` neural supersampling), representational capacity (`24` channels, `128` hidden), coordinate frequency (`freq_bands=10`), or seed variance at the `0.125` and `0.14` resize brackets.
 
 Suggested `results.tsv` header:
 
