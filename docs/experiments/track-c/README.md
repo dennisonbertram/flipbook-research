@@ -17,10 +17,10 @@ Local-motion winner:
   status:  pass
 
 Resize/reposition stress:
-  run:     20260424T195856158795Z-c2-lite-glyph-static-layout-frame-scale-c37-frame-scale-0125-edge09-1280x736-s4500
-  segment: 560.983ms
-  OCR F1:  0.6573
-  motion:  0.0574
+  run:     20260424T200522358885Z-c2-lite-glyph-static-layout-frame-scale-c38-frame-scale-0125-edge09-freq10-1280x736-s4500
+  segment: 562.129ms
+  OCR F1:  0.6912
+  motion:  0.0562
   status:  pass
 ```
 
@@ -56,7 +56,9 @@ C3.6 confirms that this is not just a wiggle benchmark. Query-space/global frame
 
 C3.7 narrows the resize/reposition boundary. The best result is `c37-frame-scale-0125-edge09` at OCR `0.6573`, segment `560.983ms`, and motion `0.0574`. More steps rescue the `0.14` bracket somewhat (`0.5860`), but the pan/no-pan results are unstable enough to treat the current renderer as optimization-sensitive. The good news is that this is no longer a wiggle result: it is a resize/reposition stress result running faster than realtime.
 
-C3.8 moves from parameter bracketing to model/render diagnosis. It tests whether resize text loss is mostly sampling aliasing (`1.5x` and `2x` neural supersampling), representational capacity (`24` channels, `128` hidden), coordinate frequency (`freq_bands=10`), or seed variance at the `0.125` and `0.14` resize brackets.
+C3.8 moves from parameter bracketing to model/render diagnosis. The best fast result is `c38-frame-scale-0125-edge09-freq10` at OCR `0.6912`, segment `562.129ms`, and motion `0.0562`, making higher coordinate frequency the best pure neural-canvas resize improvement so far. Larger capacity at the same bracket is close (`0.6852`) but slower. `2x` neural supersampling helps the `0.14` bracket reach OCR `0.6820`, but it misses the realtime budget at `1456.618ms`; `1.5x` supersampling is not enough.
+
+C3.9 combines the winning signals: high coordinate frequency plus capacity, more optimization steps, a middle `1.75x` supersampling point, and denser `1536x864` latent training for both the `0.125` and `0.14` resize brackets.
 
 Suggested `results.tsv` header:
 

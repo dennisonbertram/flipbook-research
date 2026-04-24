@@ -58,7 +58,11 @@ def general_visual_motion_args(
     label: str,
     *,
     steps: int = 4500,
+    train_resolution: str = "1280x736",
     seed: int = 0,
+    channels: int | None = None,
+    hidden: int | None = None,
+    freq_bands: int | None = None,
     flow: float = 0.014,
     edge_ratio: float = 0.1,
     edge_weight: float = 1.0,
@@ -76,6 +80,7 @@ def general_visual_motion_args(
 ) -> list[str]:
     base_args = [*GENERAL_VISUAL_ARGS]
     base_args[base_args.index("--steps") + 1] = str(steps)
+    base_args[base_args.index("--train-resolution") + 1] = train_resolution
     args = [
         *base_args,
         "--seed",
@@ -121,6 +126,12 @@ def general_visual_motion_args(
         )
     if layout_supersample != 1.0:
         args.extend(["--layout-supersample", f"{layout_supersample:g}"])
+    if channels is not None:
+        args.extend(["--channels", str(channels)])
+    if hidden is not None:
+        args.extend(["--hidden", str(hidden)])
+    if freq_bands is not None:
+        args.extend(["--freq-bands", str(freq_bands)])
     return args
 
 
@@ -140,6 +151,190 @@ class Experiment:
 
 
 EXPERIMENTS = [
+    Experiment(
+        label="c39-frame-scale-0125-edge09-freq10-cap24h128",
+        notes="C39 resize representation: combine higher coordinate frequency with larger latent/channel capacity at 0.125.",
+        args=general_visual_motion_args(
+            "c39-frame-scale-0125-edge09-freq10-cap24h128",
+            channels=24,
+            hidden=128,
+            freq_bands=10,
+            edge_ratio=0.09,
+            edge_weight=0.9,
+            motion_mode="static",
+            motion_strength=0.0,
+            video_layout_mode="frame-scale",
+            layout_transform_strength=0.125,
+            layout_transform_pan=0.024,
+            min_ocr=0.68,
+            min_motion=0.04,
+        ),
+    ),
+    Experiment(
+        label="c39-frame-scale-014-edge09-freq10-cap24h128",
+        notes="C39 resize representation: combine higher frequency and capacity at the 0.14 stress bracket.",
+        args=general_visual_motion_args(
+            "c39-frame-scale-014-edge09-freq10-cap24h128",
+            channels=24,
+            hidden=128,
+            freq_bands=10,
+            edge_ratio=0.09,
+            edge_weight=0.9,
+            motion_mode="static",
+            motion_strength=0.0,
+            video_layout_mode="frame-scale",
+            layout_transform_strength=0.14,
+            layout_transform_pan=0.027,
+            min_ocr=0.54,
+            min_motion=0.04,
+        ),
+    ),
+    Experiment(
+        label="c39-frame-scale-0125-edge09-freq10-s6000",
+        notes="C39 resize representation: more optimization steps on the current fast C38 freq10 winner.",
+        args=general_visual_motion_args(
+            "c39-frame-scale-0125-edge09-freq10-s6000",
+            steps=6000,
+            freq_bands=10,
+            edge_ratio=0.09,
+            edge_weight=0.9,
+            motion_mode="static",
+            motion_strength=0.0,
+            video_layout_mode="frame-scale",
+            layout_transform_strength=0.125,
+            layout_transform_pan=0.024,
+            min_ocr=0.68,
+            min_motion=0.04,
+        ),
+    ),
+    Experiment(
+        label="c39-frame-scale-014-edge09-freq10-s6000",
+        notes="C39 resize representation: more optimization steps for high-frequency coordinates at 0.14.",
+        args=general_visual_motion_args(
+            "c39-frame-scale-014-edge09-freq10-s6000",
+            steps=6000,
+            freq_bands=10,
+            edge_ratio=0.09,
+            edge_weight=0.9,
+            motion_mode="static",
+            motion_strength=0.0,
+            video_layout_mode="frame-scale",
+            layout_transform_strength=0.14,
+            layout_transform_pan=0.027,
+            min_ocr=0.54,
+            min_motion=0.04,
+        ),
+    ),
+    Experiment(
+        label="c39-frame-scale-014-edge09-aa175",
+        notes="C39 resize sampling: 1.75x neural supersampling to search between C38 1.5x and 2x.",
+        args=general_visual_motion_args(
+            "c39-frame-scale-014-edge09-aa175",
+            edge_ratio=0.09,
+            edge_weight=0.9,
+            motion_mode="static",
+            motion_strength=0.0,
+            video_layout_mode="frame-scale",
+            layout_transform_strength=0.14,
+            layout_transform_pan=0.027,
+            layout_supersample=1.75,
+            min_ocr=0.60,
+            min_motion=0.04,
+        ),
+    ),
+    Experiment(
+        label="c39-frame-scale-014-edge09-aa175-freq10",
+        notes="C39 resize sampling: combine 1.75x supersampling with the C38 high-frequency improvement.",
+        args=general_visual_motion_args(
+            "c39-frame-scale-014-edge09-aa175-freq10",
+            freq_bands=10,
+            edge_ratio=0.09,
+            edge_weight=0.9,
+            motion_mode="static",
+            motion_strength=0.0,
+            video_layout_mode="frame-scale",
+            layout_transform_strength=0.14,
+            layout_transform_pan=0.027,
+            layout_supersample=1.75,
+            min_ocr=0.60,
+            min_motion=0.04,
+        ),
+    ),
+    Experiment(
+        label="c39-frame-scale-014-edge09-aa175-cap24h128",
+        notes="C39 resize sampling: combine 1.75x supersampling with larger capacity at 0.14.",
+        args=general_visual_motion_args(
+            "c39-frame-scale-014-edge09-aa175-cap24h128",
+            channels=24,
+            hidden=128,
+            edge_ratio=0.09,
+            edge_weight=0.9,
+            motion_mode="static",
+            motion_strength=0.0,
+            video_layout_mode="frame-scale",
+            layout_transform_strength=0.14,
+            layout_transform_pan=0.027,
+            layout_supersample=1.75,
+            min_ocr=0.60,
+            min_motion=0.04,
+        ),
+    ),
+    Experiment(
+        label="c39-frame-scale-0125-edge09-freq10-aa15",
+        notes="C39 resize sampling: test whether light supersampling stacks with the fast 0.125 freq10 winner.",
+        args=general_visual_motion_args(
+            "c39-frame-scale-0125-edge09-freq10-aa15",
+            freq_bands=10,
+            edge_ratio=0.09,
+            edge_weight=0.9,
+            motion_mode="static",
+            motion_strength=0.0,
+            video_layout_mode="frame-scale",
+            layout_transform_strength=0.125,
+            layout_transform_pan=0.024,
+            layout_supersample=1.5,
+            min_ocr=0.68,
+            min_motion=0.04,
+        ),
+    ),
+    Experiment(
+        label="c39-frame-scale-0125-edge09-freq10-train1536",
+        notes="C39 resize representation: train the high-frequency renderer on a denser 1536x864 latent canvas.",
+        args=general_visual_motion_args(
+            "c39-frame-scale-0125-edge09-freq10-train1536",
+            train_resolution="1536x864",
+            steps=5500,
+            freq_bands=10,
+            edge_ratio=0.09,
+            edge_weight=0.9,
+            motion_mode="static",
+            motion_strength=0.0,
+            video_layout_mode="frame-scale",
+            layout_transform_strength=0.125,
+            layout_transform_pan=0.024,
+            min_ocr=0.68,
+            min_motion=0.04,
+        ),
+    ),
+    Experiment(
+        label="c39-frame-scale-014-edge09-freq10-train1536",
+        notes="C39 resize representation: denser 1536x864 latent canvas at the 0.14 stress bracket.",
+        args=general_visual_motion_args(
+            "c39-frame-scale-014-edge09-freq10-train1536",
+            train_resolution="1536x864",
+            steps=5500,
+            freq_bands=10,
+            edge_ratio=0.09,
+            edge_weight=0.9,
+            motion_mode="static",
+            motion_strength=0.0,
+            video_layout_mode="frame-scale",
+            layout_transform_strength=0.14,
+            layout_transform_pan=0.027,
+            min_ocr=0.54,
+            min_motion=0.04,
+        ),
+    ),
     Experiment(
         label="c38-frame-scale-0125-edge09-aa15",
         notes="C38 resize model/render test: 1.5x neural supersampling at the C37 best 0.125 bracket.",

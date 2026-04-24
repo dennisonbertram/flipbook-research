@@ -405,3 +405,49 @@ c38-frame-scale-014-edge09-freq10
 c38-frame-scale-0125-edge09-seed1
 c38-frame-scale-014-edge09-seed1
 ```
+
+## C38 Resize Diagnosis Results
+
+Completed C38 results:
+
+```text
+c38-frame-scale-0125-edge09-freq10: OCR 0.6912, segment 562.129ms, motion_delta 0.0562, pass
+c38-frame-scale-0125-edge09-cap24h128: OCR 0.6852, segment 627.711ms, motion_delta 0.0570, pass
+c38-frame-scale-014-edge09-aa2: OCR 0.6820, segment 1456.618ms, motion_delta 0.0594, latency_fail
+c38-frame-scale-0125-edge09-seed1: OCR 0.6083, segment 547.376ms, motion_delta 0.0570, pass
+c38-frame-scale-014-edge09-seed1: OCR 0.5674, segment 528.082ms, motion_delta 0.0591, pass
+c38-frame-scale-0125-edge09-aa15: OCR 0.5741, segment 1012.228ms, motion_delta 0.0561, quality_fail
+c38-frame-scale-014-edge09-aa15: OCR 0.5143, segment 927.921ms, motion_delta 0.0579, quality_fail
+c38-frame-scale-014-edge09-freq10: OCR 0.4977, segment 568.591ms, motion_delta 0.0588, quality_fail
+c38-frame-scale-014-edge09-cap24h128: OCR 0.4645, segment 601.116ms, motion_delta 0.0589, quality_fail
+c38-frame-scale-016-edge075-aa15: OCR 0.3758, segment 1101.684ms, motion_delta 0.0595, quality_fail
+```
+
+Interpretation:
+
+- Higher coordinate frequency is the best fast model-layer improvement so far: `freq_bands=10` at `0.125` beats the C37 resize winner while staying around `562ms` for 33 frames plus encode.
+- Larger capacity helps nearly as much but costs more render time.
+- Supersampling proves aliasing is part of the failure: `2x` at `0.14` jumps to OCR `0.6820`, but it misses the realtime budget.
+- `1.5x` supersampling is not enough, so the useful sampling threshold appears somewhere between `1.5x` and `2x`.
+- The `0.14` bracket is still unstable; high frequency alone does not rescue it.
+
+Decision:
+
+- Treat coordinate-frequency/representation as the leading model-layer path.
+- Keep supersampling as a diagnostic and search for a latency-feasible midpoint, not as the final answer.
+- Queue C39 to combine high frequency, capacity, denser latent resolution, more steps, and `1.75x` supersampling.
+
+Next experiments:
+
+```text
+c39-frame-scale-0125-edge09-freq10-cap24h128
+c39-frame-scale-014-edge09-freq10-cap24h128
+c39-frame-scale-0125-edge09-freq10-s6000
+c39-frame-scale-014-edge09-freq10-s6000
+c39-frame-scale-014-edge09-aa175
+c39-frame-scale-014-edge09-aa175-freq10
+c39-frame-scale-014-edge09-aa175-cap24h128
+c39-frame-scale-0125-edge09-freq10-aa15
+c39-frame-scale-0125-edge09-freq10-train1536
+c39-frame-scale-014-edge09-freq10-train1536
+```
