@@ -495,3 +495,48 @@ c40-frame-scale-014-edge09-freq10-train1920
 c40-frame-scale-0145-edge09-freq10-train1536
 c40-frame-scale-016-edge09-freq10-train1536
 ```
+
+## C40 Denser-Canvas Results
+
+Completed C40 results:
+
+```text
+c40-frame-scale-0125-edge09-freq10-train1536-seed1: OCR 0.7222, segment 559.324ms, motion_delta 0.0574, pass
+c40-frame-scale-0125-edge09-freq12-train1536: OCR 0.7032, segment 581.957ms, motion_delta 0.0572, pass
+c40-frame-scale-0125-edge075-freq10-train1536: OCR 0.6972, segment 562.657ms, motion_delta 0.0579, pass
+c40-frame-scale-016-edge09-freq10-train1536: OCR 0.5660, segment 575.939ms, motion_delta 0.0606, pass
+c40-frame-scale-014-edge09-freq12-train1536: OCR 0.5981, segment 676.950ms, motion_delta 0.0595, quality_fail
+c40-frame-scale-014-edge09-freq10-train1920: OCR 0.5860, segment 558.166ms, motion_delta 0.0594, quality_fail
+c40-frame-scale-014-edge075-freq10-train1536: OCR 0.5803, segment 580.870ms, motion_delta 0.0603, quality_fail
+c40-frame-scale-0145-edge09-freq10-train1536: OCR 0.5566, segment 574.298ms, motion_delta 0.0600, quality_fail
+c40-frame-scale-0125-edge09-freq10-train1920: OCR 0.6606, segment 572.907ms, motion_delta 0.0579, quality_fail
+c40-frame-scale-014-edge09-freq10-train1536-seed1: OCR 0.3143, segment 545.267ms, motion_delta 0.0600, quality_fail
+```
+
+Interpretation:
+
+- The pure neural-canvas resize result now reaches OCR `0.7222` at `559.324ms`, which is close to the earlier masked/anchor strong-stress quality while staying general and fast.
+- `1536x864 + freq10` remains the best baseline; `1920x1088` regresses, so more latent pixels are not automatically better.
+- `freq12` helps the `0.125` bracket but not the harder `0.14` bracket.
+- The main unsolved problem is optimizer stability. The same `0.14` family can pass in one seed and collapse in another.
+
+Decision:
+
+- Promote `1536x864 + freq10` as the current model-layer baseline.
+- Stop chasing bigger latent canvas resolution for now.
+- Queue C41 around lower learning rates and seed repeats for the fragile `0.14` bracket.
+
+Next experiments:
+
+```text
+c41-frame-scale-014-edge09-freq10-train1536-lr007
+c41-frame-scale-014-edge09-freq10-train1536-lr007-seed1
+c41-frame-scale-014-edge09-freq10-train1536-lr005
+c41-frame-scale-014-edge09-freq10-train1536-lr005-seed1
+c41-frame-scale-014-edge09-freq12-train1536-seed1
+c41-frame-scale-0125-edge09-freq10-train1536-seed2
+c41-frame-scale-0125-edge09-freq10-train1536-seed3
+c41-frame-scale-014-edge09-freq10-train1536-seed2
+c41-frame-scale-014-edge09-freq10-train1536-seed3
+c41-frame-scale-016-edge09-freq10-train1536-lr007
+```
