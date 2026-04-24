@@ -1,18 +1,17 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-24T18:44:37+00:00`
+Updated UTC: `2026-04-24T18:46:28+00:00`
 
 ## Active Sessions
 
 - `track-c-autoresearch`
-- `track-c-c30-line-batched-r0025-strong`
 
 ## Queue
 
 - `c30-gentle-flow-0125`: done - Pleasant-motion boundary between the C29 0.010 pass and 0.020 quality drop.
 - `c30-gentle-flow-015`: done - Pleasant-motion boundary probe near the likely readability cliff.
 - `c30-product-layout-r0025-s008`: done - Pleasant layout-motion with best line ratio and moderate layout strength.
-- `c30-line-batched-r0025-strong`: pending/running - Batched control for the current best strong-stress line ratio.
+- `c30-line-batched-r0025-strong`: done - Batched control for the current best strong-stress line ratio.
 - `c29-gentle-flow-010`: done - Pleasant-motion ladder: double the C2.1 flow while trying to preserve text.
 - `c29-gentle-flow-020`: done - Pleasant-motion ladder: stronger learned motion, still below resize/reflow stress.
 - `c29-product-layout-r0025`: done - Pleasant layout-motion baseline using the best strong-stress line ratio at low layout strength.

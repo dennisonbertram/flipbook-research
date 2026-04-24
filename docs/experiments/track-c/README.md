@@ -32,6 +32,8 @@ C2.9 adds the human note that less aggressive motion can look good with text. Th
 
 C3.0 tightens the pleasant-motion boundary. `c30-gentle-flow-0125` keeps OCR at `0.8545`, reaches motion `0.0353`, and finishes the 33-frame segment in `525.153ms`; `c30-gentle-flow-015` drops to OCR `0.7615`. The current text-friendly learned-flow boundary is therefore between `0.0125` and `0.015`.
 
+The C3.0 batched strong-control result, `c30-line-batched-r0025-strong`, is fast at `627.692ms` for render plus encode, but OCR drops to `0.4976`. The best strong-stress quality is still the earlier sequential `c27-line-rect-r0025` result at OCR `0.7097`; batching needs a quality-preserving implementation before it can replace the sequential anchor path.
+
 Suggested `results.tsv` header:
 
 ```text

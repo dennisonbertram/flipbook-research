@@ -1,8 +1,7 @@
 {
-  "updated_utc": "2026-04-24T18:44:37+00:00",
+  "updated_utc": "2026-04-24T18:46:28+00:00",
   "active_sessions": [
-    "track-c-autoresearch",
-    "track-c-c30-line-batched-r0025-strong"
+    "track-c-autoresearch"
   ],
   "experiments": [
     {
@@ -30,7 +29,7 @@
       "label": "c30-line-batched-r0025-strong",
       "session": "track-c-c30-line-batched-r0025-strong",
       "log": "docs/experiments/track-c/c30-line-batched-r0025-strong.log",
-      "done": false,
+      "done": true,
       "notes": "Batched control for the current best strong-stress line ratio."
     },
     {
