@@ -130,3 +130,35 @@ tmux new-session -d -s track-c-c24-element-frame-scale-strong \
 ```
 
 Current result: OCR line anchors improve resize-stress OCR from `0.7091` to `0.7321` on moderate motion and from `0.3610` to `0.4124` on strong motion. Render time rises to about `401-442ms` for `33` frames because anchor patches are rendered sequentially.
+
+## C2.5 Text-Alpha Element Mask Run
+
+C2.5 tests the user-observed issue with rectangular line anchors: if a rectangle catches diagram or illustration pixels, those pixels get dragged with the text during resize. The `text-alpha` mode keeps the RGB source neural, but blends element patches through a soft glyph/edge alpha mask instead of overwriting the whole line rectangle.
+
+Strong text-alpha transform:
+
+```bash
+tmux new-session -d -s track-c-c25-text-alpha-strong \
+  "cd /Users/dennisonbertram/Develop/flipbook-research && modal run scripts/track_c/modal_canvas_c2_lite.py --steps 4500 --train-resolution 1280x736 --flow-scale 0 --motion-mode static --motion-strength 0 --video-layout-mode element-frame-scale --layout-transform-strength 0.18 --layout-transform-pan 0.035 --element-scale-ratio 0.10 --element-anchor-padding 4 --element-mask-mode text-alpha --edge-sample-ratio 0.1 --edge-loss-weight 1.0 --text-box-sample-ratio 0.55 --text-box-loss-weight 8.0 --text-box-padding 4 --text-box-min-conf 55 --min-ocr-similarity 0.35 > docs/experiments/track-c/c25-text-alpha-strong.log 2>&1"
+```
+
+The important research distinction:
+
+```text
+allowed: model-rendered RGB blended by a text-shaped mask
+not allowed: source glyph pixels or DOM text overlaid onto the frame
+```
+
+## Eval Normalization
+
+Normalize existing Track C runs into `eval.json`, `eval-summary.md`, contact sheets, and a scenario-level leaderboard:
+
+```bash
+python3 scripts/track_c/evaluate_run.py
+```
+
+The leaderboard is written to:
+
+```text
+docs/experiments/track-c/eval-results.tsv
+```

@@ -40,6 +40,8 @@ Raw frame rendering is faster than realtime in the current prototype: roughly `3
 - `docs/architecture/` - observed Flipbook architecture notes.
 - `docs/poc/` - proof-of-concept tracks and benchmark target.
 - `docs/research/` - model, text, and neural-canvas research notes.
+- `docs/planning/` - active research plans and parallel workstreams.
+- `docs/evaluation/` - neural-canvas scorecards and eval schemas.
 - `docs/benchmarks/` - summarized benchmark results.
 - `docs/experiments/` - compact experiment logs and TSV result tables.
 - `scripts/track_a/` - LTX/video-model benchmark helpers.
@@ -56,4 +58,3 @@ modal run scripts/track_c/modal_canvas_c2_lite.py --help
 ```
 
 Long-running runs should be launched through `tmux`; see `scripts/track_c/README.md` for exact benchmark commands.
-

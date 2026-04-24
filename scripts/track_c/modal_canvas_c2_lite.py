@@ -433,6 +433,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     layout_transform_pan = float(config.get("layout_transform_pan", 0.0))
     element_scale_ratio = float(config.get("element_scale_ratio", 0.25))
     element_anchor_padding = int(config.get("element_anchor_padding", 3))
+    element_mask_mode = str(config.get("element_mask_mode", "rectangle"))
     edge_sample_ratio = float(config.get("edge_sample_ratio", 0.0))
     edge_loss_weight = float(config.get("edge_loss_weight", 0.0))
     text_box_sample_ratio = float(config.get("text_box_sample_ratio", 0.0))
@@ -480,6 +481,11 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     if text_has_pixels:
         text_prob = text_prob / text_prob_sum.clamp_min(1e-6)
     text_weight_chw = text_score.clamp(0.0, 1.0).unsqueeze(0).unsqueeze(0)
+    element_alpha = (text_mask * (0.55 * edge * dark + 0.35 * dark + 0.25 * edge)).clamp(0.0, 1.0)
+    element_alpha = element_alpha / element_alpha.max().clamp_min(1e-6)
+    element_alpha = F.max_pool2d(element_alpha.unsqueeze(0).unsqueeze(0), kernel_size=3, stride=1, padding=1)
+    element_alpha = F.avg_pool2d(element_alpha, kernel_size=3, stride=1, padding=1).squeeze(0).squeeze(0).clamp(0.0, 1.0)
+    element_alpha_chw = element_alpha.unsqueeze(0).unsqueeze(0)
 
     def build_line_boxes(boxes: list[tuple[int, int, int, int]]) -> list[tuple[float, float, float, float]]:
         if not boxes:
@@ -664,7 +670,11 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 for start in range(0, patch_coords.shape[0], chunk):
                     patch_parts.append(model.forward(patch_coords[start : start + chunk], patch_t[start : start + chunk]))
                 patch = torch.cat(patch_parts, dim=0).view(patch_h, patch_w, 3)
-                frame[oy0:oy1, ox0:ox1] = patch
+                if element_mask_mode == "text-alpha":
+                    alpha = sample_target(element_alpha_chw, patch_coords).view(patch_h, patch_w, 1).clamp(0.0, 1.0)
+                    frame[oy0:oy1, ox0:ox1] = patch * alpha + frame[oy0:oy1, ox0:ox1] * (1.0 - alpha)
+                else:
+                    frame[oy0:oy1, ox0:ox1] = patch
 
         return frame
 
@@ -687,6 +697,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         artifacts[mid_name] = base64.b64encode(tensor_to_png_bytes(layout_mid)).decode("ascii")
     artifacts["text-mask.png"] = base64.b64encode(
         tensor_to_png_bytes(text_mask.unsqueeze(-1).repeat(1, 1, 3))
+    ).decode("ascii")
+    artifacts["element-alpha-mask.png"] = base64.b64encode(
+        tensor_to_png_bytes(element_alpha.unsqueeze(-1).repeat(1, 1, 3))
     ).decode("ascii")
 
     video_frames = []
@@ -742,6 +755,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "layout_transform_pan": layout_transform_pan,
         "element_scale_ratio": element_scale_ratio,
         "element_anchor_padding": element_anchor_padding,
+        "element_mask_mode": element_mask_mode,
         "element_line_count": len(element_line_boxes),
         "min_ocr_similarity": float(config.get("min_ocr_similarity", 0.5)),
         "min_motion_delta": float(config.get("min_motion_delta", 0.001)),
@@ -752,6 +766,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "text_box_padding": text_box_padding,
         "text_box_count": len(config.get("text_boxes", [])),
         "text_mask_coverage": float(text_mask.mean().detach().cpu()),
+        "element_alpha_coverage": float((element_alpha > 0.05).float().mean().detach().cpu()),
         "compile_ms": compile_ms,
         "final_mse": losses[-1]["mse"],
         "losses": losses,
@@ -764,7 +779,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "motion_delta_model": motion_delta,
         "loop_error_model": loop_error,
         "description": (
-            f"C2.4 neural canvas: stable content with OCR line anchors and {video_layout_mode} layout transform"
+            f"C2.5 neural canvas: stable content with OCR line anchors, {element_mask_mode} masks, and {video_layout_mode} layout transform"
             if text_enabled and video_layout_mode == "element-frame-scale"
             else f"C2.3 neural canvas: stable content with {video_layout_mode} layout transform"
             if text_enabled and video_layout_mode != "none"
@@ -799,6 +814,7 @@ def main(
     layout_transform_pan: float = 0.0,
     element_scale_ratio: float = 0.25,
     element_anchor_padding: int = 3,
+    element_mask_mode: str = "rectangle",
     edge_sample_ratio: float = 0.0,
     edge_loss_weight: float = 0.0,
     text_box_sample_ratio: float = 0.0,
@@ -836,6 +852,7 @@ def main(
         "layout_transform_pan": layout_transform_pan,
         "element_scale_ratio": element_scale_ratio,
         "element_anchor_padding": element_anchor_padding,
+        "element_mask_mode": element_mask_mode,
         "min_ocr_similarity": min_ocr_similarity,
         "min_motion_delta": min_motion_delta,
         "edge_sample_ratio": edge_sample_ratio,
@@ -876,6 +893,7 @@ def main(
         "render_512": str(run_dir / "render-512.png"),
         "crop_2x": str(run_dir / "crop-2x.png"),
         "text_mask": str(run_dir / "text-mask.png"),
+        "element_alpha_mask": str(run_dir / "element-alpha-mask.png"),
         "text_boxes": str(run_dir / "text-boxes.json"),
         "output": str(run_dir / "output.mp4"),
         "metrics": str(run_dir / "metrics.json"),

@@ -1,0 +1,48 @@
+{
+  "schema_version": "track-c-scenarios-v0.1",
+  "scenarios": [
+    {
+      "scenario_id": "still-full-resize",
+      "description": "Static full-page renders at multiple resolutions.",
+      "min_ocr_similarity": 0.85,
+      "min_motion_delta": 0.0,
+      "max_loop_error": 0.02
+    },
+    {
+      "scenario_id": "subtle-motion-loop",
+      "description": "Visible but gentle motion with stable identity and quiet loop boundary.",
+      "min_ocr_similarity": 0.80,
+      "min_motion_delta": 0.001,
+      "max_loop_error": 0.02
+    },
+    {
+      "scenario_id": "viewport-zoom-pulse",
+      "description": "Viewport pan/zoom stress without full-page repainting.",
+      "min_ocr_similarity": 0.65,
+      "min_motion_delta": 0.02,
+      "max_loop_error": 0.02
+    },
+    {
+      "scenario_id": "frame-scale-moderate",
+      "description": "Moderate frame-scale or element-frame-scale layout stress.",
+      "min_ocr_similarity": 0.50,
+      "min_motion_delta": 0.04,
+      "max_loop_error": 0.02
+    },
+    {
+      "scenario_id": "frame-scale-strong",
+      "description": "Strong frame-scale or element-frame-scale resize/reposition stress.",
+      "min_ocr_similarity": 0.35,
+      "min_motion_delta": 0.04,
+      "max_loop_error": 0.02
+    },
+    {
+      "scenario_id": "responsive-squeeze",
+      "description": "Nonuniform responsive/reflow-like pressure.",
+      "min_ocr_similarity": 0.35,
+      "min_motion_delta": 0.04,
+      "max_loop_error": 0.02
+    }
+  ]
+}
+

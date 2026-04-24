@@ -14,6 +14,8 @@ This directory keeps the research organized around testable questions. The curre
 - `research/track-a-autoresearch-program.md` adapts Karpathy's `autoresearch` loop to Track A model-layer experiments.
 - `research/text-specialized-models.md` tracks models and papers that may help with text rendering or text preservation.
 - `research/text-preservation-strategies.md` documents overlay, mask-freeze, and residual-motion strategies.
+- `planning/parallel-research-plan-2026-04-24.md` coordinates the next parallel research wave.
+- `evaluation/neural-canvas-eval-framework.md` defines the scorecard for neural canvas experiments.
 - `experiments/track-a/README.md` defines the Track A experiment-log format.
 - `experiments/track-c/README.md` defines the Track C neural canvas experiment-log format.
 - `benchmarks/nano-banana-latency-2026-04-24.md` records Google Nano Banana latency, 512-output, and simple-illustration tests.

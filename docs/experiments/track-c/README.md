@@ -22,10 +22,18 @@ C2.3 layout-transform rendering recovers much of that quality by keeping content
 
 C2.4 adds OCR line anchors. It improves moderate resize OCR from `0.7091` to `0.7321` and strong resize OCR from `0.3610` to `0.4124`, with extra render cost from sequential patch queries.
 
+C2.5 starts replacing rectangular text-line patch replacement with glyph-shaped `text-alpha` masks. The RGB still comes from neural canvas queries; the mask is a selection signal so illustrations caught in a line box are less likely to move with the text.
+
 Suggested `results.tsv` header:
 
 ```text
 run_id	commit	canvas_type	compile_ms	render_960_ms	render_33_wall_ms	encode_ms	ocr_similarity	resize_consistency	temporal_consistency	status	description
+```
+
+`eval-results.tsv` is the normalized scenario-level leaderboard:
+
+```text
+run_id	commit	scenario_id	renderer_family	status	segment_wall_ms	render_33_wall_ms	encode_ms	effective_generated_fps	ocr_token_f1_min	ocr_token_f1_mean	layout_similarity	resize_consistency	temporal_consistency	motion_delta	loop_error	pixel_source_class	failed_gates
 ```
 
 Suggested artifact shape:
