@@ -451,3 +451,47 @@ c39-frame-scale-0125-edge09-freq10-aa15
 c39-frame-scale-0125-edge09-freq10-train1536
 c39-frame-scale-014-edge09-freq10-train1536
 ```
+
+## C39 Combination Results
+
+Completed C39 results:
+
+```text
+c39-frame-scale-0125-edge09-freq10-train1536: OCR 0.7000, segment 571.260ms, motion_delta 0.0578, pass
+c39-frame-scale-014-edge09-freq10-train1536: OCR 0.6667, segment 560.830ms, motion_delta 0.0597, pass
+c39-frame-scale-014-edge09-aa175: OCR 0.6635, segment 1191.003ms, motion_delta 0.0592, pass
+c39-frame-scale-014-edge09-freq10-cap24h128: OCR 0.5556, segment 646.077ms, motion_delta 0.0594, pass
+c39-frame-scale-0125-edge09-freq10-aa15: OCR 0.6574, segment 920.248ms, motion_delta 0.0573, quality_fail
+c39-frame-scale-0125-edge09-freq10-s6000: OCR 0.6452, segment 561.935ms, motion_delta 0.0570, quality_fail
+c39-frame-scale-0125-edge09-freq10-cap24h128: OCR 0.6204, segment 650.691ms, motion_delta 0.0572, quality_fail
+c39-frame-scale-014-edge09-aa175-freq10: OCR 0.5488, segment 1199.287ms, motion_delta 0.0590, quality_fail
+c39-frame-scale-014-edge09-aa175-cap24h128: OCR 0.5049, segment 1356.635ms, motion_delta 0.0588, quality_fail
+c39-frame-scale-014-edge09-freq10-s6000: OCR 0.4025, segment 549.495ms, motion_delta 0.0598, quality_fail
+```
+
+Interpretation:
+
+- Denser latent training is the cleanest improvement. `1536x864 + freq10` beats supersampling at similar quality while staying much faster.
+- The harder `0.14` resize bracket is now strong enough to pass without render-time text tricks.
+- Extra steps and bigger capacity do not reliably help; they may push optimization into worse basins.
+- Supersampling remains useful as proof that sampling quality matters, but the model-layer answer is currently denser coordinates/latent resolution, not brute-force render samples.
+
+Decision:
+
+- Promote `train_resolution=1536x864, freq_bands=10` to the new resize baseline.
+- Queue C40 around robustness and scaling of that baseline: seed repeat, freq12, edge weighting, `1920x1088` latent resolution, and stronger resize.
+
+Next experiments:
+
+```text
+c40-frame-scale-0125-edge09-freq10-train1536-seed1
+c40-frame-scale-014-edge09-freq10-train1536-seed1
+c40-frame-scale-0125-edge09-freq12-train1536
+c40-frame-scale-014-edge09-freq12-train1536
+c40-frame-scale-0125-edge075-freq10-train1536
+c40-frame-scale-014-edge075-freq10-train1536
+c40-frame-scale-0125-edge09-freq10-train1920
+c40-frame-scale-014-edge09-freq10-train1920
+c40-frame-scale-0145-edge09-freq10-train1536
+c40-frame-scale-016-edge09-freq10-train1536
+```

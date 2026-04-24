@@ -17,10 +17,10 @@ Local-motion winner:
   status:  pass
 
 Resize/reposition stress:
-  run:     20260424T200522358885Z-c2-lite-glyph-static-layout-frame-scale-c38-frame-scale-0125-edge09-freq10-1280x736-s4500
-  segment: 562.129ms
-  OCR F1:  0.6912
-  motion:  0.0562
+  run:     20260424T201039058492Z-c2-lite-glyph-static-layout-frame-scale-c39-frame-scale-0125-edge09-freq10-train1536-1536x864-s5500
+  segment: 571.260ms
+  OCR F1:  0.7000
+  motion:  0.0578
   status:  pass
 ```
 
@@ -58,7 +58,9 @@ C3.7 narrows the resize/reposition boundary. The best result is `c37-frame-scale
 
 C3.8 moves from parameter bracketing to model/render diagnosis. The best fast result is `c38-frame-scale-0125-edge09-freq10` at OCR `0.6912`, segment `562.129ms`, and motion `0.0562`, making higher coordinate frequency the best pure neural-canvas resize improvement so far. Larger capacity at the same bracket is close (`0.6852`) but slower. `2x` neural supersampling helps the `0.14` bracket reach OCR `0.6820`, but it misses the realtime budget at `1456.618ms`; `1.5x` supersampling is not enough.
 
-C3.9 combines the winning signals: high coordinate frequency plus capacity, more optimization steps, a middle `1.75x` supersampling point, and denser `1536x864` latent training for both the `0.125` and `0.14` resize brackets.
+C3.9 combines the winning signals. The best result is now `c39-frame-scale-0125-edge09-freq10-train1536` at OCR `0.7000`, segment `571.260ms`, and motion `0.0562`. More importantly, the harder `0.14` bracket reaches OCR `0.6667` at segment `560.830ms` with `freq10 + 1536x864` training. `1.75x` supersampling also passes at `0.14` with OCR `0.6635`, but it is slower at `1191.003ms`, so denser latent training is the cleaner model-layer path.
+
+C4.0 focuses on the denser-canvas path: seed robustness, a `freq12` ladder, lighter edge weighting, a `1920x1088` latent-resolution test, and stronger `0.145/0.16` resize stress.
 
 Suggested `results.tsv` header:
 
