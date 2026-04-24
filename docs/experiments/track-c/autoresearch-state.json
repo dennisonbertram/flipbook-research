@@ -1,13 +1,42 @@
 {
-  "updated_utc": "2026-04-24T19:08:55+00:00",
+  "updated_utc": "2026-04-24T19:12:51+00:00",
   "active_sessions": [
     "track-c-autoresearch",
-    "track-c-c31-alpha-layout-r0025-s004",
-    "track-c-c31-text-flow-0125-box12",
-    "track-c-c31-text-flow-014-box8",
+    "track-c-c32-general-flow-0125-edge05",
+    "track-c-c32-general-flow-0135-edge1",
+    "track-c-c32-text-flow-0135-box12",
+    "track-c-c32-text-flow-0145-box8",
     "track-c-github-sync"
   ],
   "experiments": [
+    {
+      "label": "c32-general-flow-0125-edge05",
+      "session": "track-c-c32-general-flow-0125-edge05",
+      "log": "docs/experiments/track-c/c32-general-flow-0125-edge05.log",
+      "done": false,
+      "notes": "General neural-canvas refinement: lighter dense edge weighting around the C31 no-OCR winner."
+    },
+    {
+      "label": "c32-general-flow-0135-edge1",
+      "session": "track-c-c32-general-flow-0135-edge1",
+      "log": "docs/experiments/track-c/c32-general-flow-0135-edge1.log",
+      "done": false,
+      "notes": "General neural-canvas refinement: push the best no-OCR edge setting to the bridge winner's motion level."
+    },
+    {
+      "label": "c32-text-flow-0145-box8",
+      "session": "track-c-c32-text-flow-0145-box8",
+      "log": "docs/experiments/track-c/c32-text-flow-0145-box8.log",
+      "done": false,
+      "notes": "Text-aware learned-flow bridge: push beyond the C31 0.0135 bridge while avoiding render-time masks."
+    },
+    {
+      "label": "c32-text-flow-0135-box12",
+      "session": "track-c-c32-text-flow-0135-box12",
+      "log": "docs/experiments/track-c/c32-text-flow-0135-box12.log",
+      "done": false,
+      "notes": "Text-aware learned-flow bridge: stronger OCR-box training signal at the current bridge winner flow."
+    },
     {
       "label": "c31-general-flow-0125-edge1",
       "session": "track-c-c31-general-flow-0125-edge1",
@@ -47,21 +76,21 @@
       "label": "c31-text-flow-014-box8",
       "session": "track-c-c31-text-flow-014-box8",
       "log": "docs/experiments/track-c/c31-text-flow-014-box8.log",
-      "done": false,
+      "done": true,
       "notes": "Text-aware learned-flow bridge: push just past the C30 boundary without render-time masks."
     },
     {
       "label": "c31-text-flow-0125-box12",
       "session": "track-c-c31-text-flow-0125-box12",
       "log": "docs/experiments/track-c/c31-text-flow-0125-box12.log",
-      "done": false,
+      "done": true,
       "notes": "Text-aware learned-flow bridge: stronger OCR-box sampling/loss at the C30 sweet spot, still no output masks."
     },
     {
       "label": "c31-alpha-layout-r0025-s004",
       "session": "track-c-c31-alpha-layout-r0025-s004",
       "log": "docs/experiments/track-c/c31-alpha-layout-r0025-s004.log",
-      "done": false,
+      "done": true,
       "notes": "Shape-aware bridge: glyph alpha selection under gentle layout motion, testing a non-rectangle rescue path."
     },
     {
