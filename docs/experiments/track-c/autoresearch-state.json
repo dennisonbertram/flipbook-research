@@ -1,11 +1,30 @@
 {
-  "updated_utc": "2026-04-24T18:20:43+00:00",
+  "updated_utc": "2026-04-24T18:31:17+00:00",
   "active_sessions": [
-    "track-c-autoresearch",
-    "track-c-c27-line-rect-r005-pad6",
-    "track-c-c27-responsive-018"
+    "track-c-autoresearch"
   ],
   "experiments": [
+    {
+      "label": "c28-word-batched-r010",
+      "session": "track-c-c28-word-batched-r010",
+      "log": "docs/experiments/track-c/c28-word-batched-r010.log",
+      "done": true,
+      "notes": "Human-positive word anchors with batched patch rendering to recover latency."
+    },
+    {
+      "label": "c28-word-batched-moderate-r010",
+      "session": "track-c-c28-word-batched-moderate-r010",
+      "log": "docs/experiments/track-c/c28-word-batched-moderate-r010.log",
+      "done": true,
+      "notes": "Human-positive word anchors batched under moderate stress."
+    },
+    {
+      "label": "c28-line-batched-r005",
+      "session": "track-c-c28-line-batched-r005",
+      "log": "docs/experiments/track-c/c28-line-batched-r005.log",
+      "done": true,
+      "notes": "Batched line-anchor control should match C2.6 quality while confirming batching does not change pixels."
+    },
     {
       "label": "c27-line-rect-r0025",
       "session": "track-c-c27-line-rect-r0025",
@@ -31,14 +50,14 @@
       "label": "c27-line-rect-r005-pad6",
       "session": "track-c-c27-line-rect-r005-pad6",
       "log": "docs/experiments/track-c/c27-line-rect-r005-pad6.log",
-      "done": false,
+      "done": true,
       "notes": "Current best ratio with wider support boxes to check whether extra local context improves OCR."
     },
     {
       "label": "c27-responsive-018",
       "session": "track-c-c27-responsive-018",
       "log": "docs/experiments/track-c/c27-responsive-018.log",
-      "done": false,
+      "done": true,
       "notes": "Responsive-squeeze boundary between strong 0.16 pass and xstrong 0.22 fail."
     },
     {

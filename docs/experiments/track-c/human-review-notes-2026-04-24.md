@@ -50,3 +50,42 @@ c28-word-batched-moderate-r010
 c28-line-batched-r005
 ```
 
+## Positive Low-Aggression Motion Baseline
+
+Run:
+
+```text
+outputs/track-c/20260424T151017Z-c2-lite-text-1280x736-s4500/output.mp4
+```
+
+User review:
+
+```text
+"less aggressive motion, but the animation did work well with the text"
+```
+
+Automated eval:
+
+```text
+scenario:          still-full-resize / gentle learned motion
+flow_scale:        0.005
+OCR token-F1:      0.8545
+render_33_wall_ms: 301.365
+encode_ms:         633.911
+segment_wall_ms:   935.276
+motion_delta:      0.0158
+loop_error:        0.0008
+```
+
+Interpretation:
+
+- Gentle learned motion can coexist with stable, readable text.
+- The failure boundary is not animation itself; it is aggressive resize/reflow pressure and large coordinate deformation.
+- The eval plan should keep separate "pleasant motion" scenarios from stress scenarios.
+
+Decision:
+
+```text
+Keep C2.1 as the positive gentle-motion baseline.
+Add a gentle-motion ladder so the pleasant-motion boundary is measured, not guessed.
+```
