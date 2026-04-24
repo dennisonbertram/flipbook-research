@@ -445,6 +445,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     video_layout_mode = str(config.get("video_layout_mode", "none"))
     layout_transform_strength = float(config.get("layout_transform_strength", 0.0))
     layout_transform_pan = float(config.get("layout_transform_pan", 0.0))
+    layout_supersample = float(config.get("layout_supersample", 1.0))
     element_scale_ratio = float(config.get("element_scale_ratio", 0.25))
     element_anchor_padding = int(config.get("element_anchor_padding", 3))
     element_mask_mode = str(config.get("element_mask_mode", "rectangle"))
@@ -629,6 +630,11 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
 
     @torch.inference_mode()
     def render_layout_frame(width: int, height: int, t_value: float) -> torch.Tensor:
+        output_width = width
+        output_height = height
+        if video_layout_mode == "frame-scale" and layout_supersample > 1.0:
+            width = max(width, int(round(width * layout_supersample)))
+            height = max(height, int(round(height * layout_supersample)))
         xs = torch.linspace(0.0, 1.0, width, device=device)
         ys = torch.linspace(0.0, 1.0, height, device=device)
         yy, xx = torch.meshgrid(ys, xs, indexing="ij")
@@ -730,6 +736,17 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                     else:
                         frame[oy0:oy1, ox0:ox1] = patch
 
+        if width != output_width or height != output_height:
+            frame = (
+                F.interpolate(
+                    frame.permute(2, 0, 1).unsqueeze(0),
+                    size=(output_height, output_width),
+                    mode="area",
+                )
+                .squeeze(0)
+                .permute(1, 2, 0)
+                .contiguous()
+            )
         return frame
 
     first = render_named("render-960.png", 960, 544, (0.0, 0.0, 1.0, 1.0), 0.0)
@@ -808,6 +825,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "video_layout_mode": video_layout_mode,
         "layout_transform_strength": layout_transform_strength,
         "layout_transform_pan": layout_transform_pan,
+        "layout_supersample": layout_supersample,
         "element_scale_ratio": element_scale_ratio,
         "element_anchor_padding": element_anchor_padding,
         "element_mask_mode": element_mask_mode,
@@ -869,6 +887,7 @@ def main(
     video_layout_mode: str = "none",
     layout_transform_strength: float = 0.0,
     layout_transform_pan: float = 0.0,
+    layout_supersample: float = 1.0,
     element_scale_ratio: float = 0.25,
     element_anchor_padding: int = 3,
     element_mask_mode: str = "rectangle",
@@ -912,6 +931,7 @@ def main(
         "video_layout_mode": video_layout_mode,
         "layout_transform_strength": layout_transform_strength,
         "layout_transform_pan": layout_transform_pan,
+        "layout_supersample": layout_supersample,
         "element_scale_ratio": element_scale_ratio,
         "element_anchor_padding": element_anchor_padding,
         "element_mask_mode": element_mask_mode,

@@ -17,10 +17,10 @@ Local-motion winner:
   status:  pass
 
 Resize/reposition stress:
-  run:     20260424T195138593473Z-c2-lite-glyph-static-layout-frame-scale-c36-frame-scale-014-edge09-1280x736-s4500
-  segment: 547.378ms
-  OCR F1:  0.5634
-  motion:  0.0592
+  run:     20260424T195856158795Z-c2-lite-glyph-static-layout-frame-scale-c37-frame-scale-0125-edge09-1280x736-s4500
+  segment: 560.983ms
+  OCR F1:  0.6573
+  motion:  0.0574
   status:  pass
 ```
 
