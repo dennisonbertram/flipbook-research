@@ -72,6 +72,8 @@ C4.3 confirms gradient clipping is the best stability lever so far. The hard `0.
 
 C4.4 pivots beyond global warp. A single frame-scale transform is too easy because every item moves together. The next suite adds an `independent-regions` layout mode: several coarse page regions are blanked and re-rendered through separate neural-canvas query transforms, each with different pan, scale, speed, and phase. This is still not the final general renderer, but it is a much better stress test for neural-canvas pixels than text wiggle or one camera-like resize.
 
+C4.4 confirms independent item motion is the new hard problem. All ten runs stay fast (`605-1048ms` per 33-frame segment including encode), but text quality drops sharply: the best moderate run is `c44-regions-010-pan024-clip05-seed1` at OCR `0.5055`, and the strongest useful run is `c44-regions-014-pan030-clip05` at OCR `0.5000` with motion `0.0365`. Human inspection shows hard rectangular tearing from the coarse region compositor, so C4.5 splits into two better tests: a smooth blended independent-region query field, and a learned independent-field mode where the model must synthesize multi-region motion directly from `x,y,t`.
+
 Suggested `results.tsv` header:
 
 ```text

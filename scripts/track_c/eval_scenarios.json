@@ -56,6 +56,13 @@
       "min_ocr_similarity": 0.40,
       "min_motion_delta": 0.04,
       "max_loop_error": 0.02
+    },
+    {
+      "scenario_id": "independent-field-learned",
+      "description": "The model learns independent multi-region motion directly from x,y,t without a render-time layout transform.",
+      "min_ocr_similarity": 0.35,
+      "min_motion_delta": 0.025,
+      "max_loop_error": 0.02
     }
   ]
 }

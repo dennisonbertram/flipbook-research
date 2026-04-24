@@ -200,7 +200,150 @@ def independent_region_experiment(
     )
 
 
+def independent_field_experiment(
+    label: str,
+    *,
+    strength: float,
+    pan: float,
+    seed: int = 0,
+    freq_bands: int = 10,
+    grad_clip: float = 0.5,
+    min_ocr: float = 0.50,
+    min_motion: float = 0.03,
+) -> Experiment:
+    seed_note = f", seed {seed}" if seed else ""
+    return Experiment(
+        label=label,
+        notes=(
+            "C45 smooth independent-field stress: no hard region blanking; separate local affine fields "
+            f"blend continuously with strength {strength:g}, pan {pan:g}, freq{freq_bands}, grad clip {grad_clip:g}{seed_note}."
+        ),
+        args=general_visual_motion_args(
+            label,
+            train_resolution="1536x864",
+            steps=5500,
+            seed=seed,
+            freq_bands=freq_bands,
+            grad_clip=grad_clip,
+            edge_ratio=0.09,
+            edge_weight=0.9,
+            motion_mode="static",
+            motion_strength=0.0,
+            video_layout_mode="independent-field",
+            layout_transform_strength=strength,
+            layout_transform_pan=pan,
+            min_ocr=min_ocr,
+            min_motion=min_motion,
+        ),
+    )
+
+
+def learned_independent_field_experiment(
+    label: str,
+    *,
+    motion_strength: float,
+    seed: int = 0,
+    freq_bands: int = 10,
+    grad_clip: float | None = None,
+    min_ocr: float = 0.35,
+    min_motion: float = 0.025,
+) -> Experiment:
+    clip_note = f", grad clip {grad_clip:g}" if grad_clip is not None else ""
+    seed_note = f", seed {seed}" if seed else ""
+    return Experiment(
+        label=label,
+        notes=(
+            "C45 learned independent-field stress: train the renderer to generate multi-region motion "
+            f"directly from x,y,t with motion {motion_strength:g}, freq{freq_bands}{clip_note}{seed_note}."
+        ),
+        args=general_visual_motion_args(
+            label,
+            train_resolution="1536x864",
+            steps=5500,
+            seed=seed,
+            freq_bands=freq_bands,
+            grad_clip=grad_clip,
+            flow=motion_strength,
+            edge_ratio=0.09,
+            edge_weight=0.9,
+            motion_mode="independent-field",
+            motion_strength=motion_strength,
+            min_ocr=min_ocr,
+            min_motion=min_motion,
+        ),
+    )
+
+
 EXPERIMENTS = [
+    independent_field_experiment(
+        "c45-field-006-pan018-clip05",
+        strength=0.06,
+        pan=0.018,
+        min_ocr=0.62,
+        min_motion=0.025,
+    ),
+    independent_field_experiment(
+        "c45-field-010-pan024-clip05",
+        strength=0.10,
+        pan=0.024,
+        min_ocr=0.58,
+        min_motion=0.03,
+    ),
+    independent_field_experiment(
+        "c45-field-014-pan030-clip05",
+        strength=0.14,
+        pan=0.030,
+        min_ocr=0.50,
+        min_motion=0.035,
+    ),
+    independent_field_experiment(
+        "c45-field-014-pan036-clip05",
+        strength=0.14,
+        pan=0.036,
+        min_ocr=0.48,
+        min_motion=0.04,
+    ),
+    independent_field_experiment(
+        "c45-field-010-pan024-clip05-seed1",
+        strength=0.10,
+        pan=0.024,
+        seed=1,
+        min_ocr=0.58,
+        min_motion=0.03,
+    ),
+    learned_independent_field_experiment(
+        "c45-learned-field-004-flow04",
+        motion_strength=0.04,
+        min_ocr=0.40,
+        min_motion=0.018,
+    ),
+    learned_independent_field_experiment(
+        "c45-learned-field-006-flow06",
+        motion_strength=0.06,
+        min_ocr=0.35,
+        min_motion=0.025,
+    ),
+    learned_independent_field_experiment(
+        "c45-learned-field-008-flow08",
+        motion_strength=0.08,
+        min_ocr=0.30,
+        min_motion=0.03,
+    ),
+    learned_independent_field_experiment(
+        "c45-learned-field-006-flow06-clip05",
+        motion_strength=0.06,
+        grad_clip=0.5,
+        min_ocr=0.35,
+        min_motion=0.025,
+    ),
+    learned_independent_field_experiment(
+        "c45-learned-field-006-flow06-freq12-clip05",
+        motion_strength=0.06,
+        freq_bands=12,
+        grad_clip=0.5,
+        min_ocr=0.35,
+        min_motion=0.025,
+    ),
     independent_region_experiment(
         "c44-regions-006-pan018-clip05",
         strength=0.06,

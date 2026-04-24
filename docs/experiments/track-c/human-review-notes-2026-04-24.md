@@ -672,3 +672,48 @@ c44-regions-010-pan024-clip05-seed1
 c44-regions-010-pan024-clip05-seed2
 c44-regions-016-pan036-clip05
 ```
+
+## C44 Independent Region Results
+
+Completed C44 results:
+
+```text
+c44-regions-010-pan024-clip05-seed1: OCR 0.5055, segment 634.991ms, motion_delta 0.0330, quality_fail
+c44-regions-014-pan030-clip05: OCR 0.5000, segment 624.006ms, motion_delta 0.0365, quality_fail
+c44-regions-010-pan024-clip05-seed2: OCR 0.4792, segment 637.818ms, motion_delta 0.0332, quality_fail
+c44-regions-010-pan024-clip1: OCR 0.4607, segment 684.891ms, motion_delta 0.0331, quality_fail
+c44-regions-006-pan018-clip05: OCR 0.4469, segment 605.705ms, motion_delta 0.0280, quality_fail
+c44-regions-010-pan024-freq12-clip05: OCR 0.4260, segment 664.665ms, motion_delta 0.0325, quality_fail
+c44-regions-010-pan024-clip05: OCR 0.4061, segment 610.633ms, motion_delta 0.0334, quality_fail
+c44-regions-016-pan036-clip05: OCR 0.4025, segment 840.143ms, motion_delta 0.0382, quality_fail
+c44-regions-014-pan030-clip1: OCR 0.3492, segment 1047.912ms, motion_delta 0.0366, quality_fail
+c44-regions-014-pan030-freq12-clip05: OCR 0.3085, segment 647.597ms, motion_delta 0.0367, quality_fail
+```
+
+Interpretation:
+
+- Independent region motion is substantially harder than global resize. C43 reached OCR `0.7281` at the hard global `0.14` bracket; C44 drops to a best OCR of `0.5055`.
+- Latency is not the bottleneck. Every C44 run is under the `1.3s` segment budget, and most are around `0.61-0.68s`.
+- The human-visible failure is hard region tearing: broad rectangular regions move independently, but the compositor leaves obvious white seams and duplicated/blanked source areas.
+- This means C44 is a useful stress signal, but the hard-rectangle generator is too artificial. It tests independence, but it also injects a failure mode that is not the pure neural-canvas end state.
+
+Decision:
+
+- Keep independent item motion as the main challenge.
+- Replace hard region cutouts with a smooth blended independent-region query field so local transforms overlap continuously.
+- Also test the more ambitious path: train the renderer on an `independent-field` target and render without any layout-time transform, forcing the model to synthesize multi-region motion directly from `x,y,t`.
+
+Next experiments:
+
+```text
+c45-field-006-pan018-clip05
+c45-field-010-pan024-clip05
+c45-field-014-pan030-clip05
+c45-field-014-pan036-clip05
+c45-field-010-pan024-clip05-seed1
+c45-learned-field-004-flow04
+c45-learned-field-006-flow06
+c45-learned-field-008-flow08
+c45-learned-field-006-flow06-clip05
+c45-learned-field-006-flow06-freq12-clip05
+```

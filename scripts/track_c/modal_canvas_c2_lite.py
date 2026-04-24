@@ -334,12 +334,63 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 parts.append(self.forward(coords[start : start + chunk], t[start : start + chunk]))
             return torch.cat(parts, dim=0).view(out_h, out_w, 3)
 
+    independent_layout_regions = [
+        (0.04, 0.035, 0.96, 0.17, 0.85, -0.28, 0.35, -0.18, 1, 0.00),
+        (0.055, 0.205, 0.505, 0.58, -0.95, 0.80, -0.70, 0.48, 2, 0.16),
+        (0.535, 0.205, 0.955, 0.57, 1.05, 0.58, 0.62, -0.42, 1, 0.34),
+        (0.06, 0.61, 0.52, 0.935, -0.65, -0.85, 0.48, 0.58, 3, 0.08),
+        (0.54, 0.60, 0.95, 0.93, 0.75, -0.62, -0.50, 0.52, 2, 0.42),
+    ]
+    independent_hard_layout_modes = {"independent-regions", "region-dance"}
+    independent_field_layout_modes = {"independent-field", "region-field"}
+    independent_layout_modes = independent_hard_layout_modes | independent_field_layout_modes
+
+    def apply_independent_region_field(
+        coords: torch.Tensor,
+        t_value: torch.Tensor | float,
+        strength: float,
+        pan: float,
+    ) -> torch.Tensor:
+        x = coords[:, 0:1]
+        y = coords[:, 1:2]
+        t_col = t_value if torch.is_tensor(t_value) else torch.full((coords.shape[0], 1), float(t_value), device=coords.device)
+        envelope = torch.sin(t_col * torch.pi).square()
+        weighted_delta = torch.zeros_like(coords)
+        total_weight = torch.zeros_like(x)
+        for x0, y0, x1, y1, pan_x_mul, pan_y_mul, scale_x_mul, scale_y_mul, speed, phase in independent_layout_regions:
+            cx = (x0 + x1) * 0.5
+            cy = (y0 + y1) * 0.5
+            source_w = x1 - x0
+            source_h = y1 - y0
+            norm_x = (x - cx) / max(1e-6, source_w * 0.55)
+            norm_y = (y - cy) / max(1e-6, source_h * 0.55)
+            weight = torch.exp(-2.35 * (norm_x.square() + norm_y.square()))
+            angle = 2.0 * torch.pi * (float(speed) * t_col + phase)
+            pan_x = pan * pan_x_mul * envelope * torch.sin(angle)
+            pan_y = pan * pan_y_mul * envelope * torch.cos(angle + torch.pi * 0.23)
+            scale_x = (
+                1.0 + strength * scale_x_mul * envelope * torch.sin(angle + torch.pi * 0.31)
+            ).clamp(0.55, 1.50)
+            scale_y = (
+                1.0 + strength * scale_y_mul * envelope * torch.cos(angle + torch.pi * 0.19)
+            ).clamp(0.55, 1.50)
+            local_x = cx + (x - cx - pan_x) / scale_x
+            local_y = cy + (y - cy - pan_y) / scale_y
+            local_coords = torch.cat([local_x, local_y], dim=-1)
+            weighted_delta += weight * (local_coords - coords)
+            total_weight += weight
+        influence = total_weight.clamp(0.0, 1.0)
+        delta = weighted_delta / total_weight.clamp_min(1e-6)
+        return (coords + delta * influence).clamp(0.0, 1.0)
+
     def target_coords_for_motion(coords: torch.Tensor, t: torch.Tensor, amp: float, mode: str) -> torch.Tensor:
         phase = t * 2.0 * torch.pi
         x = coords[:, 0:1]
         y = coords[:, 1:2]
         if mode in {"static", "identity", "none"}:
             return coords
+        if mode in {"independent-field", "region-field"}:
+            return apply_independent_region_field(coords, t, amp, amp * 0.24)
         if mode == "frame-scale":
             envelope = torch.sin(t * torch.pi).square()
             scale_x = 1.0 - amp * envelope
@@ -455,13 +506,6 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     element_mask_mode = str(config.get("element_mask_mode", "rectangle"))
     element_anchor_mode = str(config.get("element_anchor_mode", "line"))
     element_render_mode = str(config.get("element_render_mode", "sequential"))
-    independent_layout_regions = [
-        (0.04, 0.035, 0.96, 0.17, 0.85, -0.28, 0.35, -0.18, 1, 0.00),
-        (0.055, 0.205, 0.505, 0.58, -0.95, 0.80, -0.70, 0.48, 2, 0.16),
-        (0.535, 0.205, 0.955, 0.57, 1.05, 0.58, 0.62, -0.42, 1, 0.34),
-        (0.06, 0.61, 0.52, 0.935, -0.65, -0.85, 0.48, 0.58, 3, 0.08),
-        (0.54, 0.60, 0.95, 0.93, 0.75, -0.62, -0.50, 0.52, 2, 0.42),
-    ]
     edge_sample_ratio = float(config.get("edge_sample_ratio", 0.0))
     edge_loss_weight = float(config.get("edge_loss_weight", 0.0))
     text_box_sample_ratio = float(config.get("text_box_sample_ratio", 0.0))
@@ -658,7 +702,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         yy, xx = torch.meshgrid(ys, xs, indexing="ij")
         coords = torch.stack([xx.reshape(-1), yy.reshape(-1)], dim=-1)
         valid = torch.ones((coords.shape[0], 1), device=device, dtype=torch.bool)
-        if video_layout_mode in {"independent-regions", "region-dance"}:
+        if video_layout_mode in independent_field_layout_modes:
+            coords = apply_independent_region_field(coords, t_value, layout_transform_strength, layout_transform_pan)
+        if video_layout_mode in independent_hard_layout_modes:
             output_coords = coords.clone()
             output_x = output_coords[:, 0]
             output_y = output_coords[:, 1]
@@ -891,7 +937,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "layout_transform_pan": layout_transform_pan,
         "layout_supersample": layout_supersample,
         "layout_region_count": (
-            len(independent_layout_regions) if video_layout_mode in {"independent-regions", "region-dance"} else 0
+            len(independent_layout_regions)
+            if video_layout_mode in independent_layout_modes or motion_mode in independent_field_layout_modes
+            else 0
         ),
         "element_scale_ratio": element_scale_ratio,
         "element_anchor_padding": element_anchor_padding,
@@ -921,12 +969,16 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "motion_delta_model": motion_delta,
         "loop_error_model": loop_error,
         "description": (
-            f"C4.4 neural canvas: stable content with independent coarse regions moving on separate timelines"
-            if video_layout_mode in {"independent-regions", "region-dance"}
+            f"C4.5 neural canvas: stable content with smooth independent region field"
+            if video_layout_mode in independent_field_layout_modes
+            else f"C4.4 neural canvas: stable content with independent coarse regions moving on separate timelines"
+            if video_layout_mode in independent_hard_layout_modes
             else f"C2.6 neural canvas: stable content with OCR {element_anchor_mode} anchors, {element_mask_mode} masks, and {video_layout_mode} layout transform"
             if text_enabled and video_layout_mode == "element-frame-scale"
             else f"C2.3 neural canvas: stable content with {video_layout_mode} layout transform"
             if video_layout_mode != "none"
+            else "C4.5 neural canvas: learned independent region field from x,y,t"
+            if motion_mode in {"independent-field", "region-field"}
             else f"C2.1 neural canvas: learned {motion_mode} motion with OCR text-box-weighted sampling/loss"
             if text_enabled
             else "C2-lite neural canvas: learned time-conditioned motion field with glyph-weighted sampling/loss"
