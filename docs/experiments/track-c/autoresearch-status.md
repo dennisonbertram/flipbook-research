@@ -1,34 +1,44 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-24T20:17:05+00:00`
+Updated UTC: `2026-04-24T20:23:31+00:00`
 
 ## Active Sessions
 
 - `clawtest`
 - `track-c-autoresearch`
-- `track-c-c40-frame-scale-0125-edge075-freq10-train1536`
-- `track-c-c40-frame-scale-0125-edge09-freq10-train1536-seed1`
-- `track-c-c40-frame-scale-0125-edge09-freq10-train1920`
-- `track-c-c40-frame-scale-0125-edge09-freq12-train1536`
-- `track-c-c40-frame-scale-014-edge075-freq10-train1536`
-- `track-c-c40-frame-scale-014-edge09-freq10-train1536-seed1`
-- `track-c-c40-frame-scale-014-edge09-freq10-train1920`
-- `track-c-c40-frame-scale-014-edge09-freq12-train1536`
-- `track-c-c40-frame-scale-0145-edge09-freq10-train1536`
-- `track-c-c40-frame-scale-016-edge09-freq10-train1536`
+- `track-c-c41-frame-scale-0125-edge09-freq10-train1536-seed2`
+- `track-c-c41-frame-scale-0125-edge09-freq10-train1536-seed3`
+- `track-c-c41-frame-scale-014-edge09-freq10-train1536-lr005`
+- `track-c-c41-frame-scale-014-edge09-freq10-train1536-lr005-seed1`
+- `track-c-c41-frame-scale-014-edge09-freq10-train1536-lr007`
+- `track-c-c41-frame-scale-014-edge09-freq10-train1536-lr007-seed1`
+- `track-c-c41-frame-scale-014-edge09-freq10-train1536-seed2`
+- `track-c-c41-frame-scale-014-edge09-freq10-train1536-seed3`
+- `track-c-c41-frame-scale-014-edge09-freq12-train1536-seed1`
+- `track-c-c41-frame-scale-016-edge09-freq10-train1536-lr007`
 
 ## Queue
 
-- `c40-frame-scale-0125-edge09-freq10-train1536-seed1`: pending/running - C40 denser-canvas robustness: seed repeat for the C39 0.125 train1536/freq10 winner.
-- `c40-frame-scale-014-edge09-freq10-train1536-seed1`: pending/running - C40 denser-canvas robustness: seed repeat for the C39 0.14 train1536/freq10 pass.
-- `c40-frame-scale-0125-edge09-freq12-train1536`: pending/running - C40 denser-canvas frequency ladder: test freq12 at the 0.125 train1536 bracket.
-- `c40-frame-scale-014-edge09-freq12-train1536`: pending/running - C40 denser-canvas frequency ladder: test freq12 at the 0.14 train1536 bracket.
-- `c40-frame-scale-0125-edge075-freq10-train1536`: pending/running - C40 denser-canvas edge bracket: lighter edge weighting around the C39 0.125 winner.
-- `c40-frame-scale-014-edge075-freq10-train1536`: pending/running - C40 denser-canvas edge bracket: lighter edge weighting at the 0.14 train1536 bracket.
-- `c40-frame-scale-0125-edge09-freq10-train1920`: pending/running - C40 denser-canvas resolution ladder: test 1920x1088 latent training at the 0.125 bracket.
-- `c40-frame-scale-014-edge09-freq10-train1920`: pending/running - C40 denser-canvas resolution ladder: test 1920x1088 latent training at the 0.14 bracket.
-- `c40-frame-scale-0145-edge09-freq10-train1536`: pending/running - C40 denser-canvas stress ladder: push train1536/freq10 past the 0.14 bracket.
-- `c40-frame-scale-016-edge09-freq10-train1536`: pending/running - C40 denser-canvas stress ladder: test whether train1536/freq10 can hold 0.16 resize.
+- `c41-frame-scale-014-edge09-freq10-train1536-lr007`: pending/running - C41 optimizer stability: lower learning rate at the 0.14 train1536/freq10 bracket.
+- `c41-frame-scale-014-edge09-freq10-train1536-lr007-seed1`: pending/running - C41 optimizer stability: lower learning rate seed repeat for the fragile 0.14 bracket.
+- `c41-frame-scale-014-edge09-freq10-train1536-lr005`: pending/running - C41 optimizer stability: conservative learning rate at the 0.14 train1536/freq10 bracket.
+- `c41-frame-scale-014-edge09-freq10-train1536-lr005-seed1`: pending/running - C41 optimizer stability: conservative learning rate seed repeat for the 0.14 bracket.
+- `c41-frame-scale-014-edge09-freq12-train1536-seed1`: pending/running - C41 frequency robustness: seed repeat for the 0.14 freq12 train1536 bracket.
+- `c41-frame-scale-0125-edge09-freq10-train1536-seed2`: pending/running - C41 robustness: seed 2 repeat for the new 0.125 train1536/freq10 winner family.
+- `c41-frame-scale-0125-edge09-freq10-train1536-seed3`: pending/running - C41 robustness: seed 3 repeat for the new 0.125 train1536/freq10 winner family.
+- `c41-frame-scale-014-edge09-freq10-train1536-seed2`: pending/running - C41 robustness: seed 2 repeat for the unstable 0.14 train1536/freq10 bracket.
+- `c41-frame-scale-014-edge09-freq10-train1536-seed3`: pending/running - C41 robustness: seed 3 repeat for the unstable 0.14 train1536/freq10 bracket.
+- `c41-frame-scale-016-edge09-freq10-train1536-lr007`: pending/running - C41 optimizer stability: lower learning rate on the strong 0.16 train1536/freq10 resize bracket.
+- `c40-frame-scale-0125-edge09-freq10-train1536-seed1`: done - C40 denser-canvas robustness: seed repeat for the C39 0.125 train1536/freq10 winner.
+- `c40-frame-scale-014-edge09-freq10-train1536-seed1`: done - C40 denser-canvas robustness: seed repeat for the C39 0.14 train1536/freq10 pass.
+- `c40-frame-scale-0125-edge09-freq12-train1536`: done - C40 denser-canvas frequency ladder: test freq12 at the 0.125 train1536 bracket.
+- `c40-frame-scale-014-edge09-freq12-train1536`: done - C40 denser-canvas frequency ladder: test freq12 at the 0.14 train1536 bracket.
+- `c40-frame-scale-0125-edge075-freq10-train1536`: done - C40 denser-canvas edge bracket: lighter edge weighting around the C39 0.125 winner.
+- `c40-frame-scale-014-edge075-freq10-train1536`: done - C40 denser-canvas edge bracket: lighter edge weighting at the 0.14 train1536 bracket.
+- `c40-frame-scale-0125-edge09-freq10-train1920`: done - C40 denser-canvas resolution ladder: test 1920x1088 latent training at the 0.125 bracket.
+- `c40-frame-scale-014-edge09-freq10-train1920`: done - C40 denser-canvas resolution ladder: test 1920x1088 latent training at the 0.14 bracket.
+- `c40-frame-scale-0145-edge09-freq10-train1536`: done - C40 denser-canvas stress ladder: push train1536/freq10 past the 0.14 bracket.
+- `c40-frame-scale-016-edge09-freq10-train1536`: done - C40 denser-canvas stress ladder: test whether train1536/freq10 can hold 0.16 resize.
 - `c39-frame-scale-0125-edge09-freq10-cap24h128`: done - C39 resize representation: combine higher coordinate frequency with larger latent/channel capacity at 0.125.
 - `c39-frame-scale-014-edge09-freq10-cap24h128`: done - C39 resize representation: combine higher frequency and capacity at the 0.14 stress bracket.
 - `c39-frame-scale-0125-edge09-freq10-s6000`: done - C39 resize representation: more optimization steps on the current fast C38 freq10 winner.
