@@ -42,7 +42,20 @@
       "min_ocr_similarity": 0.35,
       "min_motion_delta": 0.04,
       "max_loop_error": 0.02
+    },
+    {
+      "scenario_id": "independent-regions-moderate",
+      "description": "Coarse page regions move and resize independently on separate timelines.",
+      "min_ocr_similarity": 0.50,
+      "min_motion_delta": 0.035,
+      "max_loop_error": 0.02
+    },
+    {
+      "scenario_id": "independent-regions-strong",
+      "description": "Stronger independent page-region motion with separate speeds, pans, and scales.",
+      "min_ocr_similarity": 0.40,
+      "min_motion_delta": 0.04,
+      "max_loop_error": 0.02
     }
   ]
 }
-

@@ -455,6 +455,13 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     element_mask_mode = str(config.get("element_mask_mode", "rectangle"))
     element_anchor_mode = str(config.get("element_anchor_mode", "line"))
     element_render_mode = str(config.get("element_render_mode", "sequential"))
+    independent_layout_regions = [
+        (0.04, 0.035, 0.96, 0.17, 0.85, -0.28, 0.35, -0.18, 1, 0.00),
+        (0.055, 0.205, 0.505, 0.58, -0.95, 0.80, -0.70, 0.48, 2, 0.16),
+        (0.535, 0.205, 0.955, 0.57, 1.05, 0.58, 0.62, -0.42, 1, 0.34),
+        (0.06, 0.61, 0.52, 0.935, -0.65, -0.85, 0.48, 0.58, 3, 0.08),
+        (0.54, 0.60, 0.95, 0.93, 0.75, -0.62, -0.50, 0.52, 2, 0.42),
+    ]
     edge_sample_ratio = float(config.get("edge_sample_ratio", 0.0))
     edge_loss_weight = float(config.get("edge_loss_weight", 0.0))
     text_box_sample_ratio = float(config.get("text_box_sample_ratio", 0.0))
@@ -651,6 +658,49 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         yy, xx = torch.meshgrid(ys, xs, indexing="ij")
         coords = torch.stack([xx.reshape(-1), yy.reshape(-1)], dim=-1)
         valid = torch.ones((coords.shape[0], 1), device=device, dtype=torch.bool)
+        if video_layout_mode in {"independent-regions", "region-dance"}:
+            output_coords = coords.clone()
+            output_x = output_coords[:, 0]
+            output_y = output_coords[:, 1]
+            envelope = float(np.sin(np.pi * t_value) ** 2)
+            for x0, y0, x1, y1, pan_x_mul, pan_y_mul, scale_x_mul, scale_y_mul, speed, phase in independent_layout_regions:
+                source_mask = (output_x >= x0) & (output_x <= x1) & (output_y >= y0) & (output_y <= y1)
+                valid[source_mask] = False
+
+                cx = (x0 + x1) * 0.5
+                cy = (y0 + y1) * 0.5
+                source_w = x1 - x0
+                source_h = y1 - y0
+                angle = 2.0 * np.pi * (float(speed) * t_value + phase)
+                pan_x = layout_transform_pan * pan_x_mul * envelope * float(np.sin(angle))
+                pan_y = layout_transform_pan * pan_y_mul * envelope * float(np.cos(angle + np.pi * 0.23))
+                scale_x = min(
+                    1.55,
+                    max(0.52, 1.0 + layout_transform_strength * scale_x_mul * envelope * float(np.sin(angle + np.pi * 0.31))),
+                )
+                scale_y = min(
+                    1.55,
+                    max(0.52, 1.0 + layout_transform_strength * scale_y_mul * envelope * float(np.cos(angle + np.pi * 0.19))),
+                )
+                out_cx = cx + pan_x
+                out_cy = cy + pan_y
+                out_w = source_w * scale_x
+                out_h = source_h * scale_y
+                canonical_x = cx + (output_x - out_cx) / scale_x
+                canonical_y = cy + (output_y - out_cy) / scale_y
+                moved_mask = (
+                    (output_x >= out_cx - out_w * 0.5)
+                    & (output_x <= out_cx + out_w * 0.5)
+                    & (output_y >= out_cy - out_h * 0.5)
+                    & (output_y <= out_cy + out_h * 0.5)
+                    & (canonical_x >= x0)
+                    & (canonical_x <= x1)
+                    & (canonical_y >= y0)
+                    & (canonical_y <= y1)
+                )
+                coords[moved_mask, 0] = canonical_x[moved_mask].clamp(0.0, 1.0)
+                coords[moved_mask, 1] = canonical_y[moved_mask].clamp(0.0, 1.0)
+                valid[moved_mask] = True
         if video_layout_mode in {"frame-scale", "element-frame-scale"}:
             envelope = float(np.sin(np.pi * t_value) ** 2)
             scale_x = max(0.35, 1.0 - layout_transform_strength * envelope)
@@ -840,6 +890,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "layout_transform_strength": layout_transform_strength,
         "layout_transform_pan": layout_transform_pan,
         "layout_supersample": layout_supersample,
+        "layout_region_count": (
+            len(independent_layout_regions) if video_layout_mode in {"independent-regions", "region-dance"} else 0
+        ),
         "element_scale_ratio": element_scale_ratio,
         "element_anchor_padding": element_anchor_padding,
         "element_mask_mode": element_mask_mode,
@@ -868,10 +921,12 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "motion_delta_model": motion_delta,
         "loop_error_model": loop_error,
         "description": (
-            f"C2.6 neural canvas: stable content with OCR {element_anchor_mode} anchors, {element_mask_mode} masks, and {video_layout_mode} layout transform"
+            f"C4.4 neural canvas: stable content with independent coarse regions moving on separate timelines"
+            if video_layout_mode in {"independent-regions", "region-dance"}
+            else f"C2.6 neural canvas: stable content with OCR {element_anchor_mode} anchors, {element_mask_mode} masks, and {video_layout_mode} layout transform"
             if text_enabled and video_layout_mode == "element-frame-scale"
             else f"C2.3 neural canvas: stable content with {video_layout_mode} layout transform"
-            if text_enabled and video_layout_mode != "none"
+            if video_layout_mode != "none"
             else f"C2.1 neural canvas: learned {motion_mode} motion with OCR text-box-weighted sampling/loss"
             if text_enabled
             else "C2-lite neural canvas: learned time-conditioned motion field with glyph-weighted sampling/loss"

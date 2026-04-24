@@ -54,6 +54,8 @@ def infer_scenario_id(metrics: dict[str, Any]) -> str:
         return "responsive-squeeze"
     if motion_mode == "frame-scale":
         return "frame-scale-strong" if motion_strength >= 0.15 else "frame-scale-moderate"
+    if layout_mode in {"independent-regions", "region-dance"}:
+        return "independent-regions-strong" if layout_strength >= 0.13 else "independent-regions-moderate"
     if layout_mode in {"frame-scale", "element-frame-scale"}:
         return "frame-scale-strong" if layout_strength >= 0.15 else "frame-scale-moderate"
     if viewport_mode == "zoom-pulse":
@@ -159,6 +161,7 @@ def build_eval(run_dir: Path, scenarios: dict[str, dict[str, Any]]) -> dict[str,
             "video_layout_mode": metrics.get("video_layout_mode"),
             "layout_transform_strength": metrics.get("layout_transform_strength"),
             "layout_transform_pan": metrics.get("layout_transform_pan"),
+            "layout_region_count": metrics.get("layout_region_count"),
             "element_scale_ratio": metrics.get("element_scale_ratio"),
             "element_anchor_padding": metrics.get("element_anchor_padding"),
             "element_mask_mode": metrics.get("element_mask_mode"),

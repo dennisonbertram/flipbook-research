@@ -17,10 +17,10 @@ Local-motion winner:
   status:  pass
 
 Resize/reposition stress:
-  run:     20260424T201700836238Z-c2-lite-glyph-static-layout-frame-scale-c40-frame-scale-0125-edge09-freq10-train1536-seed1-1536x864-s5500
-  segment: 559.324ms
-  OCR F1:  0.7222
-  motion:  0.0574
+  run:     20260424T203639915770Z-c2-lite-glyph-static-layout-frame-scale-c43-frame-scale-014-edge09-freq10-train1536-clip05-1536x864-s5500
+  segment: 566.234ms
+  OCR F1:  0.7281
+  motion:  0.0592
   status:  pass
 ```
 
@@ -67,6 +67,10 @@ C4.0 improves the best `0.125` resize result again: seed `1` of `1536x864 + freq
 C4.1 confirms that stability is the main issue. The `0.125` bracket holds across seeds but ranges from OCR `0.6636` to `0.7222`. The `0.14` bracket can recover with lower LR on some seeds (`lr007-seed1` reaches OCR `0.6849`) but lower LR hurts others, so a single constant LR is not a complete fix. C4.2 tests optimizer schedules: cosine LR decay and gradient clipping.
 
 C4.2 shows gradient clipping is more promising than cosine LR for the hard `0.14` resize bracket. `c42-frame-scale-014-edge09-freq10-train1536-clip1-seed1` reaches OCR `0.6944`, segment `565.820ms`, and motion `0.0601`. Cosine LR helps the weak `0.125` seed (`0.7064`) but does not rescue the `0.14` bracket reliably. C4.3 expands gradient clipping across clip strengths and seeds.
+
+C4.3 confirms gradient clipping is the best stability lever so far. The hard `0.14` global resize bracket reaches OCR `0.7281` at segment `566.234ms` with clip `0.5`, and another clip `1.0` seed also reaches OCR `0.7281` at segment `570.829ms`. This beats the earlier `0.125` resize reference while running a harder transform. Seed variance is still real, so clipping improves the ceiling without fully solving robustness.
+
+C4.4 pivots beyond global warp. A single frame-scale transform is too easy because every item moves together. The next suite adds an `independent-regions` layout mode: several coarse page regions are blanked and re-rendered through separate neural-canvas query transforms, each with different pan, scale, speed, and phase. This is still not the final general renderer, but it is a much better stress test for neural-canvas pixels than text wiggle or one camera-like resize.
 
 Suggested `results.tsv` header:
 

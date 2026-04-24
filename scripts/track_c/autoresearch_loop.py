@@ -162,7 +162,121 @@ class Experiment:
         return LOG_DIR / f"{self.label}.log"
 
 
+def independent_region_experiment(
+    label: str,
+    *,
+    strength: float,
+    pan: float,
+    seed: int = 0,
+    freq_bands: int = 10,
+    grad_clip: float = 0.5,
+    min_ocr: float = 0.50,
+    min_motion: float = 0.04,
+) -> Experiment:
+    seed_note = f", seed {seed}" if seed else ""
+    return Experiment(
+        label=label,
+        notes=(
+            "C44 independent-region stress: coarse page regions move/scale at separate speeds "
+            f"with strength {strength:g}, pan {pan:g}, freq{freq_bands}, grad clip {grad_clip:g}{seed_note}."
+        ),
+        args=general_visual_motion_args(
+            label,
+            train_resolution="1536x864",
+            steps=5500,
+            seed=seed,
+            freq_bands=freq_bands,
+            grad_clip=grad_clip,
+            edge_ratio=0.09,
+            edge_weight=0.9,
+            motion_mode="static",
+            motion_strength=0.0,
+            video_layout_mode="independent-regions",
+            layout_transform_strength=strength,
+            layout_transform_pan=pan,
+            min_ocr=min_ocr,
+            min_motion=min_motion,
+        ),
+    )
+
+
 EXPERIMENTS = [
+    independent_region_experiment(
+        "c44-regions-006-pan018-clip05",
+        strength=0.06,
+        pan=0.018,
+        min_ocr=0.62,
+        min_motion=0.035,
+    ),
+    independent_region_experiment(
+        "c44-regions-010-pan024-clip05",
+        strength=0.10,
+        pan=0.024,
+        min_ocr=0.58,
+        min_motion=0.04,
+    ),
+    independent_region_experiment(
+        "c44-regions-014-pan030-clip05",
+        strength=0.14,
+        pan=0.030,
+        min_ocr=0.50,
+        min_motion=0.04,
+    ),
+    independent_region_experiment(
+        "c44-regions-010-pan024-clip1",
+        strength=0.10,
+        pan=0.024,
+        grad_clip=1.0,
+        min_ocr=0.58,
+        min_motion=0.04,
+    ),
+    independent_region_experiment(
+        "c44-regions-014-pan030-clip1",
+        strength=0.14,
+        pan=0.030,
+        grad_clip=1.0,
+        min_ocr=0.50,
+        min_motion=0.04,
+    ),
+    independent_region_experiment(
+        "c44-regions-010-pan024-freq12-clip05",
+        strength=0.10,
+        pan=0.024,
+        freq_bands=12,
+        min_ocr=0.58,
+        min_motion=0.04,
+    ),
+    independent_region_experiment(
+        "c44-regions-014-pan030-freq12-clip05",
+        strength=0.14,
+        pan=0.030,
+        freq_bands=12,
+        min_ocr=0.50,
+        min_motion=0.04,
+    ),
+    independent_region_experiment(
+        "c44-regions-010-pan024-clip05-seed1",
+        strength=0.10,
+        pan=0.024,
+        seed=1,
+        min_ocr=0.56,
+        min_motion=0.04,
+    ),
+    independent_region_experiment(
+        "c44-regions-010-pan024-clip05-seed2",
+        strength=0.10,
+        pan=0.024,
+        seed=2,
+        min_ocr=0.56,
+        min_motion=0.04,
+    ),
+    independent_region_experiment(
+        "c44-regions-016-pan036-clip05",
+        strength=0.16,
+        pan=0.036,
+        min_ocr=0.42,
+        min_motion=0.045,
+    ),
     Experiment(
         label="c43-frame-scale-014-edge09-freq10-train1536-clip05",
         notes="C43 clipping robustness: grad clip 0.5 at the hard 0.14 train1536/freq10 bracket.",

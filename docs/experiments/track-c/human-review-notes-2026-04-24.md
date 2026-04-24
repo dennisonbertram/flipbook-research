@@ -627,3 +627,48 @@ c43-frame-scale-014-edge09-freq10-train1536-clip2-seed1
 c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1
 c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1-seed1
 ```
+
+## C43 Clipping Robustness Results
+
+Completed C43 results:
+
+```text
+c43-frame-scale-014-edge09-freq10-train1536-clip05: OCR 0.7281, segment 566.234ms, pass
+c43-frame-scale-014-edge09-freq10-train1536-clip1-seed2: OCR 0.7281, segment 570.829ms, pass
+c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1: OCR 0.7230, segment 566.807ms, pass
+c43-frame-scale-014-edge09-freq10-train1536-clip05-seed3: OCR 0.7156, segment 553.468ms, pass
+c43-frame-scale-014-edge09-freq10-train1536-clip2: OCR 0.6977, segment 559.196ms, pass
+c43-frame-scale-014-edge09-freq10-train1536-clip05-seed1: OCR 0.6912, segment 846.244ms, pass
+c43-frame-scale-014-edge09-freq10-train1536-clip2-seed1: OCR 0.6759, segment 556.768ms, pass
+c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1-seed1: OCR 0.5755, segment 497.728ms, quality_fail
+c43-frame-scale-014-edge09-freq10-train1536-clip05-seed2: OCR 0.5213, segment 545.259ms, quality_fail
+c43-frame-scale-014-edge09-freq10-train1536-clip1-seed3: OCR 0.3553, segment 563.334ms, quality_fail
+```
+
+Interpretation:
+
+- Gradient clipping is now the strongest model-layer stability result for global resize/reposition. It moves the hard `0.14` bracket to OCR `0.7281` while staying under the `1.3s` segment budget.
+- Clip `0.5` and clip `1.0` both hit the same top OCR on different seeds, so the effect is not a one-off artifact.
+- Seed variance remains large. Clipping improves the ceiling and pass rate, but it does not yet make the renderer robust.
+- This is still one global transform. It is a useful boundary result, but it is not enough to prove independent page-level motion.
+
+Decision:
+
+- Keep `1536x864 + freq10 + edge09 + grad clipping` as the baseline.
+- Stop optimizing only for global frame-scale.
+- C44 should stress independent page items: separate coarse regions should move, pan, and resize on different timelines. The renderer should remain pure neural-canvas query rendering, with no OCR boxes, text masks, or render-time text overlays.
+
+Next experiments:
+
+```text
+c44-regions-006-pan018-clip05
+c44-regions-010-pan024-clip05
+c44-regions-014-pan030-clip05
+c44-regions-010-pan024-clip1
+c44-regions-014-pan030-clip1
+c44-regions-010-pan024-freq12-clip05
+c44-regions-014-pan030-freq12-clip05
+c44-regions-010-pan024-clip05-seed1
+c44-regions-010-pan024-clip05-seed2
+c44-regions-016-pan036-clip05
+```
