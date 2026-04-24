@@ -92,6 +92,8 @@ C4.9 produced the new learned layout-reflow best. `c49-reflow-target-b196-c32h16
 
 C5.0 is queued behind C4.9 as an ablation wave. It separates target-side sampling, target-side weighting, and midpoint time bias, then tests a few sharper variants (`freq12`, `c40h192`, cosine LR, clip `1.0`, and `1920x1088` text-weighting). The goal is to learn which part of the C4.9 intervention matters before adding another model abstraction.
 
+C5.0 confirms the useful ingredient is target-side loss weighting plus enough optimization budget. The best ablation is target-weight-only at OCR `0.5000`, motion `0.0488`, segment `620.067ms`; target-sample-only drops to OCR `0.4277`, and midpoint-only lands near the gate at `0.4767`. C5.1 therefore focuses on the C4.9 winner family: larger batches, longer runs, high-res `c32h160`, and seed repeats.
+
 Suggested `results.tsv` header:
 
 ```text

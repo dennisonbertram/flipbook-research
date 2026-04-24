@@ -920,3 +920,43 @@ Interpretation:
 - `1920x1088` with `c32h160` is the fastest strong pass at `631.621ms`, but the `c24h128` high-res variant underperformed.
 - Text-box weighting still did not help in this setup, which supports the pure neural-canvas direction rather than returning to box-specific tricks.
 - Human contact-sheet review shows the target layout is being followed and the title/text are noticeably more stable, though text still has blur/ghosting at the reflow midpoint.
+
+## C50 Ablation Results
+
+Completed C50 results:
+
+```text
+c50-reflow-ablate-target-weight-only: OCR 0.5000, segment 620.067ms, motion_delta 0.0488, pass
+c50-reflow-target-cosine-c32h160-s11000: OCR 0.4906, segment 720.773ms, motion_delta 0.0505, quality_fail
+c50-reflow-ablate-midtime-only: OCR 0.4767, segment 735.640ms, motion_delta 0.0508, quality_fail
+c50-reflow-target-train1920-textw-c24h128-s11000: OCR 0.4750, segment 631.337ms, motion_delta 0.0526, quality_fail
+c50-reflow-target-mid90n-c32h160-s11000: OCR 0.4654, segment 727.581ms, motion_delta 0.0492, quality_fail
+c50-reflow-target-mid40-c32h160-s11000: OCR 0.4500, segment 701.006ms, motion_delta 0.0468, quality_fail
+c50-reflow-target-c40h192-s11000: OCR 0.4431, segment 722.699ms, motion_delta 0.0521, quality_fail
+c50-reflow-ablate-target-sample-only: OCR 0.4277, segment 723.896ms, motion_delta 0.0511, quality_fail
+c50-reflow-target-clip1-c32h160-s11000: OCR 0.4267, segment 708.023ms, motion_delta 0.0504, quality_fail
+c50-reflow-target-freq12-c32h160-s11000: OCR 0.3553, segment 733.943ms, motion_delta 0.0477, quality_fail
+```
+
+Interpretation:
+
+- Target-side weighting matters more than target-side coordinate sampling when isolated.
+- Midpoint time pressure helps but is not sufficient alone.
+- The best C49 outcomes likely came from target weighting plus either larger batch (`196608`) or more steps (`14000`), not from capacity/frequency changes.
+- `freq12`, `c40h192`, and clip `1.0` all regress here, so C51 should not spend more budget on those axes yet.
+
+Next experiments:
+
+```text
+c51-reflow-target-b196-c32h160-s12000
+c51-reflow-target-b196-c32h160-s14000
+c51-reflow-target-b229-c32h160-s10000
+c51-reflow-target-mid60-c32h160-s16000
+c51-reflow-target-mid60-c32h160-s18000
+c51-reflow-weightonly-b196-c32h160-s10000
+c51-reflow-weightonly-c32h160-s14000
+c51-reflow-target-train1920-c32h160-s13000
+c51-reflow-target-train1920-c32h160-s15000
+c51-reflow-target-b196-c32h160-s10000-seed1
+c51-reflow-target-mid60-c32h160-s14000-seed1
+```
