@@ -1,35 +1,35 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-24T20:36:45+00:00`
+Updated UTC: `2026-04-24T20:41:52+00:00`
 
 ## Active Sessions
 
 - `clawtest`
 - `track-c-autoresearch`
-- `track-c-c43-frame-scale-014-edge09-freq10-train1536-clip05`
-- `track-c-c43-frame-scale-014-edge09-freq10-train1536-clip05-seed1`
-- `track-c-c43-frame-scale-014-edge09-freq10-train1536-clip05-seed2`
-- `track-c-c43-frame-scale-014-edge09-freq10-train1536-clip05-seed3`
-- `track-c-c43-frame-scale-014-edge09-freq10-train1536-clip1-seed2`
-- `track-c-c43-frame-scale-014-edge09-freq10-train1536-clip1-seed3`
-- `track-c-c43-frame-scale-014-edge09-freq10-train1536-clip2`
-- `track-c-c43-frame-scale-014-edge09-freq10-train1536-clip2-seed1`
-- `track-c-c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1`
-- `track-c-c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1-seed1`
+- `track-c-c34-general-flow-014-edge09-seed0`
+- `track-c-c34-general-flow-014-edge1-seed0`
+- `track-c-c34-general-flow-014-edge1-seed1`
+- `track-c-c34-general-flow-014-edge1-seed2`
+- `track-c-c34-general-flow-014-edge1-seed3`
+- `track-c-c34-general-flow-0141-edge1-seed0`
+- `track-c-c34-general-flow-01415-edge1-seed0`
+- `track-c-c34-general-flow-0142-edge1-seed0`
+- `track-c-c34-general-responsive-014-edge1-seed0`
+- `track-c-c34-general-viewport-014-edge1-seed0`
 - `track-c-github-sync`
 
 ## Queue
 
-- `c43-frame-scale-014-edge09-freq10-train1536-clip05`: pending/running - C43 clipping robustness: grad clip 0.5 at the hard 0.14 train1536/freq10 bracket.
-- `c43-frame-scale-014-edge09-freq10-train1536-clip05-seed1`: pending/running - C43 clipping robustness: grad clip 0.5 seed1 repeat at the hard 0.14 bracket.
-- `c43-frame-scale-014-edge09-freq10-train1536-clip05-seed2`: pending/running - C43 clipping robustness: grad clip 0.5 seed2 repeat at the hard 0.14 bracket.
-- `c43-frame-scale-014-edge09-freq10-train1536-clip05-seed3`: pending/running - C43 clipping robustness: grad clip 0.5 seed3 repeat at the hard 0.14 bracket.
-- `c43-frame-scale-014-edge09-freq10-train1536-clip1-seed2`: pending/running - C43 clipping robustness: grad clip 1.0 seed2 repeat after C42 seed1 success.
-- `c43-frame-scale-014-edge09-freq10-train1536-clip1-seed3`: pending/running - C43 clipping robustness: grad clip 1.0 seed3 repeat after C42 seed1 success.
-- `c43-frame-scale-014-edge09-freq10-train1536-clip2`: pending/running - C43 clipping robustness: looser grad clip 2.0 at the hard 0.14 bracket.
-- `c43-frame-scale-014-edge09-freq10-train1536-clip2-seed1`: pending/running - C43 clipping robustness: looser grad clip 2.0 seed1 repeat at the hard 0.14 bracket.
-- `c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1`: pending/running - C43 clipping robustness: combine lr007 with grad clip 1.0 at the hard 0.14 bracket.
-- `c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1-seed1`: pending/running - C43 clipping robustness: combine lr007 with grad clip 1.0 seed1 repeat.
+- `c43-frame-scale-014-edge09-freq10-train1536-clip05`: done - C43 clipping robustness: grad clip 0.5 at the hard 0.14 train1536/freq10 bracket.
+- `c43-frame-scale-014-edge09-freq10-train1536-clip05-seed1`: done - C43 clipping robustness: grad clip 0.5 seed1 repeat at the hard 0.14 bracket.
+- `c43-frame-scale-014-edge09-freq10-train1536-clip05-seed2`: done - C43 clipping robustness: grad clip 0.5 seed2 repeat at the hard 0.14 bracket.
+- `c43-frame-scale-014-edge09-freq10-train1536-clip05-seed3`: done - C43 clipping robustness: grad clip 0.5 seed3 repeat at the hard 0.14 bracket.
+- `c43-frame-scale-014-edge09-freq10-train1536-clip1-seed2`: done - C43 clipping robustness: grad clip 1.0 seed2 repeat after C42 seed1 success.
+- `c43-frame-scale-014-edge09-freq10-train1536-clip1-seed3`: done - C43 clipping robustness: grad clip 1.0 seed3 repeat after C42 seed1 success.
+- `c43-frame-scale-014-edge09-freq10-train1536-clip2`: done - C43 clipping robustness: looser grad clip 2.0 at the hard 0.14 bracket.
+- `c43-frame-scale-014-edge09-freq10-train1536-clip2-seed1`: done - C43 clipping robustness: looser grad clip 2.0 seed1 repeat at the hard 0.14 bracket.
+- `c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1`: done - C43 clipping robustness: combine lr007 with grad clip 1.0 at the hard 0.14 bracket.
+- `c43-frame-scale-014-edge09-freq10-train1536-lr007-clip1-seed1`: done - C43 clipping robustness: combine lr007 with grad clip 1.0 seed1 repeat.
 - `c42-frame-scale-014-edge09-freq10-train1536-cosine`: done - C42 optimizer schedule: cosine LR decay at the fragile 0.14 train1536/freq10 bracket.
 - `c42-frame-scale-014-edge09-freq10-train1536-cosine-seed1`: done - C42 optimizer schedule: cosine LR decay seed repeat at the 0.14 train1536/freq10 bracket.
 - `c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine`: done - C42 optimizer schedule: lower LR plus cosine decay at the 0.14 train1536/freq10 bracket.
