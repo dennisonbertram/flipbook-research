@@ -1,88 +1,158 @@
 {
-  "updated_utc": "2026-04-24T20:23:31+00:00",
+  "updated_utc": "2026-04-24T20:30:28+00:00",
   "active_sessions": [
     "clawtest",
     "track-c-autoresearch",
-    "track-c-c41-frame-scale-0125-edge09-freq10-train1536-seed2",
-    "track-c-c41-frame-scale-0125-edge09-freq10-train1536-seed3",
-    "track-c-c41-frame-scale-014-edge09-freq10-train1536-lr005",
-    "track-c-c41-frame-scale-014-edge09-freq10-train1536-lr005-seed1",
-    "track-c-c41-frame-scale-014-edge09-freq10-train1536-lr007",
-    "track-c-c41-frame-scale-014-edge09-freq10-train1536-lr007-seed1",
-    "track-c-c41-frame-scale-014-edge09-freq10-train1536-seed2",
-    "track-c-c41-frame-scale-014-edge09-freq10-train1536-seed3",
-    "track-c-c41-frame-scale-014-edge09-freq12-train1536-seed1",
-    "track-c-c41-frame-scale-016-edge09-freq10-train1536-lr007"
+    "track-c-c42-frame-scale-0125-edge09-freq10-train1536-seed3-cosine",
+    "track-c-c42-frame-scale-014-edge09-freq10-train1536-clip1",
+    "track-c-c42-frame-scale-014-edge09-freq10-train1536-clip1-seed1",
+    "track-c-c42-frame-scale-014-edge09-freq10-train1536-cosine",
+    "track-c-c42-frame-scale-014-edge09-freq10-train1536-cosine-seed1",
+    "track-c-c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine",
+    "track-c-c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine-seed1",
+    "track-c-c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine",
+    "track-c-c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine-seed1",
+    "track-c-c42-frame-scale-016-edge09-freq10-train1536-lr007-cosine"
   ],
   "experiments": [
+    {
+      "label": "c42-frame-scale-014-edge09-freq10-train1536-cosine",
+      "session": "track-c-c42-frame-scale-014-edge09-freq10-train1536-cosine",
+      "log": "docs/experiments/track-c/c42-frame-scale-014-edge09-freq10-train1536-cosine.log",
+      "done": false,
+      "notes": "C42 optimizer schedule: cosine LR decay at the fragile 0.14 train1536/freq10 bracket."
+    },
+    {
+      "label": "c42-frame-scale-014-edge09-freq10-train1536-cosine-seed1",
+      "session": "track-c-c42-frame-scale-014-edge09-freq10-train1536-cosine-seed1",
+      "log": "docs/experiments/track-c/c42-frame-scale-014-edge09-freq10-train1536-cosine-seed1.log",
+      "done": false,
+      "notes": "C42 optimizer schedule: cosine LR decay seed repeat at the 0.14 train1536/freq10 bracket."
+    },
+    {
+      "label": "c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine",
+      "session": "track-c-c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine",
+      "log": "docs/experiments/track-c/c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine.log",
+      "done": false,
+      "notes": "C42 optimizer schedule: lower LR plus cosine decay at the 0.14 train1536/freq10 bracket."
+    },
+    {
+      "label": "c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine-seed1",
+      "session": "track-c-c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine-seed1",
+      "log": "docs/experiments/track-c/c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine-seed1.log",
+      "done": false,
+      "notes": "C42 optimizer schedule: lower LR plus cosine decay seed repeat for the 0.14 bracket."
+    },
+    {
+      "label": "c42-frame-scale-014-edge09-freq10-train1536-clip1",
+      "session": "track-c-c42-frame-scale-014-edge09-freq10-train1536-clip1",
+      "log": "docs/experiments/track-c/c42-frame-scale-014-edge09-freq10-train1536-clip1.log",
+      "done": false,
+      "notes": "C42 optimizer schedule: gradient clipping at the 0.14 train1536/freq10 bracket."
+    },
+    {
+      "label": "c42-frame-scale-014-edge09-freq10-train1536-clip1-seed1",
+      "session": "track-c-c42-frame-scale-014-edge09-freq10-train1536-clip1-seed1",
+      "log": "docs/experiments/track-c/c42-frame-scale-014-edge09-freq10-train1536-clip1-seed1.log",
+      "done": false,
+      "notes": "C42 optimizer schedule: gradient clipping seed repeat at the 0.14 train1536/freq10 bracket."
+    },
+    {
+      "label": "c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine",
+      "session": "track-c-c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine",
+      "log": "docs/experiments/track-c/c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine.log",
+      "done": false,
+      "notes": "C42 optimizer schedule: freq12 plus lower LR/cosine at the 0.14 bracket."
+    },
+    {
+      "label": "c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine-seed1",
+      "session": "track-c-c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine-seed1",
+      "log": "docs/experiments/track-c/c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine-seed1.log",
+      "done": false,
+      "notes": "C42 optimizer schedule: freq12 plus lower LR/cosine seed repeat at the 0.14 bracket."
+    },
+    {
+      "label": "c42-frame-scale-0125-edge09-freq10-train1536-seed3-cosine",
+      "session": "track-c-c42-frame-scale-0125-edge09-freq10-train1536-seed3-cosine",
+      "log": "docs/experiments/track-c/c42-frame-scale-0125-edge09-freq10-train1536-seed3-cosine.log",
+      "done": false,
+      "notes": "C42 robustness: cosine LR on the weak 0.125 seed3 repeat."
+    },
+    {
+      "label": "c42-frame-scale-016-edge09-freq10-train1536-lr007-cosine",
+      "session": "track-c-c42-frame-scale-016-edge09-freq10-train1536-lr007-cosine",
+      "log": "docs/experiments/track-c/c42-frame-scale-016-edge09-freq10-train1536-lr007-cosine.log",
+      "done": false,
+      "notes": "C42 strong-resize optimizer schedule: lower LR/cosine on the 0.16 bracket."
+    },
     {
       "label": "c41-frame-scale-014-edge09-freq10-train1536-lr007",
       "session": "track-c-c41-frame-scale-014-edge09-freq10-train1536-lr007",
       "log": "docs/experiments/track-c/c41-frame-scale-014-edge09-freq10-train1536-lr007.log",
-      "done": false,
+      "done": true,
       "notes": "C41 optimizer stability: lower learning rate at the 0.14 train1536/freq10 bracket."
     },
     {
       "label": "c41-frame-scale-014-edge09-freq10-train1536-lr007-seed1",
       "session": "track-c-c41-frame-scale-014-edge09-freq10-train1536-lr007-seed1",
       "log": "docs/experiments/track-c/c41-frame-scale-014-edge09-freq10-train1536-lr007-seed1.log",
-      "done": false,
+      "done": true,
       "notes": "C41 optimizer stability: lower learning rate seed repeat for the fragile 0.14 bracket."
     },
     {
       "label": "c41-frame-scale-014-edge09-freq10-train1536-lr005",
       "session": "track-c-c41-frame-scale-014-edge09-freq10-train1536-lr005",
       "log": "docs/experiments/track-c/c41-frame-scale-014-edge09-freq10-train1536-lr005.log",
-      "done": false,
+      "done": true,
       "notes": "C41 optimizer stability: conservative learning rate at the 0.14 train1536/freq10 bracket."
     },
     {
       "label": "c41-frame-scale-014-edge09-freq10-train1536-lr005-seed1",
       "session": "track-c-c41-frame-scale-014-edge09-freq10-train1536-lr005-seed1",
       "log": "docs/experiments/track-c/c41-frame-scale-014-edge09-freq10-train1536-lr005-seed1.log",
-      "done": false,
+      "done": true,
       "notes": "C41 optimizer stability: conservative learning rate seed repeat for the 0.14 bracket."
     },
     {
       "label": "c41-frame-scale-014-edge09-freq12-train1536-seed1",
       "session": "track-c-c41-frame-scale-014-edge09-freq12-train1536-seed1",
       "log": "docs/experiments/track-c/c41-frame-scale-014-edge09-freq12-train1536-seed1.log",
-      "done": false,
+      "done": true,
       "notes": "C41 frequency robustness: seed repeat for the 0.14 freq12 train1536 bracket."
     },
     {
       "label": "c41-frame-scale-0125-edge09-freq10-train1536-seed2",
       "session": "track-c-c41-frame-scale-0125-edge09-freq10-train1536-seed2",
       "log": "docs/experiments/track-c/c41-frame-scale-0125-edge09-freq10-train1536-seed2.log",
-      "done": false,
+      "done": true,
       "notes": "C41 robustness: seed 2 repeat for the new 0.125 train1536/freq10 winner family."
     },
     {
       "label": "c41-frame-scale-0125-edge09-freq10-train1536-seed3",
       "session": "track-c-c41-frame-scale-0125-edge09-freq10-train1536-seed3",
       "log": "docs/experiments/track-c/c41-frame-scale-0125-edge09-freq10-train1536-seed3.log",
-      "done": false,
+      "done": true,
       "notes": "C41 robustness: seed 3 repeat for the new 0.125 train1536/freq10 winner family."
     },
     {
       "label": "c41-frame-scale-014-edge09-freq10-train1536-seed2",
       "session": "track-c-c41-frame-scale-014-edge09-freq10-train1536-seed2",
       "log": "docs/experiments/track-c/c41-frame-scale-014-edge09-freq10-train1536-seed2.log",
-      "done": false,
+      "done": true,
       "notes": "C41 robustness: seed 2 repeat for the unstable 0.14 train1536/freq10 bracket."
     },
     {
       "label": "c41-frame-scale-014-edge09-freq10-train1536-seed3",
       "session": "track-c-c41-frame-scale-014-edge09-freq10-train1536-seed3",
       "log": "docs/experiments/track-c/c41-frame-scale-014-edge09-freq10-train1536-seed3.log",
-      "done": false,
+      "done": true,
       "notes": "C41 robustness: seed 3 repeat for the unstable 0.14 train1536/freq10 bracket."
     },
     {
       "label": "c41-frame-scale-016-edge09-freq10-train1536-lr007",
       "session": "track-c-c41-frame-scale-016-edge09-freq10-train1536-lr007",
       "log": "docs/experiments/track-c/c41-frame-scale-016-edge09-freq10-train1536-lr007.log",
-      "done": false,
+      "done": true,
       "notes": "C41 optimizer stability: lower learning rate on the strong 0.16 train1536/freq10 resize bracket."
     },
     {

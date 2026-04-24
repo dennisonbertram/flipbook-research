@@ -1,34 +1,44 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-24T20:23:31+00:00`
+Updated UTC: `2026-04-24T20:30:28+00:00`
 
 ## Active Sessions
 
 - `clawtest`
 - `track-c-autoresearch`
-- `track-c-c41-frame-scale-0125-edge09-freq10-train1536-seed2`
-- `track-c-c41-frame-scale-0125-edge09-freq10-train1536-seed3`
-- `track-c-c41-frame-scale-014-edge09-freq10-train1536-lr005`
-- `track-c-c41-frame-scale-014-edge09-freq10-train1536-lr005-seed1`
-- `track-c-c41-frame-scale-014-edge09-freq10-train1536-lr007`
-- `track-c-c41-frame-scale-014-edge09-freq10-train1536-lr007-seed1`
-- `track-c-c41-frame-scale-014-edge09-freq10-train1536-seed2`
-- `track-c-c41-frame-scale-014-edge09-freq10-train1536-seed3`
-- `track-c-c41-frame-scale-014-edge09-freq12-train1536-seed1`
-- `track-c-c41-frame-scale-016-edge09-freq10-train1536-lr007`
+- `track-c-c42-frame-scale-0125-edge09-freq10-train1536-seed3-cosine`
+- `track-c-c42-frame-scale-014-edge09-freq10-train1536-clip1`
+- `track-c-c42-frame-scale-014-edge09-freq10-train1536-clip1-seed1`
+- `track-c-c42-frame-scale-014-edge09-freq10-train1536-cosine`
+- `track-c-c42-frame-scale-014-edge09-freq10-train1536-cosine-seed1`
+- `track-c-c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine`
+- `track-c-c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine-seed1`
+- `track-c-c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine`
+- `track-c-c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine-seed1`
+- `track-c-c42-frame-scale-016-edge09-freq10-train1536-lr007-cosine`
 
 ## Queue
 
-- `c41-frame-scale-014-edge09-freq10-train1536-lr007`: pending/running - C41 optimizer stability: lower learning rate at the 0.14 train1536/freq10 bracket.
-- `c41-frame-scale-014-edge09-freq10-train1536-lr007-seed1`: pending/running - C41 optimizer stability: lower learning rate seed repeat for the fragile 0.14 bracket.
-- `c41-frame-scale-014-edge09-freq10-train1536-lr005`: pending/running - C41 optimizer stability: conservative learning rate at the 0.14 train1536/freq10 bracket.
-- `c41-frame-scale-014-edge09-freq10-train1536-lr005-seed1`: pending/running - C41 optimizer stability: conservative learning rate seed repeat for the 0.14 bracket.
-- `c41-frame-scale-014-edge09-freq12-train1536-seed1`: pending/running - C41 frequency robustness: seed repeat for the 0.14 freq12 train1536 bracket.
-- `c41-frame-scale-0125-edge09-freq10-train1536-seed2`: pending/running - C41 robustness: seed 2 repeat for the new 0.125 train1536/freq10 winner family.
-- `c41-frame-scale-0125-edge09-freq10-train1536-seed3`: pending/running - C41 robustness: seed 3 repeat for the new 0.125 train1536/freq10 winner family.
-- `c41-frame-scale-014-edge09-freq10-train1536-seed2`: pending/running - C41 robustness: seed 2 repeat for the unstable 0.14 train1536/freq10 bracket.
-- `c41-frame-scale-014-edge09-freq10-train1536-seed3`: pending/running - C41 robustness: seed 3 repeat for the unstable 0.14 train1536/freq10 bracket.
-- `c41-frame-scale-016-edge09-freq10-train1536-lr007`: pending/running - C41 optimizer stability: lower learning rate on the strong 0.16 train1536/freq10 resize bracket.
+- `c42-frame-scale-014-edge09-freq10-train1536-cosine`: pending/running - C42 optimizer schedule: cosine LR decay at the fragile 0.14 train1536/freq10 bracket.
+- `c42-frame-scale-014-edge09-freq10-train1536-cosine-seed1`: pending/running - C42 optimizer schedule: cosine LR decay seed repeat at the 0.14 train1536/freq10 bracket.
+- `c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine`: pending/running - C42 optimizer schedule: lower LR plus cosine decay at the 0.14 train1536/freq10 bracket.
+- `c42-frame-scale-014-edge09-freq10-train1536-lr007-cosine-seed1`: pending/running - C42 optimizer schedule: lower LR plus cosine decay seed repeat for the 0.14 bracket.
+- `c42-frame-scale-014-edge09-freq10-train1536-clip1`: pending/running - C42 optimizer schedule: gradient clipping at the 0.14 train1536/freq10 bracket.
+- `c42-frame-scale-014-edge09-freq10-train1536-clip1-seed1`: pending/running - C42 optimizer schedule: gradient clipping seed repeat at the 0.14 train1536/freq10 bracket.
+- `c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine`: pending/running - C42 optimizer schedule: freq12 plus lower LR/cosine at the 0.14 bracket.
+- `c42-frame-scale-014-edge09-freq12-train1536-lr007-cosine-seed1`: pending/running - C42 optimizer schedule: freq12 plus lower LR/cosine seed repeat at the 0.14 bracket.
+- `c42-frame-scale-0125-edge09-freq10-train1536-seed3-cosine`: pending/running - C42 robustness: cosine LR on the weak 0.125 seed3 repeat.
+- `c42-frame-scale-016-edge09-freq10-train1536-lr007-cosine`: pending/running - C42 strong-resize optimizer schedule: lower LR/cosine on the 0.16 bracket.
+- `c41-frame-scale-014-edge09-freq10-train1536-lr007`: done - C41 optimizer stability: lower learning rate at the 0.14 train1536/freq10 bracket.
+- `c41-frame-scale-014-edge09-freq10-train1536-lr007-seed1`: done - C41 optimizer stability: lower learning rate seed repeat for the fragile 0.14 bracket.
+- `c41-frame-scale-014-edge09-freq10-train1536-lr005`: done - C41 optimizer stability: conservative learning rate at the 0.14 train1536/freq10 bracket.
+- `c41-frame-scale-014-edge09-freq10-train1536-lr005-seed1`: done - C41 optimizer stability: conservative learning rate seed repeat for the 0.14 bracket.
+- `c41-frame-scale-014-edge09-freq12-train1536-seed1`: done - C41 frequency robustness: seed repeat for the 0.14 freq12 train1536 bracket.
+- `c41-frame-scale-0125-edge09-freq10-train1536-seed2`: done - C41 robustness: seed 2 repeat for the new 0.125 train1536/freq10 winner family.
+- `c41-frame-scale-0125-edge09-freq10-train1536-seed3`: done - C41 robustness: seed 3 repeat for the new 0.125 train1536/freq10 winner family.
+- `c41-frame-scale-014-edge09-freq10-train1536-seed2`: done - C41 robustness: seed 2 repeat for the unstable 0.14 train1536/freq10 bracket.
+- `c41-frame-scale-014-edge09-freq10-train1536-seed3`: done - C41 robustness: seed 3 repeat for the unstable 0.14 train1536/freq10 bracket.
+- `c41-frame-scale-016-edge09-freq10-train1536-lr007`: done - C41 optimizer stability: lower learning rate on the strong 0.16 train1536/freq10 resize bracket.
 - `c40-frame-scale-0125-edge09-freq10-train1536-seed1`: done - C40 denser-canvas robustness: seed repeat for the C39 0.125 train1536/freq10 winner.
 - `c40-frame-scale-014-edge09-freq10-train1536-seed1`: done - C40 denser-canvas robustness: seed repeat for the C39 0.14 train1536/freq10 pass.
 - `c40-frame-scale-0125-edge09-freq12-train1536`: done - C40 denser-canvas frequency ladder: test freq12 at the 0.125 train1536 bracket.
