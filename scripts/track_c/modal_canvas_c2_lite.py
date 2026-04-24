@@ -1083,6 +1083,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "min_lr_ratio": min_lr_ratio,
         "grad_clip": grad_clip,
         "seed": seed,
+        "experiment_label": config.get("experiment_label", ""),
         "flow_scale": flow_scale,
         "motion_mode": motion_mode,
         "motion_strength": motion_strength,
