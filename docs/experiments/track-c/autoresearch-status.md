@@ -1,14 +1,11 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-24T23:45:40+00:00`
+Updated UTC: `2026-04-24T23:51:02+00:00`
 
 ## Active Sessions
 
 - `clawtest`
 - `track-c-autoresearch`
-- `track-c-c52-reflow-target-b196-c32h160-s10000-seed2`
-- `track-c-c52-reflow-weightonly-b196-c32h160-s14000`
-- `track-c-c52-reflow-weightonly-c32h160-s14000-seed2`
 - `track-c-github-sync`
 
 ## Queue
@@ -42,8 +39,8 @@ Updated UTC: `2026-04-24T23:45:40+00:00`
 - `c52-reflow-weightonly-b196-c32h160-s14000`: done - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.6.
 - `c52-reflow-weightonly-train1920-c32h160-s13000`: done - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 13000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.6.
 - `c52-reflow-weightonly-c32h160-s14000-seed1`: done - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 1, target-side reflow sampling, mid-time 0.6.
-- `c52-reflow-weightonly-c32h160-s14000-seed2`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 2, target-side reflow sampling, mid-time 0.6.
-- `c52-reflow-target-b196-c32h160-s10000-seed2`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq10, grad clip 0.5, seed 2, target-side reflow sampling, mid-time 0.6.
+- `c52-reflow-weightonly-c32h160-s14000-seed2`: done - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 2, target-side reflow sampling, mid-time 0.6.
+- `c52-reflow-target-b196-c32h160-s10000-seed2`: done - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq10, grad clip 0.5, seed 2, target-side reflow sampling, mid-time 0.6.
 - `c51-reflow-target-b196-c32h160-s12000`: done - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.6.
 - `c51-reflow-target-b196-c32h160-s14000`: done - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.6.
 - `c51-reflow-target-b229-c32h160-s10000`: done - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq10, grad clip 0.5, target-side reflow sampling, mid-time 0.6.
