@@ -1,0 +1,10 @@
+20260424T231333802689Z-c2-lite-glyph-layout-reflow-c49-reflow-target-train1920-c32h160-s11000-1920x1088-s11000	layout-reflow-learned	pass	631.621ms	ocr=0.5497
+20260424T231334082957Z-c2-lite-glyph-layout-reflow-c49-reflow-target-mid60-c32h160-s14000-1536x864-s14000	layout-reflow-learned	pass	724.892ms	ocr=0.5714
+20260424T231334946510Z-c2-lite-glyph-layout-reflow-c49-reflow-target-b196-c32h160-s10000-1536x864-s10000	layout-reflow-learned	pass	867.931ms	ocr=0.5761
+20260424T231335109582Z-c2-lite-glyph-layout-reflow-c49-reflow-target-time6-c32h160-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	728.181ms	ocr=0.4267
+20260424T231335814206Z-c2-lite-glyph-layout-reflow-c49-reflow-target-mid80-c32h160-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	638.482ms	ocr=0.4500
+20260424T231335864143Z-c2-lite-glyph-layout-reflow-c49-reflow-target-mid60-c32h160-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	709.629ms	ocr=0.4875
+20260424T231336511693Z-c2-lite-glyph-layout-reflow-c49-reflow-target-edge18-c32h160-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	706.553ms	ocr=0.4780
+20260424T231337010466Z-c2-lite-glyph-layout-reflow-c49-reflow-target-train1920-c24h128-s11000-1920x1088-s11000	layout-reflow-learned	quality_fail	694.017ms	ocr=0.4568
+20260424T231337184596Z-c2-lite-glyph-layout-reflow-c49-reflow-target-lr007-c32h160-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	619.204ms	ocr=0.4198
+20260424T231337679272Z-c2-lite-text-layout-reflow-c49-reflow-target-textw-c32h160-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	705.667ms	ocr=0.4625
