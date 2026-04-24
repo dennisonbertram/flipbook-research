@@ -1,34 +1,44 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-24T19:58:59+00:00`
+Updated UTC: `2026-04-24T20:05:24+00:00`
 
 ## Active Sessions
 
 - `clawtest`
 - `track-c-autoresearch`
-- `track-c-c37-frame-scale-012-edge09-s6000`
-- `track-c-c37-frame-scale-0125-edge09`
-- `track-c-c37-frame-scale-013-edge09`
-- `track-c-c37-frame-scale-0135-edge09`
-- `track-c-c37-frame-scale-014-edge075-pan000`
-- `track-c-c37-frame-scale-014-edge075-s6000`
-- `track-c-c37-frame-scale-014-edge09-pan000`
-- `track-c-c37-frame-scale-014-edge09-pan018`
-- `track-c-c37-frame-scale-014-edge09-s6000`
-- `track-c-c37-frame-scale-016-edge075-s6000`
+- `track-c-c38-frame-scale-0125-edge09-aa15`
+- `track-c-c38-frame-scale-0125-edge09-cap24h128`
+- `track-c-c38-frame-scale-0125-edge09-freq10`
+- `track-c-c38-frame-scale-0125-edge09-seed1`
+- `track-c-c38-frame-scale-014-edge09-aa15`
+- `track-c-c38-frame-scale-014-edge09-aa2`
+- `track-c-c38-frame-scale-014-edge09-cap24h128`
+- `track-c-c38-frame-scale-014-edge09-freq10`
+- `track-c-c38-frame-scale-014-edge09-seed1`
+- `track-c-c38-frame-scale-016-edge075-aa15`
 
 ## Queue
 
-- `c37-frame-scale-012-edge09-s6000`: pending/running - C37 resize refinement: repeat the best C35 0.12/edge09 bracket with more optimization steps.
-- `c37-frame-scale-0125-edge09`: pending/running - C37 resize refinement: locate the cliff just above the C35 0.12 pass.
-- `c37-frame-scale-013-edge09`: pending/running - C37 resize refinement: mid-point between C35 0.12 and C36 0.14.
-- `c37-frame-scale-0135-edge09`: pending/running - C37 resize refinement: upper mid-point before the C36 0.14 quality drop.
-- `c37-frame-scale-014-edge09-s6000`: pending/running - C37 resize refinement: test whether more steps rescue the C36 0.14/edge09 setting.
-- `c37-frame-scale-014-edge075-s6000`: pending/running - C37 resize refinement: more steps on the lighter-edge 0.14 bracket.
-- `c37-frame-scale-016-edge075-s6000`: pending/running - C37 resize refinement: check whether the 0.16 strong-resize pass improves with more steps.
-- `c37-frame-scale-014-edge09-pan000`: pending/running - C37 resize isolation: remove pan at 0.14/edge09 to separate scaling from repositioning.
-- `c37-frame-scale-014-edge09-pan018`: pending/running - C37 resize isolation: reduced pan at 0.14/edge09 to quantify scale-plus-reposition cost.
-- `c37-frame-scale-014-edge075-pan000`: pending/running - C37 resize isolation: no-pan version of the lighter-edge 0.14 bracket.
+- `c38-frame-scale-0125-edge09-aa15`: pending/running - C38 resize model/render test: 1.5x neural supersampling at the C37 best 0.125 bracket.
+- `c38-frame-scale-014-edge09-aa15`: pending/running - C38 resize model/render test: 1.5x neural supersampling at 0.14 to test aliasing versus identity loss.
+- `c38-frame-scale-014-edge09-aa2`: pending/running - C38 resize model/render test: 2x neural supersampling to measure quality/latency tradeoff directly.
+- `c38-frame-scale-016-edge075-aa15`: pending/running - C38 resize model/render test: 1.5x neural supersampling on the strong 0.16 bracket.
+- `c38-frame-scale-0125-edge09-cap24h128`: pending/running - C38 resize model test: larger latent/channel capacity at the C37 best 0.125 bracket.
+- `c38-frame-scale-014-edge09-cap24h128`: pending/running - C38 resize model test: larger latent/channel capacity at the 0.14 resize bracket.
+- `c38-frame-scale-0125-edge09-freq10`: pending/running - C38 resize model test: higher coordinate frequency at the C37 best 0.125 bracket.
+- `c38-frame-scale-014-edge09-freq10`: pending/running - C38 resize model test: higher coordinate frequency at the 0.14 resize bracket.
+- `c38-frame-scale-0125-edge09-seed1`: pending/running - C38 resize robustness: seed repeat at the C37 best 0.125 bracket.
+- `c38-frame-scale-014-edge09-seed1`: pending/running - C38 resize robustness: seed repeat at the unstable 0.14 bracket.
+- `c37-frame-scale-012-edge09-s6000`: done - C37 resize refinement: repeat the best C35 0.12/edge09 bracket with more optimization steps.
+- `c37-frame-scale-0125-edge09`: done - C37 resize refinement: locate the cliff just above the C35 0.12 pass.
+- `c37-frame-scale-013-edge09`: done - C37 resize refinement: mid-point between C35 0.12 and C36 0.14.
+- `c37-frame-scale-0135-edge09`: done - C37 resize refinement: upper mid-point before the C36 0.14 quality drop.
+- `c37-frame-scale-014-edge09-s6000`: done - C37 resize refinement: test whether more steps rescue the C36 0.14/edge09 setting.
+- `c37-frame-scale-014-edge075-s6000`: done - C37 resize refinement: more steps on the lighter-edge 0.14 bracket.
+- `c37-frame-scale-016-edge075-s6000`: done - C37 resize refinement: check whether the 0.16 strong-resize pass improves with more steps.
+- `c37-frame-scale-014-edge09-pan000`: done - C37 resize isolation: remove pan at 0.14/edge09 to separate scaling from repositioning.
+- `c37-frame-scale-014-edge09-pan018`: done - C37 resize isolation: reduced pan at 0.14/edge09 to quantify scale-plus-reposition cost.
+- `c37-frame-scale-014-edge075-pan000`: done - C37 resize isolation: no-pan version of the lighter-edge 0.14 bracket.
 - `c36-frame-scale-014-edge075`: done - C36 resize cliff: frame-scale 0.14 with lighter edge weighting, no OCR boxes.
 - `c36-frame-scale-014-edge09`: done - C36 resize cliff: frame-scale 0.14 at the better C35 edge09 setting.
 - `c36-frame-scale-014-edge1`: done - C36 resize cliff: frame-scale 0.14 at edge1 to locate the degradation slope.

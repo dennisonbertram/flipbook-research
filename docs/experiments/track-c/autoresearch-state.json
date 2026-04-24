@@ -1,88 +1,158 @@
 {
-  "updated_utc": "2026-04-24T19:58:59+00:00",
+  "updated_utc": "2026-04-24T20:05:24+00:00",
   "active_sessions": [
     "clawtest",
     "track-c-autoresearch",
-    "track-c-c37-frame-scale-012-edge09-s6000",
-    "track-c-c37-frame-scale-0125-edge09",
-    "track-c-c37-frame-scale-013-edge09",
-    "track-c-c37-frame-scale-0135-edge09",
-    "track-c-c37-frame-scale-014-edge075-pan000",
-    "track-c-c37-frame-scale-014-edge075-s6000",
-    "track-c-c37-frame-scale-014-edge09-pan000",
-    "track-c-c37-frame-scale-014-edge09-pan018",
-    "track-c-c37-frame-scale-014-edge09-s6000",
-    "track-c-c37-frame-scale-016-edge075-s6000"
+    "track-c-c38-frame-scale-0125-edge09-aa15",
+    "track-c-c38-frame-scale-0125-edge09-cap24h128",
+    "track-c-c38-frame-scale-0125-edge09-freq10",
+    "track-c-c38-frame-scale-0125-edge09-seed1",
+    "track-c-c38-frame-scale-014-edge09-aa15",
+    "track-c-c38-frame-scale-014-edge09-aa2",
+    "track-c-c38-frame-scale-014-edge09-cap24h128",
+    "track-c-c38-frame-scale-014-edge09-freq10",
+    "track-c-c38-frame-scale-014-edge09-seed1",
+    "track-c-c38-frame-scale-016-edge075-aa15"
   ],
   "experiments": [
+    {
+      "label": "c38-frame-scale-0125-edge09-aa15",
+      "session": "track-c-c38-frame-scale-0125-edge09-aa15",
+      "log": "docs/experiments/track-c/c38-frame-scale-0125-edge09-aa15.log",
+      "done": false,
+      "notes": "C38 resize model/render test: 1.5x neural supersampling at the C37 best 0.125 bracket."
+    },
+    {
+      "label": "c38-frame-scale-014-edge09-aa15",
+      "session": "track-c-c38-frame-scale-014-edge09-aa15",
+      "log": "docs/experiments/track-c/c38-frame-scale-014-edge09-aa15.log",
+      "done": false,
+      "notes": "C38 resize model/render test: 1.5x neural supersampling at 0.14 to test aliasing versus identity loss."
+    },
+    {
+      "label": "c38-frame-scale-014-edge09-aa2",
+      "session": "track-c-c38-frame-scale-014-edge09-aa2",
+      "log": "docs/experiments/track-c/c38-frame-scale-014-edge09-aa2.log",
+      "done": false,
+      "notes": "C38 resize model/render test: 2x neural supersampling to measure quality/latency tradeoff directly."
+    },
+    {
+      "label": "c38-frame-scale-016-edge075-aa15",
+      "session": "track-c-c38-frame-scale-016-edge075-aa15",
+      "log": "docs/experiments/track-c/c38-frame-scale-016-edge075-aa15.log",
+      "done": false,
+      "notes": "C38 resize model/render test: 1.5x neural supersampling on the strong 0.16 bracket."
+    },
+    {
+      "label": "c38-frame-scale-0125-edge09-cap24h128",
+      "session": "track-c-c38-frame-scale-0125-edge09-cap24h128",
+      "log": "docs/experiments/track-c/c38-frame-scale-0125-edge09-cap24h128.log",
+      "done": false,
+      "notes": "C38 resize model test: larger latent/channel capacity at the C37 best 0.125 bracket."
+    },
+    {
+      "label": "c38-frame-scale-014-edge09-cap24h128",
+      "session": "track-c-c38-frame-scale-014-edge09-cap24h128",
+      "log": "docs/experiments/track-c/c38-frame-scale-014-edge09-cap24h128.log",
+      "done": false,
+      "notes": "C38 resize model test: larger latent/channel capacity at the 0.14 resize bracket."
+    },
+    {
+      "label": "c38-frame-scale-0125-edge09-freq10",
+      "session": "track-c-c38-frame-scale-0125-edge09-freq10",
+      "log": "docs/experiments/track-c/c38-frame-scale-0125-edge09-freq10.log",
+      "done": false,
+      "notes": "C38 resize model test: higher coordinate frequency at the C37 best 0.125 bracket."
+    },
+    {
+      "label": "c38-frame-scale-014-edge09-freq10",
+      "session": "track-c-c38-frame-scale-014-edge09-freq10",
+      "log": "docs/experiments/track-c/c38-frame-scale-014-edge09-freq10.log",
+      "done": false,
+      "notes": "C38 resize model test: higher coordinate frequency at the 0.14 resize bracket."
+    },
+    {
+      "label": "c38-frame-scale-0125-edge09-seed1",
+      "session": "track-c-c38-frame-scale-0125-edge09-seed1",
+      "log": "docs/experiments/track-c/c38-frame-scale-0125-edge09-seed1.log",
+      "done": false,
+      "notes": "C38 resize robustness: seed repeat at the C37 best 0.125 bracket."
+    },
+    {
+      "label": "c38-frame-scale-014-edge09-seed1",
+      "session": "track-c-c38-frame-scale-014-edge09-seed1",
+      "log": "docs/experiments/track-c/c38-frame-scale-014-edge09-seed1.log",
+      "done": false,
+      "notes": "C38 resize robustness: seed repeat at the unstable 0.14 bracket."
+    },
     {
       "label": "c37-frame-scale-012-edge09-s6000",
       "session": "track-c-c37-frame-scale-012-edge09-s6000",
       "log": "docs/experiments/track-c/c37-frame-scale-012-edge09-s6000.log",
-      "done": false,
+      "done": true,
       "notes": "C37 resize refinement: repeat the best C35 0.12/edge09 bracket with more optimization steps."
     },
     {
       "label": "c37-frame-scale-0125-edge09",
       "session": "track-c-c37-frame-scale-0125-edge09",
       "log": "docs/experiments/track-c/c37-frame-scale-0125-edge09.log",
-      "done": false,
+      "done": true,
       "notes": "C37 resize refinement: locate the cliff just above the C35 0.12 pass."
     },
     {
       "label": "c37-frame-scale-013-edge09",
       "session": "track-c-c37-frame-scale-013-edge09",
       "log": "docs/experiments/track-c/c37-frame-scale-013-edge09.log",
-      "done": false,
+      "done": true,
       "notes": "C37 resize refinement: mid-point between C35 0.12 and C36 0.14."
     },
     {
       "label": "c37-frame-scale-0135-edge09",
       "session": "track-c-c37-frame-scale-0135-edge09",
       "log": "docs/experiments/track-c/c37-frame-scale-0135-edge09.log",
-      "done": false,
+      "done": true,
       "notes": "C37 resize refinement: upper mid-point before the C36 0.14 quality drop."
     },
     {
       "label": "c37-frame-scale-014-edge09-s6000",
       "session": "track-c-c37-frame-scale-014-edge09-s6000",
       "log": "docs/experiments/track-c/c37-frame-scale-014-edge09-s6000.log",
-      "done": false,
+      "done": true,
       "notes": "C37 resize refinement: test whether more steps rescue the C36 0.14/edge09 setting."
     },
     {
       "label": "c37-frame-scale-014-edge075-s6000",
       "session": "track-c-c37-frame-scale-014-edge075-s6000",
       "log": "docs/experiments/track-c/c37-frame-scale-014-edge075-s6000.log",
-      "done": false,
+      "done": true,
       "notes": "C37 resize refinement: more steps on the lighter-edge 0.14 bracket."
     },
     {
       "label": "c37-frame-scale-016-edge075-s6000",
       "session": "track-c-c37-frame-scale-016-edge075-s6000",
       "log": "docs/experiments/track-c/c37-frame-scale-016-edge075-s6000.log",
-      "done": false,
+      "done": true,
       "notes": "C37 resize refinement: check whether the 0.16 strong-resize pass improves with more steps."
     },
     {
       "label": "c37-frame-scale-014-edge09-pan000",
       "session": "track-c-c37-frame-scale-014-edge09-pan000",
       "log": "docs/experiments/track-c/c37-frame-scale-014-edge09-pan000.log",
-      "done": false,
+      "done": true,
       "notes": "C37 resize isolation: remove pan at 0.14/edge09 to separate scaling from repositioning."
     },
     {
       "label": "c37-frame-scale-014-edge09-pan018",
       "session": "track-c-c37-frame-scale-014-edge09-pan018",
       "log": "docs/experiments/track-c/c37-frame-scale-014-edge09-pan018.log",
-      "done": false,
+      "done": true,
       "notes": "C37 resize isolation: reduced pan at 0.14/edge09 to quantify scale-plus-reposition cost."
     },
     {
       "label": "c37-frame-scale-014-edge075-pan000",
       "session": "track-c-c37-frame-scale-014-edge075-pan000",
       "log": "docs/experiments/track-c/c37-frame-scale-014-edge075-pan000.log",
-      "done": false,
+      "done": true,
       "notes": "C37 resize isolation: no-pan version of the lighter-edge 0.14 bracket."
     },
     {
