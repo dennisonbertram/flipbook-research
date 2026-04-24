@@ -1,0 +1,150 @@
+✓ Initialized. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-jbPO1JFqvEON6NomCmY2EY
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/dennisonbertram/Develop/flipbook-research/scripts/track_c/modal_canva
+│   s_c2_lite.py
+└── 🔨 Created function train_and_render_motion.
+START 20260424T142739Z-c2-lite-960x544-s3000 config={"batch_size": 131072, "channels": 16, "flow_scale": 0.006, "fps": 24, "frames": 33, "freq_bands": 8, "hidden": 96, "lr": 0.01, "steps": 3000, "time_bands": 4, "train_resolution": "960x544"}
+{
+  "canvas_type": "time-conditioned-latent-feature-grid-learned-flow-mlp",
+  "train_resolution": "960x544",
+  "steps": 3000,
+  "batch_size": 131072,
+  "channels": 16,
+  "hidden": 96,
+  "freq_bands": 8,
+  "time_bands": 4,
+  "lr": 0.01,
+  "flow_scale": 0.006,
+  "compile_ms": 14553.528835000001,
+  "final_mse": 3.426989133004099e-05,
+  "losses": [
+    {
+      "step": 0,
+      "mse": 0.20672141015529633
+    },
+    {
+      "step": 150,
+      "mse": 0.0039630550891160965
+    },
+    {
+      "step": 300,
+      "mse": 0.00043231886229477823
+    },
+    {
+      "step": 450,
+      "mse": 0.00022673601051792502
+    },
+    {
+      "step": 600,
+      "mse": 0.00017963896971195936
+    },
+    {
+      "step": 750,
+      "mse": 0.00012991746189072728
+    },
+    {
+      "step": 900,
+      "mse": 0.00011808579438365996
+    },
+    {
+      "step": 1050,
+      "mse": 0.00012713084288407117
+    },
+    {
+      "step": 1200,
+      "mse": 8.56477054185234e-05
+    },
+    {
+      "step": 1350,
+      "mse": 8.143609011312947e-05
+    },
+    {
+      "step": 1500,
+      "mse": 8.39623244246468e-05
+    },
+    {
+      "step": 1650,
+      "mse": 7.263445149874315e-05
+    },
+    {
+      "step": 1800,
+      "mse": 5.7357490732101724e-05
+    },
+    {
+      "step": 1950,
+      "mse": 5.0999246013816446e-05
+    },
+    {
+      "step": 2100,
+      "mse": 5.0466587708797306e-05
+    },
+    {
+      "step": 2250,
+      "mse": 0.0009011607035063207
+    },
+    {
+      "step": 2400,
+      "mse": 5.641323150484823e-05
+    },
+    {
+      "step": 2550,
+      "mse": 4.207076199236326e-05
+    },
+    {
+      "step": 2700,
+      "mse": 3.858465061057359e-05
+    },
+    {
+      "step": 2850,
+      "mse": 3.389645280549303e-05
+    },
+    {
+      "step": 2999,
+      "mse": 3.426989133004099e-05
+    }
+  ],
+  "render_times": {
+    "render-960.png": 16.375397999997432,
+    "render-mid.png": 9.65516899999841,
+    "render-last.png": 9.638648000002803,
+    "render-512.png": 2.534973000003049,
+    "crop-2x.png": 9.421468999999405
+  },
+  "render_960_ms": 16.375397999997432,
+  "render_33_wall_ms": 300.10406799999953,
+  "encode_ms": 230.0379449999994,
+  "resize_consistency": 0.9992700768470397,
+  "temporal_consistency": 0.9986141667468473,
+  "motion_delta_model": 0.03957483172416687,
+  "loop_error_model": 0.0013858332531526685,
+  "description": "C2-lite neural canvas: learned time-conditioned motion field sampling a persistent latent canvas",
+  "run_id": "20260424T142739Z-c2-lite-960x544-s3000",
+  "commit": "nogit",
+  "track": "C",
+  "width": 960,
+  "height": 544,
+  "frames": 33,
+  "fps": 24,
+  "artifacts": {
+    "input": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T142739Z-c2-lite-960x544-s3000/input.png",
+    "render_960": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T142739Z-c2-lite-960x544-s3000/render-960.png",
+    "render_mid": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T142739Z-c2-lite-960x544-s3000/render-mid.png",
+    "render_last": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T142739Z-c2-lite-960x544-s3000/render-last.png",
+    "render_512": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T142739Z-c2-lite-960x544-s3000/render-512.png",
+    "crop_2x": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T142739Z-c2-lite-960x544-s3000/crop-2x.png",
+    "output": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T142739Z-c2-lite-960x544-s3000/output.mp4",
+    "metrics": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T142739Z-c2-lite-960x544-s3000/metrics.json",
+    "quality": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T142739Z-c2-lite-960x544-s3000/quality.json"
+  },
+  "ocr_similarity": 0.8325791855203619,
+  "layout_similarity": 0.9992700768470397,
+  "motion_delta": 0.018848909065127373,
+  "loop_error": 0.0012729589361697435,
+  "status": "pass"
+}
+DONE 20260424T142739Z-c2-lite-960x544-s3000 quality=0.8326 motion=0.0188
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-jbPO1JFqvEON6NomCmY2EY

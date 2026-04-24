@@ -1,0 +1,166 @@
+✓ Initialized. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-RvKRgWfAs424DCR0EQwaz8
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/dennisonbertram/Develop/flipbook-research/scripts/track_c/modal_canva
+│   s_c2_lite.py
+└── 🔨 Created function train_and_render_motion.
+START 20260424T152249Z-c2-lite-text-frame-scale-1280x736-s4500 config={"batch_size": 131072, "channels": 16, "edge_loss_weight": 1.0, "edge_sample_ratio": 0.1, "flow_scale": 0.16, "fps": 24, "frames": 33, "freq_bands": 8, "hidden": 96, "lr": 0.01, "motion_mode": "frame-scale", "motion_strength": 0.18, "source_resolution": [1280, 736], "steps": 4500, "text_box_loss_weight": 8.0, "text_box_min_conf": 55.0, "text_box_padding": 4, "text_box_sample_ratio": 0.55, "text_boxes": "105 boxes", "time_bands": 4, "train_resolution": "1280x736", "video_viewport_mode": "zoom-pulse", "viewport_pan": 0.035, "viewport_zoom": 0.18}
+{
+  "canvas_type": "time-conditioned-latent-feature-grid-learned-flow-mlp-text-box-weighted",
+  "train_resolution": "1280x736",
+  "steps": 4500,
+  "batch_size": 131072,
+  "channels": 16,
+  "hidden": 96,
+  "freq_bands": 8,
+  "time_bands": 4,
+  "lr": 0.01,
+  "flow_scale": 0.16,
+  "motion_mode": "frame-scale",
+  "motion_strength": 0.18,
+  "video_viewport_mode": "zoom-pulse",
+  "viewport_zoom": 0.18,
+  "viewport_pan": 0.035,
+  "edge_sample_ratio": 0.1,
+  "edge_loss_weight": 1.0,
+  "text_box_sample_ratio": 0.55,
+  "text_box_loss_weight": 8.0,
+  "text_box_padding": 4,
+  "text_box_count": 105,
+  "text_mask_coverage": 0.15400177240371704,
+  "compile_ms": 28364.863865999996,
+  "final_mse": 0.10313734412193298,
+  "losses": [
+    {
+      "step": 0,
+      "mse": 0.4927073121070862
+    },
+    {
+      "step": 225,
+      "mse": 0.17435255646705627
+    },
+    {
+      "step": 450,
+      "mse": 0.14926984906196594
+    },
+    {
+      "step": 675,
+      "mse": 0.14598378539085388
+    },
+    {
+      "step": 900,
+      "mse": 0.1416410207748413
+    },
+    {
+      "step": 1125,
+      "mse": 0.13826748728752136
+    },
+    {
+      "step": 1350,
+      "mse": 0.1352105736732483
+    },
+    {
+      "step": 1575,
+      "mse": 0.12319374084472656
+    },
+    {
+      "step": 1800,
+      "mse": 0.1189255565404892
+    },
+    {
+      "step": 2025,
+      "mse": 0.11529168486595154
+    },
+    {
+      "step": 2250,
+      "mse": 0.1129511147737503
+    },
+    {
+      "step": 2475,
+      "mse": 0.11225488781929016
+    },
+    {
+      "step": 2700,
+      "mse": 0.10881611704826355
+    },
+    {
+      "step": 2925,
+      "mse": 0.10930381715297699
+    },
+    {
+      "step": 3150,
+      "mse": 0.10895578563213348
+    },
+    {
+      "step": 3375,
+      "mse": 0.10741828382015228
+    },
+    {
+      "step": 3600,
+      "mse": 0.10637219995260239
+    },
+    {
+      "step": 3825,
+      "mse": 0.10617093741893768
+    },
+    {
+      "step": 4050,
+      "mse": 0.10651803761720657
+    },
+    {
+      "step": 4275,
+      "mse": 0.10549359023571014
+    },
+    {
+      "step": 4499,
+      "mse": 0.10313734412193298
+    }
+  ],
+  "render_times": {
+    "render-960.png": 15.021030999996299,
+    "render-mid.png": 9.278615000006596,
+    "render-last.png": 9.28245499999747,
+    "render-512.png": 2.388058000001081,
+    "crop-2x.png": 9.244626999993955,
+    "render-viewport-mid.png": 9.256741000001512
+  },
+  "render_960_ms": 15.021030999996299,
+  "render_33_wall_ms": 298.35433999999594,
+  "encode_ms": 254.95134500000205,
+  "resize_consistency": 0.9988789145335103,
+  "temporal_consistency": 0.9929433632642031,
+  "motion_delta_model": 0.10596562922000885,
+  "loop_error_model": 0.007056636735796928,
+  "description": "C2.1 neural canvas: learned frame-scale motion with OCR text-box-weighted sampling/loss",
+  "run_id": "20260424T152249Z-c2-lite-text-frame-scale-1280x736-s4500",
+  "commit": "nogit",
+  "track": "C",
+  "width": 960,
+  "height": 544,
+  "frames": 33,
+  "fps": 24,
+  "artifacts": {
+    "input": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T152249Z-c2-lite-text-frame-scale-1280x736-s4500/input.png",
+    "render_960": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T152249Z-c2-lite-text-frame-scale-1280x736-s4500/render-960.png",
+    "render_mid": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T152249Z-c2-lite-text-frame-scale-1280x736-s4500/render-mid.png",
+    "render_last": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T152249Z-c2-lite-text-frame-scale-1280x736-s4500/render-last.png",
+    "render_512": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T152249Z-c2-lite-text-frame-scale-1280x736-s4500/render-512.png",
+    "crop_2x": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T152249Z-c2-lite-text-frame-scale-1280x736-s4500/crop-2x.png",
+    "text_mask": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T152249Z-c2-lite-text-frame-scale-1280x736-s4500/text-mask.png",
+    "text_boxes": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T152249Z-c2-lite-text-frame-scale-1280x736-s4500/text-boxes.json",
+    "output": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T152249Z-c2-lite-text-frame-scale-1280x736-s4500/output.mp4",
+    "metrics": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T152249Z-c2-lite-text-frame-scale-1280x736-s4500/metrics.json",
+    "quality": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T152249Z-c2-lite-text-frame-scale-1280x736-s4500/quality.json",
+    "render_viewport_mid": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T152249Z-c2-lite-text-frame-scale-1280x736-s4500/render-viewport-mid.png"
+  },
+  "ocr_similarity": 0.0,
+  "layout_similarity": 0.9988789145335103,
+  "motion_delta": 0.07069792598485947,
+  "loop_error": 0.004737616516649723,
+  "status": "pass"
+}
+DONE 20260424T152249Z-c2-lite-text-frame-scale-1280x736-s4500 quality=0.0000 motion=0.0707
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-RvKRgWfAs424DCR0EQwaz8

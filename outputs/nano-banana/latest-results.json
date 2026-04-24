@@ -1,0 +1,43 @@
+{
+  "prompt": "Generate a low-resolution 16:9 clean visual test image, about 512 pixels wide. White background, simple black line diagram of a browser window with a small mountain icon. Include only the large readable text FAST TEST. Keep it minimal.",
+  "results": [
+    {
+      "model": "gemini-2.5-flash-image",
+      "label": "nano-banana",
+      "ok": true,
+      "status": 200,
+      "latencyMs": 4556,
+      "mime": "image/png",
+      "bytes": 216482,
+      "imagePath": "outputs/nano-banana/2026-04-24T01-09-31-232Z-nano-banana.png",
+      "text": "Here's your clean visual test image:"
+    },
+    {
+      "model": "gemini-3.1-flash-image-preview",
+      "label": "nano-banana-2",
+      "ok": true,
+      "status": 200,
+      "latencyMs": 11842,
+      "mime": "image/jpeg",
+      "bytes": 79886,
+      "imagePath": "outputs/nano-banana/2026-04-24T01-09-43-174Z-nano-banana-2.jpg",
+      "text": ""
+    },
+    {
+      "ok": true,
+      "model": "gemini-2.5-flash-image",
+      "latencyMs": 4961,
+      "mime": "image/png",
+      "bytes": 183556,
+      "imagePath": "outputs/nano-banana/2026-04-24T01-10-54-884Z-nano-banana-repeat-2.png"
+    },
+    {
+      "ok": true,
+      "model": "gemini-2.5-flash-image",
+      "latencyMs": 5234,
+      "mime": "image/png",
+      "bytes": 175208,
+      "imagePath": "outputs/nano-banana/2026-04-24T01-11-00-228Z-nano-banana-repeat-3.png"
+    }
+  ]
+}

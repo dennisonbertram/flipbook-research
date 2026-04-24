@@ -1,0 +1,27 @@
+{
+  "prompt": "Generate a clean minimal 16:9 test image. White background, black line browser window with a tiny mountain icon. Include only large readable text FAST TEST.",
+  "config": {
+    "aspectRatio": "16:9",
+    "imageSize": "512"
+  },
+  "results": [
+    {
+      "model": "gemini-3.1-flash-image-preview",
+      "label": "nano-banana-2-512",
+      "ok": true,
+      "status": 200,
+      "latencyMs": 8209,
+      "mime": "image/jpeg",
+      "bytes": 33216,
+      "imagePath": "outputs/nano-banana/2026-04-24T01-13-41-768Z-nano-banana-2-512.jpg"
+    },
+    {
+      "model": "gemini-2.5-flash-image",
+      "label": "nano-banana-512-control",
+      "ok": false,
+      "status": 400,
+      "latencyMs": 139,
+      "error": "Image size 512 is not supported for this model"
+    }
+  ]
+}

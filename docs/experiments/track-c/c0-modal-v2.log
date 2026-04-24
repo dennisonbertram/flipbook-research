@@ -1,0 +1,142 @@
+✓ Initialized. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-sjlv8bEoQn6bQiG8Ihp7QR
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/dennisonbertram/Develop/flipbook-research/scripts/track_c/modal_canva
+│   s_c0.py
+└── 🔨 Created function train_and_render.
+START 20260424T141858Z-c0-canvas-960x544-s5000 config={"batch_size": 131072, "channels": 16, "fps": 24, "frames": 33, "freq_bands": 8, "hidden": 96, "lr": 0.01, "steps": 5000, "train_resolution": "960x544"}
+{
+  "canvas_type": "full-resolution-latent-feature-grid-mlp",
+  "train_resolution": "960x544",
+  "steps": 5000,
+  "batch_size": 131072,
+  "channels": 16,
+  "hidden": 96,
+  "freq_bands": 8,
+  "lr": 0.01,
+  "compile_ms": 13339.428824999999,
+  "final_mse": 1.517250893812161e-06,
+  "losses": [
+    {
+      "step": 0,
+      "mse": 0.20612291991710663
+    },
+    {
+      "step": 250,
+      "mse": 0.0014757919125258923
+    },
+    {
+      "step": 500,
+      "mse": 0.0001853267604019493
+    },
+    {
+      "step": 750,
+      "mse": 1.4185905456542969e-05
+    },
+    {
+      "step": 1000,
+      "mse": 8.210147825593594e-06
+    },
+    {
+      "step": 1250,
+      "mse": 8.311792043969035e-06
+    },
+    {
+      "step": 1500,
+      "mse": 9.562601007928606e-06
+    },
+    {
+      "step": 1750,
+      "mse": 6.390042472048663e-06
+    },
+    {
+      "step": 2000,
+      "mse": 6.274759925872786e-06
+    },
+    {
+      "step": 2250,
+      "mse": 8.401402737945318e-06
+    },
+    {
+      "step": 2500,
+      "mse": 3.9607211874681525e-06
+    },
+    {
+      "step": 2750,
+      "mse": 5.060028342995793e-06
+    },
+    {
+      "step": 3000,
+      "mse": 4.3469244701555e-06
+    },
+    {
+      "step": 3250,
+      "mse": 4.349252321844688e-06
+    },
+    {
+      "step": 3500,
+      "mse": 2.644871983648045e-06
+    },
+    {
+      "step": 3750,
+      "mse": 4.681822247221135e-06
+    },
+    {
+      "step": 4000,
+      "mse": 3.2441084840684198e-06
+    },
+    {
+      "step": 4250,
+      "mse": 3.83411406801315e-06
+    },
+    {
+      "step": 4500,
+      "mse": 4.06001436203951e-06
+    },
+    {
+      "step": 4750,
+      "mse": 2.3350112314801663e-06
+    },
+    {
+      "step": 4999,
+      "mse": 1.517250893812161e-06
+    }
+  ],
+  "render_times": {
+    "render-512.png": 28.1933890000019,
+    "render-960.png": 5.170074000002245,
+    "crop-2x.png": 5.130330000000072,
+    "crop-shifted.png": 5.11153300000089
+  },
+  "render_960_ms": 5.170074000002245,
+  "render_33_wall_ms": 162.3890370000005,
+  "encode_ms": 234.1663539999992,
+  "resize_consistency": 0.9999813068980943,
+  "temporal_consistency": 1.0,
+  "description": "C0 overfit neural canvas: trainable full-resolution latent feature grid plus MLP renderer",
+  "run_id": "20260424T141858Z-c0-canvas-960x544-s5000",
+  "commit": "nogit",
+  "track": "C",
+  "width": 960,
+  "height": 544,
+  "frames": 33,
+  "fps": 24,
+  "artifacts": {
+    "input": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T141858Z-c0-canvas-960x544-s5000/input.png",
+    "render_512": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T141858Z-c0-canvas-960x544-s5000/render-512.png",
+    "render_960": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T141858Z-c0-canvas-960x544-s5000/render-960.png",
+    "crop_2x": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T141858Z-c0-canvas-960x544-s5000/crop-2x.png",
+    "crop_shifted": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T141858Z-c0-canvas-960x544-s5000/crop-shifted.png",
+    "output": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T141858Z-c0-canvas-960x544-s5000/output.mp4",
+    "metrics": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T141858Z-c0-canvas-960x544-s5000/metrics.json",
+    "quality": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T141858Z-c0-canvas-960x544-s5000/quality.json"
+  },
+  "ocr_similarity": 0.7281105990783412,
+  "layout_similarity": 0.9999813068980943,
+  "status": "pass"
+}
+DONE 20260424T141858Z-c0-canvas-960x544-s5000 quality=0.7281
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-sjlv8bEoQn6bQiG8Ihp7QR

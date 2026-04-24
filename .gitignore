@@ -1,0 +1,24 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+node_modules/
+
+# Generated run outputs can be huge. Keep lightweight showcase assets only.
+outputs/*
+!outputs/track-a/
+outputs/track-a/*
+!outputs/track-a/showcase-20260424.jpg
+!outputs/track-c/
+outputs/track-c/*
+!outputs/track-c/showcase-*.jpg
+!outputs/nano-banana/
+outputs/nano-banana/*
+!outputs/nano-banana/*.jpg
+!outputs/nano-banana/*.png
+!outputs/nano-banana/latest-*.json
+
