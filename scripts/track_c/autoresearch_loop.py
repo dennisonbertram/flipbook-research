@@ -1048,7 +1048,11 @@ def main() -> None:
     log("autoresearch loop started")
     while True:
         sessions = tmux_sessions()
-        active_owned = {name for name in sessions if name.startswith("track-c-") and name != "track-c-autoresearch"}
+        active_owned = {
+            name
+            for name in sessions
+            if name.startswith("track-c-") and name not in {"track-c-autoresearch", "track-c-github-sync"}
+        }
         for exp in EXPERIMENTS:
             if len(active_owned) >= MAX_PARALLEL:
                 break
