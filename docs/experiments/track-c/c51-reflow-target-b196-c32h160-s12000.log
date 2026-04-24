@@ -1,0 +1,189 @@
+✓ Initialized. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-kQAxykwzAfCmbIjx2SmLF9
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/dennisonbertram/Develop/flipbook-research/scripts/track_c/modal_canva
+│   s_c2_lite.py
+└── 🔨 Created function train_and_render_motion.
+START 20260424T232749627432Z-c2-lite-glyph-layout-reflow-c51-reflow-target-b196-c32h160-s12000-1536x864-s12000 config={"batch_size": 196608, "channels": 32, "edge_loss_weight": 0.9, "edge_sample_ratio": 0.09, "element_anchor_mode": "line", "element_anchor_padding": 3, "element_mask_mode": "rectangle", "element_render_mode": "sequential", "element_scale_ratio": 0.25, "experiment_label": "c51-reflow-target-b196-c32h160-s12000", "flow_scale": 0.1, "fps": 24, "frames": 33, "freq_bands": 10, "grad_clip": 0.5, "hidden": 160, "layout_mid_time_ratio": 0.6, "layout_mid_time_width": 0.28, "layout_supersample": 1.0, "layout_target_sampling": 1, "layout_target_weighting": 1, "layout_transform_pan": 0.0, "layout_transform_strength": 0.0, "lr": 0.01, "lr_schedule": "constant", "min_lr_ratio": 0.1, "min_motion_delta": 0.045, "min_ocr_similarity": 0.56, "motion_mode": "layout-reflow", "motion_strength": 1.0, "seed": 0, "source_resolution": [1280, 736], "steps": 12000, "text_box_loss_weight": 0.0, "text_box_min_conf": 55.0, "text_box_padding": 0, "text_box_sample_ratio": 0.0, "text_boxes": "0 boxes", "time_bands": 4, "train_resolution": "1536x864", "video_layout_mode": "none", "video_viewport_mode": "static", "viewport_pan": 0.0, "viewport_zoom": 0.0}
+{
+  "canvas_type": "time-conditioned-latent-feature-grid-learned-flow-mlp-glyph-weighted",
+  "train_resolution": "1536x864",
+  "steps": 12000,
+  "batch_size": 196608,
+  "channels": 32,
+  "hidden": 160,
+  "freq_bands": 10,
+  "time_bands": 4,
+  "lr": 0.01,
+  "lr_schedule": "constant",
+  "min_lr_ratio": 0.1,
+  "grad_clip": 0.5,
+  "seed": 0,
+  "experiment_label": "c51-reflow-target-b196-c32h160-s12000",
+  "flow_scale": 0.1,
+  "motion_mode": "layout-reflow",
+  "motion_strength": 1.0,
+  "video_viewport_mode": "static",
+  "viewport_zoom": 0.0,
+  "viewport_pan": 0.0,
+  "video_layout_mode": "none",
+  "layout_transform_strength": 0.0,
+  "layout_transform_pan": 0.0,
+  "layout_supersample": 1.0,
+  "layout_region_count": 0,
+  "element_scale_ratio": 0.25,
+  "element_anchor_padding": 3,
+  "element_mask_mode": "rectangle",
+  "element_anchor_mode": "line",
+  "element_render_mode": "sequential",
+  "element_line_count": 0,
+  "min_ocr_similarity": 0.56,
+  "min_motion_delta": 0.045,
+  "edge_sample_ratio": 0.09,
+  "edge_loss_weight": 0.9,
+  "text_box_sample_ratio": 0.0,
+  "text_box_loss_weight": 0.0,
+  "text_box_padding": 0,
+  "layout_target_sampling": 1,
+  "layout_target_weighting": 1,
+  "layout_mid_time_ratio": 0.6,
+  "layout_mid_time_width": 0.28,
+  "text_box_count": 0,
+  "text_mask_coverage": 0.0,
+  "element_alpha_coverage": 0.0,
+  "compile_ms": 253487.03524499998,
+  "final_mse": 0.0017996786627918482,
+  "losses": [
+    {
+      "step": 0,
+      "mse": 0.2230064868927002
+    },
+    {
+      "step": 600,
+      "mse": 0.009207241237163544
+    },
+    {
+      "step": 1200,
+      "mse": 0.004959413316100836
+    },
+    {
+      "step": 1800,
+      "mse": 0.00401204451918602
+    },
+    {
+      "step": 2400,
+      "mse": 0.0033477935940027237
+    },
+    {
+      "step": 3000,
+      "mse": 0.0030999656300991774
+    },
+    {
+      "step": 3600,
+      "mse": 0.0028769131749868393
+    },
+    {
+      "step": 4200,
+      "mse": 0.002635885728523135
+    },
+    {
+      "step": 4800,
+      "mse": 0.002509448677301407
+    },
+    {
+      "step": 5400,
+      "mse": 0.002330576069653034
+    },
+    {
+      "step": 6000,
+      "mse": 0.002276226645335555
+    },
+    {
+      "step": 6600,
+      "mse": 0.0022232895717024803
+    },
+    {
+      "step": 7200,
+      "mse": 0.002145707607269287
+    },
+    {
+      "step": 7800,
+      "mse": 0.0020501273684203625
+    },
+    {
+      "step": 8400,
+      "mse": 0.0020237204153090715
+    },
+    {
+      "step": 9000,
+      "mse": 0.001954542938619852
+    },
+    {
+      "step": 9600,
+      "mse": 0.0019155720947310328
+    },
+    {
+      "step": 10200,
+      "mse": 0.0019306289032101631
+    },
+    {
+      "step": 10800,
+      "mse": 0.0018473165109753609
+    },
+    {
+      "step": 11400,
+      "mse": 0.0018446765607222915
+    },
+    {
+      "step": 11999,
+      "mse": 0.0017996786627918482
+    }
+  ],
+  "render_times": {
+    "render-960.png": 11.74222499997768,
+    "render-mid.png": 11.653318000014679,
+    "render-last.png": 11.616935000006379,
+    "render-512.png": 3.3702999999718486,
+    "crop-2x.png": 11.450844000023608
+  },
+  "render_960_ms": 11.74222499997768,
+  "render_33_wall_ms": 374.42358600003445,
+  "encode_ms": 247.1187490000375,
+  "resize_consistency": 0.9994675591926032,
+  "temporal_consistency": 0.9988265755819157,
+  "motion_delta_model": 0.06663209199905396,
+  "loop_error_model": 0.0011734244180843234,
+  "description": "C4.7 neural canvas: learned full page layout reflow from x,y,t",
+  "run_id": "20260424T232749627432Z-c2-lite-glyph-layout-reflow-c51-reflow-target-b196-c32h160-s12000-1536x864-s12000",
+  "commit": "3409801",
+  "track": "C",
+  "width": 960,
+  "height": 544,
+  "frames": 33,
+  "fps": 24,
+  "artifacts": {
+    "input": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T232749627432Z-c2-lite-glyph-layout-reflow-c51-reflow-target-b196-c32h160-s12000-1536x864-s12000/input.png",
+    "render_960": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T232749627432Z-c2-lite-glyph-layout-reflow-c51-reflow-target-b196-c32h160-s12000-1536x864-s12000/render-960.png",
+    "render_mid": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T232749627432Z-c2-lite-glyph-layout-reflow-c51-reflow-target-b196-c32h160-s12000-1536x864-s12000/render-mid.png",
+    "render_last": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T232749627432Z-c2-lite-glyph-layout-reflow-c51-reflow-target-b196-c32h160-s12000-1536x864-s12000/render-last.png",
+    "render_512": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T232749627432Z-c2-lite-glyph-layout-reflow-c51-reflow-target-b196-c32h160-s12000-1536x864-s12000/render-512.png",
+    "crop_2x": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T232749627432Z-c2-lite-glyph-layout-reflow-c51-reflow-target-b196-c32h160-s12000-1536x864-s12000/crop-2x.png",
+    "text_mask": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T232749627432Z-c2-lite-glyph-layout-reflow-c51-reflow-target-b196-c32h160-s12000-1536x864-s12000/text-mask.png",
+    "element_alpha_mask": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T232749627432Z-c2-lite-glyph-layout-reflow-c51-reflow-target-b196-c32h160-s12000-1536x864-s12000/element-alpha-mask.png",
+    "target_mid": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T232749627432Z-c2-lite-glyph-layout-reflow-c51-reflow-target-b196-c32h160-s12000-1536x864-s12000/target-mid.png",
+    "text_boxes": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T232749627432Z-c2-lite-glyph-layout-reflow-c51-reflow-target-b196-c32h160-s12000-1536x864-s12000/text-boxes.json",
+    "output": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T232749627432Z-c2-lite-glyph-layout-reflow-c51-reflow-target-b196-c32h160-s12000-1536x864-s12000/output.mp4",
+    "metrics": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T232749627432Z-c2-lite-glyph-layout-reflow-c51-reflow-target-b196-c32h160-s12000-1536x864-s12000/metrics.json",
+    "quality": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260424T232749627432Z-c2-lite-glyph-layout-reflow-c51-reflow-target-b196-c32h160-s12000-1536x864-s12000/quality.json"
+  },
+  "ocr_similarity": 0.48598130841121495,
+  "layout_similarity": 0.9994675591926032,
+  "motion_delta": 0.05036802589893341,
+  "loop_error": 0.0007780349696986377,
+  "status": "near_miss"
+}
+DONE 20260424T232749627432Z-c2-lite-glyph-layout-reflow-c51-reflow-target-b196-c32h160-s12000-1536x864-s12000 quality=0.4860 motion=0.0504
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-kQAxykwzAfCmbIjx2SmLF9
