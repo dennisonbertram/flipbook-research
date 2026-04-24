@@ -1,22 +1,18 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-24T19:12:51+00:00`
+Updated UTC: `2026-04-24T19:18:11+00:00`
 
 ## Active Sessions
 
 - `track-c-autoresearch`
-- `track-c-c32-general-flow-0125-edge05`
-- `track-c-c32-general-flow-0135-edge1`
-- `track-c-c32-text-flow-0135-box12`
-- `track-c-c32-text-flow-0145-box8`
 - `track-c-github-sync`
 
 ## Queue
 
-- `c32-general-flow-0125-edge05`: pending/running - General neural-canvas refinement: lighter dense edge weighting around the C31 no-OCR winner.
-- `c32-general-flow-0135-edge1`: pending/running - General neural-canvas refinement: push the best no-OCR edge setting to the bridge winner's motion level.
-- `c32-text-flow-0145-box8`: pending/running - Text-aware learned-flow bridge: push beyond the C31 0.0135 bridge while avoiding render-time masks.
-- `c32-text-flow-0135-box12`: pending/running - Text-aware learned-flow bridge: stronger OCR-box training signal at the current bridge winner flow.
+- `c32-general-flow-0125-edge05`: done - General neural-canvas refinement: lighter dense edge weighting around the C31 no-OCR winner.
+- `c32-general-flow-0135-edge1`: done - General neural-canvas refinement: push the best no-OCR edge setting to the bridge winner's motion level.
+- `c32-text-flow-0145-box8`: done - Text-aware learned-flow bridge: push beyond the C31 0.0135 bridge while avoiding render-time masks.
+- `c32-text-flow-0135-box12`: done - Text-aware learned-flow bridge: stronger OCR-box training signal at the current bridge winner flow.
 - `c31-general-flow-0125-edge1`: done - General neural-canvas direction: no OCR boxes, baseline edge/glyph weighting at the C30 sweet-spot flow.
 - `c31-general-flow-0125-edge4`: done - General neural-canvas direction: no OCR boxes, stronger dense edge/glyph weighting at the C30 sweet-spot flow.
 - `c31-general-flow-010-edge4`: done - General neural-canvas direction: no OCR boxes, lower-flow recovery point with dense edge/glyph weighting.
