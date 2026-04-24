@@ -1,35 +1,45 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-24T21:01:58+00:00`
+Updated UTC: `2026-04-24T21:12:07+00:00`
 
 ## Active Sessions
 
 - `clawtest`
 - `track-c-autoresearch`
-- `track-c-c45-field-006-pan018-clip05`
-- `track-c-c45-field-010-pan024-clip05`
-- `track-c-c45-field-010-pan024-clip05-seed1`
-- `track-c-c45-field-014-pan030-clip05`
-- `track-c-c45-field-014-pan036-clip05`
-- `track-c-c45-learned-field-004-flow04`
-- `track-c-c45-learned-field-006-flow06`
-- `track-c-c45-learned-field-006-flow06-clip05`
-- `track-c-c45-learned-field-006-flow06-freq12-clip05`
-- `track-c-c45-learned-field-008-flow08`
+- `track-c-c46-learned-translate-004-s7000`
+- `track-c-c46-learned-translate-006-s7000`
+- `track-c-c46-learned-translate-008-s7000`
+- `track-c-c46-translate-pan030-clip05`
+- `track-c-c46-translate-pan045-clip05`
+- `track-c-c46-translate-pan060-clip05`
+- `track-c-c46-translate-pan060-freq12-clip05`
+- `track-c-c46-translate-pan075-clip05`
+- `track-c-c46-translate-pan075-clip05-seed1`
+- `track-c-c46-translate-pan090-clip05`
 - `track-c-github-sync`
 
 ## Queue
 
-- `c45-field-006-pan018-clip05`: pending/running - C45 smooth independent-field stress: no hard region blanking; separate local affine fields blend continuously with strength 0.06, pan 0.018, freq10, grad clip 0.5.
-- `c45-field-010-pan024-clip05`: pending/running - C45 smooth independent-field stress: no hard region blanking; separate local affine fields blend continuously with strength 0.1, pan 0.024, freq10, grad clip 0.5.
-- `c45-field-014-pan030-clip05`: pending/running - C45 smooth independent-field stress: no hard region blanking; separate local affine fields blend continuously with strength 0.14, pan 0.03, freq10, grad clip 0.5.
-- `c45-field-014-pan036-clip05`: pending/running - C45 smooth independent-field stress: no hard region blanking; separate local affine fields blend continuously with strength 0.14, pan 0.036, freq10, grad clip 0.5.
-- `c45-field-010-pan024-clip05-seed1`: pending/running - C45 smooth independent-field stress: no hard region blanking; separate local affine fields blend continuously with strength 0.1, pan 0.024, freq10, grad clip 0.5, seed 1.
-- `c45-learned-field-004-flow04`: pending/running - C45 learned independent-field stress: train the renderer to generate multi-region motion directly from x,y,t with motion 0.04, freq10.
-- `c45-learned-field-006-flow06`: pending/running - C45 learned independent-field stress: train the renderer to generate multi-region motion directly from x,y,t with motion 0.06, freq10.
-- `c45-learned-field-008-flow08`: pending/running - C45 learned independent-field stress: train the renderer to generate multi-region motion directly from x,y,t with motion 0.08, freq10.
-- `c45-learned-field-006-flow06-clip05`: pending/running - C45 learned independent-field stress: train the renderer to generate multi-region motion directly from x,y,t with motion 0.06, freq10, grad clip 0.5.
-- `c45-learned-field-006-flow06-freq12-clip05`: pending/running - C45 learned independent-field stress: train the renderer to generate multi-region motion directly from x,y,t with motion 0.06, freq12, grad clip 0.5.
+- `c46-translate-pan030-clip05`: pending/running - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.03, freq10, grad clip 0.5.
+- `c46-translate-pan045-clip05`: pending/running - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.045, freq10, grad clip 0.5.
+- `c46-translate-pan060-clip05`: pending/running - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.06, freq10, grad clip 0.5.
+- `c46-translate-pan075-clip05`: pending/running - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.075, freq10, grad clip 0.5.
+- `c46-translate-pan090-clip05`: pending/running - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.09, freq10, grad clip 0.5.
+- `c46-translate-pan060-freq12-clip05`: pending/running - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.06, freq12, grad clip 0.5.
+- `c46-translate-pan075-clip05-seed1`: pending/running - C46 independent-translation stress: smooth local fields translate page regions on separate timelines with scale disabled, pan 0.075, freq10, grad clip 0.5, seed 1.
+- `c46-learned-translate-004-s7000`: pending/running - C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.04, 7000 steps, freq10, grad clip 0.5.
+- `c46-learned-translate-006-s7000`: pending/running - C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.06, 7000 steps, freq10, grad clip 0.5.
+- `c46-learned-translate-008-s7000`: pending/running - C46 learned independent-translation stress: train the renderer to generate local translations directly from x,y,t with scale disabled, motion 0.08, 7000 steps, freq10, grad clip 0.5.
+- `c45-field-006-pan018-clip05`: done - C45 smooth independent-field stress: no hard region blanking; separate local affine fields blend continuously with strength 0.06, pan 0.018, freq10, grad clip 0.5.
+- `c45-field-010-pan024-clip05`: done - C45 smooth independent-field stress: no hard region blanking; separate local affine fields blend continuously with strength 0.1, pan 0.024, freq10, grad clip 0.5.
+- `c45-field-014-pan030-clip05`: done - C45 smooth independent-field stress: no hard region blanking; separate local affine fields blend continuously with strength 0.14, pan 0.03, freq10, grad clip 0.5.
+- `c45-field-014-pan036-clip05`: done - C45 smooth independent-field stress: no hard region blanking; separate local affine fields blend continuously with strength 0.14, pan 0.036, freq10, grad clip 0.5.
+- `c45-field-010-pan024-clip05-seed1`: done - C45 smooth independent-field stress: no hard region blanking; separate local affine fields blend continuously with strength 0.1, pan 0.024, freq10, grad clip 0.5, seed 1.
+- `c45-learned-field-004-flow04`: done - C45 learned independent-field stress: train the renderer to generate multi-region motion directly from x,y,t with motion 0.04, freq10.
+- `c45-learned-field-006-flow06`: done - C45 learned independent-field stress: train the renderer to generate multi-region motion directly from x,y,t with motion 0.06, freq10.
+- `c45-learned-field-008-flow08`: done - C45 learned independent-field stress: train the renderer to generate multi-region motion directly from x,y,t with motion 0.08, freq10.
+- `c45-learned-field-006-flow06-clip05`: done - C45 learned independent-field stress: train the renderer to generate multi-region motion directly from x,y,t with motion 0.06, freq10, grad clip 0.5.
+- `c45-learned-field-006-flow06-freq12-clip05`: done - C45 learned independent-field stress: train the renderer to generate multi-region motion directly from x,y,t with motion 0.06, freq12, grad clip 0.5.
 - `c44-regions-006-pan018-clip05`: done - C44 independent-region stress: coarse page regions move/scale at separate speeds with strength 0.06, pan 0.018, freq10, grad clip 0.5.
 - `c44-regions-010-pan024-clip05`: done - C44 independent-region stress: coarse page regions move/scale at separate speeds with strength 0.1, pan 0.024, freq10, grad clip 0.5.
 - `c44-regions-014-pan030-clip05`: done - C44 independent-region stress: coarse page regions move/scale at separate speeds with strength 0.14, pan 0.03, freq10, grad clip 0.5.
