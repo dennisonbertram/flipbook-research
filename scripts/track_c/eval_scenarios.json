@@ -63,6 +63,27 @@
       "min_ocr_similarity": 0.35,
       "min_motion_delta": 0.025,
       "max_loop_error": 0.02
+    },
+    {
+      "scenario_id": "independent-translation-moderate",
+      "description": "Smooth independent page-region translation with local pans only; scale/stretch is disabled.",
+      "min_ocr_similarity": 0.55,
+      "min_motion_delta": 0.025,
+      "max_loop_error": 0.02
+    },
+    {
+      "scenario_id": "independent-translation-strong",
+      "description": "Stronger smooth independent page-region translation with local pans only; scale/stretch is disabled.",
+      "min_ocr_similarity": 0.45,
+      "min_motion_delta": 0.035,
+      "max_loop_error": 0.02
+    },
+    {
+      "scenario_id": "independent-translation-learned",
+      "description": "The model learns independent local translations directly from x,y,t without render-time stretch or scale.",
+      "min_ocr_similarity": 0.35,
+      "min_motion_delta": 0.025,
+      "max_loop_error": 0.02
     }
   ]
 }

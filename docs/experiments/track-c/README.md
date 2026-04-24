@@ -74,6 +74,10 @@ C4.4 pivots beyond global warp. A single frame-scale transform is too easy becau
 
 C4.4 confirms independent item motion is the new hard problem. All ten runs stay fast (`605-1048ms` per 33-frame segment including encode), but text quality drops sharply: the best moderate run is `c44-regions-010-pan024-clip05-seed1` at OCR `0.5055`, and the strongest useful run is `c44-regions-014-pan030-clip05` at OCR `0.5000` with motion `0.0365`. Human inspection shows hard rectangular tearing from the coarse region compositor, so C4.5 splits into two better tests: a smooth blended independent-region query field, and a learned independent-field mode where the model must synthesize multi-region motion directly from `x,y,t`.
 
+C4.5 removes the artificial hard rectangles and confirms the smooth-field direction is cleaner. The best query-time smooth field is `c45-field-010-pan024-clip05-seed1` at OCR `0.8165`, segment `601.358ms`, with no visible block seams; `c45-field-010-pan024-clip05` also reaches OCR `0.7818` at `584.763ms`. The catch is motion: measured deltas stay around `0.0128-0.0224`, so this mostly proves quality recovery, not enough visible independent translation. The learned `x,y,t` field branch keeps moderate text quality at mild motion (`0.6393` OCR for flow `0.04`, `0.6036` for flow `0.06 + freq12 + clip0.5`) but motion remains low, and flow `0.08` collapses OCR to `0.2289`.
+
+C4.6 makes the benchmark stricter: translation is separated from stretch. The new `independent-translate` layout mode disables local scale and only pans page regions on separate timelines, while `independent-translate` as a learned motion mode asks the model to synthesize those local translations directly from `x,y,t`. This should tell us whether we are actually moving regions independently or merely producing an easier elastic wiggle.
+
 Suggested `results.tsv` header:
 
 ```text

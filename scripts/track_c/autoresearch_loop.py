@@ -238,10 +238,48 @@ def independent_field_experiment(
     )
 
 
+def independent_translation_experiment(
+    label: str,
+    *,
+    pan: float,
+    seed: int = 0,
+    freq_bands: int = 10,
+    grad_clip: float = 0.5,
+    min_ocr: float = 0.50,
+    min_motion: float = 0.03,
+) -> Experiment:
+    seed_note = f", seed {seed}" if seed else ""
+    return Experiment(
+        label=label,
+        notes=(
+            "C46 independent-translation stress: smooth local fields translate page regions on separate timelines "
+            f"with scale disabled, pan {pan:g}, freq{freq_bands}, grad clip {grad_clip:g}{seed_note}."
+        ),
+        args=general_visual_motion_args(
+            label,
+            train_resolution="1536x864",
+            steps=5500,
+            seed=seed,
+            freq_bands=freq_bands,
+            grad_clip=grad_clip,
+            edge_ratio=0.09,
+            edge_weight=0.9,
+            motion_mode="static",
+            motion_strength=0.0,
+            video_layout_mode="independent-translate",
+            layout_transform_strength=0.0,
+            layout_transform_pan=pan,
+            min_ocr=min_ocr,
+            min_motion=min_motion,
+        ),
+    )
+
+
 def learned_independent_field_experiment(
     label: str,
     *,
     motion_strength: float,
+    steps: int = 5500,
     seed: int = 0,
     freq_bands: int = 10,
     grad_clip: float | None = None,
@@ -259,7 +297,7 @@ def learned_independent_field_experiment(
         args=general_visual_motion_args(
             label,
             train_resolution="1536x864",
-            steps=5500,
+            steps=steps,
             seed=seed,
             freq_bands=freq_bands,
             grad_clip=grad_clip,
@@ -274,7 +312,106 @@ def learned_independent_field_experiment(
     )
 
 
+def learned_independent_translation_experiment(
+    label: str,
+    *,
+    motion_strength: float,
+    steps: int = 7000,
+    seed: int = 0,
+    freq_bands: int = 10,
+    grad_clip: float | None = 0.5,
+    min_ocr: float = 0.35,
+    min_motion: float = 0.025,
+) -> Experiment:
+    clip_note = f", grad clip {grad_clip:g}" if grad_clip is not None else ""
+    seed_note = f", seed {seed}" if seed else ""
+    return Experiment(
+        label=label,
+        notes=(
+            "C46 learned independent-translation stress: train the renderer to generate local translations "
+            f"directly from x,y,t with scale disabled, motion {motion_strength:g}, {steps} steps, freq{freq_bands}{clip_note}{seed_note}."
+        ),
+        args=general_visual_motion_args(
+            label,
+            train_resolution="1536x864",
+            steps=steps,
+            seed=seed,
+            freq_bands=freq_bands,
+            grad_clip=grad_clip,
+            flow=motion_strength,
+            edge_ratio=0.09,
+            edge_weight=0.9,
+            motion_mode="independent-translate",
+            motion_strength=motion_strength,
+            min_ocr=min_ocr,
+            min_motion=min_motion,
+        ),
+    )
+
+
 EXPERIMENTS = [
+    independent_translation_experiment(
+        "c46-translate-pan030-clip05",
+        pan=0.030,
+        min_ocr=0.65,
+        min_motion=0.020,
+    ),
+    independent_translation_experiment(
+        "c46-translate-pan045-clip05",
+        pan=0.045,
+        min_ocr=0.58,
+        min_motion=0.025,
+    ),
+    independent_translation_experiment(
+        "c46-translate-pan060-clip05",
+        pan=0.060,
+        min_ocr=0.52,
+        min_motion=0.030,
+    ),
+    independent_translation_experiment(
+        "c46-translate-pan075-clip05",
+        pan=0.075,
+        min_ocr=0.45,
+        min_motion=0.035,
+    ),
+    independent_translation_experiment(
+        "c46-translate-pan090-clip05",
+        pan=0.090,
+        min_ocr=0.40,
+        min_motion=0.040,
+    ),
+    independent_translation_experiment(
+        "c46-translate-pan060-freq12-clip05",
+        pan=0.060,
+        freq_bands=12,
+        min_ocr=0.52,
+        min_motion=0.030,
+    ),
+    independent_translation_experiment(
+        "c46-translate-pan075-clip05-seed1",
+        pan=0.075,
+        seed=1,
+        min_ocr=0.45,
+        min_motion=0.035,
+    ),
+    learned_independent_translation_experiment(
+        "c46-learned-translate-004-s7000",
+        motion_strength=0.04,
+        min_ocr=0.40,
+        min_motion=0.018,
+    ),
+    learned_independent_translation_experiment(
+        "c46-learned-translate-006-s7000",
+        motion_strength=0.06,
+        min_ocr=0.35,
+        min_motion=0.025,
+    ),
+    learned_independent_translation_experiment(
+        "c46-learned-translate-008-s7000",
+        motion_strength=0.08,
+        min_ocr=0.30,
+        min_motion=0.030,
+    ),
     independent_field_experiment(
         "c45-field-006-pan018-clip05",
         strength=0.06,

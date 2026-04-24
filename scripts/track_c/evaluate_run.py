@@ -52,10 +52,14 @@ def infer_scenario_id(metrics: dict[str, Any]) -> str:
 
     if motion_mode == "responsive-squeeze":
         return "responsive-squeeze"
+    if motion_mode in {"independent-translate", "region-translate"}:
+        return "independent-translation-learned"
     if motion_mode in {"independent-field", "region-field"}:
         return "independent-field-learned"
     if motion_mode == "frame-scale":
         return "frame-scale-strong" if motion_strength >= 0.15 else "frame-scale-moderate"
+    if layout_mode in {"independent-translate", "region-translate"}:
+        return "independent-translation-strong" if float(metrics.get("layout_transform_pan") or 0.0) >= 0.06 else "independent-translation-moderate"
     if layout_mode in {"independent-regions", "region-dance", "independent-field", "region-field"}:
         return "independent-regions-strong" if layout_strength >= 0.13 else "independent-regions-moderate"
     if layout_mode in {"frame-scale", "element-frame-scale"}:

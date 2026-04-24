@@ -342,7 +342,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         (0.54, 0.60, 0.95, 0.93, 0.75, -0.62, -0.50, 0.52, 2, 0.42),
     ]
     independent_hard_layout_modes = {"independent-regions", "region-dance"}
-    independent_field_layout_modes = {"independent-field", "region-field"}
+    independent_translate_layout_modes = {"independent-translate", "region-translate"}
+    independent_field_layout_modes = {"independent-field", "region-field"} | independent_translate_layout_modes
     independent_layout_modes = independent_hard_layout_modes | independent_field_layout_modes
 
     def apply_independent_region_field(
@@ -389,6 +390,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         y = coords[:, 1:2]
         if mode in {"static", "identity", "none"}:
             return coords
+        if mode in independent_translate_layout_modes:
+            return apply_independent_region_field(coords, t, 0.0, amp)
         if mode in {"independent-field", "region-field"}:
             return apply_independent_region_field(coords, t, amp, amp * 0.24)
         if mode == "frame-scale":
@@ -703,7 +706,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         coords = torch.stack([xx.reshape(-1), yy.reshape(-1)], dim=-1)
         valid = torch.ones((coords.shape[0], 1), device=device, dtype=torch.bool)
         if video_layout_mode in independent_field_layout_modes:
-            coords = apply_independent_region_field(coords, t_value, layout_transform_strength, layout_transform_pan)
+            field_strength = 0.0 if video_layout_mode in independent_translate_layout_modes else layout_transform_strength
+            coords = apply_independent_region_field(coords, t_value, field_strength, layout_transform_pan)
         if video_layout_mode in independent_hard_layout_modes:
             output_coords = coords.clone()
             output_x = output_coords[:, 0]
@@ -969,7 +973,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "motion_delta_model": motion_delta,
         "loop_error_model": loop_error,
         "description": (
-            f"C4.5 neural canvas: stable content with smooth independent region field"
+            "C4.6 neural canvas: stable content with smooth independent region translation field"
+            if video_layout_mode in independent_translate_layout_modes
+            else "C4.5 neural canvas: stable content with smooth independent region field"
             if video_layout_mode in independent_field_layout_modes
             else f"C4.4 neural canvas: stable content with independent coarse regions moving on separate timelines"
             if video_layout_mode in independent_hard_layout_modes
@@ -977,6 +983,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             if text_enabled and video_layout_mode == "element-frame-scale"
             else f"C2.3 neural canvas: stable content with {video_layout_mode} layout transform"
             if video_layout_mode != "none"
+            else "C4.6 neural canvas: learned independent region translation from x,y,t"
+            if motion_mode in independent_translate_layout_modes
             else "C4.5 neural canvas: learned independent region field from x,y,t"
             if motion_mode in {"independent-field", "region-field"}
             else f"C2.1 neural canvas: learned {motion_mode} motion with OCR text-box-weighted sampling/loss"

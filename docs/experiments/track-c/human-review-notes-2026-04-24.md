@@ -717,3 +717,47 @@ c45-learned-field-008-flow08
 c45-learned-field-006-flow06-clip05
 c45-learned-field-006-flow06-freq12-clip05
 ```
+
+## C45 Smooth Field Results
+
+Completed C45 query-time smooth independent-field results:
+
+```text
+c45-field-010-pan024-clip05-seed1: OCR 0.8165, segment 601.358ms, motion_delta 0.0164, quality_fail
+c45-field-010-pan024-clip05: OCR 0.7818, segment 584.763ms, motion_delta 0.0163, quality_fail
+c45-field-006-pan018-clip05: OCR 0.7892, segment 581.335ms, motion_delta 0.0128, quality_fail
+c45-field-014-pan030-clip05: OCR 0.6912, segment 593.162ms, motion_delta 0.0197, quality_fail
+c45-field-014-pan036-clip05: OCR 0.6912, segment 588.279ms, motion_delta 0.0224, quality_fail
+```
+
+Completed C45 learned independent-field results:
+
+```text
+c45-learned-field-004-flow04: OCR 0.6393, segment 548.702ms, motion_delta 0.0091, quality_fail
+c45-learned-field-006-flow06: OCR 0.6161, segment 562.516ms, motion_delta 0.0138, quality_fail
+c45-learned-field-006-flow06-freq12-clip05: OCR 0.6036, segment 512.876ms, motion_delta 0.0134, quality_fail
+c45-learned-field-006-flow06-clip05: OCR 0.5688, segment 548.541ms, motion_delta 0.0141, quality_fail
+c45-learned-field-008-flow08: OCR 0.2289, segment 565.164ms, motion_delta 0.0170, quality_fail
+```
+
+Interpretation:
+
+- Smooth query-time fields solve the hard-rectangle artifact from C44. Text quality rebounds to `0.8165` OCR on the best run, and human inspection shows no broad white seams.
+- This is still not enough. The motion is too subtle, and much of the apparent liveliness is elastic field deformation rather than object-like translation.
+- The learned branch is the more important model-layer test, but the current small renderer does not yet learn strong independent motion. Mild fields keep some OCR; stronger flow collapses text before producing convincing translation.
+- C46 should explicitly separate translation from stretch: local scale disabled, larger independent pans, and a learned translation-only mode.
+
+Next experiments:
+
+```text
+c46-translate-pan030-clip05
+c46-translate-pan045-clip05
+c46-translate-pan060-clip05
+c46-translate-pan075-clip05
+c46-translate-pan090-clip05
+c46-translate-pan060-freq12-clip05
+c46-translate-pan075-clip05-seed1
+c46-learned-translate-004-s7000
+c46-learned-translate-006-s7000
+c46-learned-translate-008-s7000
+```
