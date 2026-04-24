@@ -1,15 +1,45 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-24T19:40:27+00:00`
+Updated UTC: `2026-04-24T19:46:31+00:00`
 
 ## Active Sessions
 
 - `clawtest`
 - `track-c-autoresearch`
+- `track-c-c35-control-wiggle-014-edge1`
+- `track-c-c35-frame-scale-008-edge1`
+- `track-c-c35-frame-scale-012-edge09`
+- `track-c-c35-frame-scale-012-edge1`
+- `track-c-c35-frame-scale-016-edge1`
+- `track-c-c35-responsive-014-edge1-z006`
+- `track-c-c35-responsive-016-edge1-z008`
+- `track-c-c35-viewport-014-edge1-z006`
+- `track-c-c35-viewport-014-edge1-z010`
+- `track-c-c35-viewport-014-edge1-z014`
 - `track-c-github-sync`
 
 ## Queue
 
+- `c35-viewport-014-edge1-z006`: pending/running - C35 aggressive viewport stress: no-OCR winner under zoom-pulse viewport movement.
+- `c35-viewport-014-edge1-z010`: pending/running - C35 aggressive viewport stress: larger zoom/pan, still no OCR boxes or masks.
+- `c35-viewport-014-edge1-z014`: pending/running - C35 aggressive viewport stress: high zoom/pan to find query-stability failure modes.
+- `c35-frame-scale-008-edge1`: pending/running - C35 resize stress: global frame-scale layout transform with no OCR boxes.
+- `c35-frame-scale-012-edge1`: pending/running - C35 resize stress: stronger global frame-scale layout transform with no OCR boxes.
+- `c35-frame-scale-016-edge1`: pending/running - C35 resize stress: strong global frame-scale layout transform to expose text repainting.
+- `c35-responsive-014-edge1-z006`: pending/running - C35 combined stress: responsive-squeeze plus viewport zoom, no OCR boxes.
+- `c35-responsive-016-edge1-z008`: pending/running - C35 combined stress: stronger responsive-squeeze plus viewport zoom.
+- `c35-frame-scale-012-edge09`: pending/running - C35 resize bracket: frame-scale with slightly lighter edge weighting.
+- `c35-control-wiggle-014-edge1`: pending/running - C35 control only: one local-motion repeat so aggressive tests can be compared to the known winner.
+- `c34-general-flow-014-edge1-seed0`: pending/running - C34 robustness: repeat the C33 no-OCR winner with explicit deterministic seed 0.
+- `c34-general-flow-014-edge1-seed1`: pending/running - C34 robustness: repeat the C33 no-OCR winner with seed 1.
+- `c34-general-flow-014-edge1-seed2`: pending/running - C34 robustness: repeat the C33 no-OCR winner with seed 2.
+- `c34-general-flow-014-edge1-seed3`: pending/running - C34 robustness: repeat the C33 no-OCR winner with seed 3.
+- `c34-general-flow-0141-edge1-seed0`: pending/running - C34 cliff test: nudge pure no-OCR flow just above the C33 winner.
+- `c34-general-flow-01415-edge1-seed0`: pending/running - C34 cliff test: bracket the narrow gap before the C33 0.01425 near-miss.
+- `c34-general-flow-0142-edge1-seed0`: pending/running - C34 cliff test: test whether 0.0142 remains viable before the 0.01425 readability drop.
+- `c34-general-flow-014-edge09-seed0`: pending/running - C34 edge bracket: test slightly lighter edge weighting at the C33 winner flow.
+- `c34-general-responsive-014-edge1-seed0`: pending/running - C34 responsive stress: apply the current winner flow to the no-OCR responsive-squeeze case.
+- `c34-general-viewport-014-edge1-seed0`: pending/running - C34 viewport stress: keep learned jiggle but add viewport zoom/pan to test query stability.
 - `c33-general-flow-0135-edge075`: done - Scale-up pure neural canvas: bracket the C32 no-OCR winner with slightly lighter edge weighting.
 - `c33-general-flow-0135-edge15`: done - Scale-up pure neural canvas: bracket the C32 no-OCR winner with slightly stronger edge weighting.
 - `c33-general-flow-014-edge1`: done - Scale-up pure neural canvas: push no-OCR flow beyond the C32 winner at the best edge setting.
