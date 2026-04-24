@@ -84,6 +84,20 @@
       "min_ocr_similarity": 0.35,
       "min_motion_delta": 0.025,
       "max_loop_error": 0.02
+    },
+    {
+      "scenario_id": "independent-sprite-translation-learned",
+      "description": "The model learns region-level sprite translations directly from x,y,t; the output is still a direct neural canvas render.",
+      "min_ocr_similarity": 0.35,
+      "min_motion_delta": 0.025,
+      "max_loop_error": 0.02
+    },
+    {
+      "scenario_id": "layout-reflow-learned",
+      "description": "The model learns a full page layout reflow: illustration is resized/repositioned and text/content blocks move to a new layout.",
+      "min_ocr_similarity": 0.35,
+      "min_motion_delta": 0.035,
+      "max_loop_error": 0.02
     }
   ]
 }

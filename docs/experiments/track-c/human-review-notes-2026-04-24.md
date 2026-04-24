@@ -761,3 +761,42 @@ c46-learned-translate-004-s7000
 c46-learned-translate-006-s7000
 c46-learned-translate-008-s7000
 ```
+
+## C46 Translation-Only Results
+
+Completed C46 translation-only results:
+
+```text
+c46-translate-pan030-clip05: OCR 0.6948, segment 572.905ms, motion_delta 0.0184, quality_fail
+c46-translate-pan045-clip05: OCR 0.6606, segment 575.381ms, motion_delta 0.0241, quality_fail
+c46-translate-pan060-freq12-clip05: OCR 0.4977, segment 608.441ms, motion_delta 0.0274, quality_fail
+c46-translate-pan060-clip05: OCR 0.4700, segment 603.130ms, motion_delta 0.0272, quality_fail
+c46-translate-pan075-clip05: OCR 0.4375, segment 905.745ms, motion_delta 0.0302, quality_fail
+c46-translate-pan075-clip05-seed1: OCR 0.3385, segment 580.437ms, motion_delta 0.0302, quality_fail
+c46-translate-pan090-clip05: OCR 0.2347, segment 586.274ms, motion_delta 0.0327, quality_fail
+c46-learned-translate-004-s7000: OCR 0.3892, segment 627.167ms, motion_delta 0.0257, quality_fail
+c46-learned-translate-006-s7000: OCR 0.3140, segment 516.280ms, motion_delta 0.0302, quality_fail
+c46-learned-translate-008-s7000: OCR 0.1707, segment 558.853ms, motion_delta 0.0352, quality_fail
+```
+
+Interpretation:
+
+- C46 is a better test than wiggle, but it is still not the end goal.
+- The query-time translation controls prove that pan-only motion is harder than deformation: OCR stays good at pan `0.030-0.045`, but measured motion is still just under the gate.
+- The learned translation branch is the most encouraging near-miss: flow `0.04` clears the motion gate (`0.0257`) and misses OCR by only about one point (`0.3892` vs `0.4000`).
+- This does not yet prove Flipbook-style viability, because moving regions is not the same as creating a new layout. The next proof must resize/reposition the illustration and move text/content blocks into different page locations while still rendering every pixel directly from the model.
+
+Next experiments:
+
+```text
+c47-layout-reflow-070-s9000
+c47-layout-reflow-085-s9000
+c47-layout-reflow-100-s9000
+c47-layout-reflow-100-freq12-s9000
+c47-layout-reflow-100-c24h128-s9000
+c47-layout-reflow-100-c32h160-s10000
+c47-layout-reflow-100-textw-s9000
+c47-layout-reflow-100-textw-c24h128-s10000
+c47-layout-reflow-100-lr007-s10000
+c47-layout-reflow-100-cosine-s10000
+```

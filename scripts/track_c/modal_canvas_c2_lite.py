@@ -341,10 +341,21 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         (0.06, 0.61, 0.52, 0.935, -0.65, -0.85, 0.48, 0.58, 3, 0.08),
         (0.54, 0.60, 0.95, 0.93, 0.75, -0.62, -0.50, 0.52, 2, 0.42),
     ]
+    layout_reflow_regions = [
+        ((0.035, 0.025, 0.965, 0.135), (0.055, 0.035, 0.945, 0.125)),
+        ((0.040, 0.135, 0.495, 0.300), (0.055, 0.145, 0.455, 0.295)),
+        ((0.505, 0.135, 0.965, 0.300), (0.500, 0.145, 0.945, 0.295)),
+        ((0.040, 0.300, 0.495, 0.420), (0.055, 0.755, 0.455, 0.910)),
+        ((0.505, 0.300, 0.965, 0.420), (0.500, 0.755, 0.945, 0.910)),
+        ((0.040, 0.420, 0.635, 0.925), (0.070, 0.335, 0.650, 0.735)),
+        ((0.635, 0.420, 0.965, 0.925), (0.665, 0.335, 0.945, 0.735)),
+    ]
     independent_hard_layout_modes = {"independent-regions", "region-dance"}
     independent_translate_layout_modes = {"independent-translate", "region-translate"}
     independent_field_layout_modes = {"independent-field", "region-field"} | independent_translate_layout_modes
     independent_layout_modes = independent_hard_layout_modes | independent_field_layout_modes
+    independent_sprite_motion_modes = {"independent-sprite-translate", "region-sprite-translate"}
+    layout_reflow_motion_modes = {"layout-reflow", "sprite-layout-reflow"}
 
     def apply_independent_region_field(
         coords: torch.Tensor,
@@ -390,6 +401,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         y = coords[:, 1:2]
         if mode in {"static", "identity", "none"}:
             return coords
+        if mode in independent_sprite_motion_modes or mode in layout_reflow_motion_modes:
+            return coords
         if mode in independent_translate_layout_modes:
             return apply_independent_region_field(coords, t, 0.0, amp)
         if mode in {"independent-field", "region-field"}:
@@ -425,6 +438,15 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         grid = coords01.clamp(0.0, 1.0).mul(2.0).sub(1.0).view(1, -1, 1, 2)
         sampled = F.grid_sample(target_chw, grid, mode="bilinear", padding_mode="border", align_corners=True)
         return sampled.squeeze(0).squeeze(-1).transpose(0, 1)
+
+    def smooth_box_alpha(coords01: torch.Tensor, x0: float, y0: float, x1: float, y1: float, edge: float) -> torch.Tensor:
+        x = coords01[:, 0:1]
+        y = coords01[:, 1:2]
+        left = torch.sigmoid((x - x0) / edge)
+        right = torch.sigmoid((x1 - x) / edge)
+        top = torch.sigmoid((y - y0) / edge)
+        bottom = torch.sigmoid((y1 - y) / edge)
+        return (left * right * top * bottom).clamp(0.0, 1.0)
 
     def tensor_to_png_bytes(tensor: torch.Tensor) -> bytes:
         arr = tensor.detach().clamp(0, 1).mul(255).to(torch.uint8).cpu().numpy()
@@ -605,6 +627,64 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
 
     element_line_boxes = build_word_boxes(scaled_text_boxes) if element_anchor_mode == "word" else build_line_boxes(scaled_text_boxes)
 
+    def sample_independent_sprite_translation(coords01: torch.Tensor, t_col: torch.Tensor, pan: float) -> torch.Tensor:
+        canvas = sample_target(target_chw, coords01)
+        white = torch.ones_like(canvas)
+        edge = 0.006
+        envelope = torch.sin(t_col * torch.pi).square()
+
+        # Clear original source regions first, then composite translated region content back in.
+        for x0, y0, x1, y1, *_rest in independent_layout_regions:
+            alpha = smooth_box_alpha(coords01, x0, y0, x1, y1, edge)
+            canvas = canvas * (1.0 - alpha) + white * alpha
+
+        x = coords01[:, 0:1]
+        y = coords01[:, 1:2]
+        for x0, y0, x1, y1, pan_x_mul, pan_y_mul, _scale_x_mul, _scale_y_mul, speed, phase in independent_layout_regions:
+            angle = 2.0 * torch.pi * (float(speed) * t_col + phase)
+            pan_x = pan * pan_x_mul * envelope * torch.sin(angle)
+            pan_y = pan * pan_y_mul * envelope * torch.cos(angle + torch.pi * 0.23)
+            moved_x0 = torch.full_like(pan_x, x0) + pan_x
+            moved_y0 = torch.full_like(pan_y, y0) + pan_y
+            moved_x1 = torch.full_like(pan_x, x1) + pan_x
+            moved_y1 = torch.full_like(pan_y, y1) + pan_y
+            alpha = (
+                torch.sigmoid((x - moved_x0) / edge)
+                * torch.sigmoid((moved_x1 - x) / edge)
+                * torch.sigmoid((y - moved_y0) / edge)
+                * torch.sigmoid((moved_y1 - y) / edge)
+            ).clamp(0.0, 1.0)
+            source_coords = torch.cat([x - pan_x, y - pan_y], dim=-1)
+            patch = sample_target(target_chw, source_coords)
+            canvas = patch * alpha + canvas * (1.0 - alpha)
+        return canvas
+
+    def sample_layout_reflow(coords01: torch.Tensor, t_col: torch.Tensor, amount: float) -> torch.Tensor:
+        canvas = torch.ones((coords01.shape[0], 3), device=coords01.device)
+        edge = 0.006
+        progress = torch.sin(t_col * torch.pi).square().clamp(0.0, 1.0) * amount
+        x = coords01[:, 0:1]
+        y = coords01[:, 1:2]
+
+        for source_box, target_box in layout_reflow_regions:
+            sx0, sy0, sx1, sy1 = source_box
+            tx0, ty0, tx1, ty1 = target_box
+            dx0 = sx0 + (tx0 - sx0) * progress
+            dy0 = sy0 + (ty0 - sy0) * progress
+            dx1 = sx1 + (tx1 - sx1) * progress
+            dy1 = sy1 + (ty1 - sy1) * progress
+            alpha = (
+                torch.sigmoid((x - dx0) / edge)
+                * torch.sigmoid((dx1 - x) / edge)
+                * torch.sigmoid((y - dy0) / edge)
+                * torch.sigmoid((dy1 - y) / edge)
+            ).clamp(0.0, 1.0)
+            source_x = sx0 + (x - dx0) * ((sx1 - sx0) / (dx1 - dx0).clamp_min(1e-6))
+            source_y = sy0 + (y - dy0) * ((sy1 - sy0) / (dy1 - dy0).clamp_min(1e-6))
+            patch = sample_target(target_chw, torch.cat([source_x, source_y], dim=-1))
+            canvas = patch * alpha + canvas * (1.0 - alpha)
+        return canvas
+
     model = TimeCanvas(
         width=train_w,
         height=train_h,
@@ -647,7 +727,12 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         )
         t = torch.rand((batch_size, 1), device=device)
         target_coords = target_coords_for_motion(coords, t, motion_strength, motion_mode)
-        truth = sample_target(target_chw, target_coords)
+        if motion_mode in independent_sprite_motion_modes:
+            truth = sample_independent_sprite_translation(coords, t, motion_strength)
+        elif motion_mode in layout_reflow_motion_modes:
+            truth = sample_layout_reflow(coords, t, motion_strength)
+        else:
+            truth = sample_target(target_chw, target_coords)
         pred = model(coords, t)
         if edge_loss_weight > 0 or text_box_loss_weight > 0:
             glyph_weights = sample_target(glyph_weight_chw, target_coords).squeeze(-1)
@@ -983,6 +1068,10 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             if text_enabled and video_layout_mode == "element-frame-scale"
             else f"C2.3 neural canvas: stable content with {video_layout_mode} layout transform"
             if video_layout_mode != "none"
+            else "C4.7 neural canvas: learned full page layout reflow from x,y,t"
+            if motion_mode in layout_reflow_motion_modes
+            else "C4.7 neural canvas: learned independent sprite translation from x,y,t"
+            if motion_mode in independent_sprite_motion_modes
             else "C4.6 neural canvas: learned independent region translation from x,y,t"
             if motion_mode in independent_translate_layout_modes
             else "C4.5 neural canvas: learned independent region field from x,y,t"

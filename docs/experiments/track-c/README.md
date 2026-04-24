@@ -78,6 +78,10 @@ C4.5 removes the artificial hard rectangles and confirms the smooth-field direct
 
 C4.6 makes the benchmark stricter: translation is separated from stretch. The new `independent-translate` layout mode disables local scale and only pans page regions on separate timelines, while `independent-translate` as a learned motion mode asks the model to synthesize those local translations directly from `x,y,t`. This should tell us whether we are actually moving regions independently or merely producing an easier elastic wiggle.
 
+C4.6 is still not the final proof. The best query-time translation controls are near-misses: `c46-translate-pan030-clip05` reaches OCR `0.6948` but motion `0.0184`, while `c46-translate-pan045-clip05` reaches OCR `0.6606` and motion `0.0241`. Stronger pan crosses the motion direction but loses text quality. The learned branch is more important: `c46-learned-translate-004-s7000` reaches motion `0.0257` and OCR `0.3892`, narrowly missing its `0.4000` OCR gate. This shows the path is not blocked, but it does not prove a Flipbook-like renderer yet because it is still region translation rather than new layout synthesis.
+
+C4.7 pivots to the real viability proof: learned layout reflow. The target now moves text/content blocks and resizes/repositions the illustration into a different page layout at the video midpoint, then loops back. Boxes are used only to synthesize the training target; the rendered frames remain direct neural-canvas pixels from `x,y,t`. This is the right test for whether the model can produce a new page layout rather than merely wiggle or elastically distort the existing one.
+
 Suggested `results.tsv` header:
 
 ```text
