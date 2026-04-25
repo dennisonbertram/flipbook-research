@@ -232,16 +232,22 @@ C10.7 is complete. Restricting direct loss to source-only remnants is more promi
 
 C10.8 is complete. Source-only direct `0.25` gives the best orbit residual in the branch (`0.0384`) and naturalist residual improves to `0.1081-0.1096`, but naturalist OCR remains just under the gate (`0.3396-0.3434`). Timeline and reef do not benefit enough (`0.0728`, `0.0528`). C10.9 should focus on naturalist source-only direct weights `0.15-0.18`, with one orbit robustness repeat.
 
+C10.9 is complete and should be read as a useful but overfit-sensitive result. Naturalist directsrc `0.18` passes at both timings: `time_power=0.5` gives OCR `0.3889`, segment `918.956ms`, residual gain `0.1215`; `time_power=0.25` gives OCR `0.3913`, segment `1129.706ms`, residual gain `0.1261`. The lower directsrc `0.15/time_power=0.25` point has better OCR/residual (`0.4356` / `0.1155`) but misses latency at `1302.489ms`. Orbit directsrc `0.25` repeats as a pass at seed 5 with residual `0.0330` but sits on the latency edge (`1299.982ms`). Deep-sea directsrc `0.15` reaches near-zero residual (`-0.0006`) but is too slow (`1484.167ms`). C11.0 should validate against same-seed controls and holdouts rather than tuning new weights.
+
 Next experiments:
 
 ```text
-C109 naturalist source-only direct calibration:
-c109-v11-naturalist-indrecomp-truthrem075-tpow025-directsrc015-seed5-s12000
-c109-v11-naturalist-indrecomp-truthrem075-tpow025-directsrc018-seed5-s12000
-c109-v11-naturalist-indrecomp-truthrem075-tpow05-directsrc015-seed5-s12000
-c109-v11-naturalist-indrecomp-truthrem075-tpow05-directsrc018-seed5-s12000
-c109-v10-orbit-indrecomp-truthrem075-tpow1-directsrc025-seed5-s12000
-c109-v12-deep-sea-indrecomp-truthrem075-tpow1-directsrc015-seed6-s12000
+C110 direct-loss validation:
+c110-v11-naturalist-indrecomp-truthrem075-tpow05-control-seed6-s12000
+c110-v11-naturalist-indrecomp-truthrem075-tpow05-directsrc018-seed6-s12000
+c110-v11-naturalist-indrecomp-truthrem075-tpow025-control-seed6-s12000
+c110-v11-naturalist-indrecomp-truthrem075-tpow025-directsrc018-seed6-s12000
+c110-v10-orbit-indrecomp-truthrem075-tpow1-control-seed6-s12000
+c110-v10-orbit-indrecomp-truthrem075-tpow1-directsrc025-seed6-s12000
+c110-v09-reef-indrecomp-truthrem075-tpow1-control-seed5-s12000
+c110-v09-reef-indrecomp-truthrem075-tpow1-directsrc018-seed5-s12000
+c110-v08-transit-indrecomp-truthrem075-tpow1-control-seed1-s12000
+c110-v08-transit-indrecomp-truthrem075-tpow1-directsrc018-seed1-s12000
 ```
 
 Suggested `results.tsv` header:
