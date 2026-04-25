@@ -2602,3 +2602,18 @@ Human read:
 - The naturalist target is a good benchmark style: thin etched fronds, small specimen labels, and warm paper expose a different failure surface than geometric diagrams.
 - The close crop still fails the clean-page standard. Old Colosseum headings, body text, and oval-diagram lines are visible underneath both targets.
 - This means the current OCR/layout gates are necessary but not sufficient. C93 should attack source remnants at the model/loss layer, not by adding text overlays or masks.
+
+Completed C93 visual review:
+
+```text
+c93-v11-naturalist-rem025-mid35-seed1-s12000: OCR 0.5424, segment 1079.278ms, pass
+c93-v12-deep-sea-rem050-mid20-seed0-s12000: OCR 0.8276, segment 903.798ms, pass
+c93-v11-naturalist-rem050-mid50-seed0-s12000: OCR 0.3252, segment 772.180ms, quality_fail
+```
+
+Human read:
+
+- C93 is a useful partial result, but not a visual solution.
+- The contrastive source-remnant loss improves some OCR scores, especially naturalist from the C92 `0.49` band to `0.5424`, but close crops still show old source text/diagram structure under the new target page.
+- Stronger midpoint/remnant pressure can hurt naturalist readability instead of erasing the old source layer.
+- This points to a representational failure: the single source-biased latent/decoder path is still carrying high-frequency source structure. C94 should test target-state decoder paths before spending more compute on scalar loss tuning.

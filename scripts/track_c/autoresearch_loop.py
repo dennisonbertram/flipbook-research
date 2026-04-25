@@ -1084,6 +1084,52 @@ C93_SOURCE_REMNANT_CONTRAST_EXPERIMENTS = [
 ]
 
 
+C94_TARGET_BRANCH_DECODER_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=12000,
+        seed=0,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        latent_sample_mode=latent_sample_mode,
+        decoder_mode=decoder_mode,
+        target_branch_scale=target_branch_scale,
+        target_branch_hidden=96,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_target_mid_sampling_ratio=mid_target_ratio,
+        layout_target_mid_time_width=mid_target_width,
+        layout_mid_time_ratio=0.65,
+        layout_mid_time_width=0.20,
+        source_remnant_loss_weight=remnant_weight,
+        source_remnant_margin=0.025,
+        source_remnant_change_floor=0.04,
+        motion_mode="layout-clean-reflow",
+        clean_target_variant=variant,
+        min_ocr=0.35,
+        min_motion=0.05,
+    )
+    for label, variant, mid_target_ratio, mid_target_width, remnant_weight, decoder_mode, target_branch_scale, latent_sample_mode in [
+        ("c94-v11-naturalist-dualres-s050-rem025-seed0-s12000", "naturalist-plate", 0.35, 0.22, 0.25, "dual-residual", 0.50, "source"),
+        ("c94-v11-naturalist-dualres-s100-rem025-seed0-s12000", "naturalist-plate", 0.35, 0.22, 0.25, "dual-residual", 1.00, "source"),
+        ("c94-v11-naturalist-dualfused-s050-rem025-seed0-s12000", "naturalist-plate", 0.35, 0.22, 0.25, "dual-residual-fused", 0.50, "source"),
+        ("c94-v11-naturalist-dualgate-s100-rem025-seed0-s12000", "naturalist-plate", 0.35, 0.22, 0.25, "dual-gate", 1.00, "source"),
+        ("c94-v11-naturalist-latentboth-rem025-seed0-s12000", "naturalist-plate", 0.35, 0.22, 0.25, "single", 0.00, "both"),
+        ("c94-v12-deep-sea-dualres-s050-rem050-seed0-s12000", "deep-sea-lab", 0.20, 0.18, 0.50, "dual-residual", 0.50, "source"),
+        ("c94-v12-deep-sea-dualres-s100-rem050-seed0-s12000", "deep-sea-lab", 0.20, 0.18, 0.50, "dual-residual", 1.00, "source"),
+        ("c94-v12-deep-sea-dualfused-s050-rem050-seed0-s12000", "deep-sea-lab", 0.20, 0.18, 0.50, "dual-residual-fused", 0.50, "source"),
+        ("c94-v12-deep-sea-dualgate-s100-rem050-seed0-s12000", "deep-sea-lab", 0.20, 0.18, 0.50, "dual-gate", 1.00, "source"),
+        ("c94-v12-deep-sea-latentboth-rem050-seed0-s12000", "deep-sea-lab", 0.20, 0.18, 0.50, "single", 0.00, "both"),
+    ]
+]
+
+
 C86_CLEAN_PAGE_STATE_EXPERIMENTS = [
     learned_layout_reflow_experiment(
         label,
@@ -1784,6 +1830,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C94_TARGET_BRANCH_DECODER_EXPERIMENTS,
     *C93_SOURCE_REMNANT_CONTRAST_EXPERIMENTS,
     *C92_SOURCE_REMNANT_STRESS_EXPERIMENTS,
     *C91_NEW_TOPIC_CLEAN_TARGET_EXPERIMENTS,

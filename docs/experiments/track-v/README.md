@@ -86,6 +86,20 @@ fixtures/track-v/gpt-image-2-illustrated-canal-city.png
 
 On that richer visual page, Kling is the better hosted bridge candidate so far. It keeps more detail and structure at 720p, while fal-hosted LTX is softer at 480p. Both hosted paths are tens of seconds per request, so these are quality/product-latency probes, not realtime model-layer wins.
 
+Current human favorite:
+
+```text
+outputs/track-v/20260425T144658Z-fal-kling-fal-kling-naturalist-etching-960x540-960x540/output.mp4
+```
+
+This run uses the OpenAI-generated naturalist etching fixture:
+
+```text
+fixtures/track-v/gpt-image-2-naturalist-etching-plate.png
+```
+
+Kling preserves the historical plate composition, etched linework, and naturalist illustration style better than the earlier canal-city and dense-text smokes. It is the best hosted-video aesthetic reference so far, but it is still not a realtime model-layer proof: the Kling request took `47.176s` for a `5.042s` clip, about `9.5x` slower than realtime from finished image to MP4. Including the `gpt-image-2` source image generation (`36.6s`), the end-to-end path is about `16.8x` slower than realtime.
+
 ## Sources
 
 - Kling fal API: https://fal.ai/models/fal-ai/kling-video/v2.5-turbo/standard/image-to-video/api

@@ -200,19 +200,21 @@ C9.2 is queued as the source-remnant stress wave. It keeps the C91 recipe and in
 
 C9.2 passed all ten initial stress runs, but it also proved the current gate is too lenient. Full-frame midpoint renders look like the new target pages; close crops still show old Colosseum text and diagram remnants. `deep-sea-lab` is quantitatively strong (`0.6190-0.8966` OCR), while `naturalist-plate` is harder (`0.4082-0.4964` OCR) because thin etched linework and small labels are more demanding. C9.3 adds a contrastive source-remnant loss at clean-reflow midpoints so the model is explicitly penalized when changed pixels are still closer to the source page than the clean target.
 
+C9.3 is a useful partial result, not a solution. The best naturalist run improves to OCR `0.5424`, and the best deep-sea contrast run still reaches OCR `0.8276`, but crop review shows the same source layer underneath. The failure appears representational: the single source-biased latent/decoder keeps carrying old high-frequency structure. C9.4 therefore tests target-state decoder paths: dual residual, fused residual, dual-gate, and latent-both controls.
+
 Next experiments:
 
 ```text
-c93-v11-naturalist-rem025-mid35-seed0-s12000
-c93-v11-naturalist-rem025-mid35-seed1-s12000
-c93-v11-naturalist-rem050-mid35-seed0-s12000
-c93-v11-naturalist-rem050-mid35-seed1-s12000
-c93-v11-naturalist-rem050-mid50-seed0-s12000
-c93-v11-naturalist-rem100-mid35-seed0-s12000
-c93-v12-deep-sea-rem025-mid20-seed0-s12000
-c93-v12-deep-sea-rem050-mid20-seed0-s12000
-c93-v12-deep-sea-rem050-mid35-seed0-s12000
-c93-v12-deep-sea-rem100-mid20-seed0-s12000
+c94-v11-naturalist-dualres-s050-rem025-seed0-s12000
+c94-v11-naturalist-dualres-s100-rem025-seed0-s12000
+c94-v11-naturalist-dualfused-s050-rem025-seed0-s12000
+c94-v11-naturalist-dualgate-s100-rem025-seed0-s12000
+c94-v11-naturalist-latentboth-rem025-seed0-s12000
+c94-v12-deep-sea-dualres-s050-rem050-seed0-s12000
+c94-v12-deep-sea-dualres-s100-rem050-seed0-s12000
+c94-v12-deep-sea-dualfused-s050-rem050-seed0-s12000
+c94-v12-deep-sea-dualgate-s100-rem050-seed0-s12000
+c94-v12-deep-sea-latentboth-rem050-seed0-s12000
 ```
 
 Suggested `results.tsv` header:
