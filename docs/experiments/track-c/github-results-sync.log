@@ -492,3 +492,12 @@
 [2026-04-25T16:14:07+00:00] eval 20260425T155829066852Z-c2-lite-glyph-layout-clean-reflow-c94-v11-naturalist-dualres-s100-rem025-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1046.768ms	ocr=0.4355
 [2026-04-25T16:14:07+00:00] eval 20260425T155944465032Z-c2-lite-glyph-layout-clean-reflow-c94-v12-deep-sea-latentboth-rem050-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	922.816ms	ocr=0.8000
 [2026-04-25T16:14:07+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-25T16:14:10+00:00] published Track C docs update: 2026-04-25 16:14 UTC
+[2026-04-25T16:25:20+00:00] eval 20260425T155828852617Z-c2-lite-glyph-layout-clean-reflow-c94-v11-naturalist-dualres-s050-rem025-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1030.163ms	ocr=0.4194
+[2026-04-25T16:25:20+00:00] eval 20260425T155828853094Z-c2-lite-glyph-layout-clean-reflow-c94-v12-deep-sea-dualres-s050-rem050-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1265.816ms	ocr=0.8667
+[2026-04-25T16:25:20+00:00] eval 20260425T155828855390Z-c2-lite-glyph-layout-clean-reflow-c94-v12-deep-sea-dualres-s100-rem050-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1277.435ms	ocr=0.8125
+[2026-04-25T16:25:20+00:00] eval 20260425T155828864568Z-c2-lite-glyph-layout-clean-reflow-c94-v11-naturalist-latentboth-rem025-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1123.414ms	ocr=0.5000
+[2026-04-25T16:25:20+00:00] eval 20260425T155828955894Z-c2-lite-glyph-layout-clean-reflow-c94-v11-naturalist-dualfused-s050-rem025-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	latency_fail	1433.173ms	ocr=0.3667
+[2026-04-25T16:25:20+00:00] eval 20260425T155829066852Z-c2-lite-glyph-layout-clean-reflow-c94-v11-naturalist-dualres-s100-rem025-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1046.768ms	ocr=0.4355
+[2026-04-25T16:25:20+00:00] eval 20260425T155944465032Z-c2-lite-glyph-layout-clean-reflow-c94-v12-deep-sea-latentboth-rem050-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	922.816ms	ocr=0.8000
+[2026-04-25T16:25:20+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
