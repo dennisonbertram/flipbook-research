@@ -1,0 +1,4 @@
+OPENAI_API_KEY is set.
+Calling Image API (generation). This can take up to a couple of minutes.
+Generation completed in 36.6s.
+Wrote fixtures/track-v/gpt-image-2-naturalist-etching-plate.png

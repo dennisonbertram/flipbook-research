@@ -198,19 +198,21 @@ C9.1 passes all ten new-topic runs. Orbit is especially strong (`0.9286-1.0000` 
 
 C9.2 is queued as the source-remnant stress wave. It keeps the C91 recipe and introduces `naturalist-plate`, an 1800s naturalist-style fern specimen with etched linework and labels, plus `deep-sea-lab`, a dark high-contrast scientific cross-section. The goal is to make old page leakage visible while testing a richer illustration style.
 
+C9.2 passed all ten initial stress runs, but it also proved the current gate is too lenient. Full-frame midpoint renders look like the new target pages; close crops still show old Colosseum text and diagram remnants. `deep-sea-lab` is quantitatively strong (`0.6190-0.8966` OCR), while `naturalist-plate` is harder (`0.4082-0.4964` OCR) because thin etched linework and small labels are more demanding. C9.3 adds a contrastive source-remnant loss at clean-reflow midpoints so the model is explicitly penalized when changed pixels are still closer to the source page than the clean target.
+
 Next experiments:
 
 ```text
-c92-v11-naturalist-plate-target60-mid20-seed0-s12000
-c92-v11-naturalist-plate-target60-mid20-seed1-s12000
-c92-v11-naturalist-plate-target60-mid20-seed2-s12000
-c92-v11-naturalist-plate-target60-mid20-seed4-s12000
-c92-v12-deep-sea-lab-target60-mid20-seed0-s12000
-c92-v12-deep-sea-lab-target60-mid20-seed1-s12000
-c92-v12-deep-sea-lab-target60-mid20-seed2-s12000
-c92-v12-deep-sea-lab-target60-mid20-seed4-s12000
-c92-v11-naturalist-plate-target60-mid35-seed0-s12000
-c92-v12-deep-sea-lab-target60-mid35-seed0-s12000
+c93-v11-naturalist-rem025-mid35-seed0-s12000
+c93-v11-naturalist-rem025-mid35-seed1-s12000
+c93-v11-naturalist-rem050-mid35-seed0-s12000
+c93-v11-naturalist-rem050-mid35-seed1-s12000
+c93-v11-naturalist-rem050-mid50-seed0-s12000
+c93-v11-naturalist-rem100-mid35-seed0-s12000
+c93-v12-deep-sea-rem025-mid20-seed0-s12000
+c93-v12-deep-sea-rem050-mid20-seed0-s12000
+c93-v12-deep-sea-rem050-mid35-seed0-s12000
+c93-v12-deep-sea-rem100-mid20-seed0-s12000
 ```
 
 Suggested `results.tsv` header:

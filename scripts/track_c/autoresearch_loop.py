@@ -93,6 +93,9 @@ def general_visual_motion_args(
     gradient_loss_weight: float | None = None,
     gradient_loss_ratio: float | None = None,
     gradient_loss_offset_px: float | None = None,
+    source_remnant_loss_weight: float | None = None,
+    source_remnant_margin: float | None = None,
+    source_remnant_change_floor: float | None = None,
     flow: float = 0.014,
     edge_ratio: float = 0.1,
     edge_weight: float = 1.0,
@@ -246,6 +249,12 @@ def general_visual_motion_args(
         args.extend(["--gradient-loss-ratio", f"{gradient_loss_ratio:g}"])
     if gradient_loss_offset_px is not None:
         args.extend(["--gradient-loss-offset-px", f"{gradient_loss_offset_px:g}"])
+    if source_remnant_loss_weight is not None:
+        args.extend(["--source-remnant-loss-weight", f"{source_remnant_loss_weight:g}"])
+    if source_remnant_margin is not None:
+        args.extend(["--source-remnant-margin", f"{source_remnant_margin:g}"])
+    if source_remnant_change_floor is not None:
+        args.extend(["--source-remnant-change-floor", f"{source_remnant_change_floor:g}"])
     if layout_target_sampling is not None:
         args.extend(["--layout-target-sampling", str(layout_target_sampling)])
     if layout_target_weighting is not None:
@@ -462,6 +471,9 @@ def learned_independent_translation_experiment(
     gradient_loss_weight: float | None = None,
     gradient_loss_ratio: float | None = None,
     gradient_loss_offset_px: float | None = None,
+    source_remnant_loss_weight: float | None = None,
+    source_remnant_margin: float | None = None,
+    source_remnant_change_floor: float | None = None,
     edge_ratio: float = 0.09,
     edge_weight: float = 0.9,
     text_box_sample_ratio: float = 0.0,
@@ -475,6 +487,11 @@ def learned_independent_translation_experiment(
     grad_note = (
         f", gradient {gradient_loss_weight:g}@{gradient_loss_ratio:g}"
         if gradient_loss_weight and gradient_loss_ratio
+        else ""
+    )
+    remnant_note = (
+        f", source-remnant contrast {source_remnant_loss_weight:g}"
+        if source_remnant_loss_weight
         else ""
     )
     seed_note = f", seed {seed}" if seed else ""
@@ -710,7 +727,7 @@ def learned_layout_reflow_experiment(
         label=label,
         notes=(
             f"{proof_name}: {proof_detail}; output remains direct neural-canvas pixels. "
-            f"amount {amount:g}, flow scale {flow_scale:g}, {steps} steps, freq{freq_bands}{clip_note}{l1_note}{grad_note}{seed_note}{detail_note}{source_coord_note}{neighborhood_note}{context_note}{decoder_note}{rgb_skip_note}{text_note}{target_note}{mid_note}{flow_loss_note}{oracle_note}{curriculum_note}{endpoint_note}{clean_variant_note}."
+            f"amount {amount:g}, flow scale {flow_scale:g}, {steps} steps, freq{freq_bands}{clip_note}{l1_note}{grad_note}{remnant_note}{seed_note}{detail_note}{source_coord_note}{neighborhood_note}{context_note}{decoder_note}{rgb_skip_note}{text_note}{target_note}{mid_note}{flow_loss_note}{oracle_note}{curriculum_note}{endpoint_note}{clean_variant_note}."
         ),
         args=general_visual_motion_args(
             label,
@@ -750,6 +767,9 @@ def learned_layout_reflow_experiment(
             gradient_loss_weight=gradient_loss_weight,
             gradient_loss_ratio=gradient_loss_ratio,
             gradient_loss_offset_px=gradient_loss_offset_px,
+            source_remnant_loss_weight=source_remnant_loss_weight,
+            source_remnant_margin=source_remnant_margin,
+            source_remnant_change_floor=source_remnant_change_floor,
             flow=flow_scale,
             edge_ratio=edge_ratio,
             edge_weight=edge_weight,
@@ -1010,6 +1030,48 @@ C92_SOURCE_REMNANT_STRESS_EXPERIMENTS = [
         ("c92-v12-deep-sea-lab-target60-mid20-seed4-s12000", "deep-sea-lab", 4, 0.20, 0.18),
         ("c92-v11-naturalist-plate-target60-mid35-seed0-s12000", "naturalist-plate", 0, 0.35, 0.22),
         ("c92-v12-deep-sea-lab-target60-mid35-seed0-s12000", "deep-sea-lab", 0, 0.35, 0.22),
+    ]
+]
+
+
+C93_SOURCE_REMNANT_CONTRAST_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=12000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_target_mid_sampling_ratio=mid_target_ratio,
+        layout_target_mid_time_width=mid_target_width,
+        layout_mid_time_ratio=0.65,
+        layout_mid_time_width=0.20,
+        source_remnant_loss_weight=remnant_weight,
+        source_remnant_margin=0.025,
+        source_remnant_change_floor=0.04,
+        motion_mode="layout-clean-reflow",
+        clean_target_variant=variant,
+        min_ocr=0.35,
+        min_motion=0.05,
+    )
+    for label, variant, seed, mid_target_ratio, mid_target_width, remnant_weight in [
+        ("c93-v11-naturalist-rem025-mid35-seed0-s12000", "naturalist-plate", 0, 0.35, 0.22, 0.25),
+        ("c93-v11-naturalist-rem025-mid35-seed1-s12000", "naturalist-plate", 1, 0.35, 0.22, 0.25),
+        ("c93-v11-naturalist-rem050-mid35-seed0-s12000", "naturalist-plate", 0, 0.35, 0.22, 0.50),
+        ("c93-v11-naturalist-rem050-mid35-seed1-s12000", "naturalist-plate", 1, 0.35, 0.22, 0.50),
+        ("c93-v11-naturalist-rem050-mid50-seed0-s12000", "naturalist-plate", 0, 0.50, 0.16, 0.50),
+        ("c93-v11-naturalist-rem100-mid35-seed0-s12000", "naturalist-plate", 0, 0.35, 0.22, 1.00),
+        ("c93-v12-deep-sea-rem025-mid20-seed0-s12000", "deep-sea-lab", 0, 0.20, 0.18, 0.25),
+        ("c93-v12-deep-sea-rem050-mid20-seed0-s12000", "deep-sea-lab", 0, 0.20, 0.18, 0.50),
+        ("c93-v12-deep-sea-rem050-mid35-seed0-s12000", "deep-sea-lab", 0, 0.35, 0.22, 0.50),
+        ("c93-v12-deep-sea-rem100-mid20-seed0-s12000", "deep-sea-lab", 0, 0.20, 0.18, 1.00),
     ]
 ]
 
@@ -1714,6 +1776,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C93_SOURCE_REMNANT_CONTRAST_EXPERIMENTS,
     *C92_SOURCE_REMNANT_STRESS_EXPERIMENTS,
     *C91_NEW_TOPIC_CLEAN_TARGET_EXPERIMENTS,
     *C90_CHANGED_ILLUSTRATION_CLEAN_TARGET_EXPERIMENTS,

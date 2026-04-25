@@ -1958,6 +1958,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     gradient_loss_weight = float(config.get("gradient_loss_weight", 0.0))
     gradient_loss_ratio = float(config.get("gradient_loss_ratio", 0.125))
     gradient_loss_offset_px = float(config.get("gradient_loss_offset_px", 1.0))
+    source_remnant_loss_weight = float(config.get("source_remnant_loss_weight", 0.0))
+    source_remnant_margin = float(config.get("source_remnant_margin", 0.025))
+    source_remnant_change_floor = float(config.get("source_remnant_change_floor", 0.04))
     motion_mode = str(config.get("motion_mode", "jiggle"))
     motion_strength = float(config.get("motion_strength", flow_scale))
     clean_target_variant = str(config.get("clean_target_variant", "diagram-left"))
@@ -2469,6 +2472,22 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         else:
             loss = loss_per_sample.mean()
         if (
+            source_remnant_loss_weight > 0.0
+            and motion_mode in clean_layout_motion_modes
+            and clean_target_chw is not None
+        ):
+            source_sample = sample_target(target_chw, coords)
+            clean_sample = sample_target(clean_target_chw, coords)
+            target_distance = (pred - clean_sample).abs().mean(dim=-1)
+            source_distance = (pred - source_sample).abs().mean(dim=-1)
+            change_weight = ((clean_sample - source_sample).abs().mean(dim=-1) / source_remnant_change_floor).clamp(0.0, 1.0)
+            midpoint_weight = clean_progress(t, step_motion_strength).squeeze(-1).square()
+            remnant_weights = change_weight * midpoint_weight
+            remnant_loss = (
+                F.relu(source_remnant_margin + target_distance - source_distance) * remnant_weights
+            ).sum() / remnant_weights.sum().clamp_min(1e-6)
+            loss = loss + source_remnant_loss_weight * remnant_loss
+        if (
             motion_mode in layout_reflow_motion_modes
             and layout_flow_loss_weight > 0.0
             and pred_source_coords is not None
@@ -2892,6 +2911,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "gradient_loss_weight": gradient_loss_weight,
         "gradient_loss_ratio": gradient_loss_ratio,
         "gradient_loss_offset_px": gradient_loss_offset_px,
+        "source_remnant_loss_weight": source_remnant_loss_weight,
+        "source_remnant_margin": source_remnant_margin,
+        "source_remnant_change_floor": source_remnant_change_floor,
         "seed": seed,
         "experiment_label": config.get("experiment_label", ""),
         "flow_scale": flow_scale,
@@ -3030,6 +3052,11 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             f" Training directly samples {layout_target_mid_sampling_ratio:g} of points from "
             f"the reflowed midpoint glyph/text distribution."
         )
+    if source_remnant_loss_weight > 0.0:
+        metrics["description"] += (
+            f" A contrastive source-remnant loss ({source_remnant_loss_weight:g}) penalizes midpoint pixels "
+            f"that are closer to the source page than the clean target by margin {source_remnant_margin:g}."
+        )
     return {"artifacts": artifacts, "metrics": metrics}
 
 
@@ -3070,6 +3097,9 @@ def main(
     gradient_loss_weight: float = 0.0,
     gradient_loss_ratio: float = 0.125,
     gradient_loss_offset_px: float = 1.0,
+    source_remnant_loss_weight: float = 0.0,
+    source_remnant_margin: float = 0.025,
+    source_remnant_change_floor: float = 0.04,
     flow_scale: float = 0.006,
     motion_mode: str = "jiggle",
     motion_strength: float = -1.0,
@@ -3156,6 +3186,9 @@ def main(
         "gradient_loss_weight": gradient_loss_weight,
         "gradient_loss_ratio": gradient_loss_ratio,
         "gradient_loss_offset_px": gradient_loss_offset_px,
+        "source_remnant_loss_weight": source_remnant_loss_weight,
+        "source_remnant_margin": source_remnant_margin,
+        "source_remnant_change_floor": source_remnant_change_floor,
         "seed": seed,
         "flow_scale": flow_scale,
         "motion_mode": motion_mode,

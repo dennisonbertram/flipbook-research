@@ -2586,3 +2586,19 @@ Human read:
 - Orbit is visually cleaner than reef and reads very well by OCR.
 - Crop inspection still shows faint source-page haze in open regions, especially where the new target has pale backgrounds or sparse diagram detail.
 - C92 should deliberately use an illustration style and palette that expose source remnants: an 1800s naturalist-style etched plate for thin-line art, plus a dark scientific page where old paper/text leakage is immediately obvious.
+
+Completed C92 initial visual review:
+
+```text
+c92-v12-deep-sea-lab-target60-mid20-seed0-s12000: OCR 0.8966, segment 759.837ms, pass
+c92-v12-deep-sea-lab-target60-mid20-seed2-s12000: OCR 0.7500, segment 915.596ms, pass
+c92-v11-naturalist-plate-target60-mid35-seed0-s12000: OCR 0.4964, segment 771.345ms, pass
+c92-v11-naturalist-plate-target60-mid20-seed1-s12000: OCR 0.4954, segment 750.940ms, pass
+```
+
+Human read:
+
+- Full-frame C92 midpoint renders are encouraging. The target page visibly becomes either a dark deep-sea lab schematic or a naturalist fern specimen plate.
+- The naturalist target is a good benchmark style: thin etched fronds, small specimen labels, and warm paper expose a different failure surface than geometric diagrams.
+- The close crop still fails the clean-page standard. Old Colosseum headings, body text, and oval-diagram lines are visible underneath both targets.
+- This means the current OCR/layout gates are necessary but not sufficient. C93 should attack source remnants at the model/loss layer, not by adding text overlays or masks.
