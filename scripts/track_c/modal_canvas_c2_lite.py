@@ -281,6 +281,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             context_channels: int = 0,
             context_scale: float = 0.25,
             context_init_scale: float = 0.02,
+            context_sample_mode: str = "source",
         ):
             super().__init__()
             self.width = width
@@ -293,6 +294,12 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             self.source_coord_features = source_coord_features
             self.canvas = nn.Parameter(torch.randn(1, channels, height, width) * 0.02)
             if context_channels > 0:
+                context_sample_mode = context_sample_mode.lower()
+                if context_sample_mode in {"target", "dest", "destination", "output"}:
+                    context_sample_mode = "target"
+                elif context_sample_mode != "both":
+                    context_sample_mode = "source"
+                self.context_sample_mode = context_sample_mode
                 context_w = max(4, int(round(width * max(0.01, float(context_scale)))))
                 context_h = max(4, int(round(height * max(0.01, float(context_scale)))))
                 self.context_canvas = nn.Parameter(
@@ -300,6 +307,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 )
             else:
                 self.context_canvas = None
+                self.context_sample_mode = "source"
             mode = latent_neighborhood_mode.lower()
             if mode not in {"none", "center", "cross", "grid"}:
                 mode = "none"
@@ -317,7 +325,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             coord_dim = 2 + 4 * freq_bands
             time_dim = 1 + 2 * time_bands
             condition_dim = coord_dim + time_dim + (coord_dim if source_coord_features else 0)
-            latent_dim = channels * len(offsets) + (context_channels if context_channels > 0 else 0)
+            context_taps = 2 if context_channels > 0 and self.context_sample_mode == "both" else 1
+            latent_dim = channels * len(offsets) + (context_channels * context_taps if context_channels > 0 else 0)
             self.flow = nn.Sequential(
                 nn.Linear(coord_dim + time_dim, hidden),
                 nn.SiLU(),
@@ -360,10 +369,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             ).squeeze(0).squeeze(-1).transpose(0, 1)
             return sampled.reshape(sample_coords.shape[0], offsets.shape[0], -1).reshape(sample_coords.shape[0], -1)
 
-        def sample_context_features(self, sample_coords: torch.Tensor) -> torch.Tensor | None:
-            if self.context_canvas is None:
-                return None
-            grid = sample_coords.clamp(0.0, 1.0).mul(2.0).sub(1.0).view(1, -1, 1, 2)
+        def sample_one_context(self, coords: torch.Tensor) -> torch.Tensor:
+            grid = coords.clamp(0.0, 1.0).mul(2.0).sub(1.0).view(1, -1, 1, 2)
             return F.grid_sample(
                 self.context_canvas,
                 grid,
@@ -371,6 +378,15 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 padding_mode="border",
                 align_corners=True,
             ).squeeze(0).squeeze(-1).transpose(0, 1)
+
+        def sample_context_features(self, coords01: torch.Tensor, sample_coords: torch.Tensor) -> torch.Tensor | None:
+            if self.context_canvas is None:
+                return None
+            if self.context_sample_mode == "target":
+                return self.sample_one_context(coords01)
+            if self.context_sample_mode == "both":
+                return torch.cat([self.sample_one_context(sample_coords), self.sample_one_context(coords01)], dim=-1)
+            return self.sample_one_context(sample_coords)
 
         def encode_coords(self, coords01: torch.Tensor) -> torch.Tensor:
             feats = [coords01]
@@ -407,7 +423,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             condition = torch.cat(condition_parts, dim=-1)
             grid = sample_coords.mul(2.0).sub(1.0).view(1, -1, 1, 2)
             sampled = self.sample_canvas_features(sample_coords)
-            context_sampled = self.sample_context_features(sample_coords)
+            context_sampled = self.sample_context_features(coords01, sample_coords)
             if context_sampled is not None:
                 sampled = torch.cat([sampled, context_sampled], dim=-1)
             logits = self.mlp(torch.cat([sampled, condition], dim=-1))
@@ -686,6 +702,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     context_channels = int(config.get("context_channels", 0))
     context_scale = float(config.get("context_scale", 0.25))
     context_init_scale = float(config.get("context_init_scale", 0.02))
+    context_sample_mode = str(config.get("context_sample_mode", "source"))
 
     source = Image.open(io.BytesIO(input_png)).convert("RGB").resize((train_w, train_h), Image.Resampling.LANCZOS)
     target = torch.from_numpy(np.asarray(source, dtype=np.float32) / 255.0).to(device)
@@ -927,6 +944,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         context_channels=context_channels,
         context_scale=context_scale,
         context_init_scale=context_init_scale,
+        context_sample_mode=context_sample_mode,
     ).to(device)
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=base_lr, weight_decay=0.0)
@@ -1453,6 +1471,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "context_channels": context_channels,
         "context_scale": context_scale,
         "context_init_scale": context_init_scale,
+        "context_sample_mode": context_sample_mode,
         "context_resolution": list(model.context_canvas.shape[-2:]) if model.context_canvas is not None else [0, 0],
         "freq_bands": int(config["freq_bands"]),
         "time_bands": int(config["time_bands"]),
@@ -1565,7 +1584,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     if context_channels > 0:
         metrics["description"] += (
             f" Decoder also samples a coarse context latent canvas with {context_channels} channels "
-            f"at scale {context_scale:g}."
+            f"at scale {context_scale:g} in {context_sample_mode} mode."
         )
     if layout_target_mid_sampling_ratio > 0.0:
         metrics["description"] += (
@@ -1592,6 +1611,7 @@ def main(
     context_channels: int = 0,
     context_scale: float = 0.25,
     context_init_scale: float = 0.02,
+    context_sample_mode: str = "source",
     freq_bands: int = 8,
     time_bands: int = 4,
     lr: float = 0.01,
@@ -1667,6 +1687,7 @@ def main(
         "context_channels": context_channels,
         "context_scale": context_scale,
         "context_init_scale": context_init_scale,
+        "context_sample_mode": context_sample_mode,
         "freq_bands": freq_bands,
         "time_bands": time_bands,
         "lr": lr,

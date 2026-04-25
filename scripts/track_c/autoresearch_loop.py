@@ -73,6 +73,7 @@ def general_visual_motion_args(
     context_channels: int | None = None,
     context_scale: float | None = None,
     context_init_scale: float | None = None,
+    context_sample_mode: str | None = None,
     freq_bands: int | None = None,
     time_bands: int | None = None,
     lr: float | None = None,
@@ -191,6 +192,8 @@ def general_visual_motion_args(
         args.extend(["--context-scale", f"{context_scale:g}"])
     if context_init_scale is not None:
         args.extend(["--context-init-scale", f"{context_init_scale:g}"])
+    if context_sample_mode is not None:
+        args.extend(["--context-sample-mode", context_sample_mode])
     if batch_size is not None:
         args.extend(["--batch-size", str(batch_size)])
     if freq_bands is not None:
@@ -557,6 +560,7 @@ def learned_layout_reflow_experiment(
     context_channels: int | None = None,
     context_scale: float | None = None,
     context_init_scale: float | None = None,
+    context_sample_mode: str | None = None,
     freq_bands: int = 10,
     time_bands: int | None = None,
     lr: float | None = None,
@@ -611,6 +615,7 @@ def learned_layout_reflow_experiment(
     )
     context_note = (
         f", context c{context_channels} scale {context_scale if context_scale is not None else 0.25:g}"
+        f" {context_sample_mode or 'source'}"
         if context_channels
         else ""
     )
@@ -664,6 +669,7 @@ def learned_layout_reflow_experiment(
             context_channels=context_channels,
             context_scale=context_scale,
             context_init_scale=context_init_scale,
+            context_sample_mode=context_sample_mode,
             freq_bands=freq_bands,
             time_bands=time_bands,
             lr=lr,
@@ -701,6 +707,44 @@ def learned_layout_reflow_experiment(
             min_motion=min_motion,
         ),
     )
+
+
+C73_CONTEXT_MODE_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        context_channels=context_channels,
+        context_scale=0.25,
+        context_sample_mode=context_mode,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    )
+    for label, seed, context_channels, context_mode in [
+        ("c73-c8target-seed1-s14000", 1, 8, "target"),
+        ("c73-c8target-seed2-s14000", 2, 8, "target"),
+        ("c73-c8target-seed4-s14000", 4, 8, "target"),
+        ("c73-c8both-seed1-s14000", 1, 8, "both"),
+        ("c73-c8both-seed2-s14000", 2, 8, "both"),
+        ("c73-c8both-seed4-s14000", 4, 8, "both"),
+        ("c73-c4target-seed1-s14000", 1, 4, "target"),
+        ("c73-c4target-seed2-s14000", 2, 4, "target"),
+        ("c73-c4both-seed1-s14000", 1, 4, "both"),
+        ("c73-c4both-seed2-s14000", 2, 4, "both"),
+    ]
+]
 
 
 C72_ROBUSTNESS_MAP_EXPERIMENTS = [
@@ -824,6 +868,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C73_CONTEXT_MODE_EXPERIMENTS,
     *C72_ROBUSTNESS_MAP_EXPERIMENTS,
     *C71_LOW_TARGET_MID_EXPERIMENTS,
     *C70_TARGET_MID_EXPERIMENTS,

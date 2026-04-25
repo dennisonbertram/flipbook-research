@@ -1831,3 +1831,45 @@ C72 hypothesis:
 - If either low-dose recipe is real, it should produce several pass/near-pass seeds without further tuning.
 - `c8/mid05` tests the lowest-dose rescue path that helped seed5.
 - `c4/mid15` tests whether the smaller context canvas is a more stable representation than c8 for target-mid sampling.
+
+Completed C72 results:
+
+```text
+c72-c4mid20-seed4-s14000: OCR 0.5389, segment 833.356ms, motion_delta 0.0479, quality_fail
+c72-c8mid05-seed1-s14000: OCR 0.5294, segment 987.852ms, motion_delta 0.0523, quality_fail
+c72-c4mid15-seed1-s14000: OCR 0.5150, segment 997.445ms, motion_delta 0.0538, quality_fail
+c72-c8mid05-seed2-s14000: OCR 0.5000, segment 981.260ms, motion_delta 0.0487, quality_fail
+c72-c8mid05-seed4-s14000: OCR 0.5000, segment 1177.482ms, motion_delta 0.0493, quality_fail
+c72-c4mid15-seed5-s14000: OCR 0.4938, segment 1000.736ms, motion_delta 0.0550, quality_fail
+c72-c4mid15-seed4-s14000: OCR 0.4906, segment 1015.182ms, motion_delta 0.0471, quality_fail
+c72-c8mid05-seed3-s14000: OCR 0.4906, segment 1171.951ms, motion_delta 0.0495, quality_fail
+c72-c4mid15-seed3-s14000: OCR 0.4654, segment 816.381ms, motion_delta 0.0497, quality_fail
+c72-c8mid05-seed6-s14000: OCR 0.4500, segment 1178.060ms, motion_delta 0.0504, quality_fail
+```
+
+Interpretation:
+
+- C72 is a robustness negative. Neither `c8/mid05` nor `c4/mid15` produces repeatable passes.
+- The target-mid sampler can rescue individual seeds, but it is not the stabilizing mechanism we need.
+- This pushes the next move back to model architecture. The current coarse context is sampled at the source/warped coordinate, which helps content identity but may not give the decoder a destination-layout memory.
+
+Next experiments:
+
+```text
+c73-c8target-seed1-s14000
+c73-c8target-seed2-s14000
+c73-c8target-seed4-s14000
+c73-c8both-seed1-s14000
+c73-c8both-seed2-s14000
+c73-c8both-seed4-s14000
+c73-c4target-seed1-s14000
+c73-c4target-seed2-s14000
+c73-c4both-seed1-s14000
+c73-c4both-seed2-s14000
+```
+
+C73 hypothesis:
+
+- Source-coordinate context may preserve glyph/source detail but underrepresent the destination page layout.
+- Target-coordinate context samples the coarse context canvas at the output coordinate, giving the decoder destination-layout memory.
+- Both-mode context concatenates source-sampled and target-sampled coarse features, testing whether the model needs both content identity and destination layout. This remains pure neural-canvas pixel generation.

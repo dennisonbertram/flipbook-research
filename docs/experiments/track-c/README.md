@@ -148,6 +148,8 @@ C7.0 shows direct target-midpoint sampling can help, but only in a small dose. `
 
 C7.1 keeps the low-dose target-mid signal alive but does not make it robust. `c71-mid05-c8s025-seed5-s14000` passes at OCR `0.5905`, and `c71-mid15-c4s025-seed2-s14000` passes at OCR `0.5701`. `c71-mid10-c4s025-seed4-s14000` clears OCR at `0.5581` but misses latency at `1352ms`. The rest of the low-dose c8/c4 weak-seed map misses. C7.2 therefore stops adding mechanisms and maps robustness for the two plausible recipes: `c8/mid05` and `c4/mid15`.
 
+C7.2 is a robustness negative. Neither `c8/mid05` nor `c4/mid15` repeats: the best run is `c72-c4mid20-seed4-s14000` at OCR `0.5389`, and all ten runs miss the OCR gate. Target-midpoint sampling can rescue individual seeds, but it is not the stabilizer. C7.3 returns to architecture by changing how coarse context is sampled: source-coordinate context preserves content identity, target-coordinate context may encode destination layout, and both-mode context tests whether the decoder needs both.
+
 Suggested `results.tsv` header:
 
 ```text
