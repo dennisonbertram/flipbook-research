@@ -70,3 +70,9 @@ If C85 improves both OCR and change-region target delta, keep one more gate swee
 ## Implementation Note
 
 C85 did not improve the branch, so C86 is now implemented as `layout-clean-reflow` in `scripts/track_c/modal_canvas_c2_lite.py`. The target midpoint is a separate deterministic page renderer, OCR uses `target-mid.png` as the active reference for clean runs, and `scripts/track_c/autoresearch_loop.py` now queues ten C86 variants ahead of older C85/C84 experiments.
+
+## C87 Generality Check
+
+C86 is a positive proof for the pure neural-canvas direction, but it is still only one clean source-target pair. That is not enough to match Flipbook's public claim. Flipbook is pointing at a renderer where the visible page can become a different generated pixel state under resize, scroll, animation, or interaction.
+
+C87 therefore keeps the C86 winning recipe and changes only the clean target layout family. The two new targets, `right-diagram` and `stacked`, reposition the same semantic content into materially different page states. A pass across these variants would suggest the renderer is learning a more general state-to-state page transform. A failure would mean C86 was more likely a target-fixture fit than a reusable neural page renderer.
