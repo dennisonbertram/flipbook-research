@@ -1,57 +1,131 @@
 {
-  "updated_utc": "2026-04-25T01:17:03+00:00",
+  "updated_utc": "2026-04-25T01:27:33+00:00",
   "active_sessions": [
     "clawtest",
     "track-c-autoresearch",
-    "track-c-c59-oracleflow-target50-c32h160-s12000",
-    "track-c-c59-oracleflow-target75-c24h128-s10000",
-    "track-c-c59-oracleflow-target75-c32h160-s12000",
-    "track-c-c59-oracleflow-target75-freq12-s10000",
-    "track-c-c59-oracleflow-target75-nosrc-c32h160-s12000",
-    "track-c-c59-oracleflow-weightonly-c32h160-s12000",
+    "track-c-c60-sourcecoord-target100-c32h160-s14000",
+    "track-c-c60-sourcecoord-target60-c32h160-s14000",
+    "track-c-c60-sourcecoord-target70-c32h160-s14000",
+    "track-c-c60-sourcecoord-target75-b196-s10000",
+    "track-c-c60-sourcecoord-target75-c24h128-s12000",
+    "track-c-c60-sourcecoord-target75-c40h192-s12000",
+    "track-c-c60-sourcecoord-target75-seed1-c32h160-s14000",
+    "track-c-c60-sourcecoord-target75-seed2-c32h160-s14000",
+    "track-c-c60-sourcecoord-target80-c32h160-s14000",
+    "track-c-c60-sourcecoord-target90-c32h160-s14000",
     "track-c-github-sync"
   ],
   "experiments": [
     {
+      "label": "c60-sourcecoord-target60-c32h160-s14000",
+      "session": "track-c-c60-sourcecoord-target60-c32h160-s14000",
+      "log": "docs/experiments/track-c/c60-sourcecoord-target60-c32h160-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c60-sourcecoord-target70-c32h160-s14000",
+      "session": "track-c-c60-sourcecoord-target70-c32h160-s14000",
+      "log": "docs/experiments/track-c/c60-sourcecoord-target70-c32h160-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.7, mid-time 0.6."
+    },
+    {
+      "label": "c60-sourcecoord-target80-c32h160-s14000",
+      "session": "track-c-c60-sourcecoord-target80-c32h160-s14000",
+      "log": "docs/experiments/track-c/c60-sourcecoord-target80-c32h160-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.8, mid-time 0.6."
+    },
+    {
+      "label": "c60-sourcecoord-target90-c32h160-s14000",
+      "session": "track-c-c60-sourcecoord-target90-c32h160-s14000",
+      "log": "docs/experiments/track-c/c60-sourcecoord-target90-c32h160-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.9, mid-time 0.6."
+    },
+    {
+      "label": "c60-sourcecoord-target100-c32h160-s14000",
+      "session": "track-c-c60-sourcecoord-target100-c32h160-s14000",
+      "log": "docs/experiments/track-c/c60-sourcecoord-target100-c32h160-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling, mid-time 0.6."
+    },
+    {
+      "label": "c60-sourcecoord-target75-seed1-c32h160-s14000",
+      "session": "track-c-c60-sourcecoord-target75-seed1-c32h160-s14000",
+      "log": "docs/experiments/track-c/c60-sourcecoord-target75-seed1-c32h160-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 1, source-coord features, target-side reflow sampling ratio 0.75, mid-time 0.6."
+    },
+    {
+      "label": "c60-sourcecoord-target75-seed2-c32h160-s14000",
+      "session": "track-c-c60-sourcecoord-target75-seed2-c32h160-s14000",
+      "log": "docs/experiments/track-c/c60-sourcecoord-target75-seed2-c32h160-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 2, source-coord features, target-side reflow sampling ratio 0.75, mid-time 0.6."
+    },
+    {
+      "label": "c60-sourcecoord-target75-b196-s10000",
+      "session": "track-c-c60-sourcecoord-target75-b196-s10000",
+      "log": "docs/experiments/track-c/c60-sourcecoord-target75-b196-s10000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.75, mid-time 0.6."
+    },
+    {
+      "label": "c60-sourcecoord-target75-c24h128-s12000",
+      "session": "track-c-c60-sourcecoord-target75-c24h128-s12000",
+      "log": "docs/experiments/track-c/c60-sourcecoord-target75-c24h128-s12000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 12000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.75, mid-time 0.6."
+    },
+    {
+      "label": "c60-sourcecoord-target75-c40h192-s12000",
+      "session": "track-c-c60-sourcecoord-target75-c40h192-s12000",
+      "log": "docs/experiments/track-c/c60-sourcecoord-target75-c40h192-s12000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.75, mid-time 0.6."
+    },
+    {
       "label": "c59-oracleflow-target75-c32h160-s12000",
       "session": "track-c-c59-oracleflow-target75-c32h160-s12000",
       "log": "docs/experiments/track-c/c59-oracleflow-target75-c32h160-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.75, mid-time 0.6, oracle layout flow."
     },
     {
       "label": "c59-oracleflow-target50-c32h160-s12000",
       "session": "track-c-c59-oracleflow-target50-c32h160-s12000",
       "log": "docs/experiments/track-c/c59-oracleflow-target50-c32h160-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.5, mid-time 0.6, oracle layout flow."
     },
     {
       "label": "c59-oracleflow-weightonly-c32h160-s12000",
       "session": "track-c-c59-oracleflow-weightonly-c32h160-s12000",
       "log": "docs/experiments/track-c/c59-oracleflow-weightonly-c32h160-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling, mid-time 0.6, oracle layout flow."
     },
     {
       "label": "c59-oracleflow-target75-c24h128-s10000",
       "session": "track-c-c59-oracleflow-target75-c24h128-s10000",
       "log": "docs/experiments/track-c/c59-oracleflow-target75-c24h128-s10000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.75, mid-time 0.6, oracle layout flow."
     },
     {
       "label": "c59-oracleflow-target75-nosrc-c32h160-s12000",
       "session": "track-c-c59-oracleflow-target75-nosrc-c32h160-s12000",
       "log": "docs/experiments/track-c/c59-oracleflow-target75-nosrc-c32h160-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, target-side reflow sampling ratio 0.75, mid-time 0.6, oracle layout flow."
     },
     {
       "label": "c59-oracleflow-target75-freq12-s10000",
       "session": "track-c-c59-oracleflow-target75-freq12-s10000",
       "log": "docs/experiments/track-c/c59-oracleflow-target75-freq12-s10000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq12, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.75, mid-time 0.6, oracle layout flow."
     },
     {
