@@ -1486,3 +1486,46 @@ C64 hypothesis:
 - If this is the right lever, C24/H128 seed repeats should move upward together rather than producing one lucky high outlier.
 - The C32/H160 seed1 repeats test whether curriculum also rescues previously weak C32 source-coordinate seeds.
 - Full evaluation still uses full layout reflow; only the training schedule changes.
+
+Completed C64 results:
+
+```text
+c64-sourcecoord-target60-c24h128-curr50-seed2-s12000: OCR 0.6077, segment 758.183ms, motion_delta 0.0496, pass
+c64-sourcecoord-target75-c32h160-curr25s025-seed1-s14000: OCR 0.5714, segment 814.836ms, motion_delta 0.0498, pass
+c64-sourcecoord-target60-c24h128-curr25s025-seed2-s12000: OCR 0.5596, segment 773.672ms, motion_delta 0.0488, pass
+c64-sourcecoord-target60-c24h128-curr50s025-seed2-s12000: OCR 0.5258, segment 771.843ms, motion_delta 0.0485, quality_fail
+c64-sourcecoord-target60-c32h160-curr25s025-seed1-s14000: OCR 0.4972, segment 802.758ms, motion_delta 0.0507, quality_fail
+c64-sourcecoord-target65-c24h128-curr25s025-seed2-s12000: OCR 0.4906, segment 801.374ms, motion_delta 0.0497, quality_fail
+c64-sourcecoord-target60-c24h128-curr25s025-seed5-s12000: OCR 0.4875, segment 765.546ms, motion_delta 0.0541, quality_fail
+c64-sourcecoord-target60-c24h128-curr25s025-seed4-s12000: OCR 0.4717, segment 769.537ms, motion_delta 0.0484, quality_fail
+c64-sourcecoord-target60-c24h128-curr25s025-seed3-s12000: OCR 0.4528, segment 781.857ms, motion_delta 0.0530, quality_fail
+c64-sourcecoord-target60-c24h128-curr25-seed2-s12000: OCR 0.4500, segment 766.914ms, motion_delta 0.0493, quality_fail
+```
+
+Interpretation:
+
+- Curriculum helps a narrow slice: the 50% zero-start curriculum recovers OCR `0.6077` on seed2, close to the best post-C57 B196 run.
+- Curriculum does not yet stabilize the basin. Seed3/4/5 with the same 25% start-at-0.25 curriculum remain below OCR `0.49`.
+- The C32 target75 seed1 rescue is useful: C60 target75 seed1 was OCR `0.4750`, while C64 target75 seed1 reaches `0.5714`.
+- The grounding review of Flipbook's public language matters here. Flipbook currently describes static image generation and live video as two systems that will eventually merge. That suggests the next overfit proof should explicitly anchor crisp static source/target pages, then train the transition.
+
+Next experiments:
+
+```text
+c65-sourcecoord-target60-c24h128-end25-seed2-s12000
+c65-sourcecoord-target60-c24h128-end50-seed2-s12000
+c65-sourcecoord-target60-c24h128-end75-seed2-s12000
+c65-sourcecoord-target60-c24h128-end50-curr50-seed2-s12000
+c65-sourcecoord-target60-c24h128-end50-curr25s025-seed2-s12000
+c65-sourcecoord-target60-c24h128-end50-seed3-s12000
+c65-sourcecoord-target60-c24h128-end50-seed4-s12000
+c65-sourcecoord-target60-c24h128-end50-seed5-s12000
+c65-sourcecoord-target75-c32h160-end50-seed1-s14000
+c65-sourcecoord-target60-c32h160-end50-seed1-s14000
+```
+
+C65 hypothesis:
+
+- Endpoint anchoring should help because Flipbook's current public architecture separates static generated pages from video animation.
+- Training exact source and reflow-midpoint endpoint frames should make text/layout sharper before the model spends capacity on continuous transition frames.
+- If endpoint anchoring is useful, the C24/H128 seed family should improve more consistently than C63/C64.
