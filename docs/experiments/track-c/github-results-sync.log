@@ -474,3 +474,12 @@
 [2026-04-25T15:51:41+00:00] eval 20260425T151550765971Z-c2-lite-glyph-layout-clean-reflow-c93-v11-naturalist-rem025-mid35-seed1-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1079.278ms	ocr=0.5424
 [2026-04-25T15:51:41+00:00] eval 20260425T152153421463Z-c2-lite-glyph-layout-clean-reflow-c93-v12-deep-sea-rem100-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	777.913ms	ocr=0.5455
 [2026-04-25T15:51:41+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-25T15:51:44+00:00] published Track C docs update: 2026-04-25 15:51 UTC
+[2026-04-25T16:02:53+00:00] eval 20260425T151549895995Z-c2-lite-glyph-layout-clean-reflow-c93-v12-deep-sea-rem050-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	924.258ms	ocr=0.7500
+[2026-04-25T16:02:53+00:00] eval 20260425T151549963925Z-c2-lite-glyph-layout-clean-reflow-c93-v11-naturalist-rem050-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	984.779ms	ocr=0.4031
+[2026-04-25T16:02:53+00:00] eval 20260425T151549967059Z-c2-lite-glyph-layout-clean-reflow-c93-v12-deep-sea-rem050-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	903.798ms	ocr=0.8276
+[2026-04-25T16:02:53+00:00] eval 20260425T151550106949Z-c2-lite-glyph-layout-clean-reflow-c93-v12-deep-sea-rem025-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	932.064ms	ocr=0.5106
+[2026-04-25T16:02:53+00:00] eval 20260425T151550445608Z-c2-lite-glyph-layout-clean-reflow-c93-v11-naturalist-rem050-mid50-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	quality_fail	772.180ms	ocr=0.3252
+[2026-04-25T16:02:53+00:00] eval 20260425T151550765971Z-c2-lite-glyph-layout-clean-reflow-c93-v11-naturalist-rem025-mid35-seed1-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1079.278ms	ocr=0.5424
+[2026-04-25T16:02:53+00:00] eval 20260425T152153421463Z-c2-lite-glyph-layout-clean-reflow-c93-v12-deep-sea-rem100-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	777.913ms	ocr=0.5455
+[2026-04-25T16:02:53+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv

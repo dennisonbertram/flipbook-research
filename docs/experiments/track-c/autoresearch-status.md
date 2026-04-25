@@ -1,6 +1,6 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-25T15:47:39+00:00`
+Updated UTC: `2026-04-25T16:00:52+00:00`
 
 ## Active Sessions
 
@@ -9,12 +9,23 @@ Updated UTC: `2026-04-25T15:47:39+00:00`
 - `pr1337-gh-checks`
 - `pr1419-checks-monitor`
 - `pr1467-monitor`
-- `pr1501-checks`
 - `pubv2`
 - `pubv3`
+- `pubv31`
 - `track-c-autoresearch`
+- `track-c-c94-v11-naturalist-dualfused-s050-rem025-seed0-s12000`
+- `track-c-c94-v11-naturalist-dualgate-s100-rem025-seed0-s12000`
+- `track-c-c94-v11-naturalist-dualres-s050-rem025-seed0-s12000`
+- `track-c-c94-v11-naturalist-dualres-s100-rem025-seed0-s12000`
+- `track-c-c94-v11-naturalist-latentboth-rem025-seed0-s12000`
+- `track-c-c94-v12-deep-sea-dualfused-s050-rem050-seed0-s12000`
+- `track-c-c94-v12-deep-sea-dualgate-s100-rem050-seed0-s12000`
+- `track-c-c94-v12-deep-sea-dualres-s050-rem050-seed0-s12000`
+- `track-c-c94-v12-deep-sea-dualres-s100-rem050-seed0-s12000`
+- `track-c-c94-v12-deep-sea-latentboth-rem050-seed0-s12000`
 - `track-c-github-sync`
 - `track-c-output-browser-8765`
+- `track-v-naturalist-living-v2`
 - `track-v-output-browser-8766`
 - `workflow-api`
 - `workflow-frontend-dev`
@@ -22,6 +33,16 @@ Updated UTC: `2026-04-25T15:47:39+00:00`
 
 ## Queue
 
+- `c94-v11-naturalist-dualres-s050-rem025-seed0-s12000`: pending/running - Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, source-coord features, latent cross neighborhood r1px source, decoder dual-residual target-scale 0.5 target-h96, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.65, clean target naturalist-plate.
+- `c94-v11-naturalist-dualres-s100-rem025-seed0-s12000`: pending/running - Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, source-coord features, latent cross neighborhood r1px source, decoder dual-residual target-scale 1 target-h96, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.65, clean target naturalist-plate.
+- `c94-v11-naturalist-dualfused-s050-rem025-seed0-s12000`: pending/running - Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, source-coord features, latent cross neighborhood r1px source, decoder dual-residual-fused target-scale 0.5 target-h96, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.65, clean target naturalist-plate.
+- `c94-v11-naturalist-dualgate-s100-rem025-seed0-s12000`: pending/running - Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, source-coord features, latent cross neighborhood r1px source, decoder dual-gate target-scale 1 target-h96, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.65, clean target naturalist-plate.
+- `c94-v11-naturalist-latentboth-rem025-seed0-s12000`: pending/running - Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, source-coord features, latent cross neighborhood r1px both, decoder single target-scale 0 target-h96, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.65, clean target naturalist-plate.
+- `c94-v12-deep-sea-dualres-s050-rem050-seed0-s12000`: pending/running - Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.5, source-coord features, latent cross neighborhood r1px source, decoder dual-residual target-scale 0.5 target-h96, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.2 width 0.18, mid-time 0.65, clean target deep-sea-lab.
+- `c94-v12-deep-sea-dualres-s100-rem050-seed0-s12000`: pending/running - Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.5, source-coord features, latent cross neighborhood r1px source, decoder dual-residual target-scale 1 target-h96, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.2 width 0.18, mid-time 0.65, clean target deep-sea-lab.
+- `c94-v12-deep-sea-dualfused-s050-rem050-seed0-s12000`: pending/running - Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.5, source-coord features, latent cross neighborhood r1px source, decoder dual-residual-fused target-scale 0.5 target-h96, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.2 width 0.18, mid-time 0.65, clean target deep-sea-lab.
+- `c94-v12-deep-sea-dualgate-s100-rem050-seed0-s12000`: pending/running - Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.5, source-coord features, latent cross neighborhood r1px source, decoder dual-gate target-scale 1 target-h96, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.2 width 0.18, mid-time 0.65, clean target deep-sea-lab.
+- `c94-v12-deep-sea-latentboth-rem050-seed0-s12000`: pending/running - Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.5, source-coord features, latent cross neighborhood r1px both, decoder single target-scale 0 target-h96, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.2 width 0.18, mid-time 0.65, clean target deep-sea-lab.
 - `c93-v11-naturalist-rem025-mid35-seed0-s12000`: done - Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, source-coord features, latent cross neighborhood r1px source, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.65, clean target naturalist-plate.
 - `c93-v11-naturalist-rem025-mid35-seed1-s12000`: done - Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, seed 1, source-coord features, latent cross neighborhood r1px source, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.65, clean target naturalist-plate.
 - `c93-v11-naturalist-rem050-mid35-seed0-s12000`: done - Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.5, source-coord features, latent cross neighborhood r1px source, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.65, clean target naturalist-plate.
