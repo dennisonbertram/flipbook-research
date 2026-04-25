@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-04-25T15:35:17+00:00",
+  "updated_utc": "2026-04-25T15:47:39+00:00",
   "active_sessions": [
     "clawtest",
     "pr-1419-checks",
@@ -8,10 +8,14 @@
     "pr1467-monitor",
     "pr1501-checks",
     "pubv2",
+    "pubv3",
     "track-c-autoresearch",
     "track-c-github-sync",
     "track-c-output-browser-8765",
-    "track-v-output-browser-8766"
+    "track-v-output-browser-8766",
+    "workflow-api",
+    "workflow-frontend-dev",
+    "workflow-worker"
   ],
   "experiments": [
     {

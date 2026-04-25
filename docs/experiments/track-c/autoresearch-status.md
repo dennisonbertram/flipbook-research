@@ -1,6 +1,6 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-25T15:35:17+00:00`
+Updated UTC: `2026-04-25T15:47:39+00:00`
 
 ## Active Sessions
 
@@ -11,10 +11,14 @@ Updated UTC: `2026-04-25T15:35:17+00:00`
 - `pr1467-monitor`
 - `pr1501-checks`
 - `pubv2`
+- `pubv3`
 - `track-c-autoresearch`
 - `track-c-github-sync`
 - `track-c-output-browser-8765`
 - `track-v-output-browser-8766`
+- `workflow-api`
+- `workflow-frontend-dev`
+- `workflow-worker`
 
 ## Queue
 
