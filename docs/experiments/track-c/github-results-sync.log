@@ -519,3 +519,12 @@
 [2026-04-25T16:47:50+00:00] eval 20260425T162226990512Z-c2-lite-glyph-layout-clean-reflow-c95-v12-deep-sea-tcanvas-gated-init05-rem050-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1147.669ms	ocr=0.7500
 [2026-04-25T16:47:50+00:00] eval 20260425T162227184037Z-c2-lite-glyph-layout-clean-reflow-c95-v12-deep-sea-tcanvas-gated-init02-rem050-seed1-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1171.833ms	ocr=0.6486
 [2026-04-25T16:47:50+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-25T16:47:53+00:00] published Track C docs update: 2026-04-25 16:47 UTC
+[2026-04-25T16:59:05+00:00] eval 20260425T163840059825Z-c2-lite-glyph-layout-clean-reflow-c96-v11-naturalist-tblend-init02-rem000-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	latency_fail	1396.648ms	ocr=0.4103
+[2026-04-25T16:59:05+00:00] eval 20260425T163840059966Z-c2-lite-glyph-layout-clean-reflow-c96-v12-deep-sea-tblend-init02-rem100-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1163.620ms	ocr=0.8000
+[2026-04-25T16:59:05+00:00] eval 20260425T163840158124Z-c2-lite-glyph-layout-clean-reflow-c96-v12-deep-sea-tblend-init02-rem050-seed1-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1113.788ms	ocr=0.7273
+[2026-04-25T16:59:05+00:00] eval 20260425T163840247334Z-c2-lite-glyph-layout-clean-reflow-c96-v11-naturalist-tblend-init05-rem025-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1264.705ms	ocr=0.3883
+[2026-04-25T16:59:05+00:00] eval 20260425T163840360930Z-c2-lite-glyph-layout-clean-reflow-c96-v11-naturalist-tblend-init02-rem025-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1101.616ms	ocr=0.5310
+[2026-04-25T16:59:05+00:00] eval 20260425T163840485926Z-c2-lite-glyph-layout-clean-reflow-c96-v12-deep-sea-tblend-init02-rem000-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1097.414ms	ocr=0.8000
+[2026-04-25T16:59:05+00:00] eval 20260425T163840570144Z-c2-lite-glyph-layout-clean-reflow-c96-v11-naturalist-tblend-init02-rem050-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1123.401ms	ocr=0.4000
+[2026-04-25T16:59:05+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
