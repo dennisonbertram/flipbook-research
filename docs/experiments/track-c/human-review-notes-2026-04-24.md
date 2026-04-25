@@ -2570,3 +2570,19 @@ Human read:
 - The best transit render preserves the route-map geometry, including crossing colored routes and the small arena label.
 - Faint old-source haze is still visible near the far right edge/open whitespace. This is not blocking, but it remains the clearest quality gap.
 - C91 should change topic entirely, not only the representation style, to test whether this is becoming a page-state renderer rather than a Colosseum-specific renderer.
+
+Completed C91 visual review:
+
+```text
+c91-v10-orbit-topic-target60-mid20-seed0-s12000: OCR 1.0000, segment 904.111ms, pass
+c91-v10-orbit-topic-target60-mid20-seed1-s12000: OCR 0.9286, segment 906.867ms, pass
+c91-v10-orbit-topic-target60-mid35-seed0-s12000: OCR 0.9333, segment 967.322ms, pass
+c91-v9-reef-topic-target60-mid35-seed0-s12000: OCR 0.8485, segment 950.039ms, pass
+```
+
+Human read:
+
+- C91 is a useful anti-overfit signal: the target can become a reef page or orbit page with new title, new body copy, and new diagram vocabulary.
+- Orbit is visually cleaner than reef and reads very well by OCR.
+- Crop inspection still shows faint source-page haze in open regions, especially where the new target has pale backgrounds or sparse diagram detail.
+- C92 should deliberately use an illustration style and palette that expose source remnants: an 1800s naturalist-style etched plate for thin-line art, plus a dark scientific page where old paper/text leakage is immediately obvious.

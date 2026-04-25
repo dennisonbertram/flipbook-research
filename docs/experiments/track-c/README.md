@@ -194,19 +194,23 @@ C8.9 is a real positive on changed copy. All ten runs pass the current gates. Th
 
 C9.0 is a stronger positive because the target is no longer the same oval diagram. All ten changed-illustration runs pass. `timeline-illustration` reaches OCR `0.9091` at `929.222ms` and OCR `0.8421` at `741.483ms`; `transit-illustration` reaches OCR `0.7805` at `912.081ms` with repeated transit passes at OCR `0.7368`. Visual review shows the timeline bars, year markers, route lines, grid, and new labels are genuinely redrawn as the target page state. The remaining caveat is the same: faint source haze can still appear in open whitespace. C9.1 should move to unrelated new-topic target pages so the target title, body, and illustration all change together.
 
+C9.1 passes all ten new-topic runs. Orbit is especially strong (`0.9286-1.0000` OCR on the best mid20 seeds), and reef reaches `0.8485` on the stronger mid35 run. The branch now needs to prove cleaner repainting, not just stronger fixture variety, because crop review still catches faint old-source remnants in open visual areas.
+
+C9.2 is queued as the source-remnant stress wave. It keeps the C91 recipe and introduces `naturalist-plate`, an 1800s naturalist-style fern specimen with etched linework and labels, plus `deep-sea-lab`, a dark high-contrast scientific cross-section. The goal is to make old page leakage visible while testing a richer illustration style.
+
 Next experiments:
 
 ```text
-c91-v9-reef-topic-target60-mid20-seed0-s12000
-c91-v9-reef-topic-target60-mid20-seed1-s12000
-c91-v9-reef-topic-target60-mid20-seed2-s12000
-c91-v9-reef-topic-target60-mid20-seed4-s12000
-c91-v10-orbit-topic-target60-mid20-seed0-s12000
-c91-v10-orbit-topic-target60-mid20-seed1-s12000
-c91-v10-orbit-topic-target60-mid20-seed2-s12000
-c91-v10-orbit-topic-target60-mid20-seed4-s12000
-c91-v9-reef-topic-target60-mid35-seed0-s12000
-c91-v10-orbit-topic-target60-mid35-seed0-s12000
+c92-v11-naturalist-plate-target60-mid20-seed0-s12000
+c92-v11-naturalist-plate-target60-mid20-seed1-s12000
+c92-v11-naturalist-plate-target60-mid20-seed2-s12000
+c92-v11-naturalist-plate-target60-mid20-seed4-s12000
+c92-v12-deep-sea-lab-target60-mid20-seed0-s12000
+c92-v12-deep-sea-lab-target60-mid20-seed1-s12000
+c92-v12-deep-sea-lab-target60-mid20-seed2-s12000
+c92-v12-deep-sea-lab-target60-mid20-seed4-s12000
+c92-v11-naturalist-plate-target60-mid35-seed0-s12000
+c92-v12-deep-sea-lab-target60-mid35-seed0-s12000
 ```
 
 Suggested `results.tsv` header:

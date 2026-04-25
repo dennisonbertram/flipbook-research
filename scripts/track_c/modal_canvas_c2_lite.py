@@ -212,6 +212,10 @@ def create_clean_reflow_target(width: int, height: int, variant: str = "diagram-
         return create_clean_reflow_target_reef_topic(width, height)
     if variant_key in {"orbit-topic", "new-topic-orbit", "variant10", "v10"}:
         return create_clean_reflow_target_orbit_topic(width, height)
+    if variant_key in {"naturalist-plate", "botanical-etching", "variant11", "v11"}:
+        return create_clean_reflow_target_naturalist_plate(width, height)
+    if variant_key in {"deep-sea-lab", "dark-lab-topic", "variant12", "v12"}:
+        return create_clean_reflow_target_deep_sea_lab_topic(width, height)
 
     img = Image.new("RGB", (width, height), "#f6f4ef")
     draw = ImageDraw.Draw(img)
@@ -1097,6 +1101,207 @@ def create_clean_reflow_target_orbit_topic(width: int, height: int) -> Image.Ima
         draw.multiline_text((x, y + int(height * 0.055)), wrap_text(draw, body, body_font, col_w), fill="#2d2d38", font=body_font, spacing=4)
 
     draw.text((diagram_x, content_bottom - int(height * 0.02)), "Target changes topic completely while staying a generated page image.", fill=muted, font=tiny_font)
+    return img
+
+
+def create_clean_reflow_target_naturalist_plate(width: int, height: int) -> Image.Image:
+    img = Image.new("RGB", (width, height), "#efe7d6")
+    draw = ImageDraw.Draw(img)
+    margin = int(width * 0.05)
+    top = int(height * 0.05)
+    paper = "#fbf5e8"
+    ink = "#211b14"
+    sepia = "#6b5539"
+    muted = "#75684f"
+    line = "#b7a98d"
+    green = "#2f5f43"
+
+    draw.rectangle([margin, top, width - margin, height - top], fill=paper, outline=line, width=2)
+    draw.rectangle([margin + 14, top + 14, width - margin - 14, height - top - 14], outline="#d2c4a6", width=1)
+
+    title_font = fixture_font(max(28, width // 32), bold=True)
+    sub_font = fixture_font(max(14, width // 86))
+    h_font = fixture_font(max(17, width // 68), bold=True)
+    body_font = fixture_font(max(13, width // 92))
+    tiny_font = fixture_font(max(10, width // 116))
+
+    x0 = margin + int(width * 0.035)
+    y0 = top + int(height * 0.032)
+    draw.text((x0, y0), "Sketchapedia: Fern Specimen Plate", fill=ink, font=title_font)
+    draw.text(
+        (x0, y0 + int(height * 0.058)),
+        "Naturalist-style target: etched fronds, labels, and field notes.",
+        fill=muted,
+        font=sub_font,
+    )
+    draw.text((width - margin - int(width * 0.12), y0 + 4), "PLATE IV", fill=sepia, font=h_font)
+
+    content_top = top + int(height * 0.15)
+    content_bottom = height - top - int(height * 0.06)
+    plate_x = x0
+    plate_w = int(width * 0.53)
+    text_x = plate_x + plate_w + int(width * 0.06)
+    text_w = width - margin - int(width * 0.035) - text_x
+    specimen_cx = plate_x + int(plate_w * 0.48)
+    specimen_top = content_top + int(height * 0.04)
+    specimen_bottom = content_bottom - int(height * 0.06)
+
+    draw.text((plate_x, content_top), "Adiantum Study", fill=ink, font=h_font)
+    draw.line((specimen_cx, specimen_bottom, specimen_cx - int(width * 0.035), specimen_top), fill=green, width=5)
+    draw.line((specimen_cx + 3, specimen_bottom, specimen_cx - int(width * 0.035) + 3, specimen_top), fill="#1f3d2b", width=1)
+
+    branch_points = []
+    for idx, frac in enumerate([0.12, 0.22, 0.32, 0.43, 0.54, 0.65, 0.76, 0.86]):
+        y = specimen_bottom - int((specimen_bottom - specimen_top) * frac)
+        stem_x = specimen_cx - int(width * 0.035 * frac)
+        side = -1 if idx % 2 == 0 else 1
+        length = int(plate_w * (0.22 + 0.045 * (idx % 3)))
+        end = (stem_x + side * length, y - int(height * (0.035 + 0.006 * idx)))
+        draw.line((stem_x, y, end[0], end[1]), fill=green, width=3)
+        branch_points.append((stem_x, y, end[0], end[1], side))
+        for leaf in range(6):
+            t = (leaf + 1) / 7
+            lx = int(stem_x + (end[0] - stem_x) * t)
+            ly = int(y + (end[1] - y) * t)
+            leaf_w = int(width * 0.018 * (1.1 - 0.04 * leaf))
+            leaf_h = int(height * 0.022 * (1.0 - 0.035 * leaf))
+            bbox = [lx - leaf_w, ly - leaf_h, lx + leaf_w, ly + leaf_h]
+            draw.ellipse(bbox, outline="#254a35", width=2)
+            draw.line((lx - leaf_w + 3, ly + leaf_h - 2, lx + leaf_w - 3, ly - leaf_h + 2), fill="#8d7a5b", width=1)
+            for hatch in range(3):
+                hx = lx - leaf_w + 4 + hatch * max(3, leaf_w // 3)
+                draw.line((hx, ly + leaf_h - 3, hx + int(side * leaf_w * 0.4), ly - leaf_h + 4), fill="#9a8768", width=1)
+
+    root_y = specimen_bottom + int(height * 0.015)
+    for offset in [-34, -20, -8, 7, 22, 36]:
+        draw.arc([specimen_cx + offset - 34, root_y - 10, specimen_cx + offset + 34, root_y + 42], 205, 332, fill=sepia, width=2)
+    draw.text((plate_x + int(plate_w * 0.08), content_bottom - int(height * 0.055)), "Fig. 1. mature frond and rootlets", fill=muted, font=tiny_font)
+
+    for label, anchor, text_pos in [
+        ("pinnae", branch_points[2][2:4], (plate_x + int(plate_w * 0.02), specimen_top + int(height * 0.10))),
+        ("spore sori", branch_points[5][2:4], (plate_x + int(plate_w * 0.70), specimen_top + int(height * 0.20))),
+        ("root hairs", (specimen_cx + 12, root_y + 20), (plate_x + int(plate_w * 0.64), specimen_bottom - int(height * 0.025))),
+    ]:
+        draw.text(text_pos, label, fill=ink, font=tiny_font)
+        tx, ty = text_pos
+        ax, ay = anchor
+        draw.line((tx + 38, ty + 16, ax, ay), fill=sepia, width=1)
+
+    sections = [
+        ("Frond", "Each leaflet is drawn as fine linework rather than a filled icon."),
+        ("Spores", "Dark sori cluster under the leaflets in small measured rows."),
+        ("Habitat", "The plant favors damp stone, filtered shade, and slow seepage."),
+        ("Scale", "Plate marks preserve proportions between root, stem, and pinnae."),
+    ]
+    col_gap = int(width * 0.025)
+    col_w = (text_w - col_gap) // 2
+    row_h = int((content_bottom - content_top - int(height * 0.07)) / 2)
+    for index, (heading, body) in enumerate(sections):
+        col = index % 2
+        row = index // 2
+        x = text_x + col * (col_w + col_gap)
+        y = content_top + row * (row_h + int(height * 0.07))
+        draw.text((x, y), heading, fill=ink, font=h_font)
+        draw.line((x, y + int(height * 0.038), x + col_w, y + int(height * 0.038)), fill="#cdbf9f", width=1)
+        draw.multiline_text((x, y + int(height * 0.055)), wrap_text(draw, body, body_font, col_w), fill="#2c251c", font=body_font, spacing=4)
+
+    draw.text((text_x, content_bottom - int(height * 0.02)), "Thin etched illustration lines and non-geometric page art.", fill=muted, font=tiny_font)
+    return img
+
+
+def create_clean_reflow_target_deep_sea_lab_topic(width: int, height: int) -> Image.Image:
+    img = Image.new("RGB", (width, height), "#071315")
+    draw = ImageDraw.Draw(img)
+    margin = int(width * 0.055)
+    top = int(height * 0.055)
+    ink = "#e9fbf4"
+    muted = "#8fb8af"
+    line = "#2c5558"
+    cyan = "#36d1c4"
+    amber = "#f2c14e"
+    coral = "#ff6b6b"
+    blue = "#4098d7"
+
+    draw.rectangle([margin, top, width - margin, height - top], fill="#0c1d20", outline=line, width=2)
+    title_font = fixture_font(max(28, width // 32), bold=True)
+    sub_font = fixture_font(max(14, width // 82))
+    h_font = fixture_font(max(17, width // 68), bold=True)
+    body_font = fixture_font(max(13, width // 92))
+    tiny_font = fixture_font(max(10, width // 116))
+
+    x0 = margin + int(width * 0.032)
+    y0 = top + int(height * 0.032)
+    draw.text((x0, y0), "Sketchapedia: Deep Sea Research Lab", fill=ink, font=title_font)
+    draw.text(
+        (x0, y0 + int(height * 0.058)),
+        "High-contrast target: sonar room, sample bay, and submersible dock.",
+        fill=muted,
+        font=sub_font,
+    )
+
+    content_top = top + int(height * 0.15)
+    content_bottom = height - top - int(height * 0.06)
+    diagram_x = x0
+    diagram_w = int(width * 0.54)
+    text_x = diagram_x + diagram_w + int(width * 0.055)
+    text_w = width - margin - int(width * 0.035) - text_x
+
+    draw.text((diagram_x, content_top), "Lab Cross Section", fill=ink, font=h_font)
+    tank = [diagram_x, content_top + int(height * 0.06), diagram_x + diagram_w, content_bottom - int(height * 0.04)]
+    draw.rectangle(tank, fill="#0a252d", outline="#315d67", width=2)
+    for i in range(7):
+        y = tank[1] + int((tank[3] - tank[1]) * (i + 1) / 8)
+        draw.line((tank[0] + 18, y, tank[2] - 18, y), fill="#153942", width=1)
+    for i in range(6):
+        x = tank[0] + int((tank[2] - tank[0]) * (i + 1) / 7)
+        draw.line((x, tank[1] + 14, x, tank[3] - 14), fill="#12343b", width=1)
+
+    dome = [tank[0] + int(diagram_w * 0.08), tank[1] + int(height * 0.13), tank[0] + int(diagram_w * 0.46), tank[1] + int(height * 0.37)]
+    draw.arc(dome, 180, 360, fill=cyan, width=4)
+    draw.line((dome[0], (dome[1] + dome[3]) // 2, dome[2], (dome[1] + dome[3]) // 2), fill=cyan, width=4)
+    draw.rectangle([dome[0] + 22, (dome[1] + dome[3]) // 2 - 20, dome[2] - 22, (dome[1] + dome[3]) // 2 + 34], outline="#78eee7", width=2)
+
+    sub_cx = tank[0] + int(diagram_w * 0.70)
+    sub_cy = tank[1] + int(height * 0.25)
+    draw.ellipse([sub_cx - 90, sub_cy - 30, sub_cx + 85, sub_cy + 30], outline=amber, width=4)
+    draw.polygon([(sub_cx + 85, sub_cy), (sub_cx + 125, sub_cy - 22), (sub_cx + 125, sub_cy + 22)], outline=amber)
+    for px in [-42, 0, 42]:
+        draw.ellipse([sub_cx + px - 10, sub_cy - 10, sub_cx + px + 10, sub_cy + 10], outline="#ffe08a", width=2)
+
+    sonar_cx = tank[0] + int(diagram_w * 0.42)
+    sonar_cy = tank[1] + int(height * 0.42)
+    for r in [36, 72, 108, 144]:
+        draw.arc([sonar_cx - r, sonar_cy - r, sonar_cx + r, sonar_cy + r], 205, 325, fill=blue, width=2)
+    draw.ellipse([sonar_cx - 6, sonar_cy - 6, sonar_cx + 6, sonar_cy + 6], fill=blue)
+
+    for x, y, label, color in [
+        (dome[0] - 4, dome[1] + 36, "pressure dome", cyan),
+        (sub_cx + 36, sub_cy - 74, "sub dock", amber),
+        (sonar_cx - 128, sonar_cy + 58, "sonar sweep", blue),
+        (tank[0] + int(diagram_w * 0.72), tank[3] - 96, "sample bay", coral),
+    ]:
+        draw.text((x, y), label, fill=ink, font=tiny_font)
+        draw.line((x + 40, y + 18, tank[0] + int(diagram_w * 0.55), tank[1] + int(height * 0.36)), fill=color, width=1)
+
+    sections = [
+        ("Pressure", "The lab shell resists deep water loads with curved ribs."),
+        ("Sampling", "Robotic trays move sediment cores from dock to analysis bay."),
+        ("Navigation", "Sonar arcs map terrain before the submersible leaves the cradle."),
+        ("Lighting", "Blue work lights preserve contrast in a dark water column."),
+    ]
+    col_gap = int(width * 0.025)
+    col_w = (text_w - col_gap) // 2
+    row_h = int((content_bottom - content_top - int(height * 0.07)) / 2)
+    for index, (heading, body) in enumerate(sections):
+        col = index % 2
+        row = index // 2
+        x = text_x + col * (col_w + col_gap)
+        y = content_top + row * (row_h + int(height * 0.07))
+        draw.text((x, y), heading, fill=ink, font=h_font)
+        draw.line((x, y + int(height * 0.038), x + col_w, y + int(height * 0.038)), fill="#31666b", width=1)
+        draw.multiline_text((x, y + int(height * 0.055)), wrap_text(draw, body, body_font, col_w), fill="#d9f0e9", font=body_font, spacing=4)
+
+    draw.text((diagram_x, content_bottom - int(height * 0.02)), "Target makes source-page remnants obvious against a dark palette.", fill=muted, font=tiny_font)
     return img
 
 
