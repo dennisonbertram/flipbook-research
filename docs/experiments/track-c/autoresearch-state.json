@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-04-25T02:42:59+00:00",
+  "updated_utc": "2026-04-25T02:48:25+00:00",
   "active_sessions": [
     "clawtest",
     "pr1467-monitor",
@@ -9,7 +9,6 @@
     "track-c-c67-neighbor-cross1-target60-b196-c32h160-seed1-s10000",
     "track-c-c67-neighbor-cross1-target60-c32h160-seed2-s14000",
     "track-c-c67-neighbor-cross1-target60-c32h160-seed3-s14000",
-    "track-c-c67-neighbor-cross1-target60-c32h160-seed4-s14000",
     "track-c-c67-neighbor-cross1-target60-c40h192-seed1-s12000",
     "track-c-c67-neighbor-cross1-target65-c32h160-seed1-s14000",
     "track-c-c67-neighbor-cross15-target60-c32h160-seed1-s14000",
@@ -35,7 +34,7 @@
       "label": "c67-neighbor-cross1-target60-c32h160-seed4-s14000",
       "session": "track-c-c67-neighbor-cross1-target60-c32h160-seed4-s14000",
       "log": "docs/experiments/track-c/c67-neighbor-cross1-target60-c32h160-seed4-s14000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 4, source-coord features, latent cross neighborhood r1px, target-side reflow sampling ratio 0.6, mid-time 0.6."
     },
     {
@@ -84,7 +83,7 @@
       "label": "c67-neighbor-cross1-target60-c40h192-seed1-s12000",
       "session": "track-c-c67-neighbor-cross1-target60-c40h192-seed1-s12000",
       "log": "docs/experiments/track-c/c67-neighbor-cross1-target60-c40h192-seed1-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, seed 1, source-coord features, latent cross neighborhood r1px, target-side reflow sampling ratio 0.6, mid-time 0.6."
     },
     {
