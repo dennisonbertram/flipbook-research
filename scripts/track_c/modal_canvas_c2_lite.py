@@ -620,6 +620,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     layout_mid_time_width = float(config.get("layout_mid_time_width", 0.24))
     layout_flow_loss_weight = float(config.get("layout_flow_loss_weight", 0.0))
     layout_oracle_flow = bool(int(config.get("layout_oracle_flow", 0)))
+    layout_motion_curriculum_ratio = float(config.get("layout_motion_curriculum_ratio", 0.0))
+    layout_motion_curriculum_start = float(config.get("layout_motion_curriculum_start", 0.0))
     detail_channels = int(config.get("detail_channels", 0))
     detail_hidden = int(config.get("detail_hidden", config["hidden"]))
     detail_scale = float(config.get("detail_scale", 0.0))
@@ -852,17 +854,31 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     compile_start = perf_counter()
     losses = []
 
-    def truth_for_coords(sample_coords: torch.Tensor, sample_t: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
-        sample_target_coords = target_coords_for_motion(sample_coords, sample_t, motion_strength, motion_mode)
+    def training_motion_strength(step: int) -> float:
+        if motion_mode not in layout_reflow_motion_modes or layout_motion_curriculum_ratio <= 0.0:
+            return motion_strength
+        ramp_steps = max(1, int(steps * layout_motion_curriculum_ratio))
+        progress = min(1.0, step / ramp_steps)
+        smooth = progress * progress * (3.0 - 2.0 * progress)
+        start = max(0.0, min(1.0, layout_motion_curriculum_start))
+        return motion_strength * (start + (1.0 - start) * smooth)
+
+    def truth_for_coords(
+        sample_coords: torch.Tensor,
+        sample_t: torch.Tensor,
+        amount: float,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        sample_target_coords = target_coords_for_motion(sample_coords, sample_t, amount, motion_mode)
         if motion_mode in independent_sprite_motion_modes:
-            sample_truth = sample_independent_sprite_translation(sample_coords, sample_t, motion_strength)
+            sample_truth = sample_independent_sprite_translation(sample_coords, sample_t, amount)
         elif motion_mode in layout_reflow_motion_modes:
-            sample_truth = sample_layout_reflow(sample_coords, sample_t, motion_strength)
+            sample_truth = sample_layout_reflow(sample_coords, sample_t, amount)
         else:
             sample_truth = sample_target(target_chw, sample_target_coords)
         return sample_truth, sample_target_coords
 
     for step in range(steps):
+        step_motion_strength = training_motion_strength(step)
         if lr_schedule == "cosine":
             progress = min(1.0, step / max(1, steps - 1))
             lr_scale = min_lr_ratio + 0.5 * (1.0 - min_lr_ratio) * (1.0 + float(np.cos(np.pi * progress)))
@@ -904,14 +920,14 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         source_coords_for_pairs = coords
         source_focus_for_pairs = source_focus
         if motion_mode in layout_reflow_motion_modes and layout_target_sampling:
-            moved_coords = forward_layout_reflow_coords(coords, t, motion_strength)
+            moved_coords = forward_layout_reflow_coords(coords, t, step_motion_strength)
             focus = source_focus
             if layout_target_sampling_ratio < 1.0:
                 focus = focus & (torch.rand((batch_size,), device=device) < layout_target_sampling_ratio)
             coords = torch.where(focus.unsqueeze(-1), moved_coords, coords)
-        truth, target_coords = truth_for_coords(coords, t)
+        truth, target_coords = truth_for_coords(coords, t, step_motion_strength)
         if motion_mode in layout_reflow_motion_modes and layout_oracle_flow:
-            oracle_source_coords, _oracle_alpha = inverse_layout_reflow_coords(coords, t, motion_strength)
+            oracle_source_coords, _oracle_alpha = inverse_layout_reflow_coords(coords, t, step_motion_strength)
             pred = model.forward_with_source_coords(coords, t, oracle_source_coords)
             pred_source_coords = None
         elif motion_mode in layout_reflow_motion_modes and layout_flow_loss_weight > 0.0:
@@ -925,8 +941,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             loss_per_sample = loss_per_sample + l1_loss_weight * error.abs().mean(dim=-1)
         if edge_loss_weight > 0 or text_box_loss_weight > 0:
             if motion_mode in layout_reflow_motion_modes and layout_target_weighting:
-                glyph_weights = sample_layout_reflow_from(glyph_weight_chw, coords, t, motion_strength, 0.0).squeeze(-1)
-                text_weights = sample_layout_reflow_from(text_weight_chw, coords, t, motion_strength, 0.0).squeeze(-1)
+                glyph_weights = sample_layout_reflow_from(glyph_weight_chw, coords, t, step_motion_strength, 0.0).squeeze(-1)
+                text_weights = sample_layout_reflow_from(text_weight_chw, coords, t, step_motion_strength, 0.0).squeeze(-1)
             else:
                 glyph_weights = sample_target(glyph_weight_chw, target_coords).squeeze(-1)
                 text_weights = sample_target(text_weight_chw, target_coords).squeeze(-1)
@@ -939,10 +955,10 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             and layout_flow_loss_weight > 0.0
             and pred_source_coords is not None
         ):
-            desired_source_coords, flow_alpha = inverse_layout_reflow_coords(coords, t, motion_strength)
+            desired_source_coords, flow_alpha = inverse_layout_reflow_coords(coords, t, step_motion_strength)
             flow_weights = flow_alpha.squeeze(-1)
             if layout_target_weighting:
-                flow_glyph_weights = sample_layout_reflow_from(glyph_weight_chw, coords, t, motion_strength, 0.0).squeeze(-1)
+                flow_glyph_weights = sample_layout_reflow_from(glyph_weight_chw, coords, t, step_motion_strength, 0.0).squeeze(-1)
                 flow_weights = flow_weights * (1.0 + edge_loss_weight * flow_glyph_weights)
             flow_loss_per_sample = (pred_source_coords - desired_source_coords).square().mean(dim=-1)
             flow_loss = (flow_loss_per_sample * flow_weights).sum() / flow_weights.sum().clamp_min(1e-6)
@@ -957,18 +973,18 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 pair_count = max(1, min(pair_source_idx.numel(), int(batch_size * layout_target_pair_ratio)))
                 pair_idx = pair_source_idx[torch.randperm(pair_source_idx.numel(), device=device)[:pair_count]]
                 pair_t = t[pair_idx]
-                pair_coords = forward_layout_reflow_coords(source_coords_for_pairs[pair_idx], pair_t, motion_strength)
-                pair_truth, pair_target_coords = truth_for_coords(pair_coords, pair_t)
+                pair_coords = forward_layout_reflow_coords(source_coords_for_pairs[pair_idx], pair_t, step_motion_strength)
+                pair_truth, pair_target_coords = truth_for_coords(pair_coords, pair_t, step_motion_strength)
                 pair_pred = model(pair_coords, pair_t)
                 pair_error = pair_pred - pair_truth
                 pair_loss_per_sample = pair_error.square().mean(dim=-1)
                 if edge_loss_weight > 0 or text_box_loss_weight > 0:
                     if layout_target_weighting:
                         pair_glyph_weights = sample_layout_reflow_from(
-                            glyph_weight_chw, pair_coords, pair_t, motion_strength, 0.0
+                            glyph_weight_chw, pair_coords, pair_t, step_motion_strength, 0.0
                         ).squeeze(-1)
                         pair_text_weights = sample_layout_reflow_from(
-                            text_weight_chw, pair_coords, pair_t, motion_strength, 0.0
+                            text_weight_chw, pair_coords, pair_t, step_motion_strength, 0.0
                         ).squeeze(-1)
                     else:
                         pair_glyph_weights = sample_target(glyph_weight_chw, pair_target_coords).squeeze(-1)
@@ -995,8 +1011,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             ).view(1, 2)
             coords_x = (grad_coords + dx).clamp(0.0, 1.0)
             coords_y = (grad_coords + dy).clamp(0.0, 1.0)
-            truth_x, _ = truth_for_coords(coords_x, grad_t)
-            truth_y, _ = truth_for_coords(coords_y, grad_t)
+            truth_x, _ = truth_for_coords(coords_x, grad_t, step_motion_strength)
+            truth_y, _ = truth_for_coords(coords_y, grad_t, step_motion_strength)
             pred_x = model(coords_x, grad_t)
             pred_y = model(coords_y, grad_t)
             gradient_loss = F.mse_loss(pred_x - grad_pred, truth_x - grad_truth) + F.mse_loss(
@@ -1368,6 +1384,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "layout_mid_time_width": layout_mid_time_width,
         "layout_flow_loss_weight": layout_flow_loss_weight,
         "layout_oracle_flow": int(layout_oracle_flow),
+        "layout_motion_curriculum_ratio": layout_motion_curriculum_ratio,
+        "layout_motion_curriculum_start": layout_motion_curriculum_start,
         "text_box_count": len(config.get("text_boxes", [])),
         "text_mask_coverage": float(text_mask.mean().detach().cpu()),
         "element_alpha_coverage": float((element_alpha > 0.05).float().mean().detach().cpu()),
@@ -1472,6 +1490,8 @@ def main(
     layout_mid_time_width: float = 0.24,
     layout_flow_loss_weight: float = 0.0,
     layout_oracle_flow: int = 0,
+    layout_motion_curriculum_ratio: float = 0.0,
+    layout_motion_curriculum_start: float = 0.0,
     min_ocr_similarity: float = 0.5,
     min_motion_delta: float = 0.001,
     seed: int = 0,
@@ -1539,6 +1559,8 @@ def main(
         "layout_mid_time_width": layout_mid_time_width,
         "layout_flow_loss_weight": layout_flow_loss_weight,
         "layout_oracle_flow": layout_oracle_flow,
+        "layout_motion_curriculum_ratio": layout_motion_curriculum_ratio,
+        "layout_motion_curriculum_start": layout_motion_curriculum_start,
         "text_boxes": text_boxes,
         "source_resolution": source_resolution,
         "frames": frames,

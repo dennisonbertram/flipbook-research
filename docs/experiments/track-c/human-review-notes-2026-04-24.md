@@ -1441,3 +1441,48 @@ C63 hypothesis:
 - Target ratios around `0.60` test whether the seed2 result depends on the exact target-side sampling mix.
 - Shorter and longer seed2 runs test whether the high result is a transient optimum or improves with more steps.
 - Edge variants test whether C24/H128 also prefers lower high-frequency pressure, as B196 did in C62.
+
+Completed C63 results:
+
+```text
+c63-sourcecoord-target65-c24h128-seed2-s12000: OCR 0.5524, segment 760.141ms, motion_delta 0.0511, pass
+c63-sourcecoord-target60-c24h128-seed3-s12000: OCR 0.5000, segment 667.048ms, motion_delta 0.0477, quality_fail
+c63-sourcecoord-target60-c24h128-seed5-s12000: OCR 0.5000, segment 774.616ms, motion_delta 0.0525, quality_fail
+c63-sourcecoord-target55-c24h128-seed2-s12000: OCR 0.4969, segment 776.702ms, motion_delta 0.0541, quality_fail
+c63-sourcecoord-target60-c24h128-edge12-seed2-s12000: OCR 0.4906, segment 768.339ms, motion_delta 0.0491, quality_fail
+c63-sourcecoord-target60-c24h128-seed4-s12000: OCR 0.4643, segment 757.827ms, motion_delta 0.0524, quality_fail
+c63-sourcecoord-target50-c24h128-seed2-s12000: OCR 0.4568, segment 1060.318ms, motion_delta 0.0567, quality_fail
+c63-sourcecoord-target60-c24h128-seed2-s10000: OCR 0.4500, segment 749.205ms, motion_delta 0.0518, quality_fail
+c63-sourcecoord-target60-c24h128-edge06-seed2-s12000: OCR 0.4277, segment 963.938ms, motion_delta 0.0515, quality_fail
+c63-sourcecoord-target60-c24h128-seed2-s14000: OCR 0.2927, segment 768.867ms, motion_delta 0.0509, quality_fail
+```
+
+Interpretation:
+
+- C63 does not reproduce the C62 `0.6634` high-water result. The high basin is real enough to have happened, but not reliable enough to treat as a recipe.
+- Additional C24/H128 target60 seeds are stable in speed and motion but not text quality; they cluster around OCR `0.46-0.50`.
+- More steps are not a fix: the 14k seed2 repeat collapses, while the 10k seed2 repeat misses.
+- Target ratio `0.65` is the only pass in C63, but it is a modest pass at OCR `0.5524`, not a frontier.
+- This should move the next work from seed search to training dynamics or architecture. The likely failure is early optimization getting trapped in a blurry/repainted text solution before the full reflow mapping is learned.
+
+Next experiments:
+
+```text
+c64-sourcecoord-target60-c24h128-curr25-seed2-s12000
+c64-sourcecoord-target60-c24h128-curr50-seed2-s12000
+c64-sourcecoord-target60-c24h128-curr25s025-seed2-s12000
+c64-sourcecoord-target60-c24h128-curr50s025-seed2-s12000
+c64-sourcecoord-target60-c24h128-curr25s025-seed3-s12000
+c64-sourcecoord-target60-c24h128-curr25s025-seed4-s12000
+c64-sourcecoord-target60-c24h128-curr25s025-seed5-s12000
+c64-sourcecoord-target65-c24h128-curr25s025-seed2-s12000
+c64-sourcecoord-target60-c32h160-curr25s025-seed1-s14000
+c64-sourcecoord-target75-c32h160-curr25s025-seed1-s14000
+```
+
+C64 hypothesis:
+
+- A layout-motion curriculum may stabilize text by letting the canvas/MLP lock onto source detail before solving full midpoint reflow.
+- If this is the right lever, C24/H128 seed repeats should move upward together rather than producing one lucky high outlier.
+- The C32/H160 seed1 repeats test whether curriculum also rescues previously weak C32 source-coordinate seeds.
+- Full evaluation still uses full layout reflow; only the training schedule changes.
