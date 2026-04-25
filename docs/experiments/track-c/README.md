@@ -220,17 +220,18 @@ C10.1 adds truth-referenced source-remnant pressure against the synthetic transi
 
 C10.2 says earlier pressure is worth keeping. Timeline, reef, orbit, and deep-sea all pass with `time_power=1.0`, and their transition source-residual gains improve to `0.0633`, `0.0313`, `0.0488`, and `0.0043`. Naturalist `time_power=1.0` fails OCR at `0.3208`, but the `time_power=0.5` probe passes at `0.4118` and improves residual gain to `0.1136`. C10.3 should therefore run `time_power=0.5` across the non-naturalist targets and keep pressure probes focused on naturalist.
 
+C10.3 is a useful negative on scalar timing. It mostly preserves OCR, including orbit OCR `0.9286`, reef `0.6897`, timeline `0.9677`, and naturalist `0.4000-0.4444`, but residual gains do not keep improving: timeline `0.0654`, orbit `0.0546`, reef `0.0406`, deep-sea `0.0135`, and naturalist best same-seed `0.1324`. Stronger naturalist remnant weight misses latency at `1388.021ms`. C10.4 should change sampling instead: reserve source-only remnant-edge samples near transition times.
+
 Next experiments:
 
 ```text
-C103 remnant timing consolidation:
-c103-v07-timeline-indrecomp-truthrem075-tpow05-seed3-s12000
-c103-v10-orbit-indrecomp-truthrem075-tpow05-seed3-s12000
-c103-v09-reef-indrecomp-truthrem075-tpow05-seed3-s12000
-c103-v12-deep-sea-indrecomp-truthrem075-tpow05-seed5-s12000
-c103-v11-naturalist-indrecomp-truthrem075-tpow05-seed4-s12000
-c103-v11-naturalist-indrecomp-truthrem075-tpow025-seed4-s12000
-c103-v11-naturalist-indrecomp-truthrem100-tpow05-seed4-s12000
+C104 source-only remnant-edge sampling:
+c104-v07-timeline-indrecomp-truthrem075-tpow1-srcsample18-seed4-s12000
+c104-v10-orbit-indrecomp-truthrem075-tpow1-srcsample18-seed4-s12000
+c104-v09-reef-indrecomp-truthrem075-tpow1-srcsample18-seed4-s12000
+c104-v12-deep-sea-indrecomp-truthrem075-tpow1-srcsample18-seed6-s12000
+c104-v11-naturalist-indrecomp-truthrem075-tpow05-srcsample18-seed5-s12000
+c104-v11-naturalist-indrecomp-truthrem075-tpow025-srcsample18-seed5-s12000
 ```
 
 Suggested `results.tsv` header:

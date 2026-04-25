@@ -2078,6 +2078,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     source_remnant_change_floor = float(config.get("source_remnant_change_floor", 0.04))
     source_remnant_reference = str(config.get("source_remnant_reference", "clean")).lower().replace("_", "-")
     source_remnant_time_power = float(config.get("source_remnant_time_power", 2.0))
+    source_remnant_sample_ratio = float(config.get("source_remnant_sample_ratio", 0.0))
+    source_remnant_sample_time_width = float(config.get("source_remnant_sample_time_width", 0.18))
     motion_mode = str(config.get("motion_mode", "jiggle"))
     motion_strength = float(config.get("motion_strength", flow_scale))
     clean_target_variant = str(config.get("clean_target_variant", "diagram-left"))
@@ -2175,6 +2177,12 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     luminance, edge, dark, glyph_prob, glyph_weight_chw = glyph_features(target)
     if clean_target is not None:
         _clean_luminance, _clean_edge, _clean_dark, clean_glyph_prob, clean_glyph_weight_chw = glyph_features(clean_target)
+    source_remnant_prob = None
+    if clean_glyph_weight_chw is not None:
+        remnant_score = (glyph_weight_chw - clean_glyph_weight_chw).clamp_min(0.0).squeeze(0).squeeze(0)
+        remnant_prob = remnant_score.flatten()
+        if remnant_prob.sum().detach().cpu().item() > 0:
+            source_remnant_prob = remnant_prob / remnant_prob.sum().clamp_min(1e-6)
     text_mask = torch.zeros((train_h, train_w), device=device)
     source_w, source_h = config.get("source_resolution", [train_w, train_h])
     scale_x = train_w / max(1, int(source_w))
@@ -2535,22 +2543,36 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             for group in optimizer.param_groups:
                 group["lr"] = base_lr * lr_scale
         text_count = max(0, min(batch_size, int(batch_size * text_box_sample_ratio))) if text_has_pixels else 0
-        remaining = batch_size - text_count
+        remnant_count = (
+            max(0, min(batch_size - text_count, int(batch_size * source_remnant_sample_ratio)))
+            if source_remnant_prob is not None
+            else 0
+        )
+        remaining = batch_size - text_count - remnant_count
         edge_count = max(0, min(remaining, int(batch_size * edge_sample_ratio)))
-        uniform_count = batch_size - text_count - edge_count
+        uniform_count = batch_size - text_count - remnant_count - edge_count
         idx_parts = []
         source_focus_parts = []
+        remnant_focus_parts = []
         if uniform_count:
             idx_parts.append(torch.randint(0, train_w * train_h, (uniform_count,), device=device))
             source_focus_parts.append(torch.zeros((uniform_count,), device=device, dtype=torch.bool))
+            remnant_focus_parts.append(torch.zeros((uniform_count,), device=device, dtype=torch.bool))
         if edge_count:
             idx_parts.append(torch.multinomial(glyph_prob, edge_count, replacement=True))
             source_focus_parts.append(torch.ones((edge_count,), device=device, dtype=torch.bool))
+            remnant_focus_parts.append(torch.zeros((edge_count,), device=device, dtype=torch.bool))
+        if remnant_count:
+            idx_parts.append(torch.multinomial(source_remnant_prob, remnant_count, replacement=True))
+            source_focus_parts.append(torch.zeros((remnant_count,), device=device, dtype=torch.bool))
+            remnant_focus_parts.append(torch.ones((remnant_count,), device=device, dtype=torch.bool))
         if text_count:
             idx_parts.append(torch.multinomial(text_prob, text_count, replacement=True))
             source_focus_parts.append(torch.ones((text_count,), device=device, dtype=torch.bool))
+            remnant_focus_parts.append(torch.zeros((text_count,), device=device, dtype=torch.bool))
         idx = torch.cat(idx_parts, dim=0)
         source_focus = torch.cat(source_focus_parts, dim=0)
+        remnant_focus = torch.cat(remnant_focus_parts, dim=0)
         ys = torch.div(idx, train_w, rounding_mode="floor")
         xs = idx - ys * train_w
         coords = torch.stack(
@@ -2605,7 +2627,12 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         ):
             mid_count = max(0, min(batch_size, int(batch_size * layout_target_mid_sampling_ratio)))
             if mid_count:
-                mid_slot_idx = torch.randperm(batch_size, device=device)[:mid_count]
+                if remnant_count:
+                    mid_candidates = torch.nonzero(~remnant_focus, as_tuple=False).squeeze(-1)
+                    mid_count = max(0, min(int(mid_candidates.numel()), mid_count))
+                    mid_slot_idx = mid_candidates[torch.randperm(mid_candidates.numel(), device=device)[:mid_count]]
+                else:
+                    mid_slot_idx = torch.randperm(batch_size, device=device)[:mid_count]
                 mid_pixel_idx = torch.multinomial(layout_target_mid_prob, mid_count, replacement=True)
                 mid_ys = torch.div(mid_pixel_idx, train_w, rounding_mode="floor")
                 mid_xs = mid_pixel_idx - mid_ys * train_w
@@ -2618,6 +2645,16 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 )
                 mid_time = 0.5 + (torch.rand((mid_count, 1), device=device) - 0.5) * layout_target_mid_time_width
                 t[mid_slot_idx] = mid_time.clamp(0.0, 1.0)
+        if remnant_count:
+            remnant_idx = torch.nonzero(remnant_focus, as_tuple=False).squeeze(-1)
+            phase = torch.randint(0, 2, (remnant_idx.numel(), 1), device=device, dtype=torch.long)
+            centers = torch.where(
+                phase == 0,
+                torch.full_like(phase, 0.25, dtype=torch.float32),
+                torch.full_like(phase, 0.75, dtype=torch.float32),
+            )
+            jitter = (torch.rand((remnant_idx.numel(), 1), device=device) - 0.5) * source_remnant_sample_time_width
+            t[remnant_idx] = (centers + jitter).clamp(0.0, 1.0)
         truth, target_coords = truth_for_coords(coords, t, step_motion_strength)
         if motion_mode in layout_reflow_motion_modes and layout_oracle_flow:
             oracle_source_coords, _oracle_alpha = inverse_layout_reflow_coords(coords, t, step_motion_strength)
@@ -3118,6 +3155,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "source_remnant_change_floor": source_remnant_change_floor,
         "source_remnant_reference": source_remnant_reference,
         "source_remnant_time_power": source_remnant_time_power,
+        "source_remnant_sample_ratio": source_remnant_sample_ratio,
+        "source_remnant_sample_time_width": source_remnant_sample_time_width,
         "seed": seed,
         "experiment_label": config.get("experiment_label", ""),
         "flow_scale": flow_scale,
@@ -3282,6 +3321,11 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             f" A contrastive source-remnant loss ({source_remnant_loss_weight:g}) penalizes midpoint pixels "
             f"that are closer to the source page than the {remnant_ref_note} by margin {source_remnant_margin:g}."
         )
+    if source_remnant_sample_ratio > 0.0:
+        metrics["description"] += (
+            f" Source-only remnant-edge sampling reserves {source_remnant_sample_ratio:g} of training points "
+            f"near transition times."
+        )
     return {"artifacts": artifacts, "metrics": metrics}
 
 
@@ -3329,6 +3373,8 @@ def main(
     source_remnant_change_floor: float = 0.04,
     source_remnant_reference: str = "clean",
     source_remnant_time_power: float = 2.0,
+    source_remnant_sample_ratio: float = 0.0,
+    source_remnant_sample_time_width: float = 0.18,
     flow_scale: float = 0.006,
     motion_mode: str = "jiggle",
     motion_strength: float = -1.0,
@@ -3422,6 +3468,8 @@ def main(
         "source_remnant_change_floor": source_remnant_change_floor,
         "source_remnant_reference": source_remnant_reference,
         "source_remnant_time_power": source_remnant_time_power,
+        "source_remnant_sample_ratio": source_remnant_sample_ratio,
+        "source_remnant_sample_time_width": source_remnant_sample_time_width,
         "seed": seed,
         "flow_scale": flow_scale,
         "motion_mode": motion_mode,
