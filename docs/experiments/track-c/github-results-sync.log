@@ -213,3 +213,12 @@
 [2026-04-25T10:29:41+00:00] eval 20260425T082817330945Z-c2-lite-glyph-layout-clean-reflow-c91-v10-orbit-topic-target60-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	939.673ms	ocr=0.9333
 [2026-04-25T10:29:41+00:00] eval 20260425T082817420539Z-c2-lite-glyph-layout-clean-reflow-c91-v9-reef-topic-target60-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	908.477ms	ocr=0.8485
 [2026-04-25T10:29:41+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-25T10:29:43+00:00] published Track C docs update: 2026-04-25 10:29 UTC
+[2026-04-25T10:40:44+00:00] eval 20260425T082817010216Z-c2-lite-glyph-layout-clean-reflow-c91-v10-orbit-topic-target60-mid20-seed4-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	967.294ms	ocr=1.0000
+[2026-04-25T10:40:44+00:00] eval 20260425T082817010223Z-c2-lite-glyph-layout-clean-reflow-c91-v9-reef-topic-target60-mid20-seed2-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	929.927ms	ocr=0.6316
+[2026-04-25T10:40:44+00:00] eval 20260425T082817056114Z-c2-lite-glyph-layout-clean-reflow-c91-v10-orbit-topic-target60-mid20-seed2-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	904.577ms	ocr=1.0000
+[2026-04-25T10:40:44+00:00] eval 20260425T082817214166Z-c2-lite-glyph-layout-clean-reflow-c91-v9-reef-topic-target60-mid20-seed1-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	927.138ms	ocr=0.5500
+[2026-04-25T10:40:44+00:00] eval 20260425T082817298970Z-c2-lite-glyph-layout-clean-reflow-c91-v10-orbit-topic-target60-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	923.254ms	ocr=0.9286
+[2026-04-25T10:40:44+00:00] eval 20260425T082817330945Z-c2-lite-glyph-layout-clean-reflow-c91-v10-orbit-topic-target60-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	939.673ms	ocr=0.9333
+[2026-04-25T10:40:44+00:00] eval 20260425T082817420539Z-c2-lite-glyph-layout-clean-reflow-c91-v9-reef-topic-target60-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	908.477ms	ocr=0.8485
+[2026-04-25T10:40:44+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
