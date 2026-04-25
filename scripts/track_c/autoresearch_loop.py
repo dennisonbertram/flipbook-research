@@ -756,6 +756,46 @@ def learned_layout_reflow_experiment(
     )
 
 
+C83_RGB_SKIP_REFINEMENT_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=amount,
+        flow_scale=0.10,
+        steps=14000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        context_channels=0,
+        context_scale=0.25,
+        rgb_skip_scale=rgb_skip_scale,
+        rgb_skip_mode="source",
+        rgb_skip_base_scale=rgb_skip_base_scale,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    )
+    for label, seed, amount, rgb_skip_base_scale, rgb_skip_scale in [
+        ("c83-nctx-b025-r275-a110-seed0-s14000", 0, 1.10, 0.25, 2.75),
+        ("c83-nctx-b025-r275-a110-seed1-s14000", 1, 1.10, 0.25, 2.75),
+        ("c83-nctx-b025-r275-a110-seed2-s14000", 2, 1.10, 0.25, 2.75),
+        ("c83-nctx-b025-r275-a110-seed3-s14000", 3, 1.10, 0.25, 2.75),
+        ("c83-nctx-b025-r275-a110-seed5-s14000", 5, 1.10, 0.25, 2.75),
+        ("c83-nctx-b020-r275-a110-seed4-s14000", 4, 1.10, 0.20, 2.75),
+        ("c83-nctx-b030-r275-a110-seed4-s14000", 4, 1.10, 0.30, 2.75),
+        ("c83-nctx-b025-r325-a110-seed4-s14000", 4, 1.10, 0.25, 3.25),
+        ("c83-nctx-b025-r275-a100-seed4-s14000", 4, 1.00, 0.25, 2.75),
+        ("c83-nctx-b025-r275-a115-seed4-s14000", 4, 1.15, 0.25, 2.75),
+    ]
+]
+
+
 C82_NO_CONTEXT_RGB_SKIP_CONSOLIDATION_EXPERIMENTS = [
     learned_layout_reflow_experiment(
         label,
@@ -1274,6 +1314,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C83_RGB_SKIP_REFINEMENT_EXPERIMENTS,
     *C82_NO_CONTEXT_RGB_SKIP_CONSOLIDATION_EXPERIMENTS,
     *C81_NO_CONTEXT_RGB_SKIP_EXPERIMENTS,
     *C80_ATTENUATED_RGB_SKIP_EXPERIMENTS,

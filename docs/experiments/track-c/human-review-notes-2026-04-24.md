@@ -2251,3 +2251,45 @@ C82 hypothesis:
 - If the C81 pass is a real basin, the base `0.25` / residual `2.5` / amount `1.10` recipe should repeat on at least one additional seed.
 - The high-OCR/low-motion neighbors may become stronger passes by nudging amount upward (`r2.0/a1.20`, `r2.25/a1.15`, `r3.0/a1.05-1.10`).
 - If C82 only reproduces seed2, the branch is still seed-sensitive and should be combined with a separate stabilization mechanism rather than promoted directly.
+
+Completed C82 results:
+
+```text
+c82-nctx-b025-r275-a110-seed4-s14000: OCR 0.7087, segment 923.432ms, motion_delta 0.0457, pass
+c82-nctx-b025-r250-a110-seed1-s14000: OCR 0.6702, segment 1116.819ms, motion_delta 0.0462, pass
+c82-nctx-b025-r250-a110-seed0-s14000: OCR 0.6635, segment 1101.598ms, motion_delta 0.0473, pass
+c82-nctx-b025-r300-a110-seed2-s14000: OCR 0.6073, segment 914.467ms, motion_delta 0.0470, pass
+c82-nctx-b025-r250-a110-seed5-s14000: OCR 0.5780, segment 912.392ms, motion_delta 0.0465, pass
+c82-nctx-b025-r250-a110-seed3-s14000: OCR 0.5161, segment 990.854ms, motion_delta 0.0464, quality_fail
+c82-nctx-b025-r225-a115-seed4-s14000: OCR 0.4790, segment 942.244ms, motion_delta 0.0418, quality_fail
+c82-nctx-b025-r225-a115-seed2-s14000: OCR 0.4359, segment 935.617ms, motion_delta 0.0441, quality_fail
+c82-nctx-b025-r300-a105-seed2-s14000: OCR 0.4304, segment 960.797ms, motion_delta 0.0491, quality_fail
+c82-nctx-b025-r200-a120-seed2-s14000: OCR 0.3846, segment 930.194ms, motion_delta 0.0403, quality_fail
+```
+
+Interpretation:
+
+- C82 validates the basin. The C81 pass is not a one-seed accident: four additional same-recipe seeds pass, and one adjacent residual setting reaches OCR `0.7087`.
+- The current best learned layout-reflow recipe is no-context, RGB base scale `0.25`, residual scale `2.5-2.75`, amount `1.10`, source-coordinate features, cross latent neighborhood, and target-side sampling.
+- The remaining visual issue is ghosting/source remnants, not speed. The branch is now worth refining.
+
+Next experiments:
+
+```text
+c83-nctx-b025-r275-a110-seed0-s14000
+c83-nctx-b025-r275-a110-seed1-s14000
+c83-nctx-b025-r275-a110-seed2-s14000
+c83-nctx-b025-r275-a110-seed3-s14000
+c83-nctx-b025-r275-a110-seed5-s14000
+c83-nctx-b020-r275-a110-seed4-s14000
+c83-nctx-b030-r275-a110-seed4-s14000
+c83-nctx-b025-r325-a110-seed4-s14000
+c83-nctx-b025-r275-a100-seed4-s14000
+c83-nctx-b025-r275-a115-seed4-s14000
+```
+
+C83 hypothesis:
+
+- Residual `2.75` may be the cleaner point between the OCR/motion tradeoff, so it should be seed-mapped like the C82 residual `2.5` recipe.
+- Base `0.20` may reduce ghosting, while base `0.30` may preserve text; the seed4 best gives a useful bracket.
+- Amount `1.00/1.15` around the seed4 winner tests whether motion can be reduced/increased without creating more source remnants.

@@ -170,6 +170,8 @@ C8.0 is a partial recovery. Attenuating the RGB base restores motion and improve
 
 C8.1 produces the first attenuated-RGB-skip pass: `c81-nctx-b025-r250-a110-seed2-s14000` reaches OCR `0.5556`, segment `963.710ms`, and motion `0.0460`. It is still visibly ghosted, but it proves the RGB texture can be used as a detail prior without a render-time overlay, while still meeting the learned layout-reflow gates. C8.2 consolidates that basin across seeds and adjacent amount/residual settings before treating it as a new base architecture.
 
+C8.2 is the strongest Track C layout-reflow signal so far. The same no-context base `0.25`, residual `2.5`, amount `1.10` recipe passes on several new seeds, and the best adjacent setting, `c82-nctx-b025-r275-a110-seed4-s14000`, reaches OCR `0.7087`, motion `0.0457`, and segment `923.432ms`. This is still visibly ghosted, so C8.3 refines around residual `2.75`, base `0.20-0.30`, and amount `1.00-1.15` before promoting the recipe.
+
 Suggested `results.tsv` header:
 
 ```text
