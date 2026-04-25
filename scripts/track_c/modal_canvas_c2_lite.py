@@ -275,6 +275,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             detail_hidden: int | None = None,
             detail_scale: float = 0.0,
             detail_init_scale: float = 0.01,
+            source_coord_features: bool = False,
         ):
             super().__init__()
             self.width = width
@@ -284,9 +285,11 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             self.flow_scale = flow_scale
             self.detail_channels = detail_channels
             self.detail_scale = detail_scale
+            self.source_coord_features = source_coord_features
             self.canvas = nn.Parameter(torch.randn(1, channels, height, width) * 0.02)
             coord_dim = 2 + 4 * freq_bands
             time_dim = 1 + 2 * time_bands
+            condition_dim = coord_dim + time_dim + (coord_dim if source_coord_features else 0)
             self.flow = nn.Sequential(
                 nn.Linear(coord_dim + time_dim, hidden),
                 nn.SiLU(),
@@ -296,7 +299,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 nn.Tanh(),
             )
             self.mlp = nn.Sequential(
-                nn.Linear(channels + coord_dim + time_dim, hidden),
+                nn.Linear(channels + condition_dim, hidden),
                 nn.SiLU(),
                 nn.Linear(hidden, hidden),
                 nn.SiLU(),
@@ -306,7 +309,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 detail_hidden = hidden if detail_hidden is None else detail_hidden
                 self.detail_canvas = nn.Parameter(torch.randn(1, detail_channels, height, width) * detail_init_scale)
                 self.detail_mlp = nn.Sequential(
-                    nn.Linear(detail_channels + coord_dim + time_dim, detail_hidden),
+                    nn.Linear(detail_channels + condition_dim, detail_hidden),
                     nn.SiLU(),
                     nn.Linear(detail_hidden, detail_hidden),
                     nn.SiLU(),
@@ -337,6 +340,11 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             time_enc = self.encode_time(t)
             flow = self.flow(torch.cat([coord_enc, time_enc], dim=-1)) * self.flow_scale
             sample_coords = (coords01 + flow).clamp(0.0, 1.0)
+            condition_parts = [coord_enc]
+            if self.source_coord_features:
+                condition_parts.append(self.encode_coords(sample_coords))
+            condition_parts.append(time_enc)
+            condition = torch.cat(condition_parts, dim=-1)
             grid = sample_coords.mul(2.0).sub(1.0).view(1, -1, 1, 2)
             sampled = F.grid_sample(
                 self.canvas,
@@ -345,7 +353,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 padding_mode="border",
                 align_corners=True,
             ).squeeze(0).squeeze(-1).transpose(0, 1)
-            logits = self.mlp(torch.cat([sampled, coord_enc, time_enc], dim=-1))
+            logits = self.mlp(torch.cat([sampled, condition], dim=-1))
             if self.detail_canvas is not None and self.detail_mlp is not None:
                 detail_sampled = F.grid_sample(
                     self.detail_canvas,
@@ -354,7 +362,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                     padding_mode="border",
                     align_corners=True,
                 ).squeeze(0).squeeze(-1).transpose(0, 1)
-                detail_logits = self.detail_mlp(torch.cat([detail_sampled, coord_enc, time_enc], dim=-1))
+                detail_logits = self.detail_mlp(torch.cat([detail_sampled, condition], dim=-1))
                 logits = logits + self.detail_scale * torch.tanh(detail_logits)
             return torch.sigmoid(logits)
 
@@ -589,6 +597,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     detail_hidden = int(config.get("detail_hidden", config["hidden"]))
     detail_scale = float(config.get("detail_scale", 0.0))
     detail_init_scale = float(config.get("detail_init_scale", 0.01))
+    source_coord_features = bool(int(config.get("source_coord_features", 0)))
 
     source = Image.open(io.BytesIO(input_png)).convert("RGB").resize((train_w, train_h), Image.Resampling.LANCZOS)
     target = torch.from_numpy(np.asarray(source, dtype=np.float32) / 255.0).to(device)
@@ -781,6 +790,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         detail_hidden=detail_hidden,
         detail_scale=detail_scale,
         detail_init_scale=detail_init_scale,
+        source_coord_features=source_coord_features,
     ).to(device)
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=base_lr, weight_decay=0.0)
@@ -1195,6 +1205,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     )
     if detail_channels > 0 and detail_scale != 0.0:
         canvas_type += "-detail-residual"
+    if source_coord_features:
+        canvas_type += "-source-coord"
     metrics = {
         "canvas_type": canvas_type,
         "train_resolution": config["train_resolution"],
@@ -1206,6 +1218,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "detail_hidden": detail_hidden,
         "detail_scale": detail_scale,
         "detail_init_scale": detail_init_scale,
+        "source_coord_features": int(source_coord_features),
         "freq_bands": int(config["freq_bands"]),
         "time_bands": int(config["time_bands"]),
         "lr": base_lr,
@@ -1295,6 +1308,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     }
     if detail_channels > 0 and detail_scale != 0.0:
         metrics["description"] += " Residual detail canvas/head enabled for high-frequency pixel correction."
+    if source_coord_features:
+        metrics["description"] += " Learned warped/source coordinate features are included in the renderer MLP."
     return {"artifacts": artifacts, "metrics": metrics}
 
 
@@ -1309,6 +1324,7 @@ def main(
     detail_hidden: int = 0,
     detail_scale: float = 0.0,
     detail_init_scale: float = 0.01,
+    source_coord_features: int = 0,
     freq_bands: int = 8,
     time_bands: int = 4,
     lr: float = 0.01,
@@ -1370,6 +1386,7 @@ def main(
         "detail_hidden": detail_hidden if detail_hidden > 0 else hidden,
         "detail_scale": detail_scale,
         "detail_init_scale": detail_init_scale,
+        "source_coord_features": source_coord_features,
         "freq_bands": freq_bands,
         "time_bands": time_bands,
         "lr": lr,

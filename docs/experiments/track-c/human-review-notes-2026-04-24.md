@@ -1144,3 +1144,46 @@ C56 hypothesis:
 - Coarse layout transport and high-frequency glyph/detail reconstruction may be fighting for the same latent channels and MLP capacity.
 - A residual detail canvas/head keeps the base pure neural-canvas renderer but gives strokes a bounded high-frequency correction path.
 - The branch should be judged against the C49/C52 frontier, not just against a pass gate.
+
+Completed C56 results:
+
+```text
+c56-detail16h128-025-target50-s14000: OCR 0.5514, segment 875.921ms, motion_delta 0.0491, pass
+c56-detail16-025-target-b196-s10000: OCR 0.5346, segment 1116.450ms, motion_delta 0.0495, quality_fail
+c56-detail8-025-target50-c32h160-s14000: OCR 0.5119, segment 965.856ms, motion_delta 0.0505, quality_fail
+c56-detail8-025-weightonly-c32h160-s14000: OCR 0.5029, segment 832.354ms, motion_delta 0.0493, quality_fail
+c56-detail8-050-target50-c32h160-s14000: OCR 0.4906, segment 859.333ms, motion_delta 0.0515, quality_fail
+c56-detail8-0125-weightonly-c32h160-s14000: OCR 0.4855, segment 857.504ms, motion_delta 0.0490, quality_fail
+c56-detail16-025-weightonly-c32h160-s14000: OCR 0.4845, segment 824.906ms, motion_delta 0.0459, quality_fail
+c56-detail8-025-target-b196-s10000: OCR 0.4815, segment 846.429ms, motion_delta 0.0491, quality_fail
+c56-detail8-025-weightonly-train1920-s13000: OCR 0.4654, segment 1046.671ms, motion_delta 0.0514, quality_fail
+c56-detail16-025-target50-c32h160-s14000: OCR 0.4277, segment 1021.801ms, motion_delta 0.0498, quality_fail
+```
+
+Interpretation:
+
+- The residual-detail branch does not beat the learned layout-reflow frontier.
+- It is also slower: even successful runs move from the old `~700ms` segment family toward `~825-1116ms`.
+- The strongest result uses the larger detail head (`16` channels, hidden `128`) but still trails C49/C52.
+- The next architecture branch should avoid a second sampled canvas and instead expose better coordinates to the existing MLP.
+
+Next experiments:
+
+```text
+c57-sourcecoord-target50-c32h160-s14000
+c57-sourcecoord-target75-c32h160-s14000
+c57-sourcecoord-weightonly-c32h160-s14000
+c57-sourcecoord-target-b196-s10000
+c57-sourcecoord-weight-b196-s14000
+c57-sourcecoord-target50-freq12-s12000
+c57-sourcecoord-target50-c24h128-s12000
+c57-sourcecoord-target50-flow08-s14000
+c57-sourcecoord-target50-seed1-s14000
+c57-sourcecoord-weightonly-train1920-s13000
+```
+
+C57 hypothesis:
+
+- The current MLP sees output coordinates and a latent sample from warped coordinates, but it does not explicitly see the warped/source coordinate.
+- Text strokes may need source-space phase information after layout motion; output-space coordinates alone are not enough.
+- Adding source-coordinate features should be much cheaper than C56 because it changes conditioning width, not canvas sampling count.

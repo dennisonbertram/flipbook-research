@@ -108,6 +108,10 @@ C5.5 is also negative. The best paired-loss run, `c55-reflow-pair009-w050-b196-s
 
 C5.6 starts an architecture branch. The renderer now has an optional residual detail canvas/head: the base latent canvas still learns the page and flow, while a small second latent grid and MLP can add bounded high-frequency RGB-logit corrections at the same neural-canvas query coordinates. The C56 queue tests detail channels `8/16`, scales `0.125/0.25/0.50`, and both target-sampling and weight-only variants around the strongest C49/C52 reflow families. This keeps the output pure neural-canvas pixels while asking whether text strokes need a separate detail path instead of more hand-written masking or loss tricks.
 
+C5.6 is a useful negative. The best residual-detail run, `c56-detail16h128-025-target50-s14000`, reaches OCR `0.5514`, motion `0.0491`, and segment `875.921ms`. That is a pass, but it is below the C49/C52 frontier and below the best C55 pass. The detail head also raises render time from the `~700ms` family into roughly `825-1116ms`, so this branch spends budget without improving text enough.
+
+C5.7 switches to a cheaper architecture idea: source-coordinate conditioning. Instead of adding another canvas, the renderer MLP can see both the output coordinate and the learned warped/source coordinate used to sample the latent canvas. The hypothesis is that layout position and source-space glyph phase are separate facts; giving both to the model may preserve text strokes through reflow without masks, overlays, or a second render path.
+
 Suggested `results.tsv` header:
 
 ```text
