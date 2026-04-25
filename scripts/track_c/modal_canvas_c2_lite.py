@@ -543,6 +543,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     layout_target_sampling = bool(int(config.get("layout_target_sampling", 0)))
     layout_target_weighting = bool(int(config.get("layout_target_weighting", 0)))
     layout_target_sampling_ratio = float(config.get("layout_target_sampling_ratio", 1.0))
+    layout_target_pair_ratio = float(config.get("layout_target_pair_ratio", 0.0))
+    layout_target_pair_weight = float(config.get("layout_target_pair_weight", 1.0))
     layout_mid_time_ratio = float(config.get("layout_mid_time_ratio", 0.0))
     layout_mid_time_width = float(config.get("layout_mid_time_width", 0.24))
 
@@ -788,6 +790,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 mid_idx = torch.randperm(batch_size, device=device)[:mid_count]
                 mid_t = 0.5 + (torch.rand((mid_count, 1), device=device) - 0.5) * layout_mid_time_width
                 t[mid_idx] = mid_t.clamp(0.0, 1.0)
+        source_coords_for_pairs = coords
+        source_focus_for_pairs = source_focus
         if motion_mode in layout_reflow_motion_modes and layout_target_sampling:
             moved_coords = forward_layout_reflow_coords(coords, t, motion_strength)
             focus = source_focus
@@ -811,6 +815,37 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             loss = (loss_per_sample * weights).mean()
         else:
             loss = loss_per_sample.mean()
+        if (
+            motion_mode in layout_reflow_motion_modes
+            and layout_target_pair_ratio > 0.0
+            and layout_target_pair_weight > 0.0
+        ):
+            pair_source_idx = torch.nonzero(source_focus_for_pairs, as_tuple=False).squeeze(-1)
+            if pair_source_idx.numel():
+                pair_count = max(1, min(pair_source_idx.numel(), int(batch_size * layout_target_pair_ratio)))
+                pair_idx = pair_source_idx[torch.randperm(pair_source_idx.numel(), device=device)[:pair_count]]
+                pair_t = t[pair_idx]
+                pair_coords = forward_layout_reflow_coords(source_coords_for_pairs[pair_idx], pair_t, motion_strength)
+                pair_truth, pair_target_coords = truth_for_coords(pair_coords, pair_t)
+                pair_pred = model(pair_coords, pair_t)
+                pair_error = pair_pred - pair_truth
+                pair_loss_per_sample = pair_error.square().mean(dim=-1)
+                if edge_loss_weight > 0 or text_box_loss_weight > 0:
+                    if layout_target_weighting:
+                        pair_glyph_weights = sample_layout_reflow_from(
+                            glyph_weight_chw, pair_coords, pair_t, motion_strength, 0.0
+                        ).squeeze(-1)
+                        pair_text_weights = sample_layout_reflow_from(
+                            text_weight_chw, pair_coords, pair_t, motion_strength, 0.0
+                        ).squeeze(-1)
+                    else:
+                        pair_glyph_weights = sample_target(glyph_weight_chw, pair_target_coords).squeeze(-1)
+                        pair_text_weights = sample_target(text_weight_chw, pair_target_coords).squeeze(-1)
+                    pair_weights = 1.0 + edge_loss_weight * pair_glyph_weights + text_box_loss_weight * pair_text_weights
+                    pair_loss = (pair_loss_per_sample * pair_weights).mean()
+                else:
+                    pair_loss = pair_loss_per_sample.mean()
+                loss = loss + layout_target_pair_weight * pair_loss
         if gradient_loss_weight > 0.0 and gradient_loss_ratio > 0.0:
             grad_count = max(1, min(batch_size, int(batch_size * gradient_loss_ratio)))
             grad_idx = torch.randperm(batch_size, device=device)[:grad_count]
@@ -1161,6 +1196,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "layout_target_sampling": int(layout_target_sampling),
         "layout_target_weighting": int(layout_target_weighting),
         "layout_target_sampling_ratio": layout_target_sampling_ratio,
+        "layout_target_pair_ratio": layout_target_pair_ratio,
+        "layout_target_pair_weight": layout_target_pair_weight,
         "layout_mid_time_ratio": layout_mid_time_ratio,
         "layout_mid_time_width": layout_mid_time_width,
         "text_box_count": len(config.get("text_boxes", [])),
@@ -1248,6 +1285,8 @@ def main(
     layout_target_sampling: int = 0,
     layout_target_weighting: int = 0,
     layout_target_sampling_ratio: float = 1.0,
+    layout_target_pair_ratio: float = 0.0,
+    layout_target_pair_weight: float = 1.0,
     layout_mid_time_ratio: float = 0.0,
     layout_mid_time_width: float = 0.24,
     min_ocr_similarity: float = 0.5,
@@ -1306,6 +1345,8 @@ def main(
         "layout_target_sampling": layout_target_sampling,
         "layout_target_weighting": layout_target_weighting,
         "layout_target_sampling_ratio": layout_target_sampling_ratio,
+        "layout_target_pair_ratio": layout_target_pair_ratio,
+        "layout_target_pair_weight": layout_target_pair_weight,
         "layout_mid_time_ratio": layout_mid_time_ratio,
         "layout_mid_time_width": layout_mid_time_width,
         "text_boxes": text_boxes,

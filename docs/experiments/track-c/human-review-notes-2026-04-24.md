@@ -1064,3 +1064,40 @@ c54-reflow-grad025-r00625-target-full-b196-s10000
 c54-reflow-grad050-r00625-target-full-b196-s10000
 c54-reflow-grad025-r00625-train1920-weightonly-s13000
 ```
+
+Completed C54 results:
+
+```text
+c54-reflow-grad050-r00625-weightonly-c32h160-s14000: OCR 0.5614, segment 720.876ms, motion_delta 0.0496, pass
+c54-reflow-grad050-r00625-target-full-b196-s10000: OCR 0.5349, segment 700.093ms, motion_delta 0.0487, quality_fail
+c54-reflow-grad025-r0125-weightonly-c32h160-s14000: OCR 0.5294, segment 626.469ms, motion_delta 0.0520, quality_fail
+c54-reflow-grad025-r0125-target-s050-c32h160-s14000: OCR 0.5169, segment 704.844ms, motion_delta 0.0526, quality_fail
+c54-reflow-grad025-r00625-target-full-b196-s10000: OCR 0.4875, segment 705.197ms, motion_delta 0.0484, quality_fail
+c54-reflow-grad025-r00625-weightonly-c32h160-s14000: OCR 0.4625, segment 717.731ms, motion_delta 0.0481, quality_fail
+c54-reflow-grad025-r00625-train1920-weightonly-s13000: OCR 0.4528, segment 711.352ms, motion_delta 0.0506, quality_fail
+c54-reflow-grad025-r00625-target-s050-c32h160-s14000: OCR 0.4524, segment 645.104ms, motion_delta 0.0495, quality_fail
+c54-reflow-grad050-r00625-target-s050-c32h160-s14000: OCR 0.4472, segment 870.696ms, motion_delta 0.0504, quality_fail
+c54-reflow-grad050-r0125-target-s050-c32h160-s14000: OCR 0.3976, segment 637.243ms, motion_delta 0.0522, quality_fail
+```
+
+Interpretation:
+
+- Gradient consistency did not beat the frontier. The best C54 result only matched the older C51 weight-only result (`0.5614`).
+- Partial target sampling plus gradient loss is actively harmful in this target, especially at gradient weight `0.50`.
+- Render latency remains fine because the loss only affects compile/training, but compile time rose materially, so this branch should not receive more broad budget.
+- C55 should preserve source-side coverage and add target-side pressure as an auxiliary paired loss instead of replacing source-focused samples with target samples.
+
+Next experiments:
+
+```text
+c55-reflow-pair0025-w050-weightonly-c32h160-s14000
+c55-reflow-pair005-w050-weightonly-c32h160-s14000
+c55-reflow-pair009-w050-weightonly-c32h160-s14000
+c55-reflow-pair005-w025-weightonly-c32h160-s14000
+c55-reflow-pair005-w100-weightonly-c32h160-s14000
+c55-reflow-pair005-w050-target-s025-c32h160-s14000
+c55-reflow-pair005-w050-target-s050-c32h160-s14000
+c55-reflow-pair005-w050-b196-s10000
+c55-reflow-pair009-w050-b196-s10000
+c55-reflow-pair005-w050-train1920-s13000
+```

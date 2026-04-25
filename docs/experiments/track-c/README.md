@@ -102,6 +102,8 @@ C5.3 is a useful negative result: simple L1 sharpening did not solve reflow blur
 
 C5.4 tests that next step: a local gradient-consistency term on reflowed output coordinates. Instead of only asking each sampled pixel to match RGB, it also asks one-pixel x/y differences to match the crisp synthetic midpoint target. This directly targets doubled strokes and blurred glyph edges while keeping the renderer pure neural-canvas pixels.
 
+C5.4 is negative/neutral. The best gradient run, `c54-reflow-grad050-r00625-weightonly-c32h160-s14000`, reaches OCR `0.5614`, motion `0.0496`, and segment `720.876ms`, matching an older weight-only result but not the C49/C52 frontier. Partial-target sampling plus gradient loss regresses sharply. C5.5 switches from target replacement to paired target loss: keep the original source-focused sample, then add a second loss at that same content point's reflowed target coordinate.
+
 Suggested `results.tsv` header:
 
 ```text
