@@ -1101,3 +1101,46 @@ c55-reflow-pair005-w050-b196-s10000
 c55-reflow-pair009-w050-b196-s10000
 c55-reflow-pair005-w050-train1920-s13000
 ```
+
+Completed C55 results:
+
+```text
+c55-reflow-pair009-w050-b196-s10000: OCR 0.5495, segment 697.042ms, motion_delta 0.0485, pass
+c55-reflow-pair005-w050-target-s025-c32h160-s14000: OCR 0.5161, segment 631.980ms, motion_delta 0.0520, quality_fail
+c55-reflow-pair005-w050-train1920-s13000: OCR 0.5078, segment 698.812ms, motion_delta 0.0516, quality_fail
+c55-reflow-pair009-w050-weightonly-c32h160-s14000: OCR 0.5055, segment 692.653ms, motion_delta 0.0535, quality_fail
+c55-reflow-pair005-w050-weightonly-c32h160-s14000: OCR 0.4691, segment 724.121ms, motion_delta 0.0510, quality_fail
+c55-reflow-pair005-w050-target-s050-c32h160-s14000: OCR 0.4641, segment 880.660ms, motion_delta 0.0536, quality_fail
+c55-reflow-pair005-w025-weightonly-c32h160-s14000: OCR 0.4625, segment 706.683ms, motion_delta 0.0500, quality_fail
+c55-reflow-pair0025-w050-weightonly-c32h160-s14000: OCR 0.4375, segment 719.565ms, motion_delta 0.0483, quality_fail
+c55-reflow-pair005-w100-weightonly-c32h160-s14000: OCR 0.4250, segment 703.645ms, motion_delta 0.0506, quality_fail
+c55-reflow-pair005-w050-b196-s10000: OCR 0.4000, segment 630.015ms, motion_delta 0.0503, quality_fail
+```
+
+Interpretation:
+
+- Paired target loss does not beat the current C49/C52 learned layout-reflow frontier.
+- The best result is a pass, but it sits below `c49-reflow-target-b196-c32h160-s10000` (`0.5761`) and `c52-reflow-target-s050-c32h160-s14000` (`0.5742`).
+- The failures cluster around text reconstruction, not speed: all C55 runs remain safely under the `1.3s` 33-frame plus encode budget.
+- This makes more loss pressure less promising than changing the model shape.
+
+Next experiments:
+
+```text
+c56-detail8-025-target50-c32h160-s14000
+c56-detail8-050-target50-c32h160-s14000
+c56-detail16-025-target50-c32h160-s14000
+c56-detail16h128-025-target50-s14000
+c56-detail8-025-weightonly-c32h160-s14000
+c56-detail16-025-weightonly-c32h160-s14000
+c56-detail8-0125-weightonly-c32h160-s14000
+c56-detail8-025-target-b196-s10000
+c56-detail16-025-target-b196-s10000
+c56-detail8-025-weightonly-train1920-s13000
+```
+
+C56 hypothesis:
+
+- Coarse layout transport and high-frequency glyph/detail reconstruction may be fighting for the same latent channels and MLP capacity.
+- A residual detail canvas/head keeps the base pure neural-canvas renderer but gives strokes a bounded high-frequency correction path.
+- The branch should be judged against the C49/C52 frontier, not just against a pass gate.

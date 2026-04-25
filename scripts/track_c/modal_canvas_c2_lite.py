@@ -262,13 +262,28 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     from PIL import Image
 
     class TimeCanvas(nn.Module):
-        def __init__(self, width: int, height: int, channels: int, hidden: int, freq_bands: int, time_bands: int, flow_scale: float):
+        def __init__(
+            self,
+            width: int,
+            height: int,
+            channels: int,
+            hidden: int,
+            freq_bands: int,
+            time_bands: int,
+            flow_scale: float,
+            detail_channels: int = 0,
+            detail_hidden: int | None = None,
+            detail_scale: float = 0.0,
+            detail_init_scale: float = 0.01,
+        ):
             super().__init__()
             self.width = width
             self.height = height
             self.freq_bands = freq_bands
             self.time_bands = time_bands
             self.flow_scale = flow_scale
+            self.detail_channels = detail_channels
+            self.detail_scale = detail_scale
             self.canvas = nn.Parameter(torch.randn(1, channels, height, width) * 0.02)
             coord_dim = 2 + 4 * freq_bands
             time_dim = 1 + 2 * time_bands
@@ -287,6 +302,19 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 nn.SiLU(),
                 nn.Linear(hidden, 3),
             )
+            if detail_channels > 0 and detail_scale != 0.0:
+                detail_hidden = hidden if detail_hidden is None else detail_hidden
+                self.detail_canvas = nn.Parameter(torch.randn(1, detail_channels, height, width) * detail_init_scale)
+                self.detail_mlp = nn.Sequential(
+                    nn.Linear(detail_channels + coord_dim + time_dim, detail_hidden),
+                    nn.SiLU(),
+                    nn.Linear(detail_hidden, detail_hidden),
+                    nn.SiLU(),
+                    nn.Linear(detail_hidden, 3),
+                )
+            else:
+                self.detail_canvas = None
+                self.detail_mlp = None
 
         def encode_coords(self, coords01: torch.Tensor) -> torch.Tensor:
             feats = [coords01]
@@ -317,8 +345,18 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 padding_mode="border",
                 align_corners=True,
             ).squeeze(0).squeeze(-1).transpose(0, 1)
-            rgb = self.mlp(torch.cat([sampled, coord_enc, time_enc], dim=-1))
-            return torch.sigmoid(rgb)
+            logits = self.mlp(torch.cat([sampled, coord_enc, time_enc], dim=-1))
+            if self.detail_canvas is not None and self.detail_mlp is not None:
+                detail_sampled = F.grid_sample(
+                    self.detail_canvas,
+                    grid,
+                    mode="bilinear",
+                    padding_mode="border",
+                    align_corners=True,
+                ).squeeze(0).squeeze(-1).transpose(0, 1)
+                detail_logits = self.detail_mlp(torch.cat([detail_sampled, coord_enc, time_enc], dim=-1))
+                logits = logits + self.detail_scale * torch.tanh(detail_logits)
+            return torch.sigmoid(logits)
 
         @torch.inference_mode()
         def render(self, out_w: int, out_h: int, viewport: tuple[float, float, float, float], t_value: float) -> torch.Tensor:
@@ -547,6 +585,10 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     layout_target_pair_weight = float(config.get("layout_target_pair_weight", 1.0))
     layout_mid_time_ratio = float(config.get("layout_mid_time_ratio", 0.0))
     layout_mid_time_width = float(config.get("layout_mid_time_width", 0.24))
+    detail_channels = int(config.get("detail_channels", 0))
+    detail_hidden = int(config.get("detail_hidden", config["hidden"]))
+    detail_scale = float(config.get("detail_scale", 0.0))
+    detail_init_scale = float(config.get("detail_init_scale", 0.01))
 
     source = Image.open(io.BytesIO(input_png)).convert("RGB").resize((train_w, train_h), Image.Resampling.LANCZOS)
     target = torch.from_numpy(np.asarray(source, dtype=np.float32) / 255.0).to(device)
@@ -735,6 +777,10 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         freq_bands=int(config["freq_bands"]),
         time_bands=int(config["time_bands"]),
         flow_scale=flow_scale * 1.4,
+        detail_channels=detail_channels,
+        detail_hidden=detail_hidden,
+        detail_scale=detail_scale,
+        detail_init_scale=detail_init_scale,
     ).to(device)
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=base_lr, weight_decay=0.0)
@@ -1136,23 +1182,30 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
 
     glyph_enabled = edge_sample_ratio > 0 or edge_loss_weight > 0
     text_enabled = text_box_sample_ratio > 0 or text_box_loss_weight > 0
+    canvas_type = (
+        "stable-latent-feature-grid-element-anchor-layout-text-box-weighted"
+        if text_enabled and video_layout_mode == "element-frame-scale"
+        else "stable-latent-feature-grid-layout-transform-text-box-weighted"
+        if text_enabled and video_layout_mode != "none"
+        else "time-conditioned-latent-feature-grid-learned-flow-mlp-text-box-weighted"
+        if text_enabled
+        else "time-conditioned-latent-feature-grid-learned-flow-mlp-glyph-weighted"
+        if glyph_enabled
+        else "time-conditioned-latent-feature-grid-learned-flow-mlp"
+    )
+    if detail_channels > 0 and detail_scale != 0.0:
+        canvas_type += "-detail-residual"
     metrics = {
-        "canvas_type": (
-            "stable-latent-feature-grid-element-anchor-layout-text-box-weighted"
-            if text_enabled and video_layout_mode == "element-frame-scale"
-            else "stable-latent-feature-grid-layout-transform-text-box-weighted"
-            if text_enabled and video_layout_mode != "none"
-            else "time-conditioned-latent-feature-grid-learned-flow-mlp-text-box-weighted"
-            if text_enabled
-            else "time-conditioned-latent-feature-grid-learned-flow-mlp-glyph-weighted"
-            if glyph_enabled
-            else "time-conditioned-latent-feature-grid-learned-flow-mlp"
-        ),
+        "canvas_type": canvas_type,
         "train_resolution": config["train_resolution"],
         "steps": steps,
         "batch_size": batch_size,
         "channels": int(config["channels"]),
         "hidden": int(config["hidden"]),
+        "detail_channels": detail_channels,
+        "detail_hidden": detail_hidden,
+        "detail_scale": detail_scale,
+        "detail_init_scale": detail_init_scale,
         "freq_bands": int(config["freq_bands"]),
         "time_bands": int(config["time_bands"]),
         "lr": base_lr,
@@ -1240,6 +1293,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             else "C2-lite neural canvas: learned time-conditioned motion field sampling a persistent latent canvas"
         ),
     }
+    if detail_channels > 0 and detail_scale != 0.0:
+        metrics["description"] += " Residual detail canvas/head enabled for high-frequency pixel correction."
     return {"artifacts": artifacts, "metrics": metrics}
 
 
@@ -1250,6 +1305,10 @@ def main(
     batch_size: int = 131072,
     channels: int = 16,
     hidden: int = 96,
+    detail_channels: int = 0,
+    detail_hidden: int = 0,
+    detail_scale: float = 0.0,
+    detail_init_scale: float = 0.01,
     freq_bands: int = 8,
     time_bands: int = 4,
     lr: float = 0.01,
@@ -1307,6 +1366,10 @@ def main(
         "batch_size": batch_size,
         "channels": channels,
         "hidden": hidden,
+        "detail_channels": detail_channels,
+        "detail_hidden": detail_hidden if detail_hidden > 0 else hidden,
+        "detail_scale": detail_scale,
+        "detail_init_scale": detail_init_scale,
         "freq_bands": freq_bands,
         "time_bands": time_bands,
         "lr": lr,

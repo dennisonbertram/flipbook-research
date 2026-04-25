@@ -63,6 +63,10 @@ def general_visual_motion_args(
     seed: int = 0,
     channels: int | None = None,
     hidden: int | None = None,
+    detail_channels: int | None = None,
+    detail_hidden: int | None = None,
+    detail_scale: float | None = None,
+    detail_init_scale: float | None = None,
     freq_bands: int | None = None,
     time_bands: int | None = None,
     lr: float | None = None,
@@ -153,6 +157,14 @@ def general_visual_motion_args(
         args.extend(["--channels", str(channels)])
     if hidden is not None:
         args.extend(["--hidden", str(hidden)])
+    if detail_channels is not None:
+        args.extend(["--detail-channels", str(detail_channels)])
+    if detail_hidden is not None:
+        args.extend(["--detail-hidden", str(detail_hidden)])
+    if detail_scale is not None:
+        args.extend(["--detail-scale", f"{detail_scale:g}"])
+    if detail_init_scale is not None:
+        args.extend(["--detail-init-scale", f"{detail_init_scale:g}"])
     if batch_size is not None:
         args.extend(["--batch-size", str(batch_size)])
     if freq_bands is not None:
@@ -493,6 +505,10 @@ def learned_layout_reflow_experiment(
     seed: int = 0,
     channels: int | None = None,
     hidden: int | None = None,
+    detail_channels: int | None = None,
+    detail_hidden: int | None = None,
+    detail_scale: float | None = None,
+    detail_init_scale: float | None = None,
     freq_bands: int = 10,
     time_bands: int | None = None,
     lr: float | None = None,
@@ -526,6 +542,11 @@ def learned_layout_reflow_experiment(
         else ""
     )
     seed_note = f", seed {seed}" if seed else ""
+    detail_note = (
+        f", residual detail c{detail_channels}/h{detail_hidden or hidden or 'base'} scale {detail_scale:g}"
+        if detail_channels and detail_scale
+        else ""
+    )
     text_note = ", text-weighted" if text_box_loss_weight > 0 or text_box_sample_ratio > 0 else ""
     target_note = ", target-side reflow sampling" if layout_target_sampling or layout_target_weighting else ""
     if layout_target_sampling and layout_target_sampling_ratio is not None and layout_target_sampling_ratio < 1.0:
@@ -540,7 +561,7 @@ def learned_layout_reflow_experiment(
         notes=(
             "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions "
             "the illustration into a new page layout; output remains direct neural-canvas pixels. "
-            f"amount {amount:g}, flow scale {flow_scale:g}, {steps} steps, freq{freq_bands}{clip_note}{l1_note}{grad_note}{seed_note}{text_note}{target_note}{mid_note}."
+            f"amount {amount:g}, flow scale {flow_scale:g}, {steps} steps, freq{freq_bands}{clip_note}{l1_note}{grad_note}{seed_note}{detail_note}{text_note}{target_note}{mid_note}."
         ),
         args=general_visual_motion_args(
             label,
@@ -550,6 +571,10 @@ def learned_layout_reflow_experiment(
             seed=seed,
             channels=channels,
             hidden=hidden,
+            detail_channels=detail_channels,
+            detail_hidden=detail_hidden,
+            detail_scale=detail_scale,
+            detail_init_scale=detail_init_scale,
             freq_bands=freq_bands,
             time_bands=time_bands,
             lr=lr,
@@ -582,6 +607,183 @@ def learned_layout_reflow_experiment(
 
 
 EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        "c56-detail8-025-target50-c32h160-s14000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        channels=32,
+        hidden=160,
+        detail_channels=8,
+        detail_hidden=96,
+        detail_scale=0.25,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.50,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c56-detail8-050-target50-c32h160-s14000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        channels=32,
+        hidden=160,
+        detail_channels=8,
+        detail_hidden=96,
+        detail_scale=0.50,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.50,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c56-detail16-025-target50-c32h160-s14000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        channels=32,
+        hidden=160,
+        detail_channels=16,
+        detail_hidden=96,
+        detail_scale=0.25,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.50,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c56-detail16h128-025-target50-s14000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        channels=32,
+        hidden=160,
+        detail_channels=16,
+        detail_hidden=128,
+        detail_scale=0.25,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.50,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c56-detail8-025-weightonly-c32h160-s14000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        channels=32,
+        hidden=160,
+        detail_channels=8,
+        detail_hidden=96,
+        detail_scale=0.25,
+        layout_target_sampling=0,
+        layout_target_weighting=1,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.54,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c56-detail16-025-weightonly-c32h160-s14000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        channels=32,
+        hidden=160,
+        detail_channels=16,
+        detail_hidden=96,
+        detail_scale=0.25,
+        layout_target_sampling=0,
+        layout_target_weighting=1,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.54,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c56-detail8-0125-weightonly-c32h160-s14000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        channels=32,
+        hidden=160,
+        detail_channels=8,
+        detail_hidden=96,
+        detail_scale=0.125,
+        layout_target_sampling=0,
+        layout_target_weighting=1,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.54,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c56-detail8-025-target-b196-s10000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=10000,
+        batch_size=196608,
+        channels=32,
+        hidden=160,
+        detail_channels=8,
+        detail_hidden=96,
+        detail_scale=0.25,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c56-detail16-025-target-b196-s10000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=10000,
+        batch_size=196608,
+        channels=32,
+        hidden=160,
+        detail_channels=16,
+        detail_hidden=96,
+        detail_scale=0.25,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c56-detail8-025-weightonly-train1920-s13000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=13000,
+        train_resolution="1920x1088",
+        channels=32,
+        hidden=160,
+        detail_channels=8,
+        detail_hidden=96,
+        detail_scale=0.25,
+        layout_target_sampling=0,
+        layout_target_weighting=1,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.54,
+        min_motion=0.045,
+    ),
     learned_layout_reflow_experiment(
         "c55-reflow-pair0025-w050-weightonly-c32h160-s14000",
         amount=1.0,
