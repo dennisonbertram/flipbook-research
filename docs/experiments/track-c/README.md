@@ -120,6 +120,10 @@ C5.8 is a sharp negative. Larger learned-flow range destabilizes text instead of
 
 C5.9 adds an oracle-flow diagnostic. The neural canvas still generates every pixel, but the sampling coordinate is provided by the known inverse synthetic layout-reflow map instead of the learned flow network. If this recovers text quality, the bottleneck is learning the transport field. If it does not, the bottleneck is in the latent canvas/MLP reconstruction after transport.
 
+C5.9 is also negative as a transport-only explanation. The best oracle-flow result, `c59-oracleflow-target75-c24h128-s10000`, reaches OCR `0.5207`, motion `0.0500`, and segment `671.665ms`, below C57's OCR `0.6264` source-coordinate result. Oracle flow avoids the C58 collapse but does not beat learned flexible flow, which suggests the useful C57 ingredient is not rigidly correct box transport. It is source-coordinate conditioning plus a small learned, flexible warp and target-side sampling.
+
+C6.0 consolidates the C57 source-coordinate family instead of adding another mechanism. The queue sweeps target-side sampling ratios around the C57 winner (`0.60/0.70/0.80/0.90/1.00`), repeats the `0.75` winner on additional seeds, and tests C24/H128, B196, and C40/H192 capacity/speed points. The goal is to determine whether the C57 win is robust enough to become the next base model before adding more structural machinery.
+
 Suggested `results.tsv` header:
 
 ```text

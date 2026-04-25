@@ -1268,3 +1268,42 @@ C59 hypothesis:
 - Use the known inverse layout-reflow map as an oracle transport control while still rendering all pixels through the neural canvas.
 - If oracle flow beats C57, learned transport is the next model target.
 - If oracle flow still fails, the bottleneck is in high-frequency reconstruction under reflow, not in motion-field learning.
+
+Completed C59 results:
+
+```text
+c59-oracleflow-target75-c24h128-s10000: OCR 0.5207, segment 671.665ms, motion_delta 0.0500, quality_fail
+c59-oracleflow-target50-c32h160-s12000: OCR 0.5060, segment 698.560ms, motion_delta 0.0510, quality_fail
+c59-oracleflow-target75-nosrc-c32h160-s12000: OCR 0.5059, segment 595.257ms, motion_delta 0.0495, quality_fail
+c59-oracleflow-weightonly-c32h160-s12000: OCR 0.4881, segment 675.039ms, motion_delta 0.0494, quality_fail
+c59-oracleflow-target75-c32h160-s12000: OCR 0.4751, segment 683.105ms, motion_delta 0.0505, quality_fail
+c59-oracleflow-target75-freq12-s10000: OCR 0.4238, segment 729.458ms, motion_delta 0.0493, quality_fail
+```
+
+Interpretation:
+
+- Oracle flow does not beat the C57 source-coordinate frontier.
+- The best C59 run reaches OCR `0.5207`, well below C57's OCR `0.6264`, even though C59 uses the known inverse layout map.
+- Correct rigid transport alone is not enough. The current useful recipe is source-coordinate conditioning, target-side sampling, and a small learned flexible warp.
+- C58 showed that larger unconstrained learned flow collapses text; C59 shows that rigid oracle box flow is also insufficient. The next model target is a more robust version of the C57 family, not a stronger box-flow diagnostic.
+
+Next experiments:
+
+```text
+c60-sourcecoord-target60-c32h160-s14000
+c60-sourcecoord-target70-c32h160-s14000
+c60-sourcecoord-target80-c32h160-s14000
+c60-sourcecoord-target90-c32h160-s14000
+c60-sourcecoord-target100-c32h160-s14000
+c60-sourcecoord-target75-seed1-c32h160-s14000
+c60-sourcecoord-target75-seed2-c32h160-s14000
+c60-sourcecoord-target75-b196-s10000
+c60-sourcecoord-target75-c24h128-s12000
+c60-sourcecoord-target75-c40h192-s12000
+```
+
+C60 hypothesis:
+
+- The C57 gain is best understood as source-coordinate conditioning plus a flexible learned warp, not stronger/oracle transport.
+- Sweep target-side sampling around `0.75` to check whether the winner is a narrow accident or a stable ratio.
+- Repeat seeds and test C24/H128, B196, and C40/H192 to map the speed/quality frontier before adding new architecture.
