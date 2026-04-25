@@ -1,13 +1,11 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-25T03:19:48+00:00`
+Updated UTC: `2026-04-25T03:25:13+00:00`
 
 ## Active Sessions
 
 - `clawtest`
-- `pr-1468-checks`
 - `pr1467-monitor`
-- `pr1468-checks`
 - `track-c-autoresearch`
 - `track-c-c70-mid10-c8s025-seed4-s14000`
 - `track-c-c70-mid20-c4s025-seed2-s14000`
