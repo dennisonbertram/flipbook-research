@@ -537,3 +537,12 @@
 [2026-04-25T17:10:32+00:00] eval 20260425T163840485926Z-c2-lite-glyph-layout-clean-reflow-c96-v12-deep-sea-tblend-init02-rem000-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1097.414ms	ocr=0.8000
 [2026-04-25T17:10:32+00:00] eval 20260425T163840570144Z-c2-lite-glyph-layout-clean-reflow-c96-v11-naturalist-tblend-init02-rem050-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1123.401ms	ocr=0.4000
 [2026-04-25T17:10:32+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-25T17:10:35+00:00] published Track C docs update: 2026-04-25 17:10 UTC
+[2026-04-25T17:22:01+00:00] eval 20260425T170202172857Z-c2-lite-glyph-layout-clean-reflow-c97-v12-deep-sea-statesplit-init02-rem050-mid20-seed1-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1002.438ms	ocr=0.8387
+[2026-04-25T17:22:01+00:00] eval 20260425T170202265872Z-c2-lite-glyph-layout-clean-reflow-c97-v11-naturalist-statesplit-init02-rem025-mid50-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1266.868ms	ocr=0.4463
+[2026-04-25T17:22:01+00:00] eval 20260425T170202309813Z-c2-lite-glyph-layout-clean-reflow-c97-v11-naturalist-statesplit-init05-rem025-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	quality_fail	1264.234ms	ocr=0.3158
+[2026-04-25T17:22:01+00:00] eval 20260425T170202556498Z-c2-lite-glyph-layout-clean-reflow-c97-v12-deep-sea-statesplit-init02-rem100-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1258.729ms	ocr=0.7500
+[2026-04-25T17:22:01+00:00] eval 20260425T170202712977Z-c2-lite-glyph-layout-clean-reflow-c97-v12-deep-sea-statesplit-init05-rem050-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1244.800ms	ocr=0.8276
+[2026-04-25T17:22:01+00:00] eval 20260425T170202747809Z-c2-lite-glyph-layout-clean-reflow-c97-v11-naturalist-statesplit-init02-rem050-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1006.120ms	ocr=0.3656
+[2026-04-25T17:22:01+00:00] eval 20260425T170203216056Z-c2-lite-glyph-layout-clean-reflow-c97-v12-deep-sea-statesplit-init02-rem050-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1262.824ms	ocr=0.8000
+[2026-04-25T17:22:01+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv

@@ -200,27 +200,28 @@ C9.2 is queued as the source-remnant stress wave. It keeps the C91 recipe and in
 
 C9.2 passed all ten initial stress runs, but it also proved the current gate is too lenient. Full-frame midpoint renders look like the new target pages; close crops still show old Colosseum text and diagram remnants. `deep-sea-lab` is quantitatively strong (`0.6190-0.8966` OCR), while `naturalist-plate` is harder (`0.4082-0.4964` OCR) because thin etched linework and small labels are more demanding. C9.3 adds a contrastive source-remnant loss at clean-reflow midpoints so the model is explicitly penalized when changed pixels are still closer to the source page than the clean target.
 
-C9.3 is a useful partial result, not a solution. The best naturalist run improves to OCR `0.5424`, and the best deep-sea contrast run still reaches OCR `0.8276`, but crop review shows the same source layer underneath. The failure appears representational: the single source-biased latent/decoder keeps carrying old high-frequency structure.
+C9.3 is a useful partial result, not a solution. The best naturalist run improves to OCR `0.5424`, and the best deep-sea contrast run still reaches OCR `0.8276`, but the transition crop remains visibly source/target blended. The failure is now more specific: the model can hit a clean target page state, but the in-between frames still behave like a soft crossfade rather than a convincing page transform.
 
-C9.4 confirms that target-side decoder paths are not enough by themselves. Deep-sea full frames score well (`0.8667` OCR for both dual-residual and dual-gate, with `1265-1266ms` segment times), and the fastest latent-both deep-sea control reaches OCR `0.8000` at `922.816ms`. Naturalist remains much weaker (`0.5000` best OCR). Human crop review is the deciding result: the full frames look compelling, but `2x` crops still expose the old `Velarium`/`Materials`/diagram source layer.
+C9.4 confirms that target-side decoder paths can render a clean midpoint but do not solve transition realism. Deep-sea midpoint frames score well (`0.8667` OCR for both dual-residual and dual-gate, with `1265-1266ms` segment times), and the fastest latent-both deep-sea control reaches OCR `0.8000` at `922.816ms`. Naturalist remains much weaker (`0.5000` best OCR). The `crop-2x.png` artifact is rendered at `t=0.25`, so old `Velarium`/`Materials`/diagram content there should be read as transition-frame persistence, not target-midpoint failure.
 
-C9.5 tests a separate learned target-state latent canvas concatenated beside the source latent features. All ten runs pass under the `1.3s` segment budget (`913-1172ms`). The best naturalist run improves slightly to OCR `0.5546`, while the best deep-sea result reaches OCR `0.8000`, below C94's `0.8667` deep-sea score. Human crop review says the architecture is still not clean: the old source text/diagram layer remains visible. C9.6 therefore makes the target-state test stricter by blending/switching between source and target latent canvases, so midpoint decoding cannot freely reuse the source latent features.
+C9.5 tests a separate learned target-state latent canvas concatenated beside the source latent features. All ten runs pass under the `1.3s` segment budget (`913-1172ms`). The best naturalist run improves slightly to OCR `0.5546`, while the best deep-sea result reaches OCR `0.8000`, below C94's `0.8667` deep-sea score. Midpoint frames look close to the target state; the old-source-heavy crop is the `t=0.25` transition crop. C9.6 therefore makes the state test stricter by blending/switching between source and target latent canvases, with the expectation that midpoint decoding is primarily target-state memory while transition frames still need better motion structure.
 
-C9.6 is another useful negative. The stricter target-canvas blend keeps most runs under budget and makes render time very consistent (`~852ms` render, `~1.1s` segment for most passes). Best naturalist is `0.5310` OCR, and best deep-sea remains `0.8000` OCR. The crop review still shows the same old `Velarium`/`Materials`/diagram layer under the target page. The failure is no longer just a loss-weighting problem or a source/target feature concatenation problem. C9.7 therefore tests a harder state split: separate source and target decoders, an independent target latent canvas, and deterministic midpoint blending between decoder outputs. If C9.7 still ghosts, Track C should stop spending compute on two-state canvas tweaks and move toward a different renderer family.
+C9.6 is a positive target-state result and a transition-quality warning. The stricter target-canvas blend keeps most runs under budget and makes render time very consistent (`~852ms` render, `~1.1s` segment for most passes). Best naturalist is `0.5310` OCR, and best deep-sea remains `0.8000` OCR. A corrected crop audit shows `render-mid.png` is clean at the target state; the old source text appears in `crop-2x.png` because that artifact is rendered at `t=0.25`. C9.7 still runs a harder state split, but the question is now endpoint isolation, latency, and whether transition frames can move beyond crossfade/source persistence.
+
+C9.7 is a mixed endpoint result and a negative transition result. The state-split decoder improves deep-sea slightly (`0.8387` OCR, `1002.438ms` segment on the best seed) but does not beat the C94 deep-sea high (`0.8667`) and weakens naturalist versus C95/C96 (`0.4463` best naturalist OCR; `0.4298` for the faster no-source-coordinate variant). Midpoint frames remain clean. The `t=0.25` crop still shows source/target persistence, which is now understood as a target-definition issue: `layout-clean-reflow` trains an endpoint blend, not a real moving/reflowing transition. C9.8 is implemented as the first transition-aware wave: it saves explicit transition target crops and trains `layout-clean-move-reveal`, where the source layer moves/fades while the target page eases in.
 
 Next experiments:
 
 ```text
-c97-v11-naturalist-statesplit-init02-rem025-mid35-seed0-s12000
-c97-v11-naturalist-statesplit-init02-rem025-mid50-seed0-s12000
-c97-v11-naturalist-statesplit-init05-rem025-mid35-seed0-s12000
-c97-v11-naturalist-statesplit-init02-rem050-mid35-seed0-s12000
-c97-v11-naturalist-statesplit-noscoord-init02-rem025-mid50-seed0-s12000
-c97-v12-deep-sea-statesplit-init02-rem050-mid20-seed0-s12000
-c97-v12-deep-sea-statesplit-init02-rem050-mid35-seed0-s12000
-c97-v12-deep-sea-statesplit-init05-rem050-mid20-seed0-s12000
-c97-v12-deep-sea-statesplit-init02-rem100-mid20-seed0-s12000
-c97-v12-deep-sea-statesplit-init02-rem050-mid20-seed1-s12000
+C98 transition-aware target/eval:
+c98-v11-naturalist-movereveal-base-rem025-mid35-seed0-s12000
+c98-v11-naturalist-movereveal-tblend-init02-rem025-mid35-seed0-s12000
+c98-v11-naturalist-movereveal-tblend-init02-rem025-mid50-seed0-s12000
+c98-v11-naturalist-movereveal-statesplit-init02-rem025-mid50-seed0-s12000
+c98-v12-deep-sea-movereveal-base-rem050-mid20-seed0-s12000
+c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed0-s12000
+c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed1-s12000
+c98-v12-deep-sea-movereveal-statesplit-init02-rem050-mid20-seed1-s12000
 ```
 
 Suggested `results.tsv` header:

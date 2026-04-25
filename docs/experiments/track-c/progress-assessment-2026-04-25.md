@@ -4,11 +4,11 @@ Date: 2026-04-25
 
 ## Short Answer
 
-Track C has made real progress, but the most recent waves show a plateau.
+Track C has made real progress, and the most recent crop audit clarifies the plateau.
 
 The positive result is substantial: the neural canvas can render a page as model-owned pixels, change layout/content/illustration state, and produce 33-frame 1536x864 clips under the `1.3s` segment budget in many runs. That was not true at the start.
 
-The negative result is also substantial: close crops still reveal old source-page structure underneath new target states. C92 and C93 make this visible. The issue is no longer "can it wiggle" or "can it pass OCR"; the issue is clean repainting of a new page state.
+The negative result is more specific than the earlier notes suggested: the target midpoint can be repainted cleanly, but transition crops still reveal old source-page structure because the current clean-reflow target is effectively a source-to-target page-state blend. The issue is no longer "can it wiggle" or "can it pass OCR"; the issue is convincing transition behavior between clean page states.
 
 ## Evidence Of Real Progress
 
@@ -23,11 +23,11 @@ This means Track C is not just text masking, not just global wiggle, and not jus
 
 ## Evidence Of Plateau
 
-- C92 naturalist/deep-sea stress targets passed numerically, but close crops exposed old Colosseum text and oval-diagram remnants underneath the new page.
-- C93 contrastive source-remnant loss improved some OCR numbers but did not remove the visual source layer.
-- Scalar pressure on midpoint/remnant loss can reduce readability without solving the underlying leak.
+- C92-C96 naturalist/deep-sea stress targets pass numerically, but the `t=0.25` transition crop exposes old Colosseum text and oval-diagram remnants during the transition.
+- C93 contrastive source-remnant loss improved some OCR numbers but did not produce a more convincing transition.
+- Scalar pressure on midpoint/remnant loss can reduce readability without solving the transition-frame persistence.
 
-That pattern suggests the current single source-biased latent/decoder is not cleanly separating "what content to preserve" from "what new page state to paint."
+That pattern suggests the current model can memorize/render clean endpoint states, but the learned temporal path is still too close to crossfade/source persistence.
 
 ## Decision
 
@@ -35,10 +35,12 @@ Track C should keep running only if the next experiments are architecture tests,
 
 C94 was therefore the right next wave: target-state residual, fused residual, dual-gate, and latent-both controls on the naturalist/deep-sea source-remnant stress cases.
 
-C94 did still show the source layer in crops. C95 tested a dual-state representation with a separate target latent canvas, but because the target canvas was concatenated beside source features, crop-level source remnants remained. C96 forced the midpoint latent state to blend/switch from source canvas to target canvas, but close crops still showed the same old source layer. The next viable Track C step is C97: split the decoder into separate source and target-state branches, with an independent target latent canvas and final output blending by midpoint progress.
+C94-C96 should be read as target-state positive and transition-quality unresolved. The old-source-heavy crop was `crop-2x.png` at `t=0.25`, not a midpoint target crop. The next viable Track C step is still C97: split the decoder into separate source and target-state branches, with an independent target latent canvas and final output blending by midpoint progress, then evaluate endpoint quality separately from transition quality.
 
 ## Current Status
 
-As of this assessment update, C96 is complete and is another partial/negative architecture result. It keeps render time stable (`~1.1s` segments for most passes), but best naturalist OCR (`0.5310`) trails C95 and the crop review still reveals source remnants. C97 is implemented as a stricter state-split decoder test. Track C is scientifically useful, but it is not yet a product proof.
+As of this assessment update, C97 is complete. It is a mixed endpoint result and a negative transition result: best deep-sea improves to OCR `0.8387` at `1002.438ms`, while best naturalist drops to OCR `0.4463` (`0.4298` for the faster no-source-coordinate variant). Corrected `render-mid` crops are clean, while `t=0.25` crops reveal source persistence. Track C is scientifically useful, but it is not yet a product proof.
 
-The evaluator now also reports source-residual gain/cosine and source-only edge bias in changed regions. These metrics ask whether the render's residual from the target is aligned with the old source image, especially around old source edges that should have disappeared. That is closer to the human crop-review failure than OCR alone.
+The next step is transition-aware C98: save explicit transition target crops, evaluate `t=0.25/0.75` separately from `t=0.5`, and train against a deterministic moving-layout transition instead of only a source/target endpoint blend. C98 is implemented as `layout-clean-move-reveal`, where the source layer moves/fades while the target page eases in.
+
+The evaluator now also reports source-residual gain/cosine and source-only edge bias in changed regions. These metrics should be read separately for target-midpoint frames and transition frames; the transition-frame metric is the more relevant one for the source-persistence problem.

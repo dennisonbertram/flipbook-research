@@ -2663,7 +2663,30 @@ c96-v12-deep-sea-tblend-init02-rem100-seed0-s12000: OCR 0.8000, segment 1163.620
 Human read:
 
 - C96 is fast and stable, with most render segments around `1.1s`.
-- It does not beat C95/C94 by OCR, and it does not solve the crop-level source leak.
-- The crop montage still shows old `Velarium`, `Materials`, body text, and oval diagram traces under both the naturalist and deep-sea targets.
-- The implication is sharp: switching/blending latent feature canvases is still too coupled to the source-biased decoder path.
-- C97 should split the decoder itself: source branch from source canvas, target branch from independent target canvas, blended only at the final decoder-output level by midpoint progress.
+- It does not beat C95/C94 by OCR, but the corrected midpoint crop review changes the interpretation.
+- `render-mid.png` crops are clean for both naturalist and deep-sea. The old `Velarium`, `Materials`, body text, and oval diagram traces came from `crop-2x.png`, which is rendered at `t=0.25`.
+- So the old-source layer is not evidence that the target midpoint cannot be repainted. It is evidence that the current transition looks like source/target persistence rather than a physically or semantically convincing page transform.
+- C97 should still split the decoder itself as an endpoint-isolation test, but the next evaluation needs separate labels for target-midpoint quality and transition-frame quality.
+
+Correction to earlier C92-C95 crop notes:
+
+- Earlier notes treated `crop-2x.png` as if it were a target-midpoint crop. It is not; it is rendered from the central viewport at `t=0.25`.
+- Any old source text visible in that artifact should be classified as transition-frame persistence unless it also appears in `render-mid.png`.
+- Future human review should inspect both `render-mid.png` crops and `crop-2x.png` transition crops separately.
+
+Completed C97 visual review:
+
+```text
+c97-v11-naturalist-statesplit-init02-rem025-mid50-seed0-s12000: OCR 0.4463, segment 1266.868ms, pass
+c97-v11-naturalist-statesplit-noscoord-init02-rem025-mid50-seed0-s12000: OCR 0.4298, segment 939.209ms, pass
+c97-v12-deep-sea-statesplit-init02-rem050-mid20-seed1-s12000: OCR 0.8387, segment 1002.438ms, pass
+c97-v12-deep-sea-statesplit-init02-rem050-mid20-seed0-s12000: OCR 0.8276, segment 1263.106ms, pass
+```
+
+Human read:
+
+- C97 target midpoint frames are clean and model-rendered.
+- Deep-sea benefits from state split on one seed, but naturalist loses quality versus C95/C96.
+- The faster no-source-coordinate naturalist variant is useful because it shows the source-coordinate path is not required for a clean midpoint.
+- The `t=0.25` crop still shows the expected old/new blend. State splitting does not solve transition realism because the current training target is itself a blend.
+- C98 should be transition-aware: save explicit transition targets/crops and train against a moving/reflowing transition, not only a clean midpoint.
