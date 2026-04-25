@@ -1,0 +1,8 @@
+[2026-04-25T06:16:58+00:00] eval 20260425T055250823094Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r200-a110-seed2-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	902.571ms	ocr=0.5870
+[2026-04-25T06:16:58+00:00] eval 20260425T055250823224Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a100-seed1-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	919.523ms	ocr=0.5083
+[2026-04-25T06:16:58+00:00] eval 20260425T055250837541Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r300-a100-seed2-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	930.290ms	ocr=0.5780
+[2026-04-25T06:16:58+00:00] eval 20260425T055250843531Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a100-seed2-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	922.591ms	ocr=0.3834
+[2026-04-25T06:16:58+00:00] eval 20260425T055250912278Z-c2-lite-glyph-layout-reflow-c81-nctx-b030-r250-a100-seed2-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	940.731ms	ocr=0.4684
+[2026-04-25T06:16:58+00:00] eval 20260425T055250946334Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a100-seed4-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	923.077ms	ocr=0.5647
+[2026-04-25T06:16:58+00:00] eval 20260425T055251093018Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a110-seed4-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	911.905ms	ocr=0.5444
+[2026-04-25T06:16:58+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
