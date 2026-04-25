@@ -2024,6 +2024,63 @@ C112_TARGET_CANVAS_ALWAYS_VALIDATION_EXPERIMENTS = [
 ]
 
 
+C113_TARGET_CANVAS_MODE_COMPARISON_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=12000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        latent_sample_mode="source",
+        target_canvas_mode=target_canvas_mode,
+        target_canvas_init_scale=0.02,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.65,
+        layout_target_mid_sampling_ratio=mid_target_ratio,
+        layout_target_mid_time_width=mid_target_width,
+        layout_mid_time_ratio=0.68,
+        layout_mid_time_width=0.24,
+        layout_endpoint_ratio=0.14,
+        layout_endpoint_target_ratio=0.55,
+        source_remnant_loss_weight=0.75,
+        source_remnant_margin=0.025,
+        source_remnant_change_floor=0.04,
+        source_remnant_reference="truth",
+        source_remnant_time_power=time_power,
+        motion_mode="layout-clean-independent-recompose",
+        clean_target_variant=variant,
+        min_ocr=0.35,
+        min_motion=0.05,
+    )
+    for (
+        label,
+        variant,
+        seed,
+        mid_target_ratio,
+        mid_target_width,
+        time_power,
+        target_canvas_mode,
+    ) in [
+        ("c113-v11-naturalist-indrecomp-blend-truthrem075-tpow025-seed9-s12000", "naturalist-plate", 9, 0.60, 0.24, 0.25, "blend"),
+        ("c113-v11-naturalist-indrecomp-tgated-truthrem075-tpow025-seed9-s12000", "naturalist-plate", 9, 0.60, 0.24, 0.25, "gated"),
+        ("c113-v11-naturalist-indrecomp-talways-truthrem075-tpow025-seed9-s12000", "naturalist-plate", 9, 0.60, 0.24, 0.25, "always"),
+        ("c113-v10-orbit-indrecomp-blend-truthrem075-tpow1-seed8-s12000", "orbit-topic", 8, 0.35, 0.22, 1.0, "blend"),
+        ("c113-v10-orbit-indrecomp-tgated-truthrem075-tpow1-seed8-s12000", "orbit-topic", 8, 0.35, 0.22, 1.0, "gated"),
+        ("c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000", "orbit-topic", 8, 0.35, 0.22, 1.0, "always"),
+        ("c113-v07-timeline-indrecomp-tgated-truthrem075-tpow1-seed6-s12000", "timeline-illustration", 6, 0.35, 0.22, 1.0, "gated"),
+        ("c113-v07-timeline-indrecomp-talways-truthrem075-tpow1-seed6-s12000", "timeline-illustration", 6, 0.35, 0.22, 1.0, "always"),
+        ("c113-v12-deep-sea-indrecomp-tgated-truthrem075-tpow1-seed8-s12000", "deep-sea-lab", 8, 0.25, 0.18, 1.0, "gated"),
+        ("c113-v12-deep-sea-indrecomp-talways-truthrem075-tpow1-seed8-s12000", "deep-sea-lab", 8, 0.25, 0.18, 1.0, "always"),
+    ]
+]
+
+
 C98_TRANSITION_AWARE_EXPERIMENTS = [
     learned_layout_reflow_experiment(
         label,
@@ -2921,6 +2978,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C113_TARGET_CANVAS_MODE_COMPARISON_EXPERIMENTS,
     *C112_TARGET_CANVAS_ALWAYS_VALIDATION_EXPERIMENTS,
     *C111_TARGET_STATE_STRUCTURE_EXPERIMENTS,
     *C110_DIRECT_VALIDATION_EXPERIMENTS,
