@@ -174,6 +174,10 @@ C8.2 is the strongest Track C layout-reflow signal so far. The same no-context b
 
 C8.3 confirms residual `2.75` is viable but not strictly better than the C82 frontier. Passes include `c83-nctx-b025-r275-a110-seed5-s14000` at OCR `0.6458`, `c83-nctx-b025-r325-a110-seed4-s14000` at OCR `0.6269`, and `c83-nctx-b030-r275-a110-seed4-s14000` at OCR `0.5930`, all under `1.0s`. The remaining failure mode is visible source ghosting, so C8.4 adds a learned RGB-skip gate canvas initialized either from source edges or a constant gate.
 
+C8.4 shows the gate idea is only partially useful. The constant learned gate at init `0.35` keeps the high-quality basin alive (`c84-gatelearn035-b025-r275-a110-seed4-s14000`: OCR `0.6863`, segment `927.308ms`, motion `0.0469`), while init `0.50` barely passes quality and edge-initialized gates mostly regress. Visual review does not show a decisive ghosting fix. The gate should therefore be treated as a model-owned detail prior worth consolidating, not as a solved source-remnant mechanism.
+
+C8.5 follows the Flipbook grounding review: the public claim is still that every page, including text, is model-rendered pixels with no overlays. The next queue consolidates only constant learned gates (`0.25-0.45` init and `0.35` seed repeats) and adds a change-region/source-remnant proxy to the eval TSV. OCR remains necessary, but no longer sufficient: a candidate that reads well while leaving old source layout traces should be treated as unfinished.
+
 Suggested `results.tsv` header:
 
 ```text
@@ -183,7 +187,7 @@ run_id	commit	canvas_type	compile_ms	render_960_ms	render_33_wall_ms	encode_ms	o
 `eval-results.tsv` is the normalized scenario-level leaderboard:
 
 ```text
-run_id	commit	scenario_id	renderer_family	status	segment_wall_ms	render_33_wall_ms	encode_ms	effective_generated_fps	ocr_token_f1_min	ocr_token_f1_mean	layout_similarity	resize_consistency	temporal_consistency	motion_delta	loop_error	target_mid_delta	target_mid_similarity	pixel_source_class	failed_gates
+run_id	commit	scenario_id	renderer_family	status	segment_wall_ms	render_33_wall_ms	encode_ms	effective_generated_fps	ocr_token_f1_min	ocr_token_f1_mean	layout_similarity	resize_consistency	temporal_consistency	motion_delta	loop_error	target_mid_delta	target_mid_similarity	change_region_fraction	change_region_target_delta	change_region_source_delta	change_region_source_bias	pixel_source_class	failed_gates
 ```
 
 Suggested artifact shape:

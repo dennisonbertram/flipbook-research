@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import numpy as np
 from PIL import Image, ImageChops, ImageDraw, ImageFont, ImageStat
 
 
@@ -128,6 +129,50 @@ def image_delta_similarity(path_a: Path, path_b: Path) -> tuple[float | None, fl
     return delta, max(0.0, 1.0 - delta)
 
 
+def change_region_metrics(
+    mid_path: Path,
+    source_path: Path,
+    target_path: Path,
+    *,
+    threshold: float = 0.05,
+) -> dict[str, float | None]:
+    if not mid_path.exists() or not source_path.exists() or not target_path.exists():
+        return {
+            "change_region_fraction": None,
+            "change_region_target_delta": None,
+            "change_region_source_delta": None,
+            "change_region_source_bias": None,
+        }
+
+    with Image.open(mid_path) as mid_img, Image.open(source_path) as source_img, Image.open(target_path) as target_img:
+        mid_img = mid_img.convert("RGB")
+        source_img = source_img.convert("RGB").resize(mid_img.size, Image.Resampling.LANCZOS)
+        target_img = target_img.convert("RGB").resize(mid_img.size, Image.Resampling.LANCZOS)
+        mid = np.asarray(mid_img, dtype=np.float32) / 255.0
+        source = np.asarray(source_img, dtype=np.float32) / 255.0
+        target = np.asarray(target_img, dtype=np.float32) / 255.0
+
+    changed = np.abs(source - target).mean(axis=2) > threshold
+    count = int(changed.sum())
+    total_pixels = max(1, int(changed.size))
+    if count == 0:
+        return {
+            "change_region_fraction": 0.0,
+            "change_region_target_delta": None,
+            "change_region_source_delta": None,
+            "change_region_source_bias": None,
+        }
+
+    target_delta = float(np.abs(mid - target).mean(axis=2)[changed].mean())
+    source_delta = float(np.abs(mid - source).mean(axis=2)[changed].mean())
+    return {
+        "change_region_fraction": count / total_pixels,
+        "change_region_target_delta": target_delta,
+        "change_region_source_delta": source_delta,
+        "change_region_source_bias": target_delta - source_delta,
+    }
+
+
 def determine_status(metrics: dict[str, Any], quality: dict[str, Any], scenario: dict[str, Any]) -> tuple[str, list[str]]:
     segment_wall_ms = float(metrics.get("render_33_wall_ms") or 0.0) + float(metrics.get("encode_ms") or 0.0)
     ocr = float(quality.get("ocr_similarity", metrics.get("ocr_similarity") or 0.0))
@@ -167,6 +212,7 @@ def build_eval(run_dir: Path, scenarios: dict[str, dict[str, Any]]) -> dict[str,
     ocr = float(quality.get("ocr_similarity", metrics.get("ocr_similarity") or 0.0))
     mid_artifact = choose_mid_artifact(run_dir) or run_dir / "render-mid.png"
     target_mid_delta, target_mid_similarity = image_delta_similarity(mid_artifact, run_dir / "target-mid.png")
+    change_metrics = change_region_metrics(mid_artifact, run_dir / "input.png", run_dir / "target-mid.png")
 
     scenario_result = {
         "scenario_id": scenario_id,
@@ -214,6 +260,10 @@ def build_eval(run_dir: Path, scenarios: dict[str, dict[str, Any]]) -> dict[str,
             "loop_error": quality.get("loop_error", metrics.get("loop_error")),
             "target_mid_delta": target_mid_delta,
             "target_mid_similarity": target_mid_similarity,
+            "change_region_fraction": change_metrics["change_region_fraction"],
+            "change_region_target_delta": change_metrics["change_region_target_delta"],
+            "change_region_source_delta": change_metrics["change_region_source_delta"],
+            "change_region_source_bias": change_metrics["change_region_source_bias"],
             "model_rendered_pixel_ratio": 1.0,
         },
         "artifacts": artifacts_for(run_dir, metrics),
@@ -318,6 +368,8 @@ def write_summary(run_dir: Path, eval_doc: dict[str, Any]) -> Path:
         f"- Motion delta: `{float(metrics['motion_delta'] or 0.0):.4f}`",
         f"- Loop error: `{float(metrics['loop_error'] or 0.0):.4f}`",
         f"- Target-mid similarity: `{float(metrics['target_mid_similarity'] or 0.0):.4f}`",
+        f"- Change-region target delta: `{float(metrics['change_region_target_delta'] or 0.0):.4f}`",
+        f"- Change-region source bias: `{float(metrics['change_region_source_bias'] or 0.0):.4f}`",
         "",
         "## Failed Gates",
         "",
@@ -354,6 +406,10 @@ TSV_FIELDS = [
     "loop_error",
     "target_mid_delta",
     "target_mid_similarity",
+    "change_region_fraction",
+    "change_region_target_delta",
+    "change_region_source_delta",
+    "change_region_source_bias",
     "pixel_source_class",
     "failed_gates",
 ]
@@ -386,6 +442,10 @@ def write_tsv(path: Path, eval_docs: list[dict[str, Any]]) -> None:
                 "loop_error": f'{float(metrics["loop_error"] or 0.0):.4f}',
                 "target_mid_delta": f'{float(metrics["target_mid_delta"] or 0.0):.4f}',
                 "target_mid_similarity": f'{float(metrics["target_mid_similarity"] or 0.0):.4f}',
+                "change_region_fraction": f'{float(metrics["change_region_fraction"] or 0.0):.4f}',
+                "change_region_target_delta": f'{float(metrics["change_region_target_delta"] or 0.0):.4f}',
+                "change_region_source_delta": f'{float(metrics["change_region_source_delta"] or 0.0):.4f}',
+                "change_region_source_bias": f'{float(metrics["change_region_source_bias"] or 0.0):.4f}',
                 "pixel_source_class": doc["pixel_source_class"],
                 "failed_gates": ",".join(scenario["failed_gates"]),
             }

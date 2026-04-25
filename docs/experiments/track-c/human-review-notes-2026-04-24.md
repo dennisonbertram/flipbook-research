@@ -2335,3 +2335,46 @@ C84 hypothesis:
 - A learned gate canvas can reduce background/source ghosting by letting the model suppress the RGB texture outside useful stroke/detail regions.
 - Edge-initialized gates should preserve high-frequency text/diagram strokes while fading low-detail page areas.
 - Constant learned gates test whether the benefit is the gate capacity itself or specifically the edge initialization.
+
+Completed C84 results:
+
+```text
+c84-gatelearn035-b025-r275-a110-seed4-s14000: OCR 0.6863, segment 927.308ms, motion_delta 0.0469, pass
+c84-gateedge-b025-r275-a110-seed0-s14000: OCR 0.5746, segment 963.276ms, motion_delta 0.0456, pass
+c84-gatelearn050-b025-r275-a110-seed4-s14000: OCR 0.5521, segment 916.584ms, motion_delta 0.0460, pass
+c84-gatelearn035-b025-r325-a110-seed4-s14000: OCR 0.5380, segment 773.360ms, motion_delta 0.0463, quality_fail
+c84-gateedge-b025-r275-a110-seed4-s14000: OCR 0.5269, segment 938.992ms, motion_delta 0.0435, quality_fail
+c84-gateedge-b020-r275-a110-seed4-s14000: OCR 0.5202, segment 937.987ms, motion_delta 0.0438, quality_fail
+c84-gateedge-b025-r325-a110-seed4-s14000: OCR 0.5176, segment 1062.213ms, motion_delta 0.0470, quality_fail
+c84-gateedge-b025-r275-a110-seed5-s14000: OCR 0.4651, segment 1073.714ms, motion_delta 0.0431, quality_fail
+c84-gateedge-b030-r275-a110-seed4-s14000: OCR 0.4625, segment 783.168ms, motion_delta 0.0432, quality_fail
+c84-gateedge-b025-r275-a110-seed1-s14000: OCR 0.4528, segment 943.584ms, motion_delta 0.0431, quality_fail
+```
+
+Interpretation:
+
+- The constant learned gate is the useful branch. Init `0.35` gets close to the C82 peak while staying under `1s`, but does not beat C82's OCR `0.7087`.
+- Edge initialization mostly hurts. It may over-trust source edges and reinforce old-layout traces instead of suppressing them.
+- Human review of C82/C84 midpoint frames shows the remaining failure is not just token readability. The model still leaves visible source-layout remnants, and the synthetic target itself is tolerant of transition traces.
+- This is still aligned with Flipbook only as a model-owned pixel prior. It is not an overlay, but the repo should not mistake it for the final architecture.
+
+Next experiments:
+
+```text
+c85-gatelearn025-b025-r275-a110-seed4-s14000
+c85-gatelearn030-b025-r275-a110-seed4-s14000
+c85-gatelearn040-b025-r275-a110-seed4-s14000
+c85-gatelearn045-b025-r275-a110-seed4-s14000
+c85-gatelearn035-b025-r275-a110-seed0-s14000
+c85-gatelearn035-b025-r275-a110-seed1-s14000
+c85-gatelearn035-b025-r275-a110-seed2-s14000
+c85-gatelearn035-b025-r275-a110-seed3-s14000
+c85-gatelearn035-b025-r275-a110-seed5-s14000
+c85-gatelearn035-b025-r300-a110-seed4-s14000
+```
+
+C85 hypothesis:
+
+- If learned constant gating is real, init `0.35` should reproduce on at least two of the C85 seed repeats.
+- Lower gate init (`0.25-0.30`) may reduce source remnants at the cost of OCR; higher init (`0.40-0.45`) may preserve text but increase ghosting.
+- A post-hoc change-region/source-remnant proxy should be tracked alongside OCR so the loop does not optimize toward readable but visually stale frames.

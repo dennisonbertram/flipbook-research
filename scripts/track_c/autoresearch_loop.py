@@ -767,6 +767,48 @@ def learned_layout_reflow_experiment(
     )
 
 
+C85_LEARNED_GATE_CONSOLIDATION_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=amount,
+        flow_scale=0.10,
+        steps=14000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        context_channels=0,
+        context_scale=0.25,
+        rgb_skip_scale=rgb_skip_scale,
+        rgb_skip_mode="source",
+        rgb_skip_base_scale=rgb_skip_base_scale,
+        rgb_skip_gate_mode="learned",
+        rgb_skip_gate_init=gate_init,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    )
+    for label, seed, amount, rgb_skip_base_scale, rgb_skip_scale, gate_init in [
+        ("c85-gatelearn025-b025-r275-a110-seed4-s14000", 4, 1.10, 0.25, 2.75, 0.25),
+        ("c85-gatelearn030-b025-r275-a110-seed4-s14000", 4, 1.10, 0.25, 2.75, 0.30),
+        ("c85-gatelearn040-b025-r275-a110-seed4-s14000", 4, 1.10, 0.25, 2.75, 0.40),
+        ("c85-gatelearn045-b025-r275-a110-seed4-s14000", 4, 1.10, 0.25, 2.75, 0.45),
+        ("c85-gatelearn035-b025-r275-a110-seed0-s14000", 0, 1.10, 0.25, 2.75, 0.35),
+        ("c85-gatelearn035-b025-r275-a110-seed1-s14000", 1, 1.10, 0.25, 2.75, 0.35),
+        ("c85-gatelearn035-b025-r275-a110-seed2-s14000", 2, 1.10, 0.25, 2.75, 0.35),
+        ("c85-gatelearn035-b025-r275-a110-seed3-s14000", 3, 1.10, 0.25, 2.75, 0.35),
+        ("c85-gatelearn035-b025-r275-a110-seed5-s14000", 5, 1.10, 0.25, 2.75, 0.35),
+        ("c85-gatelearn035-b025-r300-a110-seed4-s14000", 4, 1.10, 0.25, 3.00, 0.35),
+    ]
+]
+
+
 C84_RGB_SKIP_GATE_EXPERIMENTS = [
     learned_layout_reflow_experiment(
         label,
@@ -1367,6 +1409,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C85_LEARNED_GATE_CONSOLIDATION_EXPERIMENTS,
     *C84_RGB_SKIP_GATE_EXPERIMENTS,
     *C83_RGB_SKIP_REFINEMENT_EXPERIMENTS,
     *C82_NO_CONTEXT_RGB_SKIP_CONSOLIDATION_EXPERIMENTS,

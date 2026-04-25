@@ -18,6 +18,8 @@ Re-review note: this is still the north star. The breakthrough claim is not a be
 
 Browser refresh note: the live page still says each page contains no HTML, code, specific links, or fields, and that the whole surface is generated pixels. That means a proof of concept should be judged by whether the visual state can be regenerated, resized, animated, and changed as pixels, not by whether hidden DOM/layout machinery can imitate the demo.
 
+Live check on 2026-04-25 via agent-browser still shows the same core language: every page is an image, the visible web is generated pixels on screen, and there are no specific links or fields in the visual page itself. This keeps Track C's current bar high: readable text is not enough if the result only preserves the old page underneath a pretty motion layer.
+
 ## Text Claim
 
 Flipbook explicitly says the text is rendered by the image model as pixels, with no text overlays applied to the images. It also acknowledges that text can be imperfect or misplaced today.
@@ -25,6 +27,8 @@ Flipbook explicitly says the text is rendered by the image model as pixels, with
 Implication for this repo: text overlays, OCR patch replacement, and mask compositing are useful diagnostics, but they are not the target architecture. Track C should keep moving toward generated text as model output pixels, even when the text benchmark is painful.
 
 The same refresh confirms Flipbook claims no text overlays on the images. So the "layer text on top" idea remains a product bridge or diagnostic only; it is not evidence for the pure neural-canvas path.
+
+The live page again states that all text is rendered as pixels by the image model and that no text overlays are applied. So any Track C use of text boxes, masks, OCR crops, or layered text must be labeled as a training/eval aid or bridge experiment, not as the target product architecture.
 
 ## Video Claim
 
@@ -81,3 +85,5 @@ The project is on the right path if it treats Flipbook as evidence for a two-sta
 The current Track C work is trying to prove the hard part of the long-term path in miniature: can a compact neural renderer preserve readable semantic structure while content moves, reflows, and changes? That is the correct bottleneck to attack. The only caution is benchmark overfit. Every new win should be followed by stress tests that change layout, move regions independently, and alter illustration structure, not just make the same page wiggle more cleanly.
 
 Immediate direction after the refresh: keep Track C honest by preferring experiments that make the page become a different pixel state. RGB/neural-texture skip experiments are acceptable if they are treated as model parameters and are evaluated under reflow/resize, but they should not become a copy-paste compositor. Track D remains the place to test whether this can generalize beyond the single page.
+
+Direction after the 2026-04-25 live re-check: continue C85 only as a model-layer consolidation branch, add explicit source-remnant evaluation, and keep planning a cleaner two-state/held-out-page test. The current learned RGB texture is acceptable because it is a trainable model parameter, but the repo should reject any result that merely leaves a readable source page ghost in the target layout.
