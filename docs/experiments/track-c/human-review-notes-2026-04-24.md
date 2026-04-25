@@ -1397,3 +1397,47 @@ C62 hypothesis:
 - Longer B196 optimization may improve text without spending as much latency as larger render capacity.
 - Edge-weight variants test whether the B196 win needs less or more high-frequency pressure.
 - C24/H128 seed and B196 variants test whether the small-model regularization signal is stable enough to become the fast baseline.
+
+Completed C62 results:
+
+```text
+c62-sourcecoord-target60-c24h128-seed2-s12000: OCR 0.6634, segment 765.292ms, motion_delta 0.0523, pass
+c62-sourcecoord-target60-b196-seed1-s10000: OCR 0.5646, segment 821.384ms, motion_delta 0.0470, pass
+c62-sourcecoord-target60-b196-edge06-s10000: OCR 0.5566, segment 791.012ms, motion_delta 0.0490, pass
+c62-sourcecoord-target60-b196-s14000: OCR 0.5031, segment 860.361ms, motion_delta 0.0534, quality_fail
+c62-sourcecoord-target60-b196-seed3-s10000: OCR 0.5000, segment 825.320ms, motion_delta 0.0519, quality_fail
+c62-sourcecoord-target60-b196-seed2-s10000: OCR 0.4625, segment 677.876ms, motion_delta 0.0505, quality_fail
+c62-sourcecoord-target60-b196-s12000: OCR 0.4568, segment 940.404ms, motion_delta 0.0503, quality_fail
+c62-sourcecoord-target60-b196-edge12-s10000: OCR 0.4403, segment 801.896ms, motion_delta 0.0527, quality_fail
+c62-sourcecoord-target60-c24h128-seed1-s12000: OCR 0.4403, segment 747.446ms, motion_delta 0.0494, quality_fail
+c62-sourcecoord-target60-c24h128-b196-s10000: OCR 0.4286, segment 756.564ms, motion_delta 0.0507, quality_fail
+```
+
+Interpretation:
+
+- C62 gives the strongest positive proof so far that the pure neural-canvas reflow path can preserve text while changing the layout: the C24/H128 seed2 run reaches OCR `0.6634`, above the previous C57 frontier.
+- The result is not yet reliable. The same C24/H128 recipe spans OCR `0.4403` to `0.6634`, so this is a high basin, not a stable recipe.
+- B196 target60 is not the robust fix. Longer B196 optimization regresses, and seed repeats cluster below the old C57 peak.
+- Lighter edge pressure helps B196 a little (`edge06` passes), while heavier edge pressure hurts. This suggests over-sharpening pressure can break global reflow text rather than rescue it.
+
+Next experiments:
+
+```text
+c63-sourcecoord-target60-c24h128-seed3-s12000
+c63-sourcecoord-target60-c24h128-seed4-s12000
+c63-sourcecoord-target60-c24h128-seed5-s12000
+c63-sourcecoord-target50-c24h128-seed2-s12000
+c63-sourcecoord-target55-c24h128-seed2-s12000
+c63-sourcecoord-target65-c24h128-seed2-s12000
+c63-sourcecoord-target60-c24h128-seed2-s10000
+c63-sourcecoord-target60-c24h128-seed2-s14000
+c63-sourcecoord-target60-c24h128-edge06-seed2-s12000
+c63-sourcecoord-target60-c24h128-edge12-seed2-s12000
+```
+
+C63 hypothesis:
+
+- If the C24/H128 `0.6634` result is a real optimization basin, additional seeds should produce at least one more frontier-level result and several pass-quality runs.
+- Target ratios around `0.60` test whether the seed2 result depends on the exact target-side sampling mix.
+- Shorter and longer seed2 runs test whether the high result is a transient optimum or improves with more steps.
+- Edge variants test whether C24/H128 also prefers lower high-frequency pressure, as B196 did in C62.
