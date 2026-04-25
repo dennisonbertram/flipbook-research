@@ -265,6 +265,7 @@ def determine_status(metrics: dict[str, Any], quality: dict[str, Any], scenario:
     min_ocr = float(metrics.get("min_ocr_similarity") or scenario.get("min_ocr_similarity") or 0.0)
     min_motion = float(metrics.get("min_motion_delta") or scenario.get("min_motion_delta") or 0.0)
     max_loop = float(scenario.get("max_loop_error") or 0.02)
+    min_endpoint_ocr = float(scenario.get("min_endpoint_ocr") or 0.35)
 
     failed = []
     if segment_wall_ms > SEGMENT_BUDGET_MS:
@@ -275,6 +276,12 @@ def determine_status(metrics: dict[str, Any], quality: dict[str, Any], scenario:
         failed.append(f"motion_delta<{min_motion:.4f}")
     if loop_error > max_loop:
         failed.append(f"loop_error>{max_loop:.4f}")
+    source_frame_ocr = quality.get("source_frame_ocr_similarity")
+    last_frame_ocr = quality.get("last_frame_ocr_similarity")
+    if source_frame_ocr is not None and float(source_frame_ocr) < min_endpoint_ocr:
+        failed.append(f"source_frame_ocr<{min_endpoint_ocr:.4f}")
+    if last_frame_ocr is not None and float(last_frame_ocr) < min_endpoint_ocr:
+        failed.append(f"last_frame_ocr<{min_endpoint_ocr:.4f}")
 
     if not failed:
         return "pass", failed
@@ -342,6 +349,8 @@ def build_eval(run_dir: Path, scenarios: dict[str, dict[str, Any]]) -> dict[str,
             "ocr_token_f1_min": ocr,
             "ocr_token_f1_mean": ocr,
             "ocr_token_f1_mid": ocr,
+            "source_frame_ocr_f1": quality.get("source_frame_ocr_similarity"),
+            "last_frame_ocr_f1": quality.get("last_frame_ocr_similarity"),
             "ocr_char_similarity": quality.get("ocr_char_similarity"),
             "layout_similarity": quality.get("layout_similarity", metrics.get("layout_similarity")),
             "resize_consistency": metrics.get("resize_consistency"),
@@ -476,6 +485,8 @@ def write_summary(run_dir: Path, eval_doc: dict[str, Any]) -> Path:
         f"- Encode: `{metrics['encode_ms']:.3f}ms`",
         f"- Effective generated FPS: `{metrics['effective_generated_fps']:.2f}`",
         f"- OCR token-F1: `{metrics['ocr_token_f1_mid']:.4f}`",
+        f"- Source-frame OCR token-F1: `{float(metrics['source_frame_ocr_f1'] or 0.0):.4f}`",
+        f"- Last-frame OCR token-F1: `{float(metrics['last_frame_ocr_f1'] or 0.0):.4f}`",
         f"- Motion delta: `{float(metrics['motion_delta'] or 0.0):.4f}`",
         f"- Loop error: `{float(metrics['loop_error'] or 0.0):.4f}`",
         f"- Target-mid similarity: `{float(metrics['target_mid_similarity'] or 0.0):.4f}`",
@@ -516,6 +527,8 @@ TSV_FIELDS = [
     "effective_generated_fps",
     "ocr_token_f1_min",
     "ocr_token_f1_mean",
+    "source_frame_ocr_f1",
+    "last_frame_ocr_f1",
     "layout_similarity",
     "resize_consistency",
     "temporal_consistency",
@@ -570,6 +583,8 @@ def write_tsv(path: Path, eval_docs: list[dict[str, Any]]) -> None:
                 "effective_generated_fps": f'{metrics["effective_generated_fps"]:.3f}' if metrics["effective_generated_fps"] is not None else "",
                 "ocr_token_f1_min": f'{metrics["ocr_token_f1_min"]:.4f}',
                 "ocr_token_f1_mean": f'{metrics["ocr_token_f1_mean"]:.4f}',
+                "source_frame_ocr_f1": f'{float(metrics["source_frame_ocr_f1"] or 0.0):.4f}',
+                "last_frame_ocr_f1": f'{float(metrics["last_frame_ocr_f1"] or 0.0):.4f}',
                 "layout_similarity": f'{float(metrics["layout_similarity"] or 0.0):.4f}',
                 "resize_consistency": f'{float(metrics["resize_consistency"] or 0.0):.4f}',
                 "temporal_consistency": f'{float(metrics["temporal_consistency"] or 0.0):.4f}',

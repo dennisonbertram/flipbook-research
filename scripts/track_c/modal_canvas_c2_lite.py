@@ -1390,13 +1390,17 @@ def write_quality(run_dir: Path, metrics: dict) -> dict:
     }
 
     input_ocr = ocr(input_path)
+    source_frame_ocr = ocr(render_960)
     render_ocr = ocr(render_mid)
+    last_frame_ocr = ocr(render_last)
     target_mid_ocr = ocr(target_mid) if target_mid.exists() else ""
     use_target_reference = str(metrics.get("motion_mode", "")) in clean_reference_modes and bool(target_mid_ocr)
     reference_ocr = target_mid_ocr if use_target_reference else input_ocr
     reference_kind = "target-mid" if use_target_reference else "input"
     char_similarity = SequenceMatcher(None, normalize_text(reference_ocr), normalize_text(render_ocr)).ratio()
     token_similarity = token_f1(reference_ocr, render_ocr)
+    source_frame_token_similarity = token_f1(input_ocr, source_frame_ocr)
+    last_frame_token_similarity = token_f1(input_ocr, last_frame_ocr)
     layout_score = image_similarity(input_path, render_960)
     motion_delta = frame_diff(render_960, render_mid)
     loop_error = frame_diff(render_960, render_last)
@@ -1404,9 +1408,13 @@ def write_quality(run_dir: Path, metrics: dict) -> dict:
     quality = {
         "run_id": metrics["run_id"],
         "input_ocr": input_ocr,
+        "source_frame_ocr": source_frame_ocr,
+        "source_frame_ocr_similarity": source_frame_token_similarity,
         "target_mid_ocr": target_mid_ocr,
         "ocr_reference": reference_kind,
         "render_mid_ocr": render_ocr,
+        "last_frame_ocr": last_frame_ocr,
+        "last_frame_ocr_similarity": last_frame_token_similarity,
         "ocr_similarity": token_similarity,
         "ocr_char_similarity": char_similarity,
         "layout_similarity": layout_score,

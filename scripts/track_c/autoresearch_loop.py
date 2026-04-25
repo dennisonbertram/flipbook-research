@@ -1218,6 +1218,64 @@ C99_INDEPENDENT_RECOMPOSE_EXPERIMENTS = [
 ]
 
 
+C100_INDEPENDENT_GENERALITY_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=12000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=source_coord_features,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        latent_sample_mode="source",
+        decoder_mode=decoder_mode,
+        target_branch_hidden=160 if decoder_mode else None,
+        target_canvas_mode=target_canvas_mode,
+        target_canvas_init_scale=target_canvas_init_scale,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.65,
+        layout_target_mid_sampling_ratio=mid_target_ratio,
+        layout_target_mid_time_width=mid_target_width,
+        layout_mid_time_ratio=0.68,
+        layout_mid_time_width=0.24,
+        layout_endpoint_ratio=0.14,
+        layout_endpoint_target_ratio=0.55,
+        source_remnant_loss_weight=remnant_weight,
+        source_remnant_margin=0.025,
+        source_remnant_change_floor=0.04,
+        motion_mode="layout-clean-independent-recompose",
+        clean_target_variant=variant,
+        min_ocr=0.35,
+        min_motion=0.05,
+    )
+    for (
+        label,
+        variant,
+        seed,
+        source_coord_features,
+        mid_target_ratio,
+        mid_target_width,
+        remnant_weight,
+        decoder_mode,
+        target_canvas_mode,
+        target_canvas_init_scale,
+    ) in [
+        ("c100-v07-timeline-indrecomp-tblend-mid35-seed0-s12000", "timeline-illustration", 0, 1, 0.35, 0.22, 0.35, None, "blend", 0.02),
+        ("c100-v08-transit-indrecomp-tblend-mid35-seed0-s12000", "transit-illustration", 0, 1, 0.35, 0.22, 0.35, None, "blend", 0.02),
+        ("c100-v09-reef-indrecomp-tblend-mid35-seed0-s12000", "reef-topic", 0, 1, 0.35, 0.22, 0.35, None, "blend", 0.02),
+        ("c100-v10-orbit-indrecomp-tblend-mid35-seed0-s12000", "orbit-topic", 0, 1, 0.35, 0.22, 0.35, None, "blend", 0.02),
+        ("c100-v11-naturalist-indrecomp-tblend-mid60-seed1-s12000", "naturalist-plate", 1, 1, 0.60, 0.24, 0.25, None, "blend", 0.02),
+        ("c100-v11-naturalist-indrecomp-statesplit-mid60-seed1-s12000", "naturalist-plate", 1, 0, 0.60, 0.24, 0.25, "state-split", "always", 0.02),
+        ("c100-v12-deep-sea-indrecomp-tblend-mid25-seed1-s12000", "deep-sea-lab", 1, 1, 0.25, 0.18, 0.50, None, "blend", 0.02),
+        ("c100-v12-deep-sea-indrecomp-statesplit-mid25-seed2-s12000", "deep-sea-lab", 2, 1, 0.25, 0.18, 0.50, "state-split", "always", 0.02),
+    ]
+]
+
+
 C98_TRANSITION_AWARE_EXPERIMENTS = [
     learned_layout_reflow_experiment(
         label,
@@ -2115,6 +2173,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C100_INDEPENDENT_GENERALITY_EXPERIMENTS,
     *C99_INDEPENDENT_RECOMPOSE_EXPERIMENTS,
     *C98_TRANSITION_AWARE_EXPERIMENTS,
     *C97_STATE_SPLIT_TARGET_EXPERIMENTS,

@@ -212,16 +212,20 @@ C9.7 is a mixed endpoint result and a negative transition result. The state-spli
 
 C9.8 is a useful positive once the OCR reference is corrected to `target-mid.png` for `layout-clean-move-reveal`. Six of eight runs pass. Deep-sea is strongest: `c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed0-s12000` reaches OCR `0.8966` at `939.032ms`, and the base deep-sea run reaches OCR `0.8571` at `917.112ms`. Naturalist remains harder: the base run passes at OCR `0.4839`, while target-blend mid50 and state-split fail. Transition-crop similarity clusters around `0.964-0.971`; deep-sea source-residual gain is negative, while naturalist remains positive, so source persistence is still more visible in the etched naturalist target. C9.9 therefore moves beyond a single move/reveal field and tests independent region recomposition.
 
+C9.9 is real progress, but not a final proof. Independent recomposition forces source and target page regions to move/arrive separately, so it is a harder test than global wiggle or a single move/reveal transition. Five of six runs pass after adding endpoint OCR gates. Deep-sea is strong: the target-blend run reaches midpoint OCR `0.8667`, source-frame OCR `0.8054`, last-frame OCR `0.8326`, and segment `1121.871ms`; the faster base run reaches midpoint OCR `0.8276` at `936.786ms`. Naturalist is weaker but informative: target-blend and state-split preserve endpoints, while the base run is now correctly marked `quality_fail` because it destroys the clean source/final frames. The next queue is C10.0: apply independent recomposition to timeline, transit, reef, and orbit pages, while repeating naturalist/deep-sea on the endpoint-preserving variants to check that this is not just a two-fixture overfit.
+
 Next experiments:
 
 ```text
-C99 independent recomposition target/eval:
-c99-v11-naturalist-indrecomp-base-rem025-mid50-seed0-s12000
-c99-v11-naturalist-indrecomp-tblend-init02-rem025-mid50-seed0-s12000
-c99-v11-naturalist-indrecomp-statesplit-init02-rem025-mid50-seed0-s12000
-c99-v12-deep-sea-indrecomp-base-rem050-mid35-seed0-s12000
-c99-v12-deep-sea-indrecomp-tblend-init02-rem050-mid35-seed0-s12000
-c99-v12-deep-sea-indrecomp-statesplit-init02-rem050-mid35-seed1-s12000
+C100 independent recomposition generalization:
+c100-v07-timeline-indrecomp-tblend-mid35-seed0-s12000
+c100-v08-transit-indrecomp-tblend-mid35-seed0-s12000
+c100-v09-reef-indrecomp-tblend-mid35-seed0-s12000
+c100-v10-orbit-indrecomp-tblend-mid35-seed0-s12000
+c100-v11-naturalist-indrecomp-tblend-mid60-seed1-s12000
+c100-v11-naturalist-indrecomp-statesplit-mid60-seed1-s12000
+c100-v12-deep-sea-indrecomp-tblend-mid25-seed1-s12000
+c100-v12-deep-sea-indrecomp-statesplit-mid25-seed2-s12000
 ```
 
 Suggested `results.tsv` header:
@@ -233,7 +237,7 @@ run_id	commit	canvas_type	compile_ms	render_960_ms	render_33_wall_ms	encode_ms	o
 `eval-results.tsv` is the normalized scenario-level leaderboard:
 
 ```text
-run_id	commit	scenario_id	renderer_family	status	segment_wall_ms	render_33_wall_ms	encode_ms	effective_generated_fps	ocr_token_f1_min	ocr_token_f1_mean	layout_similarity	resize_consistency	temporal_consistency	motion_delta	loop_error	target_mid_delta	target_mid_similarity	transition_crop_delta	transition_crop_similarity	transition_change_region_fraction	transition_change_region_target_delta	transition_change_region_source_delta	transition_change_region_source_bias	transition_source_residual_gain	transition_source_residual_cosine	transition_source_only_edge_fraction	transition_source_only_edge_target_delta	transition_source_only_edge_source_delta	transition_source_only_edge_bias	change_region_fraction	change_region_target_delta	change_region_source_delta	change_region_source_bias	change_region_source_residual_gain	change_region_source_residual_cosine	source_only_edge_fraction	source_only_edge_target_delta	source_only_edge_source_delta	source_only_edge_bias	pixel_source_class	failed_gates
+run_id	commit	scenario_id	renderer_family	status	segment_wall_ms	render_33_wall_ms	encode_ms	effective_generated_fps	ocr_token_f1_min	ocr_token_f1_mean	source_frame_ocr_f1	last_frame_ocr_f1	layout_similarity	resize_consistency	temporal_consistency	motion_delta	loop_error	target_mid_delta	target_mid_similarity	transition_crop_delta	transition_crop_similarity	transition_change_region_fraction	transition_change_region_target_delta	transition_change_region_source_delta	transition_change_region_source_bias	transition_source_residual_gain	transition_source_residual_cosine	transition_source_only_edge_fraction	transition_source_only_edge_target_delta	transition_source_only_edge_source_delta	transition_source_only_edge_bias	change_region_fraction	change_region_target_delta	change_region_source_delta	change_region_source_bias	change_region_source_residual_gain	change_region_source_residual_cosine	source_only_edge_fraction	source_only_edge_target_delta	source_only_edge_source_delta	source_only_edge_bias	pixel_source_class	failed_gates
 ```
 
 Suggested artifact shape:
