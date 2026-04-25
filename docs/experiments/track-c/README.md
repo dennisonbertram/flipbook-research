@@ -216,16 +216,18 @@ C9.9 is real progress, but not a final proof. Independent recomposition forces s
 
 C10.0 is a strong generalization result. All eight runs pass endpoint-aware gates. Timeline reaches midpoint OCR `0.9375`, orbit `0.8235`, transit `0.7179`, reef `0.5116`, deep-sea `0.8000-0.8276`, and naturalist remains weak but above gate at `0.3968-0.4138`. All runs stay under the `1.3s` segment budget. Visual review says the target midpoints are genuinely different pages, not stretched source layouts. The remaining problem is transition cleanliness: transition source-residual gain stays positive for timeline/transit/reef/orbit/naturalist and only goes negative for deep-sea. C10.1 should therefore target transition-frame source persistence directly rather than tuning endpoints again.
 
+C10.1 adds truth-referenced source-remnant pressure against the synthetic transition target. It is directionally useful but incomplete: five of six runs pass, the naturalist state-split run misses latency by `3.659ms`, and OCR remains strong for timeline (`0.9677`), orbit (`0.8000`), reef (`0.7742`), and deep-sea (`0.8276`). The transition source-residual gain still stays positive for most targets, with naturalist still worst at `0.1510-0.1523`. C10.2 keeps the same truth reference but changes the timing curve from squared midpoint pressure to earlier-on `1.0` and `0.5` probes.
+
 Next experiments:
 
 ```text
-C101 transition-target remnant pressure:
-c101-v07-timeline-indrecomp-truthrem075-seed1-s12000
-c101-v10-orbit-indrecomp-truthrem075-seed1-s12000
-c101-v09-reef-indrecomp-truthrem075-seed1-s12000
-c101-v11-naturalist-indrecomp-truthrem075-seed2-s12000
-c101-v12-deep-sea-indrecomp-truthrem075-seed3-s12000
-c101-v11-naturalist-indrecomp-statesplit-truthrem075-seed2-s12000
+C102 remnant timing:
+c102-v07-timeline-indrecomp-truthrem075-tpow1-seed2-s12000
+c102-v10-orbit-indrecomp-truthrem075-tpow1-seed2-s12000
+c102-v09-reef-indrecomp-truthrem075-tpow1-seed2-s12000
+c102-v11-naturalist-indrecomp-truthrem075-tpow1-seed3-s12000
+c102-v12-deep-sea-indrecomp-truthrem075-tpow1-seed4-s12000
+c102-v11-naturalist-indrecomp-truthrem075-tpow05-seed3-s12000
 ```
 
 Suggested `results.tsv` header:

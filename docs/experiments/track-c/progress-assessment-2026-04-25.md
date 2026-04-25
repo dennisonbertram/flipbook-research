@@ -47,4 +47,6 @@ C100 is now complete and upgrades independent recomposition from promising to vi
 
 The next step is C101: transition-target source-remnant pressure. The endpoint/midpoint result now generalizes; the remaining visible failure is transition source haze. C101 should compare the current clean-target remnant loss with a transition-target remnant loss that penalizes pixels which remain closer to the source page than the synthetic transition target.
 
+C101 is complete. It confirms that the transition-target reference is the right comparison point, but not yet enough pressure timing. Five of six runs pass; the naturalist state-split variant only misses the segment gate at `1303.659ms`. Timeline reaches OCR `0.9677`, reef `0.7742`, orbit `0.8000`, deep-sea `0.8276`, and naturalist `0.4737`. The remaining issue is that transition source-residual gain stays positive for most non-deep-sea targets (`0.0557-0.1523`), so C102 lowers the remnant time exponent from squared weighting to earlier-on `1.0`/`0.5` probes.
+
 The evaluator now reports endpoint OCR, source-residual gain/cosine, source-only edge bias, and transition-crop equivalents. These metrics should be read separately for endpoint frames, target-midpoint frames, and transition frames; transition-frame residuals are the most relevant metrics for the source-persistence problem.

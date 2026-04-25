@@ -99,6 +99,7 @@ def general_visual_motion_args(
     source_remnant_margin: float | None = None,
     source_remnant_change_floor: float | None = None,
     source_remnant_reference: str | None = None,
+    source_remnant_time_power: float | None = None,
     flow: float = 0.014,
     edge_ratio: float = 0.1,
     edge_weight: float = 1.0,
@@ -264,6 +265,8 @@ def general_visual_motion_args(
         args.extend(["--source-remnant-change-floor", f"{source_remnant_change_floor:g}"])
     if source_remnant_reference is not None:
         args.extend(["--source-remnant-reference", source_remnant_reference])
+    if source_remnant_time_power is not None:
+        args.extend(["--source-remnant-time-power", f"{source_remnant_time_power:g}"])
     if layout_target_sampling is not None:
         args.extend(["--layout-target-sampling", str(layout_target_sampling)])
     if layout_target_weighting is not None:
@@ -484,6 +487,7 @@ def learned_independent_translation_experiment(
     source_remnant_margin: float | None = None,
     source_remnant_change_floor: float | None = None,
     source_remnant_reference: str | None = None,
+    source_remnant_time_power: float | None = None,
     edge_ratio: float = 0.09,
     edge_weight: float = 0.9,
     text_box_sample_ratio: float = 0.0,
@@ -506,6 +510,8 @@ def learned_independent_translation_experiment(
     )
     if remnant_note and source_remnant_reference:
         remnant_note += f" ref {source_remnant_reference}"
+    if remnant_note and source_remnant_time_power is not None:
+        remnant_note += f" timepow {source_remnant_time_power:g}"
     seed_note = f", seed {seed}" if seed else ""
     return Experiment(
         label=label,
@@ -533,6 +539,7 @@ def learned_independent_translation_experiment(
             source_remnant_margin=source_remnant_margin,
             source_remnant_change_floor=source_remnant_change_floor,
             source_remnant_reference=source_remnant_reference,
+            source_remnant_time_power=source_remnant_time_power,
             flow=motion_strength,
             edge_ratio=edge_ratio,
             edge_weight=edge_weight,
@@ -653,6 +660,7 @@ def learned_layout_reflow_experiment(
     source_remnant_margin: float | None = None,
     source_remnant_change_floor: float | None = None,
     source_remnant_reference: str | None = None,
+    source_remnant_time_power: float | None = None,
     edge_ratio: float = 0.09,
     edge_weight: float = 0.9,
     text_box_sample_ratio: float = 0.0,
@@ -716,6 +724,8 @@ def learned_layout_reflow_experiment(
     )
     if remnant_note and source_remnant_reference:
         remnant_note += f" ref {source_remnant_reference}"
+    if remnant_note and source_remnant_time_power is not None:
+        remnant_note += f" timepow {source_remnant_time_power:g}"
     seed_note = f", seed {seed}" if seed else ""
     detail_note = (
         f", residual detail c{detail_channels}/h{detail_hidden or hidden or 'base'} scale {detail_scale:g}"
@@ -828,6 +838,7 @@ def learned_layout_reflow_experiment(
             source_remnant_margin=source_remnant_margin,
             source_remnant_change_floor=source_remnant_change_floor,
             source_remnant_reference=source_remnant_reference,
+            source_remnant_time_power=source_remnant_time_power,
             flow=flow_scale,
             edge_ratio=edge_ratio,
             edge_weight=edge_weight,
@@ -1346,6 +1357,59 @@ C101_TRANSITION_REMNANT_EXPERIMENTS = [
         ("c101-v11-naturalist-indrecomp-truthrem075-seed2-s12000", "naturalist-plate", 2, 1, 0.60, 0.24, None, "blend", 0.02),
         ("c101-v12-deep-sea-indrecomp-truthrem075-seed3-s12000", "deep-sea-lab", 3, 1, 0.25, 0.18, None, "blend", 0.02),
         ("c101-v11-naturalist-indrecomp-statesplit-truthrem075-seed2-s12000", "naturalist-plate", 2, 0, 0.60, 0.24, "state-split", "always", 0.02),
+    ]
+]
+
+
+C102_REMNANT_TIMING_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=12000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=source_coord_features,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        latent_sample_mode="source",
+        target_canvas_mode="blend",
+        target_canvas_init_scale=0.02,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.65,
+        layout_target_mid_sampling_ratio=mid_target_ratio,
+        layout_target_mid_time_width=mid_target_width,
+        layout_mid_time_ratio=0.68,
+        layout_mid_time_width=0.24,
+        layout_endpoint_ratio=0.14,
+        layout_endpoint_target_ratio=0.55,
+        source_remnant_loss_weight=0.75,
+        source_remnant_margin=0.025,
+        source_remnant_change_floor=0.04,
+        source_remnant_reference="truth",
+        source_remnant_time_power=time_power,
+        motion_mode="layout-clean-independent-recompose",
+        clean_target_variant=variant,
+        min_ocr=0.35,
+        min_motion=0.05,
+    )
+    for (
+        label,
+        variant,
+        seed,
+        source_coord_features,
+        mid_target_ratio,
+        mid_target_width,
+        time_power,
+    ) in [
+        ("c102-v07-timeline-indrecomp-truthrem075-tpow1-seed2-s12000", "timeline-illustration", 2, 1, 0.35, 0.22, 1.0),
+        ("c102-v10-orbit-indrecomp-truthrem075-tpow1-seed2-s12000", "orbit-topic", 2, 1, 0.35, 0.22, 1.0),
+        ("c102-v09-reef-indrecomp-truthrem075-tpow1-seed2-s12000", "reef-topic", 2, 1, 0.35, 0.22, 1.0),
+        ("c102-v11-naturalist-indrecomp-truthrem075-tpow1-seed3-s12000", "naturalist-plate", 3, 1, 0.60, 0.24, 1.0),
+        ("c102-v12-deep-sea-indrecomp-truthrem075-tpow1-seed4-s12000", "deep-sea-lab", 4, 1, 0.25, 0.18, 1.0),
+        ("c102-v11-naturalist-indrecomp-truthrem075-tpow05-seed3-s12000", "naturalist-plate", 3, 1, 0.60, 0.24, 0.5),
     ]
 ]
 
@@ -2247,6 +2311,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C102_REMNANT_TIMING_EXPERIMENTS,
     *C101_TRANSITION_REMNANT_EXPERIMENTS,
     *C100_INDEPENDENT_GENERALITY_EXPERIMENTS,
     *C99_INDEPENDENT_RECOMPOSE_EXPERIMENTS,

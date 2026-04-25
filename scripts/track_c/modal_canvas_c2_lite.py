@@ -2077,6 +2077,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     source_remnant_margin = float(config.get("source_remnant_margin", 0.025))
     source_remnant_change_floor = float(config.get("source_remnant_change_floor", 0.04))
     source_remnant_reference = str(config.get("source_remnant_reference", "clean")).lower().replace("_", "-")
+    source_remnant_time_power = float(config.get("source_remnant_time_power", 2.0))
     motion_mode = str(config.get("motion_mode", "jiggle"))
     motion_strength = float(config.get("motion_strength", flow_scale))
     clean_target_variant = str(config.get("clean_target_variant", "diagram-left"))
@@ -2662,7 +2663,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             target_distance = (pred - remnant_reference).abs().mean(dim=-1)
             source_distance = (pred - source_sample).abs().mean(dim=-1)
             change_weight = ((remnant_reference - source_sample).abs().mean(dim=-1) / source_remnant_change_floor).clamp(0.0, 1.0)
-            midpoint_weight = clean_progress(t, step_motion_strength).squeeze(-1).square()
+            midpoint_weight = clean_progress(t, step_motion_strength).squeeze(-1).clamp(0.0, 1.0)
+            midpoint_weight = midpoint_weight.pow(max(0.0, source_remnant_time_power))
             remnant_weights = change_weight * midpoint_weight
             remnant_loss = (
                 F.relu(source_remnant_margin + target_distance - source_distance) * remnant_weights
@@ -3115,6 +3117,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "source_remnant_margin": source_remnant_margin,
         "source_remnant_change_floor": source_remnant_change_floor,
         "source_remnant_reference": source_remnant_reference,
+        "source_remnant_time_power": source_remnant_time_power,
         "seed": seed,
         "experiment_label": config.get("experiment_label", ""),
         "flow_scale": flow_scale,
@@ -3325,6 +3328,7 @@ def main(
     source_remnant_margin: float = 0.025,
     source_remnant_change_floor: float = 0.04,
     source_remnant_reference: str = "clean",
+    source_remnant_time_power: float = 2.0,
     flow_scale: float = 0.006,
     motion_mode: str = "jiggle",
     motion_strength: float = -1.0,
@@ -3417,6 +3421,7 @@ def main(
         "source_remnant_margin": source_remnant_margin,
         "source_remnant_change_floor": source_remnant_change_floor,
         "source_remnant_reference": source_remnant_reference,
+        "source_remnant_time_power": source_remnant_time_power,
         "seed": seed,
         "flow_scale": flow_scale,
         "motion_mode": motion_mode,
