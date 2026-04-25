@@ -57,4 +57,6 @@ C104 is complete. Source-only remnant-edge sampling at `0.18` is too blunt: time
 
 C105 is complete. The lower `srcsample06` reserve mostly restores passability, but the residual metric still does not beat the best non-sampling probes: timeline `0.0691`, reef `0.0598`, orbit `0.0550`, and deep-sea `0.0133`. Naturalist `time_power=0.25` is the useful exception (`0.1235` gain, OCR `0.3689`), while naturalist `time_power=0.5` misses latency at `1303.764ms`. C106 pivots from sampling to loss shape by adding a direct weighted remnant-to-transition-target L1 term.
 
+C106 is complete. Direct remnant L1 over all changed regions is not the cleanup path: all six runs pass and naturalist OCR improves, but residual gains worsen or remain high (`0.0709` timeline, `0.0759` reef, `0.0566` orbit, `0.0353` deep-sea, `0.1341-0.1529` naturalist). C107 narrows the direct term to source-only remnant regions so the extra loss attacks old-source residue instead of all transition changes.
+
 The evaluator now reports endpoint OCR, source-residual gain/cosine, source-only edge bias, and transition-crop equivalents. These metrics should be read separately for endpoint frames, target-midpoint frames, and transition frames; transition-frame residuals are the most relevant metrics for the source-persistence problem.
