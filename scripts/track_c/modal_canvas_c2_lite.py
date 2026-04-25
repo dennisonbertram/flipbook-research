@@ -276,6 +276,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             detail_scale: float = 0.0,
             detail_init_scale: float = 0.01,
             source_coord_features: bool = False,
+            latent_neighborhood_mode: str = "none",
+            latent_neighborhood_radius_px: float = 0.0,
         ):
             super().__init__()
             self.width = width
@@ -287,9 +289,24 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             self.detail_scale = detail_scale
             self.source_coord_features = source_coord_features
             self.canvas = nn.Parameter(torch.randn(1, channels, height, width) * 0.02)
+            mode = latent_neighborhood_mode.lower()
+            if mode not in {"none", "center", "cross", "grid"}:
+                mode = "none"
+            radius_px = max(0.0, float(latent_neighborhood_radius_px))
+            offsets = [(0.0, 0.0)]
+            if radius_px > 0.0 and mode == "cross":
+                rx = radius_px / max(1, width - 1)
+                ry = radius_px / max(1, height - 1)
+                offsets.extend([(rx, 0.0), (-rx, 0.0), (0.0, ry), (0.0, -ry)])
+            elif radius_px > 0.0 and mode == "grid":
+                rx = radius_px / max(1, width - 1)
+                ry = radius_px / max(1, height - 1)
+                offsets = [(dx, dy) for dy in (-ry, 0.0, ry) for dx in (-rx, 0.0, rx)]
+            self.register_buffer("latent_offsets", torch.tensor(offsets, dtype=torch.float32), persistent=False)
             coord_dim = 2 + 4 * freq_bands
             time_dim = 1 + 2 * time_bands
             condition_dim = coord_dim + time_dim + (coord_dim if source_coord_features else 0)
+            latent_dim = channels * len(offsets)
             self.flow = nn.Sequential(
                 nn.Linear(coord_dim + time_dim, hidden),
                 nn.SiLU(),
@@ -299,7 +316,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 nn.Tanh(),
             )
             self.mlp = nn.Sequential(
-                nn.Linear(channels + condition_dim, hidden),
+                nn.Linear(latent_dim + condition_dim, hidden),
                 nn.SiLU(),
                 nn.Linear(hidden, hidden),
                 nn.SiLU(),
@@ -318,6 +335,19 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             else:
                 self.detail_canvas = None
                 self.detail_mlp = None
+
+        def sample_canvas_features(self, sample_coords: torch.Tensor) -> torch.Tensor:
+            offsets = self.latent_offsets.to(device=sample_coords.device, dtype=sample_coords.dtype)
+            expanded = (sample_coords.unsqueeze(1) + offsets.unsqueeze(0)).clamp(0.0, 1.0)
+            grid = expanded.mul(2.0).sub(1.0).reshape(1, -1, 1, 2)
+            sampled = F.grid_sample(
+                self.canvas,
+                grid,
+                mode="bilinear",
+                padding_mode="border",
+                align_corners=True,
+            ).squeeze(0).squeeze(-1).transpose(0, 1)
+            return sampled.reshape(sample_coords.shape[0], offsets.shape[0], -1).reshape(sample_coords.shape[0], -1)
 
         def encode_coords(self, coords01: torch.Tensor) -> torch.Tensor:
             feats = [coords01]
@@ -353,13 +383,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             condition_parts.append(time_enc)
             condition = torch.cat(condition_parts, dim=-1)
             grid = sample_coords.mul(2.0).sub(1.0).view(1, -1, 1, 2)
-            sampled = F.grid_sample(
-                self.canvas,
-                grid,
-                mode="bilinear",
-                padding_mode="border",
-                align_corners=True,
-            ).squeeze(0).squeeze(-1).transpose(0, 1)
+            sampled = self.sample_canvas_features(sample_coords)
             logits = self.mlp(torch.cat([sampled, condition], dim=-1))
             if self.detail_canvas is not None and self.detail_mlp is not None:
                 detail_sampled = F.grid_sample(
@@ -629,6 +653,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     detail_scale = float(config.get("detail_scale", 0.0))
     detail_init_scale = float(config.get("detail_init_scale", 0.01))
     source_coord_features = bool(int(config.get("source_coord_features", 0)))
+    latent_neighborhood_mode = str(config.get("latent_neighborhood_mode", "none"))
+    latent_neighborhood_radius_px = float(config.get("latent_neighborhood_radius_px", 0.0))
 
     source = Image.open(io.BytesIO(input_png)).convert("RGB").resize((train_w, train_h), Image.Resampling.LANCZOS)
     target = torch.from_numpy(np.asarray(source, dtype=np.float32) / 255.0).to(device)
@@ -850,6 +876,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         detail_scale=detail_scale,
         detail_init_scale=detail_init_scale,
         source_coord_features=source_coord_features,
+        latent_neighborhood_mode=latent_neighborhood_mode,
+        latent_neighborhood_radius_px=latent_neighborhood_radius_px,
     ).to(device)
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=base_lr, weight_decay=0.0)
@@ -1334,6 +1362,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         canvas_type += "-flow-supervised"
     if layout_oracle_flow:
         canvas_type += "-oracle-flow"
+    if latent_neighborhood_radius_px > 0.0 and latent_neighborhood_mode not in {"none", "center"}:
+        canvas_type += f"-latent-{latent_neighborhood_mode}-neighborhood"
     metrics = {
         "canvas_type": canvas_type,
         "train_resolution": config["train_resolution"],
@@ -1346,6 +1376,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "detail_scale": detail_scale,
         "detail_init_scale": detail_init_scale,
         "source_coord_features": int(source_coord_features),
+        "latent_neighborhood_mode": latent_neighborhood_mode,
+        "latent_neighborhood_radius_px": latent_neighborhood_radius_px,
+        "latent_neighborhood_taps": int(model.latent_offsets.shape[0]),
         "freq_bands": int(config["freq_bands"]),
         "time_bands": int(config["time_bands"]),
         "lr": base_lr,
@@ -1447,6 +1480,11 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         metrics["description"] += " Learned flow is supervised toward the known inverse layout-reflow map."
     if layout_oracle_flow:
         metrics["description"] += " Oracle inverse layout-flow coordinates are used as a diagnostic transport control."
+    if latent_neighborhood_radius_px > 0.0 and latent_neighborhood_mode not in {"none", "center"}:
+        metrics["description"] += (
+            f" Decoder samples a {latent_neighborhood_mode} latent neighborhood "
+            f"with {latent_neighborhood_radius_px:g}px radius for local glyph/detail context."
+        )
     return {"artifacts": artifacts, "metrics": metrics}
 
 
@@ -1462,6 +1500,8 @@ def main(
     detail_scale: float = 0.0,
     detail_init_scale: float = 0.01,
     source_coord_features: int = 0,
+    latent_neighborhood_mode: str = "none",
+    latent_neighborhood_radius_px: float = 0.0,
     freq_bands: int = 8,
     time_bands: int = 4,
     lr: float = 0.01,
@@ -1530,6 +1570,8 @@ def main(
         "detail_scale": detail_scale,
         "detail_init_scale": detail_init_scale,
         "source_coord_features": source_coord_features,
+        "latent_neighborhood_mode": latent_neighborhood_mode,
+        "latent_neighborhood_radius_px": latent_neighborhood_radius_px,
         "freq_bands": freq_bands,
         "time_bands": time_bands,
         "lr": lr,

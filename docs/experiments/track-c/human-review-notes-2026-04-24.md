@@ -1529,3 +1529,46 @@ C65 hypothesis:
 - Endpoint anchoring should help because Flipbook's current public architecture separates static generated pages from video animation.
 - Training exact source and reflow-midpoint endpoint frames should make text/layout sharper before the model spends capacity on continuous transition frames.
 - If endpoint anchoring is useful, the C24/H128 seed family should improve more consistently than C63/C64.
+
+Completed C65 results:
+
+```text
+c65-sourcecoord-target60-c24h128-end50-curr50-seed2-s12000: OCR 0.5207, segment 747.910ms, motion_delta 0.0488, quality_fail
+c65-sourcecoord-target60-c24h128-end50-seed5-s12000: OCR 0.5031, segment 681.363ms, motion_delta 0.0486, quality_fail
+c65-sourcecoord-target60-c32h160-end50-seed1-s14000: OCR 0.5031, segment 826.452ms, motion_delta 0.0514, quality_fail
+c65-sourcecoord-target60-c24h128-end50-seed4-s12000: OCR 0.4906, segment 788.691ms, motion_delta 0.0497, quality_fail
+c65-sourcecoord-target60-c24h128-end25-seed2-s12000: OCR 0.4780, segment 759.518ms, motion_delta 0.0489, quality_fail
+c65-sourcecoord-target60-c24h128-end50-curr25s025-seed2-s12000: OCR 0.4780, segment 656.867ms, motion_delta 0.0485, quality_fail
+c65-sourcecoord-target60-c24h128-end75-seed2-s12000: OCR 0.4780, segment 1050.756ms, motion_delta 0.0511, quality_fail
+c65-sourcecoord-target75-c32h160-end50-seed1-s14000: OCR 0.4695, segment 674.206ms, motion_delta 0.0494, quality_fail
+c65-sourcecoord-target60-c24h128-end50-seed2-s12000: OCR 0.4133, segment 756.136ms, motion_delta 0.0496, quality_fail
+c65-sourcecoord-target60-c24h128-end50-seed3-s12000: OCR 0.4133, segment 761.889ms, motion_delta 0.0512, quality_fail
+```
+
+Interpretation:
+
+- Endpoint anchoring is a clean negative. It made the static/source-target story explicit in training, but every run missed the OCR gate.
+- The best C65 result (`0.5207`) is below the C64 best (`0.6077`) and far below the C62 high point (`0.6634`).
+- Motion and speed remain healthy, so the failure is still text/layout reconstruction, not realtime budget or movement magnitude.
+- This argues for a model-layer architecture change instead of more endpoint/mask/compositing pressure.
+
+Next experiments:
+
+```text
+c66-neighbor-cross1-target60-c24h128-seed2-s12000
+c66-neighbor-cross2-target60-c24h128-seed2-s12000
+c66-neighbor-grid1-target60-c24h128-seed2-s12000
+c66-neighbor-grid2-target60-c24h128-seed2-s12000
+c66-neighbor-cross1-target60-curr50-seed2-s12000
+c66-neighbor-grid1-target60-curr50-seed2-s12000
+c66-neighbor-cross1-target60-c24h128-seed3-s12000
+c66-neighbor-cross1-target60-c24h128-seed4-s12000
+c66-neighbor-cross1-target75-c32h160-seed1-s14000
+c66-neighbor-cross1-target60-c32h160-seed1-s14000
+```
+
+C66 hypothesis:
+
+- A single bilinear latent sample may be too pointwise for reflowed glyphs; the MLP can lose local stroke context while solving transport.
+- A small latent neighborhood (`cross` or `grid`, 1-2px radius) keeps the renderer pure neural-canvas pixels while giving the decoder local evidence for glyph/detail reconstruction.
+- If the bottleneck is local context, C66 should improve OCR without needing render-time text overlays or rectangular masking tricks.
