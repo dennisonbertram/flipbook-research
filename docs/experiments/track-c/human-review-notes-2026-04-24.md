@@ -2420,3 +2420,31 @@ C86 hypothesis:
 - If the Track C path is viable, at least one compact renderer should learn `source -> clean target page -> source` without using a warped target image as a crutch.
 - OCR should now be scored against the clean target midpoint, while human review should focus on whether source-page ghosts disappear.
 - Capacity/context variants matter less than the qualitative question: can the model paint a different page state cleanly and still stay near the 33-frame realtime budget?
+
+Completed C86 results:
+
+```text
+c86-clean-c32h160-target60-mid20-seed1-s12000: OCR 0.7527, segment 752.003ms, motion_delta 0.0600, pass
+c86-clean-c40h192-target60-mid20-seed0-s12000: OCR 0.7391, segment 1218.898ms, motion_delta 0.0609, pass
+c86-clean-c32h160-target60-mid20-seed4-s12000: OCR 0.7368, segment 1112.650ms, motion_delta 0.0606, pass
+c86-clean-c32h160-target60-mid35-seed0-s12000: OCR 0.7347, segment 942.174ms, motion_delta 0.0606, pass
+c86-clean-c32h160-target60-mid20-seed0-s12000: OCR 0.7216, segment 925.425ms, motion_delta 0.0608, pass
+c86-clean-c32h160-dualres-target60-mid20-seed0-s12000: OCR 0.6742, segment 1318.826ms, motion_delta 0.0606, latency_fail
+c86-clean-c32h160-target60-mid20-seed2-s12000: OCR 0.6735, segment 787.858ms, motion_delta 0.0602, pass
+c86-clean-c32h160-target80-mid20-seed0-s12000: OCR 0.4808, segment 921.003ms, motion_delta 0.0609, pass
+c86-clean-c24h128-target60-mid20-seed0-s12000: OCR 0.3548, segment 824.892ms, motion_delta 0.0594, pass
+c86-clean-c32h160-context8-target60-mid20-seed0-s12000: OCR 0.3492, segment 813.604ms, motion_delta 0.0592, quality_fail
+```
+
+Interpretation:
+
+- C86 is a major positive. The no-context C32/H160 recipe passes on seeds `0,1,2,4`, with OCR `0.6735-0.7527`; the best high-quality segment is `752.003ms`, well under the `1.3s` realtime target.
+- Human review of the best strip (`c86-review-strip.jpg`) shows the midpoint closely matches the clean target page. This looks like a new page state, not the old source layout stretched into a new position.
+- Context and dual-residual decoding are not needed here; context hurts quality and dual-residual misses latency.
+- The caveat: the target is still a deterministic second fixture. The next proof should vary target layout/content so the loop does not overfit to this one clean page.
+
+Next experiments:
+
+```text
+C87: clean target variant/generalization sweep around c32/h160, target60, mid20, no context.
+```

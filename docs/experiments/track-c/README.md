@@ -182,6 +182,8 @@ C8.5 is a negative consolidation result. All ten learned-gate runs miss the pass
 
 C8.6 moves to a clean two-state page stress. The renderer now has `layout-clean-reflow`, where `t=0` and `t=1` are the original page and `t=0.5` is a separately rendered clean target page with the same semantic content but a genuinely different layout. The target frame is not a warped/composited transitional image, and C8.6 OCR scoring uses `target-mid.png` as the reference. The initial queue runs ten no-overlay neural-canvas variants around source-coordinate decoding, cross-neighborhood latent sampling, light context, and one dual-residual decoder check.
 
+C8.6 is the strongest evidence so far for the pure neural-canvas path. Eight of ten runs pass the clean page-state gate, with median OCR `0.6979` and median segment wall time `923.214ms`. The best run, `c86-clean-c32h160-target60-mid20-seed1-s12000`, reaches OCR `0.7527`, motion `0.0600`, and segment `752.003ms`. Visual review shows the midpoint closely matches the separately rendered target page rather than leaving the old page visibly stretched underneath. The caveat is important: the target is still a deterministic fixture, not a generated open-world page, so C8.7 should stress multiple clean target layouts before claiming generality.
+
 Suggested `results.tsv` header:
 
 ```text
