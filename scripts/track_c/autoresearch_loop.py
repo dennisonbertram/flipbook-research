@@ -70,6 +70,9 @@ def general_visual_motion_args(
     min_lr_ratio: float | None = None,
     grad_clip: float | None = None,
     l1_loss_weight: float | None = None,
+    gradient_loss_weight: float | None = None,
+    gradient_loss_ratio: float | None = None,
+    gradient_loss_offset_px: float | None = None,
     flow: float = 0.014,
     edge_ratio: float = 0.1,
     edge_weight: float = 1.0,
@@ -164,6 +167,12 @@ def general_visual_motion_args(
         args.extend(["--grad-clip", f"{grad_clip:g}"])
     if l1_loss_weight is not None:
         args.extend(["--l1-loss-weight", f"{l1_loss_weight:g}"])
+    if gradient_loss_weight is not None:
+        args.extend(["--gradient-loss-weight", f"{gradient_loss_weight:g}"])
+    if gradient_loss_ratio is not None:
+        args.extend(["--gradient-loss-ratio", f"{gradient_loss_ratio:g}"])
+    if gradient_loss_offset_px is not None:
+        args.extend(["--gradient-loss-offset-px", f"{gradient_loss_offset_px:g}"])
     if layout_target_sampling is not None:
         args.extend(["--layout-target-sampling", str(layout_target_sampling)])
     if layout_target_weighting is not None:
@@ -357,6 +366,9 @@ def learned_independent_translation_experiment(
     min_lr_ratio: float | None = None,
     grad_clip: float | None = 0.5,
     l1_loss_weight: float | None = None,
+    gradient_loss_weight: float | None = None,
+    gradient_loss_ratio: float | None = None,
+    gradient_loss_offset_px: float | None = None,
     edge_ratio: float = 0.09,
     edge_weight: float = 0.9,
     text_box_sample_ratio: float = 0.0,
@@ -367,6 +379,11 @@ def learned_independent_translation_experiment(
 ) -> Experiment:
     clip_note = f", grad clip {grad_clip:g}" if grad_clip is not None else ""
     l1_note = f", L1 {l1_loss_weight:g}" if l1_loss_weight else ""
+    grad_note = (
+        f", gradient {gradient_loss_weight:g}@{gradient_loss_ratio:g}"
+        if gradient_loss_weight and gradient_loss_ratio
+        else ""
+    )
     seed_note = f", seed {seed}" if seed else ""
     return Experiment(
         label=label,
@@ -477,6 +494,9 @@ def learned_layout_reflow_experiment(
     min_lr_ratio: float | None = None,
     grad_clip: float | None = 0.5,
     l1_loss_weight: float | None = None,
+    gradient_loss_weight: float | None = None,
+    gradient_loss_ratio: float | None = None,
+    gradient_loss_offset_px: float | None = None,
     edge_ratio: float = 0.09,
     edge_weight: float = 0.9,
     text_box_sample_ratio: float = 0.0,
@@ -492,6 +512,11 @@ def learned_layout_reflow_experiment(
 ) -> Experiment:
     clip_note = f", grad clip {grad_clip:g}" if grad_clip is not None else ""
     l1_note = f", L1 {l1_loss_weight:g}" if l1_loss_weight else ""
+    grad_note = (
+        f", gradient {gradient_loss_weight:g}@{gradient_loss_ratio:g}"
+        if gradient_loss_weight and gradient_loss_ratio
+        else ""
+    )
     seed_note = f", seed {seed}" if seed else ""
     text_note = ", text-weighted" if text_box_loss_weight > 0 or text_box_sample_ratio > 0 else ""
     target_note = ", target-side reflow sampling" if layout_target_sampling or layout_target_weighting else ""
@@ -503,7 +528,7 @@ def learned_layout_reflow_experiment(
         notes=(
             "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions "
             "the illustration into a new page layout; output remains direct neural-canvas pixels. "
-            f"amount {amount:g}, flow scale {flow_scale:g}, {steps} steps, freq{freq_bands}{clip_note}{l1_note}{seed_note}{text_note}{target_note}{mid_note}."
+            f"amount {amount:g}, flow scale {flow_scale:g}, {steps} steps, freq{freq_bands}{clip_note}{l1_note}{grad_note}{seed_note}{text_note}{target_note}{mid_note}."
         ),
         args=general_visual_motion_args(
             label,
@@ -520,6 +545,9 @@ def learned_layout_reflow_experiment(
             min_lr_ratio=min_lr_ratio,
             grad_clip=grad_clip,
             l1_loss_weight=l1_loss_weight,
+            gradient_loss_weight=gradient_loss_weight,
+            gradient_loss_ratio=gradient_loss_ratio,
+            gradient_loss_offset_px=gradient_loss_offset_px,
             flow=flow_scale,
             edge_ratio=edge_ratio,
             edge_weight=edge_weight,
@@ -540,6 +568,183 @@ def learned_layout_reflow_experiment(
 
 
 EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        "c54-reflow-grad025-r00625-target-s050-c32h160-s14000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        channels=32,
+        hidden=160,
+        gradient_loss_weight=0.25,
+        gradient_loss_ratio=0.0625,
+        gradient_loss_offset_px=1.0,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.50,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c54-reflow-grad050-r00625-target-s050-c32h160-s14000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        channels=32,
+        hidden=160,
+        gradient_loss_weight=0.50,
+        gradient_loss_ratio=0.0625,
+        gradient_loss_offset_px=1.0,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.50,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c54-reflow-grad025-r0125-target-s050-c32h160-s14000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        channels=32,
+        hidden=160,
+        gradient_loss_weight=0.25,
+        gradient_loss_ratio=0.125,
+        gradient_loss_offset_px=1.0,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.50,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c54-reflow-grad050-r0125-target-s050-c32h160-s14000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        channels=32,
+        hidden=160,
+        gradient_loss_weight=0.50,
+        gradient_loss_ratio=0.125,
+        gradient_loss_offset_px=1.0,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.50,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c54-reflow-grad025-r00625-weightonly-c32h160-s14000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        channels=32,
+        hidden=160,
+        gradient_loss_weight=0.25,
+        gradient_loss_ratio=0.0625,
+        gradient_loss_offset_px=1.0,
+        layout_target_sampling=0,
+        layout_target_weighting=1,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.54,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c54-reflow-grad050-r00625-weightonly-c32h160-s14000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        channels=32,
+        hidden=160,
+        gradient_loss_weight=0.50,
+        gradient_loss_ratio=0.0625,
+        gradient_loss_offset_px=1.0,
+        layout_target_sampling=0,
+        layout_target_weighting=1,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.54,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c54-reflow-grad025-r0125-weightonly-c32h160-s14000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        channels=32,
+        hidden=160,
+        gradient_loss_weight=0.25,
+        gradient_loss_ratio=0.125,
+        gradient_loss_offset_px=1.0,
+        layout_target_sampling=0,
+        layout_target_weighting=1,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.54,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c54-reflow-grad025-r00625-target-full-b196-s10000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=10000,
+        batch_size=196608,
+        channels=32,
+        hidden=160,
+        gradient_loss_weight=0.25,
+        gradient_loss_ratio=0.0625,
+        gradient_loss_offset_px=1.0,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c54-reflow-grad050-r00625-target-full-b196-s10000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=10000,
+        batch_size=196608,
+        channels=32,
+        hidden=160,
+        gradient_loss_weight=0.50,
+        gradient_loss_ratio=0.0625,
+        gradient_loss_offset_px=1.0,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c54-reflow-grad025-r00625-train1920-weightonly-s13000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=13000,
+        train_resolution="1920x1088",
+        channels=32,
+        hidden=160,
+        gradient_loss_weight=0.25,
+        gradient_loss_ratio=0.0625,
+        gradient_loss_offset_px=1.0,
+        layout_target_sampling=0,
+        layout_target_weighting=1,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.54,
+        min_motion=0.045,
+    ),
     learned_layout_reflow_experiment(
         "c49-reflow-target-mid60-c32h160-s12000",
         amount=1.0,

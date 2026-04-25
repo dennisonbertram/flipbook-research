@@ -518,6 +518,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     min_lr_ratio = float(config.get("min_lr_ratio", 0.1))
     grad_clip = float(config.get("grad_clip", 0.0))
     l1_loss_weight = float(config.get("l1_loss_weight", 0.0))
+    gradient_loss_weight = float(config.get("gradient_loss_weight", 0.0))
+    gradient_loss_ratio = float(config.get("gradient_loss_ratio", 0.125))
+    gradient_loss_offset_px = float(config.get("gradient_loss_offset_px", 1.0))
     motion_mode = str(config.get("motion_mode", "jiggle"))
     motion_strength = float(config.get("motion_strength", flow_scale))
     video_viewport_mode = str(config.get("video_viewport_mode", "static"))
@@ -735,6 +738,17 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     optimizer = torch.optim.AdamW(model.parameters(), lr=base_lr, weight_decay=0.0)
     compile_start = perf_counter()
     losses = []
+
+    def truth_for_coords(sample_coords: torch.Tensor, sample_t: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        sample_target_coords = target_coords_for_motion(sample_coords, sample_t, motion_strength, motion_mode)
+        if motion_mode in independent_sprite_motion_modes:
+            sample_truth = sample_independent_sprite_translation(sample_coords, sample_t, motion_strength)
+        elif motion_mode in layout_reflow_motion_modes:
+            sample_truth = sample_layout_reflow(sample_coords, sample_t, motion_strength)
+        else:
+            sample_truth = sample_target(target_chw, sample_target_coords)
+        return sample_truth, sample_target_coords
+
     for step in range(steps):
         if lr_schedule == "cosine":
             progress = min(1.0, step / max(1, steps - 1))
@@ -780,13 +794,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             if layout_target_sampling_ratio < 1.0:
                 focus = focus & (torch.rand((batch_size,), device=device) < layout_target_sampling_ratio)
             coords = torch.where(focus.unsqueeze(-1), moved_coords, coords)
-        target_coords = target_coords_for_motion(coords, t, motion_strength, motion_mode)
-        if motion_mode in independent_sprite_motion_modes:
-            truth = sample_independent_sprite_translation(coords, t, motion_strength)
-        elif motion_mode in layout_reflow_motion_modes:
-            truth = sample_layout_reflow(coords, t, motion_strength)
-        else:
-            truth = sample_target(target_chw, target_coords)
+        truth, target_coords = truth_for_coords(coords, t)
         pred = model(coords, t)
         error = pred - truth
         loss_per_sample = error.square().mean(dim=-1)
@@ -803,6 +811,31 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             loss = (loss_per_sample * weights).mean()
         else:
             loss = loss_per_sample.mean()
+        if gradient_loss_weight > 0.0 and gradient_loss_ratio > 0.0:
+            grad_count = max(1, min(batch_size, int(batch_size * gradient_loss_ratio)))
+            grad_idx = torch.randperm(batch_size, device=device)[:grad_count]
+            grad_coords = coords[grad_idx]
+            grad_t = t[grad_idx]
+            grad_pred = pred[grad_idx]
+            grad_truth = truth[grad_idx]
+            dx = torch.tensor(
+                [gradient_loss_offset_px / max(1, train_w - 1), 0.0],
+                device=device,
+            ).view(1, 2)
+            dy = torch.tensor(
+                [0.0, gradient_loss_offset_px / max(1, train_h - 1)],
+                device=device,
+            ).view(1, 2)
+            coords_x = (grad_coords + dx).clamp(0.0, 1.0)
+            coords_y = (grad_coords + dy).clamp(0.0, 1.0)
+            truth_x, _ = truth_for_coords(coords_x, grad_t)
+            truth_y, _ = truth_for_coords(coords_y, grad_t)
+            pred_x = model(coords_x, grad_t)
+            pred_y = model(coords_y, grad_t)
+            gradient_loss = F.mse_loss(pred_x - grad_pred, truth_x - grad_truth) + F.mse_loss(
+                pred_y - grad_pred, truth_y - grad_truth
+            )
+            loss = loss + gradient_loss_weight * gradient_loss
         optimizer.zero_grad(set_to_none=True)
         loss.backward()
         if grad_clip > 0.0:
@@ -1092,6 +1125,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "min_lr_ratio": min_lr_ratio,
         "grad_clip": grad_clip,
         "l1_loss_weight": l1_loss_weight,
+        "gradient_loss_weight": gradient_loss_weight,
+        "gradient_loss_ratio": gradient_loss_ratio,
+        "gradient_loss_offset_px": gradient_loss_offset_px,
         "seed": seed,
         "experiment_label": config.get("experiment_label", ""),
         "flow_scale": flow_scale,
@@ -1184,6 +1220,9 @@ def main(
     min_lr_ratio: float = 0.1,
     grad_clip: float = 0.0,
     l1_loss_weight: float = 0.0,
+    gradient_loss_weight: float = 0.0,
+    gradient_loss_ratio: float = 0.125,
+    gradient_loss_offset_px: float = 1.0,
     flow_scale: float = 0.006,
     motion_mode: str = "jiggle",
     motion_strength: float = -1.0,
@@ -1236,6 +1275,9 @@ def main(
         "min_lr_ratio": min_lr_ratio,
         "grad_clip": grad_clip,
         "l1_loss_weight": l1_loss_weight,
+        "gradient_loss_weight": gradient_loss_weight,
+        "gradient_loss_ratio": gradient_loss_ratio,
+        "gradient_loss_offset_px": gradient_loss_offset_px,
         "seed": seed,
         "flow_scale": flow_scale,
         "motion_mode": motion_mode,

@@ -98,6 +98,10 @@ C5.1 shows more target sampling and more batch are not monotonic. Early C5.1 res
 
 C5.2 stays near the frontier without beating it: partial target sampling ratio `0.50` reaches OCR `0.5742`, while `weightonly-b196-s14000` reaches `0.5729`. C5.3 changes the loss itself by adding an L1 term to the weighted MSE objective, testing whether sharper pointwise error reduces text blur/ghosting at the reflow midpoint.
 
+C5.3 is a useful negative result: simple L1 sharpening did not solve reflow blur. The best L1 run, `c53-reflow-target-full-l1-025-c32h160-s14000`, reaches OCR `0.5604`, motion `0.0473`, and segment `848.440ms`, below the C49/C52 frontier. Stronger L1 often regresses text quality, and `l1=1.0` collapses. The next loss experiment should be more local and structural rather than just increasing pointwise absolute error.
+
+C5.4 tests that next step: a local gradient-consistency term on reflowed output coordinates. Instead of only asking each sampled pixel to match RGB, it also asks one-pixel x/y differences to match the crisp synthetic midpoint target. This directly targets doubled strokes and blurred glyph edges while keeping the renderer pure neural-canvas pixels.
+
 Suggested `results.tsv` header:
 
 ```text

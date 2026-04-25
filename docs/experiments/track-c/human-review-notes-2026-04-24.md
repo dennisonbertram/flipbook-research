@@ -1028,3 +1028,39 @@ c53-reflow-target-full-l1-025-c32h160-s14000
 c53-reflow-target-full-l1-050-c32h160-s14000
 c53-reflow-weightonly-l1-025-train1920-s13000
 ```
+
+Completed C53 results:
+
+```text
+c53-reflow-target-full-l1-025-c32h160-s14000: OCR 0.5604, segment 848.440ms, motion_delta 0.0473, pass
+c53-reflow-target-full-l1-025-b196-s10000: OCR 0.5455, segment 706.919ms, motion_delta 0.0491, quality_fail
+c53-reflow-weightonly-l1-025-train1920-s13000: OCR 0.5426, segment 704.286ms, motion_delta 0.0489, pass
+c53-reflow-target-full-l1-050-c32h160-s14000: OCR 0.4970, segment 697.198ms, motion_delta 0.0494, quality_fail
+c53-reflow-weightonly-l1-050-c32h160-s14000: OCR 0.4938, segment 688.344ms, motion_delta 0.0481, quality_fail
+c53-reflow-target-s050-l1-025-c32h160-s14000: OCR 0.4845, segment 894.384ms, motion_delta 0.0484, quality_fail
+c53-reflow-target-s050-l1-050-c32h160-s14000: OCR 0.4780, segment 697.795ms, motion_delta 0.0517, quality_fail
+c53-reflow-weightonly-l1-025-c32h160-s14000: OCR 0.4654, segment 704.924ms, motion_delta 0.0527, quality_fail
+c53-reflow-target-full-l1-050-b196-s10000: OCR 0.4500, segment 648.116ms, motion_delta 0.0494, quality_fail
+c53-reflow-weightonly-l1-100-c32h160-s14000: OCR 0.0000, segment 683.418ms, motion_delta 0.0000, quality_fail
+```
+
+Interpretation:
+
+- L1 is not the right sharpening tool for this reflow target. The best C53 pass (`0.5604`) trails C49 (`0.5761`) and C52 (`0.5742`).
+- Stronger L1 reduces motion/texture error numerically in some places but hurts OCR, which suggests it biases toward overly smooth or collapsed local averages instead of crisp glyph strokes.
+- C54 should test local gradient consistency instead: compare the model and target one-pixel x/y differences at reflowed output coordinates. That is a sharper hypothesis for doubled strokes and blurred text edges.
+
+Next experiments:
+
+```text
+c54-reflow-grad025-r00625-target-s050-c32h160-s14000
+c54-reflow-grad050-r00625-target-s050-c32h160-s14000
+c54-reflow-grad025-r0125-target-s050-c32h160-s14000
+c54-reflow-grad050-r0125-target-s050-c32h160-s14000
+c54-reflow-grad025-r00625-weightonly-c32h160-s14000
+c54-reflow-grad050-r00625-weightonly-c32h160-s14000
+c54-reflow-grad025-r0125-weightonly-c32h160-s14000
+c54-reflow-grad025-r00625-target-full-b196-s10000
+c54-reflow-grad050-r00625-target-full-b196-s10000
+c54-reflow-grad025-r00625-train1920-weightonly-s13000
+```
