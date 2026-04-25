@@ -1572,3 +1572,47 @@ C66 hypothesis:
 - A single bilinear latent sample may be too pointwise for reflowed glyphs; the MLP can lose local stroke context while solving transport.
 - A small latent neighborhood (`cross` or `grid`, 1-2px radius) keeps the renderer pure neural-canvas pixels while giving the decoder local evidence for glyph/detail reconstruction.
 - If the bottleneck is local context, C66 should improve OCR without needing render-time text overlays or rectangular masking tricks.
+
+Completed C66 results:
+
+```text
+c66-neighbor-cross1-target60-c32h160-seed1-s14000: OCR 0.6178, segment 1093.608ms, motion_delta 0.0503, pass
+c66-neighbor-cross1-target60-c24h128-seed4-s12000: OCR 0.5529, segment 826.475ms, motion_delta 0.0553, pass
+c66-neighbor-grid1-target60-c24h128-seed2-s12000: OCR 0.5476, segment 798.603ms, motion_delta 0.0505, quality_fail
+c66-neighbor-grid1-target60-curr50-seed2-s12000: OCR 0.5355, segment 909.371ms, motion_delta 0.0499, quality_fail
+c66-neighbor-cross1-target75-c32h160-seed1-s14000: OCR 0.5288, segment 926.430ms, motion_delta 0.0514, quality_fail
+c66-neighbor-cross1-target60-c24h128-seed2-s12000: OCR 0.5251, segment 842.422ms, motion_delta 0.0534, quality_fail
+c66-neighbor-cross2-target60-c24h128-seed2-s12000: OCR 0.5189, segment 831.506ms, motion_delta 0.0540, quality_fail
+c66-neighbor-cross1-target60-c24h128-seed3-s12000: OCR 0.4780, segment 823.712ms, motion_delta 0.0466, quality_fail
+c66-neighbor-grid2-target60-c24h128-seed2-s12000: OCR 0.4625, segment 912.708ms, motion_delta 0.0503, quality_fail
+c66-neighbor-cross1-target60-curr50-seed2-s12000: OCR 0.4500, segment 873.610ms, motion_delta 0.0505, quality_fail
+```
+
+Interpretation:
+
+- Latent-neighborhood decoding is a positive architecture signal. It does not beat the C62 high (`0.6634`), but C32/H160 cross1 reaches OCR `0.6178`, close to the C57/C64 frontier and well above the C65 endpoint sweep.
+- The useful region appears to be small: 1px neighborhoods help; 2px grid/cross variants regress or blur.
+- C32/H160 benefits more than C24/H128. The small model gets one modest pass and one near-pass, while C32/H160 target60 is substantially stronger.
+- Curriculum is not compatible with this branch yet; both cross/grid curriculum variants underperform their non-curriculum counterparts.
+- The best run is still under the 1.3s budget (`~1.094s` segment), so the architecture has enough latency headroom for a focused sweep.
+
+Next experiments:
+
+```text
+c67-neighbor-cross1-target60-c32h160-seed2-s14000
+c67-neighbor-cross1-target60-c32h160-seed3-s14000
+c67-neighbor-cross1-target60-c32h160-seed4-s14000
+c67-neighbor-cross1-target55-c32h160-seed1-s14000
+c67-neighbor-cross1-target65-c32h160-seed1-s14000
+c67-neighbor-cross05-target60-c32h160-seed1-s14000
+c67-neighbor-cross15-target60-c32h160-seed1-s14000
+c67-neighbor-grid1-target60-c32h160-seed1-s14000
+c67-neighbor-cross1-target60-b196-c32h160-seed1-s10000
+c67-neighbor-cross1-target60-c40h192-seed1-s12000
+```
+
+C67 hypothesis:
+
+- If the C66 C32/H160 win is a real basin, target60 seed repeats should produce multiple pass-quality runs, not one seed1 outlier.
+- Target-ratio `0.55/0.65` and radius `0.5/1.5px` test whether the C66 best is sitting on a narrow hyperparameter edge.
+- B196 and C40/H192 test whether the neighborhood decoder can convert extra training signal or capacity into a new frontier while staying inside the realtime segment budget.
