@@ -1307,3 +1307,48 @@ C60 hypothesis:
 - The C57 gain is best understood as source-coordinate conditioning plus a flexible learned warp, not stronger/oracle transport.
 - Sweep target-side sampling around `0.75` to check whether the winner is a narrow accident or a stable ratio.
 - Repeat seeds and test C24/H128, B196, and C40/H192 to map the speed/quality frontier before adding new architecture.
+
+Completed C60 results:
+
+```text
+c60-sourcecoord-target60-c32h160-s14000: OCR 0.5933, segment 1061.855ms, motion_delta 0.0450, pass
+c60-sourcecoord-target75-c24h128-s12000: OCR 0.5837, segment 1013.454ms, motion_delta 0.0492, pass
+c60-sourcecoord-target75-seed2-c32h160-s14000: OCR 0.5233, segment 789.126ms, motion_delta 0.0499, quality_fail
+c60-sourcecoord-target80-c32h160-s14000: OCR 0.5176, segment 816.972ms, motion_delta 0.0514, quality_fail
+c60-sourcecoord-target75-b196-s10000: OCR 0.4837, segment 807.725ms, motion_delta 0.0502, quality_fail
+c60-sourcecoord-target75-seed1-c32h160-s14000: OCR 0.4750, segment 917.512ms, motion_delta 0.0509, quality_fail
+c60-sourcecoord-target75-c40h192-s12000: OCR 0.4750, segment 899.818ms, motion_delta 0.0514, quality_fail
+c60-sourcecoord-target100-c32h160-s14000: OCR 0.4684, segment 814.285ms, motion_delta 0.0502, quality_fail
+c60-sourcecoord-target70-c32h160-s14000: OCR 0.4400, segment 812.567ms, motion_delta 0.0489, quality_fail
+c60-sourcecoord-target90-c32h160-s14000: OCR 0.4238, segment 676.815ms, motion_delta 0.0506, quality_fail
+```
+
+Interpretation:
+
+- C60 confirms source-coordinate conditioning is still the right family, but does not create a new frontier.
+- The C57 `target75` result was not robust across seeds: seed `1` and seed `2` fall to OCR `0.4750` and `0.5233`.
+- The best C60 signal moves lower, to target-side sampling ratio `0.60`.
+- C24/H128 remains surprisingly competitive and worth probing because both C57 and C60 produced pass-quality small-model runs.
+- Larger capacity and larger batch do not fix text; C40/H192 and B196 both regress.
+
+Next experiments:
+
+```text
+c61-sourcecoord-target55-c32h160-s14000
+c61-sourcecoord-target65-c32h160-s14000
+c61-sourcecoord-target60-seed1-c32h160-s14000
+c61-sourcecoord-target60-seed2-c32h160-s14000
+c61-sourcecoord-target60-flow08-c32h160-s14000
+c61-sourcecoord-target60-b196-s10000
+c61-sourcecoord-target55-c24h128-s12000
+c61-sourcecoord-target60-c24h128-s12000
+c61-sourcecoord-target60-cosine-c32h160-s16000
+c61-sourcecoord-target60-lr007-c32h160-s16000
+```
+
+C61 hypothesis:
+
+- If target ratio `0.60` is real and not another seed accident, nearby ratios and seed repeats should cluster near or above OCR `0.59`.
+- Lower learned-flow cap may preserve text without losing the required reflow motion.
+- C24/H128 may be a better speed/regularization point than larger capacity for this overfit renderer.
+- Optimizer variants test whether the C60 winner is optimization-limited before adding a new architecture branch.

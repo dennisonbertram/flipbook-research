@@ -124,6 +124,8 @@ C5.9 is also negative as a transport-only explanation. The best oracle-flow resu
 
 C6.0 consolidates the C57 source-coordinate family instead of adding another mechanism. The queue sweeps target-side sampling ratios around the C57 winner (`0.60/0.70/0.80/0.90/1.00`), repeats the `0.75` winner on additional seeds, and tests C24/H128, B196, and C40/H192 capacity/speed points. The goal is to determine whether the C57 win is robust enough to become the next base model before adding more structural machinery.
 
+C6.0 does not beat the C57 frontier, but it narrows the source-coordinate recipe. The best C60 run is `c60-sourcecoord-target60-c32h160-s14000` at OCR `0.5933`, motion `0.0450`, and segment `1061.855ms`; the best smaller model is `c60-sourcecoord-target75-c24h128-s12000` at OCR `0.5837`, motion `0.0492`, and segment `1013.454ms`. Ratios above `0.70`, C40/H192, and B196 all regress. C6.1 therefore treats C57's `0.75` win as seed-sensitive and tests the lower `0.55-0.65` target-ratio region, seed repeats at `0.60`, a lower flow cap, C24/H128 variants, and two optimizer variants around the C60 winner.
+
 Suggested `results.tsv` header:
 
 ```text
