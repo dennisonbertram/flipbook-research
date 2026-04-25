@@ -1,6 +1,6 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-25T10:48:16+00:00`
+Updated UTC: `2026-04-25T11:00:18+00:00`
 
 ## Active Sessions
 
@@ -9,7 +9,6 @@ Updated UTC: `2026-04-25T10:48:16+00:00`
 - `pr1405-ci`
 - `pr1419-checks-monitor`
 - `pr1467-monitor`
-- `pr1493-checks`
 - `track-c-autoresearch`
 - `track-c-github-sync`
 
