@@ -39,8 +39,10 @@ C94-C96 should be read as target-state positive and transition-quality unresolve
 
 ## Current Status
 
-As of this assessment update, C97 is complete. It is a mixed endpoint result and a negative transition result: best deep-sea improves to OCR `0.8387` at `1002.438ms`, while best naturalist drops to OCR `0.4463` (`0.4298` for the faster no-source-coordinate variant). Corrected `render-mid` crops are clean, while `t=0.25` crops reveal source persistence. Track C is scientifically useful, but it is not yet a product proof.
+As of this assessment update, C98 is complete. It is a positive transition-aware target-definition result, not a final product proof. After correcting the OCR reference for `layout-clean-move-reveal` to use `target-mid.png`, six of eight C98 runs pass. Best deep-sea reaches OCR `0.8966` at `939.032ms`; best naturalist reaches OCR `0.4839` at `1074.523ms`.
 
-The next step is transition-aware C98: save explicit transition target crops, evaluate `t=0.25/0.75` separately from `t=0.5`, and train against a deterministic moving-layout transition instead of only a source/target endpoint blend. C98 is implemented as `layout-clean-move-reveal`, where the source layer moves/fades while the target page eases in.
+C98's lesson is that explicit transition targets help clarify the problem. Deep-sea transition crops show negative source-residual gain, meaning the rendered crop is not simply closer to the source page. Naturalist remains harder and retains positive source gain in transition crops, especially for target-blend/state-split variants. State split should not be treated as a general fix.
 
-The evaluator now also reports source-residual gain/cosine and source-only edge bias in changed regions. These metrics should be read separately for target-midpoint frames and transition frames; the transition-frame metric is the more relevant one for the source-persistence problem.
+The next step is C99: independent page-region recomposition. Source regions translate separately while the target page arrives through a separate region-specific motion field. This is a harder resize/re-layout proxy than C98's single move/reveal transition and a better test of whether Track C can move beyond global fades or endpoint repainting.
+
+The evaluator now reports source-residual gain/cosine, source-only edge bias, and transition-crop equivalents. These metrics should be read separately for target-midpoint frames and transition frames; the transition-frame metric is the more relevant one for the source-persistence problem.

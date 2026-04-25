@@ -210,18 +210,18 @@ C9.6 is a positive target-state result and a transition-quality warning. The str
 
 C9.7 is a mixed endpoint result and a negative transition result. The state-split decoder improves deep-sea slightly (`0.8387` OCR, `1002.438ms` segment on the best seed) but does not beat the C94 deep-sea high (`0.8667`) and weakens naturalist versus C95/C96 (`0.4463` best naturalist OCR; `0.4298` for the faster no-source-coordinate variant). Midpoint frames remain clean. The `t=0.25` crop still shows source/target persistence, which is now understood as a target-definition issue: `layout-clean-reflow` trains an endpoint blend, not a real moving/reflowing transition. C9.8 is implemented as the first transition-aware wave: it saves explicit transition target crops and trains `layout-clean-move-reveal`, where the source layer moves/fades while the target page eases in.
 
+C9.8 is a useful positive once the OCR reference is corrected to `target-mid.png` for `layout-clean-move-reveal`. Six of eight runs pass. Deep-sea is strongest: `c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed0-s12000` reaches OCR `0.8966` at `939.032ms`, and the base deep-sea run reaches OCR `0.8571` at `917.112ms`. Naturalist remains harder: the base run passes at OCR `0.4839`, while target-blend mid50 and state-split fail. Transition-crop similarity clusters around `0.964-0.971`; deep-sea source-residual gain is negative, while naturalist remains positive, so source persistence is still more visible in the etched naturalist target. C9.9 therefore moves beyond a single move/reveal field and tests independent region recomposition.
+
 Next experiments:
 
 ```text
-C98 transition-aware target/eval:
-c98-v11-naturalist-movereveal-base-rem025-mid35-seed0-s12000
-c98-v11-naturalist-movereveal-tblend-init02-rem025-mid35-seed0-s12000
-c98-v11-naturalist-movereveal-tblend-init02-rem025-mid50-seed0-s12000
-c98-v11-naturalist-movereveal-statesplit-init02-rem025-mid50-seed0-s12000
-c98-v12-deep-sea-movereveal-base-rem050-mid20-seed0-s12000
-c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed0-s12000
-c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed1-s12000
-c98-v12-deep-sea-movereveal-statesplit-init02-rem050-mid20-seed1-s12000
+C99 independent recomposition target/eval:
+c99-v11-naturalist-indrecomp-base-rem025-mid50-seed0-s12000
+c99-v11-naturalist-indrecomp-tblend-init02-rem025-mid50-seed0-s12000
+c99-v11-naturalist-indrecomp-statesplit-init02-rem025-mid50-seed0-s12000
+c99-v12-deep-sea-indrecomp-base-rem050-mid35-seed0-s12000
+c99-v12-deep-sea-indrecomp-tblend-init02-rem050-mid35-seed0-s12000
+c99-v12-deep-sea-indrecomp-statesplit-init02-rem050-mid35-seed1-s12000
 ```
 
 Suggested `results.tsv` header:
@@ -233,7 +233,7 @@ run_id	commit	canvas_type	compile_ms	render_960_ms	render_33_wall_ms	encode_ms	o
 `eval-results.tsv` is the normalized scenario-level leaderboard:
 
 ```text
-run_id	commit	scenario_id	renderer_family	status	segment_wall_ms	render_33_wall_ms	encode_ms	effective_generated_fps	ocr_token_f1_min	ocr_token_f1_mean	layout_similarity	resize_consistency	temporal_consistency	motion_delta	loop_error	target_mid_delta	target_mid_similarity	change_region_fraction	change_region_target_delta	change_region_source_delta	change_region_source_bias	change_region_source_residual_gain	change_region_source_residual_cosine	source_only_edge_fraction	source_only_edge_target_delta	source_only_edge_source_delta	source_only_edge_bias	pixel_source_class	failed_gates
+run_id	commit	scenario_id	renderer_family	status	segment_wall_ms	render_33_wall_ms	encode_ms	effective_generated_fps	ocr_token_f1_min	ocr_token_f1_mean	layout_similarity	resize_consistency	temporal_consistency	motion_delta	loop_error	target_mid_delta	target_mid_similarity	transition_crop_delta	transition_crop_similarity	transition_change_region_fraction	transition_change_region_target_delta	transition_change_region_source_delta	transition_change_region_source_bias	transition_source_residual_gain	transition_source_residual_cosine	transition_source_only_edge_fraction	transition_source_only_edge_target_delta	transition_source_only_edge_source_delta	transition_source_only_edge_bias	change_region_fraction	change_region_target_delta	change_region_source_delta	change_region_source_bias	change_region_source_residual_gain	change_region_source_residual_cosine	source_only_edge_fraction	source_only_edge_target_delta	source_only_edge_source_delta	source_only_edge_bias	pixel_source_class	failed_gates
 ```
 
 Suggested artifact shape:
@@ -245,6 +245,8 @@ outputs/track-c/<run-id>/
   render-960.png
   crop-2x.png
   target-mid.png
+  target-crop-2x.png
+  target-mid-crop-2x.png
   contact-sheet.jpg
   output.mp4
   metrics.json

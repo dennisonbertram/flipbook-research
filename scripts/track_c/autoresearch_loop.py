@@ -669,13 +669,24 @@ def learned_layout_reflow_experiment(
         "layout-clean-move-reveal",
         "clean-layout-move-reveal",
         "clean-move-reveal",
+        "layout-clean-independent-recompose",
+        "clean-layout-independent-recompose",
+        "clean-independent-recompose",
     }
     proof_name = "Learned clean page-state proof" if clean_mode else "Learned layout-reflow proof"
-    proof_detail = (
-        "the training target is a separate clean page state at the midpoint, then loops back to the source"
-        if clean_mode
-        else "the training target moves text/content blocks and resizes/repositions the illustration into a new page layout"
-    )
+    if motion_mode in {"layout-clean-independent-recompose", "clean-layout-independent-recompose", "clean-independent-recompose"}:
+        proof_detail = (
+            "the training target independently recomposes source and target page regions before resolving "
+            "to a separate clean page state at the midpoint"
+        )
+    elif motion_mode in {"layout-clean-move-reveal", "clean-layout-move-reveal", "clean-move-reveal"}:
+        proof_detail = (
+            "the training target moves the source layer while the separate clean target page eases into place"
+        )
+    elif clean_mode:
+        proof_detail = "the training target is a separate clean page state at the midpoint, then loops back to the source"
+    else:
+        proof_detail = "the training target moves text/content blocks and resizes/repositions the illustration into a new page layout"
     clip_note = f", grad clip {grad_clip:g}" if grad_clip is not None else ""
     l1_note = f", L1 {l1_loss_weight:g}" if l1_loss_weight else ""
     grad_note = (
@@ -1147,6 +1158,62 @@ C94_TARGET_BRANCH_DECODER_EXPERIMENTS = [
         ("c94-v12-deep-sea-dualfused-s050-rem050-seed0-s12000", "deep-sea-lab", 0.20, 0.18, 0.50, "dual-residual-fused", 0.50, "source"),
         ("c94-v12-deep-sea-dualgate-s100-rem050-seed0-s12000", "deep-sea-lab", 0.20, 0.18, 0.50, "dual-gate", 1.00, "source"),
         ("c94-v12-deep-sea-latentboth-rem050-seed0-s12000", "deep-sea-lab", 0.20, 0.18, 0.50, "single", 0.00, "both"),
+    ]
+]
+
+
+C99_INDEPENDENT_RECOMPOSE_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=12000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=source_coord_features,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        latent_sample_mode="source",
+        decoder_mode=decoder_mode,
+        target_branch_hidden=160 if decoder_mode else None,
+        target_canvas_mode=target_canvas_mode,
+        target_canvas_init_scale=target_canvas_init_scale,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.65,
+        layout_target_mid_sampling_ratio=mid_target_ratio,
+        layout_target_mid_time_width=mid_target_width,
+        layout_mid_time_ratio=0.68,
+        layout_mid_time_width=0.24,
+        layout_endpoint_ratio=0.14,
+        layout_endpoint_target_ratio=0.55,
+        source_remnant_loss_weight=remnant_weight,
+        source_remnant_margin=0.025,
+        source_remnant_change_floor=0.04,
+        motion_mode="layout-clean-independent-recompose",
+        clean_target_variant=variant,
+        min_ocr=0.35,
+        min_motion=0.05,
+    )
+    for (
+        label,
+        variant,
+        seed,
+        source_coord_features,
+        mid_target_ratio,
+        mid_target_width,
+        remnant_weight,
+        decoder_mode,
+        target_canvas_mode,
+        target_canvas_init_scale,
+    ) in [
+        ("c99-v11-naturalist-indrecomp-base-rem025-mid50-seed0-s12000", "naturalist-plate", 0, 1, 0.50, 0.24, 0.25, None, None, None),
+        ("c99-v11-naturalist-indrecomp-tblend-init02-rem025-mid50-seed0-s12000", "naturalist-plate", 0, 1, 0.50, 0.24, 0.25, None, "blend", 0.02),
+        ("c99-v11-naturalist-indrecomp-statesplit-init02-rem025-mid50-seed0-s12000", "naturalist-plate", 0, 0, 0.50, 0.24, 0.25, "state-split", "always", 0.02),
+        ("c99-v12-deep-sea-indrecomp-base-rem050-mid35-seed0-s12000", "deep-sea-lab", 0, 1, 0.35, 0.22, 0.50, None, None, None),
+        ("c99-v12-deep-sea-indrecomp-tblend-init02-rem050-mid35-seed0-s12000", "deep-sea-lab", 0, 1, 0.35, 0.22, 0.50, None, "blend", 0.02),
+        ("c99-v12-deep-sea-indrecomp-statesplit-init02-rem050-mid35-seed1-s12000", "deep-sea-lab", 1, 1, 0.35, 0.22, 0.50, "state-split", "always", 0.02),
     ]
 ]
 
@@ -2048,6 +2115,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C99_INDEPENDENT_RECOMPOSE_EXPERIMENTS,
     *C98_TRANSITION_AWARE_EXPERIMENTS,
     *C97_STATE_SPLIT_TARGET_EXPERIMENTS,
     *C96_TARGET_CANVAS_BLEND_EXPERIMENTS,

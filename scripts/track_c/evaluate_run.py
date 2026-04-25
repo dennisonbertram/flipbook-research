@@ -53,7 +53,16 @@ def infer_scenario_id(metrics: dict[str, Any]) -> str:
 
     if motion_mode == "responsive-squeeze":
         return "responsive-squeeze"
-    if motion_mode in {"layout-clean-reflow", "clean-layout-reflow"}:
+    if motion_mode in {
+        "layout-clean-reflow",
+        "clean-layout-reflow",
+        "layout-clean-move-reveal",
+        "clean-layout-move-reveal",
+        "clean-move-reveal",
+        "layout-clean-independent-recompose",
+        "clean-layout-independent-recompose",
+        "clean-independent-recompose",
+    }:
         return "layout-clean-reflow-learned"
     if motion_mode in {"layout-reflow", "sprite-layout-reflow"}:
         return "layout-reflow-learned"
@@ -121,12 +130,29 @@ def artifacts_for(run_dir: Path, metrics: dict[str, Any]) -> dict[str, str | Non
     }
 
 
+def load_rgb_image(
+    path: Path,
+    *,
+    size: tuple[int, int] | None = None,
+    viewport: tuple[float, float, float, float] | None = None,
+) -> Image.Image:
+    image = Image.open(path).convert("RGB")
+    if viewport is not None:
+        x, y, w, h = viewport
+        left = max(0, min(image.width, int(round(x * image.width))))
+        top = max(0, min(image.height, int(round(y * image.height))))
+        right = max(left + 1, min(image.width, int(round((x + w) * image.width))))
+        bottom = max(top + 1, min(image.height, int(round((y + h) * image.height))))
+        image = image.crop((left, top, right, bottom))
+    if size is not None and image.size != size:
+        image = image.resize(size, Image.Resampling.LANCZOS)
+    return image
+
+
 def image_delta_similarity(path_a: Path, path_b: Path) -> tuple[float | None, float | None]:
     if not path_a.exists() or not path_b.exists():
         return None, None
-    with Image.open(path_a) as image_a, Image.open(path_b) as image_b:
-        image_a = image_a.convert("RGB")
-        image_b = image_b.convert("RGB").resize(image_a.size, Image.Resampling.LANCZOS)
+    with load_rgb_image(path_a) as image_a, load_rgb_image(path_b, size=image_a.size) as image_b:
         diff = ImageChops.difference(image_a, image_b)
         mean_abs = sum(ImageStat.Stat(diff).mean) / 3.0
     delta = mean_abs / 255.0
@@ -139,6 +165,7 @@ def change_region_metrics(
     target_path: Path,
     *,
     threshold: float = 0.05,
+    source_viewport: tuple[float, float, float, float] | None = None,
 ) -> dict[str, float | None]:
     if not mid_path.exists() or not source_path.exists() or not target_path.exists():
         return {
@@ -154,10 +181,11 @@ def change_region_metrics(
             "source_only_edge_bias": None,
         }
 
-    with Image.open(mid_path) as mid_img, Image.open(source_path) as source_img, Image.open(target_path) as target_img:
-        mid_img = mid_img.convert("RGB")
-        source_img = source_img.convert("RGB").resize(mid_img.size, Image.Resampling.LANCZOS)
-        target_img = target_img.convert("RGB").resize(mid_img.size, Image.Resampling.LANCZOS)
+    with (
+        load_rgb_image(mid_path) as mid_img,
+        load_rgb_image(source_path, size=mid_img.size, viewport=source_viewport) as source_img,
+        load_rgb_image(target_path, size=mid_img.size) as target_img,
+    ):
         mid = np.asarray(mid_img, dtype=np.float32) / 255.0
         source = np.asarray(source_img, dtype=np.float32) / 255.0
         target = np.asarray(target_img, dtype=np.float32) / 255.0
@@ -268,6 +296,13 @@ def build_eval(run_dir: Path, scenarios: dict[str, dict[str, Any]]) -> dict[str,
     mid_artifact = choose_mid_artifact(run_dir) or run_dir / "render-mid.png"
     target_mid_delta, target_mid_similarity = image_delta_similarity(mid_artifact, run_dir / "target-mid.png")
     change_metrics = change_region_metrics(mid_artifact, run_dir / "input.png", run_dir / "target-mid.png")
+    transition_crop_delta, transition_crop_similarity = image_delta_similarity(run_dir / "crop-2x.png", run_dir / "target-crop-2x.png")
+    transition_change_metrics = change_region_metrics(
+        run_dir / "crop-2x.png",
+        run_dir / "input.png",
+        run_dir / "target-crop-2x.png",
+        source_viewport=(0.25, 0.25, 0.5, 0.5),
+    )
 
     scenario_result = {
         "scenario_id": scenario_id,
@@ -316,6 +351,18 @@ def build_eval(run_dir: Path, scenarios: dict[str, dict[str, Any]]) -> dict[str,
             "loop_error": quality.get("loop_error", metrics.get("loop_error")),
             "target_mid_delta": target_mid_delta,
             "target_mid_similarity": target_mid_similarity,
+            "transition_crop_delta": transition_crop_delta,
+            "transition_crop_similarity": transition_crop_similarity,
+            "transition_change_region_fraction": transition_change_metrics["change_region_fraction"],
+            "transition_change_region_target_delta": transition_change_metrics["change_region_target_delta"],
+            "transition_change_region_source_delta": transition_change_metrics["change_region_source_delta"],
+            "transition_change_region_source_bias": transition_change_metrics["change_region_source_bias"],
+            "transition_source_residual_cosine": transition_change_metrics["change_region_source_residual_cosine"],
+            "transition_source_residual_gain": transition_change_metrics["change_region_source_residual_gain"],
+            "transition_source_only_edge_fraction": transition_change_metrics["source_only_edge_fraction"],
+            "transition_source_only_edge_target_delta": transition_change_metrics["source_only_edge_target_delta"],
+            "transition_source_only_edge_source_delta": transition_change_metrics["source_only_edge_source_delta"],
+            "transition_source_only_edge_bias": transition_change_metrics["source_only_edge_bias"],
             "change_region_fraction": change_metrics["change_region_fraction"],
             "change_region_target_delta": change_metrics["change_region_target_delta"],
             "change_region_source_delta": change_metrics["change_region_source_delta"],
@@ -432,6 +479,9 @@ def write_summary(run_dir: Path, eval_doc: dict[str, Any]) -> Path:
         f"- Motion delta: `{float(metrics['motion_delta'] or 0.0):.4f}`",
         f"- Loop error: `{float(metrics['loop_error'] or 0.0):.4f}`",
         f"- Target-mid similarity: `{float(metrics['target_mid_similarity'] or 0.0):.4f}`",
+        f"- Transition-crop similarity: `{float(metrics['transition_crop_similarity'] or 0.0):.4f}`",
+        f"- Transition source-residual gain: `{float(metrics['transition_source_residual_gain'] or 0.0):.4f}`",
+        f"- Transition source-only edge bias: `{float(metrics['transition_source_only_edge_bias'] or 0.0):.4f}`",
         f"- Change-region target delta: `{float(metrics['change_region_target_delta'] or 0.0):.4f}`",
         f"- Change-region source bias: `{float(metrics['change_region_source_bias'] or 0.0):.4f}`",
         f"- Source-residual gain: `{float(metrics['change_region_source_residual_gain'] or 0.0):.4f}`",
@@ -473,6 +523,18 @@ TSV_FIELDS = [
     "loop_error",
     "target_mid_delta",
     "target_mid_similarity",
+    "transition_crop_delta",
+    "transition_crop_similarity",
+    "transition_change_region_fraction",
+    "transition_change_region_target_delta",
+    "transition_change_region_source_delta",
+    "transition_change_region_source_bias",
+    "transition_source_residual_gain",
+    "transition_source_residual_cosine",
+    "transition_source_only_edge_fraction",
+    "transition_source_only_edge_target_delta",
+    "transition_source_only_edge_source_delta",
+    "transition_source_only_edge_bias",
     "change_region_fraction",
     "change_region_target_delta",
     "change_region_source_delta",
@@ -515,6 +577,18 @@ def write_tsv(path: Path, eval_docs: list[dict[str, Any]]) -> None:
                 "loop_error": f'{float(metrics["loop_error"] or 0.0):.4f}',
                 "target_mid_delta": f'{float(metrics["target_mid_delta"] or 0.0):.4f}',
                 "target_mid_similarity": f'{float(metrics["target_mid_similarity"] or 0.0):.4f}',
+                "transition_crop_delta": f'{float(metrics["transition_crop_delta"] or 0.0):.4f}',
+                "transition_crop_similarity": f'{float(metrics["transition_crop_similarity"] or 0.0):.4f}',
+                "transition_change_region_fraction": f'{float(metrics["transition_change_region_fraction"] or 0.0):.4f}',
+                "transition_change_region_target_delta": f'{float(metrics["transition_change_region_target_delta"] or 0.0):.4f}',
+                "transition_change_region_source_delta": f'{float(metrics["transition_change_region_source_delta"] or 0.0):.4f}',
+                "transition_change_region_source_bias": f'{float(metrics["transition_change_region_source_bias"] or 0.0):.4f}',
+                "transition_source_residual_gain": f'{float(metrics["transition_source_residual_gain"] or 0.0):.4f}',
+                "transition_source_residual_cosine": f'{float(metrics["transition_source_residual_cosine"] or 0.0):.4f}',
+                "transition_source_only_edge_fraction": f'{float(metrics["transition_source_only_edge_fraction"] or 0.0):.4f}',
+                "transition_source_only_edge_target_delta": f'{float(metrics["transition_source_only_edge_target_delta"] or 0.0):.4f}',
+                "transition_source_only_edge_source_delta": f'{float(metrics["transition_source_only_edge_source_delta"] or 0.0):.4f}',
+                "transition_source_only_edge_bias": f'{float(metrics["transition_source_only_edge_bias"] or 0.0):.4f}',
                 "change_region_fraction": f'{float(metrics["change_region_fraction"] or 0.0):.4f}',
                 "change_region_target_delta": f'{float(metrics["change_region_target_delta"] or 0.0):.4f}',
                 "change_region_source_delta": f'{float(metrics["change_region_source_delta"] or 0.0):.4f}',

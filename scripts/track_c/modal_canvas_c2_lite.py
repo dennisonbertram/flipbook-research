@@ -1378,7 +1378,16 @@ def write_quality(run_dir: Path, metrics: dict) -> dict:
         render_mid = run_dir / "render-mid.png"
     render_last = run_dir / "render-last.png"
     target_mid = run_dir / "target-mid.png"
-    clean_reference_modes = {"layout-clean-reflow", "clean-layout-reflow"}
+    clean_reference_modes = {
+        "layout-clean-reflow",
+        "clean-layout-reflow",
+        "layout-clean-move-reveal",
+        "clean-layout-move-reveal",
+        "clean-move-reveal",
+        "layout-clean-independent-recompose",
+        "clean-layout-independent-recompose",
+        "clean-independent-recompose",
+    }
 
     input_ocr = ocr(input_path)
     render_ocr = ocr(render_mid)
@@ -1842,7 +1851,16 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     independent_layout_modes = independent_hard_layout_modes | independent_field_layout_modes
     independent_sprite_motion_modes = {"independent-sprite-translate", "region-sprite-translate"}
     clean_move_reveal_motion_modes = {"layout-clean-move-reveal", "clean-layout-move-reveal", "clean-move-reveal"}
-    clean_layout_motion_modes = {"layout-clean-reflow", "clean-layout-reflow"} | clean_move_reveal_motion_modes
+    clean_independent_recompose_motion_modes = {
+        "layout-clean-independent-recompose",
+        "clean-layout-independent-recompose",
+        "clean-independent-recompose",
+    }
+    clean_layout_motion_modes = (
+        {"layout-clean-reflow", "clean-layout-reflow"}
+        | clean_move_reveal_motion_modes
+        | clean_independent_recompose_motion_modes
+    )
     layout_reflow_motion_modes = {"layout-reflow", "sprite-layout-reflow"} | clean_layout_motion_modes
 
     def apply_independent_region_field(
@@ -1874,6 +1892,44 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             scale_y = (
                 1.0 + strength * scale_y_mul * envelope * torch.cos(angle + torch.pi * 0.19)
             ).clamp(0.55, 1.50)
+            local_x = cx + (x - cx - pan_x) / scale_x
+            local_y = cy + (y - cy - pan_y) / scale_y
+            local_coords = torch.cat([local_x, local_y], dim=-1)
+            weighted_delta += weight * (local_coords - coords)
+            total_weight += weight
+        influence = total_weight.clamp(0.0, 1.0)
+        delta = weighted_delta / total_weight.clamp_min(1e-6)
+        return (coords + delta * influence).clamp(0.0, 1.0)
+
+    def apply_independent_arrival_field(
+        coords: torch.Tensor,
+        t_value: torch.Tensor,
+        progress: torch.Tensor,
+        strength: float,
+        pan: float,
+    ) -> torch.Tensor:
+        x = coords[:, 0:1]
+        y = coords[:, 1:2]
+        arrival = (1.0 - progress).clamp(0.0, 1.0)
+        weighted_delta = torch.zeros_like(coords)
+        total_weight = torch.zeros_like(x)
+        for x0, y0, x1, y1, pan_x_mul, pan_y_mul, scale_x_mul, scale_y_mul, speed, phase in independent_layout_regions:
+            cx = (x0 + x1) * 0.5
+            cy = (y0 + y1) * 0.5
+            source_w = x1 - x0
+            source_h = y1 - y0
+            norm_x = (x - cx) / max(1e-6, source_w * 0.55)
+            norm_y = (y - cy) / max(1e-6, source_h * 0.55)
+            weight = torch.exp(-2.35 * (norm_x.square() + norm_y.square()))
+            angle = 2.0 * torch.pi * (float(speed) * t_value + phase + 0.17)
+            pan_x = pan * pan_x_mul * arrival * torch.sin(angle)
+            pan_y = pan * pan_y_mul * arrival * torch.cos(angle + torch.pi * 0.23)
+            scale_x = (
+                1.0 + strength * scale_x_mul * arrival * torch.sin(angle + torch.pi * 0.31)
+            ).clamp(0.60, 1.45)
+            scale_y = (
+                1.0 + strength * scale_y_mul * arrival * torch.cos(angle + torch.pi * 0.19)
+            ).clamp(0.60, 1.45)
             local_x = cx + (x - cx - pan_x) / scale_x
             local_y = cy + (y - cy - pan_y) / scale_y
             local_coords = torch.cat([local_x, local_y], dim=-1)
@@ -2178,9 +2234,17 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
 
     element_line_boxes = build_word_boxes(scaled_text_boxes) if element_anchor_mode == "word" else build_line_boxes(scaled_text_boxes)
 
-    def sample_independent_sprite_translation(coords01: torch.Tensor, t_col: torch.Tensor, pan: float) -> torch.Tensor:
-        canvas = sample_target(target_chw, coords01)
+    def sample_independent_sprite_translation_from(
+        source_chw: torch.Tensor,
+        coords01: torch.Tensor,
+        t_col: torch.Tensor,
+        pan: float,
+        background_value: float = 1.0,
+    ) -> torch.Tensor:
+        canvas = sample_target(source_chw, coords01)
         white = torch.ones_like(canvas)
+        if background_value != 1.0:
+            white = white * float(background_value)
         edge = 0.006
         envelope = torch.sin(t_col * torch.pi).square()
 
@@ -2206,9 +2270,12 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 * torch.sigmoid((moved_y1 - y) / edge)
             ).clamp(0.0, 1.0)
             source_coords = torch.cat([x - pan_x, y - pan_y], dim=-1)
-            patch = sample_target(target_chw, source_coords)
+            patch = sample_target(source_chw, source_coords)
             canvas = patch * alpha + canvas * (1.0 - alpha)
         return canvas
+
+    def sample_independent_sprite_translation(coords01: torch.Tensor, t_col: torch.Tensor, pan: float) -> torch.Tensor:
+        return sample_independent_sprite_translation_from(target_chw, coords01, t_col, pan)
 
     def forward_layout_reflow_coords(coords01: torch.Tensor, t_col: torch.Tensor, amount: float) -> torch.Tensor:
         out = coords01.clone()
@@ -2305,9 +2372,33 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         target_sample = sample_target(target_clean_chw, (coords01 - target_offset).clamp(0.0, 1.0))
         return source_layer * (1.0 - progress) + target_sample * progress
 
+    def sample_clean_independent_recompose_from(
+        source_chw: torch.Tensor,
+        target_clean_chw: torch.Tensor,
+        coords01: torch.Tensor,
+        t_col: torch.Tensor,
+        amount: float,
+    ) -> torch.Tensor:
+        progress = clean_progress(t_col, amount)
+        source_static = sample_target(source_chw, coords01)
+        source_moved = sample_independent_sprite_translation_from(source_chw, coords01, t_col, 0.085 * amount)
+        source_layer = source_static * (1.0 - progress) + source_moved * progress
+
+        target_coords = apply_independent_arrival_field(
+            coords01,
+            t_col,
+            progress,
+            strength=0.24 * amount,
+            pan=0.10 * amount,
+        )
+        target_sample = sample_target(target_clean_chw, target_coords)
+        return source_layer * (1.0 - progress) + target_sample * progress
+
     def sample_clean_layout_reflow(coords01: torch.Tensor, t_col: torch.Tensor, amount: float) -> torch.Tensor:
         if clean_target_chw is None:
             return sample_layout_reflow(coords01, t_col, amount)
+        if motion_mode in clean_independent_recompose_motion_modes:
+            return sample_clean_independent_recompose_from(target_chw, clean_target_chw, coords01, t_col, amount)
         if motion_mode in clean_move_reveal_motion_modes:
             return sample_clean_move_reveal_from(target_chw, clean_target_chw, coords01, t_col, amount)
         return sample_clean_layout_reflow_from(target_chw, clean_target_chw, coords01, t_col, amount)
