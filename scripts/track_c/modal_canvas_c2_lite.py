@@ -335,11 +335,18 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 feats.append(torch.cos(t * freq))
             return torch.cat(feats, dim=-1)
 
-        def forward_with_warp(self, coords01: torch.Tensor, t: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
-            coord_enc = self.encode_coords(coords01)
-            time_enc = self.encode_time(t)
-            flow = self.flow(torch.cat([coord_enc, time_enc], dim=-1)) * self.flow_scale
-            sample_coords = (coords01 + flow).clamp(0.0, 1.0)
+        def decode_from_sample(
+            self,
+            coords01: torch.Tensor,
+            t: torch.Tensor,
+            sample_coords: torch.Tensor,
+            coord_enc: torch.Tensor | None = None,
+            time_enc: torch.Tensor | None = None,
+        ) -> torch.Tensor:
+            if coord_enc is None:
+                coord_enc = self.encode_coords(coords01)
+            if time_enc is None:
+                time_enc = self.encode_time(t)
             condition_parts = [coord_enc]
             if self.source_coord_features:
                 condition_parts.append(self.encode_coords(sample_coords))
@@ -364,7 +371,22 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 ).squeeze(0).squeeze(-1).transpose(0, 1)
                 detail_logits = self.detail_mlp(torch.cat([detail_sampled, condition], dim=-1))
                 logits = logits + self.detail_scale * torch.tanh(detail_logits)
-            return torch.sigmoid(logits), sample_coords
+            return torch.sigmoid(logits)
+
+        def forward_with_warp(self, coords01: torch.Tensor, t: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+            coord_enc = self.encode_coords(coords01)
+            time_enc = self.encode_time(t)
+            flow = self.flow(torch.cat([coord_enc, time_enc], dim=-1)) * self.flow_scale
+            sample_coords = (coords01 + flow).clamp(0.0, 1.0)
+            return self.decode_from_sample(coords01, t, sample_coords, coord_enc, time_enc), sample_coords
+
+        def forward_with_source_coords(
+            self,
+            coords01: torch.Tensor,
+            t: torch.Tensor,
+            sample_coords: torch.Tensor,
+        ) -> torch.Tensor:
+            return self.decode_from_sample(coords01, t, sample_coords.clamp(0.0, 1.0))
 
         def forward(self, coords01: torch.Tensor, t: torch.Tensor) -> torch.Tensor:
             return self.forward_with_warp(coords01, t)[0]
@@ -597,6 +619,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     layout_mid_time_ratio = float(config.get("layout_mid_time_ratio", 0.0))
     layout_mid_time_width = float(config.get("layout_mid_time_width", 0.24))
     layout_flow_loss_weight = float(config.get("layout_flow_loss_weight", 0.0))
+    layout_oracle_flow = bool(int(config.get("layout_oracle_flow", 0)))
     detail_channels = int(config.get("detail_channels", 0))
     detail_hidden = int(config.get("detail_hidden", config["hidden"]))
     detail_scale = float(config.get("detail_scale", 0.0))
@@ -887,7 +910,11 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 focus = focus & (torch.rand((batch_size,), device=device) < layout_target_sampling_ratio)
             coords = torch.where(focus.unsqueeze(-1), moved_coords, coords)
         truth, target_coords = truth_for_coords(coords, t)
-        if motion_mode in layout_reflow_motion_modes and layout_flow_loss_weight > 0.0:
+        if motion_mode in layout_reflow_motion_modes and layout_oracle_flow:
+            oracle_source_coords, _oracle_alpha = inverse_layout_reflow_coords(coords, t, motion_strength)
+            pred = model.forward_with_source_coords(coords, t, oracle_source_coords)
+            pred_source_coords = None
+        elif motion_mode in layout_reflow_motion_modes and layout_flow_loss_weight > 0.0:
             pred, pred_source_coords = model.forward_with_warp(coords, t)
         else:
             pred = model(coords, t)
@@ -994,7 +1021,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         if torch.cuda.is_available():
             torch.cuda.synchronize()
         start = perf_counter()
-        img_tensor = model.render(width, height, viewport, t_value)
+        img_tensor = render_model_frame(width, height, viewport, t_value)
         if torch.cuda.is_available():
             torch.cuda.synchronize()
         render_times[name] = (perf_counter() - start) * 1000
@@ -1012,6 +1039,26 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             y0 = min(max((1.0 - height) * 0.5 + pan_y, 0.0), 1.0 - height)
             return (x0, y0, width, height)
         return (0.0, 0.0, 1.0, 1.0)
+
+    @torch.inference_mode()
+    def render_model_frame(width: int, height: int, viewport: tuple[float, float, float, float], t_value: float) -> torch.Tensor:
+        x, y, w, h = viewport
+        xs = torch.linspace(x, x + w, width, device=device)
+        ys = torch.linspace(y, y + h, height, device=device)
+        yy, xx = torch.meshgrid(ys, xs, indexing="ij")
+        coords = torch.stack([xx.reshape(-1), yy.reshape(-1)], dim=-1).clamp(0.0, 1.0)
+        t = torch.full((coords.shape[0], 1), t_value, device=device)
+        parts = []
+        chunk = 262144
+        for start in range(0, coords.shape[0], chunk):
+            coord_chunk = coords[start : start + chunk]
+            t_chunk = t[start : start + chunk]
+            if layout_oracle_flow and motion_mode in layout_reflow_motion_modes:
+                source_chunk, _source_alpha = inverse_layout_reflow_coords(coord_chunk, t_chunk, motion_strength)
+                parts.append(model.forward_with_source_coords(coord_chunk, t_chunk, source_chunk))
+            else:
+                parts.append(model.forward(coord_chunk, t_chunk))
+        return torch.cat(parts, dim=0).view(height, width, 3)
 
     @torch.inference_mode()
     def render_layout_frame(width: int, height: int, t_value: float) -> torch.Tensor:
@@ -1229,7 +1276,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         if video_layout_mode != "none":
             video_frames.append(render_layout_frame(960, 544, t_value))
         else:
-            video_frames.append(model.render(960, 544, frame_viewport(t_value), t_value))
+            video_frames.append(render_model_frame(960, 544, frame_viewport(t_value), t_value))
     if torch.cuda.is_available():
         torch.cuda.synchronize()
     render_33_wall_ms = (perf_counter() - video_start) * 1000
@@ -1258,6 +1305,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         canvas_type += "-source-coord"
     if layout_flow_loss_weight > 0.0:
         canvas_type += "-flow-supervised"
+    if layout_oracle_flow:
+        canvas_type += "-oracle-flow"
     metrics = {
         "canvas_type": canvas_type,
         "train_resolution": config["train_resolution"],
@@ -1318,6 +1367,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "layout_mid_time_ratio": layout_mid_time_ratio,
         "layout_mid_time_width": layout_mid_time_width,
         "layout_flow_loss_weight": layout_flow_loss_weight,
+        "layout_oracle_flow": int(layout_oracle_flow),
         "text_box_count": len(config.get("text_boxes", [])),
         "text_mask_coverage": float(text_mask.mean().detach().cpu()),
         "element_alpha_coverage": float((element_alpha > 0.05).float().mean().detach().cpu()),
@@ -1364,6 +1414,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         metrics["description"] += " Learned warped/source coordinate features are included in the renderer MLP."
     if layout_flow_loss_weight > 0.0:
         metrics["description"] += " Learned flow is supervised toward the known inverse layout-reflow map."
+    if layout_oracle_flow:
+        metrics["description"] += " Oracle inverse layout-flow coordinates are used as a diagnostic transport control."
     return {"artifacts": artifacts, "metrics": metrics}
 
 
@@ -1419,6 +1471,7 @@ def main(
     layout_mid_time_ratio: float = 0.0,
     layout_mid_time_width: float = 0.24,
     layout_flow_loss_weight: float = 0.0,
+    layout_oracle_flow: int = 0,
     min_ocr_similarity: float = 0.5,
     min_motion_delta: float = 0.001,
     seed: int = 0,
@@ -1485,6 +1538,7 @@ def main(
         "layout_mid_time_ratio": layout_mid_time_ratio,
         "layout_mid_time_width": layout_mid_time_width,
         "layout_flow_loss_weight": layout_flow_loss_weight,
+        "layout_oracle_flow": layout_oracle_flow,
         "text_boxes": text_boxes,
         "source_resolution": source_resolution,
         "frames": frames,

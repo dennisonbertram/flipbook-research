@@ -116,6 +116,10 @@ C5.7 is the first clear architecture win after the C49/C52 frontier. `c57-source
 
 C5.8 follows the transport hypothesis. The current learned-flow budget was only about `0.14` normalized-coordinate travel, but the layout-reflow target moves some bands by roughly `0.45`. That means the renderer may still be repainting too much detail from memory instead of moving source detail through the latent canvas. C5.8 tests larger learned-flow ranges (`0.20-0.45`) and an optional inverse-layout-flow supervision term, while keeping the output pure neural-canvas pixels.
 
+C5.8 is a sharp negative. Larger learned-flow range destabilizes text instead of improving transport: the best run, `c58-flow028-target50-c32h160-s12000`, reaches only OCR `0.4286` at segment `822.649ms`. Flow supervision does not rescue it; the best supervised variant, `c58-flowsup035-w0025-target50-c32h160-s12000`, reaches OCR `0.3727`. The likely lesson is that the renderer needs structured transport, not merely a wider unconstrained flow field.
+
+C5.9 adds an oracle-flow diagnostic. The neural canvas still generates every pixel, but the sampling coordinate is provided by the known inverse synthetic layout-reflow map instead of the learned flow network. If this recovers text quality, the bottleneck is learning the transport field. If it does not, the bottleneck is in the latent canvas/MLP reconstruction after transport.
+
 Suggested `results.tsv` header:
 
 ```text

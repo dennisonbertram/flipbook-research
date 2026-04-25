@@ -1230,3 +1230,41 @@ C58 hypothesis:
 - The learned-flow cap has been too small for full layout reflow. Some layout bands move around `0.45` in normalized page coordinates, while prior runs used `flow_scale=0.10`, internally capped around `0.14`.
 - Larger flow range should let the latent canvas transport source detail instead of forcing the MLP to repaint text from local output coordinates.
 - A light inverse-flow supervision term may make that transport learnable without adding masks, overlays, or a second sampled canvas.
+
+Completed C58 results:
+
+```text
+c58-flow028-target50-c32h160-s12000: OCR 0.4286, segment 822.649ms, motion_delta 0.0528, quality_fail
+c58-flowsup035-w0025-target50-c32h160-s12000: OCR 0.3727, segment 790.149ms, motion_delta 0.0520, quality_fail
+c58-flowsup025-w0025-target50-c32h160-s12000: OCR 0.3086, segment 805.795ms, motion_delta 0.0543, quality_fail
+c58-flow020-target50-c32h160-s12000: OCR 0.3077, segment 813.563ms, motion_delta 0.0512, quality_fail
+c58-flow045-target50-c32h160-s12000: OCR 0.1896, segment 660.757ms, motion_delta 0.0565, quality_fail
+c58-flow035-target50-c32h160-s12000: OCR 0.1744, segment 701.913ms, motion_delta 0.0528, quality_fail
+c58-flowsup035-w005-target50-c32h160-s12000: OCR 0.1734, segment 818.933ms, motion_delta 0.0514, quality_fail
+c58-flow035-weightonly-c32h160-s12000: OCR 0.1707, segment 867.212ms, motion_delta 0.0495, quality_fail
+c58-flowsup035-w0025-weightonly-c32h160-s12000: OCR 0.1677, segment 679.363ms, motion_delta 0.0519, quality_fail
+c58-flowsup045-w0025-target50-c32h160-s12000: OCR 0.1235, segment 670.777ms, motion_delta 0.0527, quality_fail
+```
+
+Interpretation:
+
+- Wider learned-flow range is not enough; it actively hurts text quality.
+- Light inverse-flow supervision also fails at these weights/ranges, so the flow network may be too unconstrained or the photometric objective may fight the transport objective.
+- C58 remains fast, but speed is not the bottleneck. The model needs a cleaner way to separate layout transport from pixel/detail reconstruction.
+
+Next experiments:
+
+```text
+c59-oracleflow-target75-c32h160-s12000
+c59-oracleflow-target50-c32h160-s12000
+c59-oracleflow-weightonly-c32h160-s12000
+c59-oracleflow-target75-c24h128-s10000
+c59-oracleflow-target75-nosrc-c32h160-s12000
+c59-oracleflow-target75-freq12-s10000
+```
+
+C59 hypothesis:
+
+- Use the known inverse layout-reflow map as an oracle transport control while still rendering all pixels through the neural canvas.
+- If oracle flow beats C57, learned transport is the next model target.
+- If oracle flow still fails, the bottleneck is in high-frequency reconstruction under reflow, not in motion-field learning.

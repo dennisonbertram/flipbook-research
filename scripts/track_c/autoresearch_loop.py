@@ -92,6 +92,7 @@ def general_visual_motion_args(
     layout_mid_time_ratio: float | None = None,
     layout_mid_time_width: float | None = None,
     layout_flow_loss_weight: float | None = None,
+    layout_oracle_flow: int | None = None,
     motion_mode: str = "jiggle",
     motion_strength: float | None = None,
     video_viewport_mode: str = "static",
@@ -207,6 +208,8 @@ def general_visual_motion_args(
         args.extend(["--layout-mid-time-width", f"{layout_mid_time_width:g}"])
     if layout_flow_loss_weight is not None:
         args.extend(["--layout-flow-loss-weight", f"{layout_flow_loss_weight:g}"])
+    if layout_oracle_flow is not None:
+        args.extend(["--layout-oracle-flow", str(layout_oracle_flow)])
     return args
 
 
@@ -539,6 +542,7 @@ def learned_layout_reflow_experiment(
     layout_mid_time_ratio: float | None = None,
     layout_mid_time_width: float | None = None,
     layout_flow_loss_weight: float | None = None,
+    layout_oracle_flow: int | None = None,
     min_ocr: float = 0.35,
     min_motion: float = 0.035,
 ) -> Experiment:
@@ -566,12 +570,13 @@ def learned_layout_reflow_experiment(
             target_note += f" weight {layout_target_pair_weight:g}"
     mid_note = f", mid-time {layout_mid_time_ratio:g}" if layout_mid_time_ratio else ""
     flow_loss_note = f", flow supervision {layout_flow_loss_weight:g}" if layout_flow_loss_weight else ""
+    oracle_note = ", oracle layout flow" if layout_oracle_flow else ""
     return Experiment(
         label=label,
         notes=(
             "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions "
             "the illustration into a new page layout; output remains direct neural-canvas pixels. "
-            f"amount {amount:g}, flow scale {flow_scale:g}, {steps} steps, freq{freq_bands}{clip_note}{l1_note}{grad_note}{seed_note}{detail_note}{source_coord_note}{text_note}{target_note}{mid_note}{flow_loss_note}."
+            f"amount {amount:g}, flow scale {flow_scale:g}, {steps} steps, freq{freq_bands}{clip_note}{l1_note}{grad_note}{seed_note}{detail_note}{source_coord_note}{text_note}{target_note}{mid_note}{flow_loss_note}{oracle_note}."
         ),
         args=general_visual_motion_args(
             label,
@@ -610,6 +615,7 @@ def learned_layout_reflow_experiment(
             layout_mid_time_ratio=layout_mid_time_ratio,
             layout_mid_time_width=layout_mid_time_width,
             layout_flow_loss_weight=layout_flow_loss_weight,
+            layout_oracle_flow=layout_oracle_flow,
             motion_mode="layout-reflow",
             motion_strength=amount,
             min_ocr=min_ocr,
@@ -619,6 +625,108 @@ def learned_layout_reflow_experiment(
 
 
 EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        "c59-oracleflow-target75-c32h160-s12000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=12000,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.75,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        layout_oracle_flow=1,
+        min_ocr=0.55,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c59-oracleflow-target50-c32h160-s12000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=12000,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.50,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        layout_oracle_flow=1,
+        min_ocr=0.55,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c59-oracleflow-weightonly-c32h160-s12000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=12000,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        layout_target_sampling=0,
+        layout_target_weighting=1,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        layout_oracle_flow=1,
+        min_ocr=0.54,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c59-oracleflow-target75-c24h128-s10000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=10000,
+        channels=24,
+        hidden=128,
+        source_coord_features=1,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.75,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        layout_oracle_flow=1,
+        min_ocr=0.55,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c59-oracleflow-target75-nosrc-c32h160-s12000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=12000,
+        channels=32,
+        hidden=160,
+        source_coord_features=0,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.75,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        layout_oracle_flow=1,
+        min_ocr=0.55,
+        min_motion=0.045,
+    ),
+    learned_layout_reflow_experiment(
+        "c59-oracleflow-target75-freq12-s10000",
+        amount=1.0,
+        flow_scale=0.10,
+        steps=10000,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        freq_bands=12,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.75,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        layout_oracle_flow=1,
+        min_ocr=0.55,
+        min_motion=0.045,
+    ),
     learned_layout_reflow_experiment(
         "c58-flow020-target50-c32h160-s12000",
         amount=1.0,
