@@ -162,6 +162,8 @@ C7.6 mostly shows that shrinking the target residual branch trades away quality.
 
 C7.7 is a negative basin map. No C77 run passes; the best new seed reaches OCR `0.5660` but misses latency at `1456ms`, and the optimizer tweaks do not rescue weak seeds. This suggests C75's split-branch decoder found a real but brittle basin. C7.8 keeps the split but makes the residual branch fused: it still starts at zero and cannot replace the source branch, but it can see both source-sampled and target-position features when learning corrections.
 
+C7.8 is also negative. Fusing source and target features into the residual branch raises cost and does not stabilize the basin: the best-quality C78 run reaches OCR `0.6038` but misses latency at `1499.870ms`, while the best fast run stays below the OCR gate. The lesson is that more coordinate/feature concatenation is not enough. C7.9 pivots to a learned RGB neural texture skip: initialize a model parameter with the page RGB logits, sample it through the same source/target coordinate path, and ask the MLP to learn bounded residual corrections. This remains pixel-native model output, not an overlay, and directly tests whether high-frequency strokes need a more spatial base representation than latent-feature reconstruction alone.
+
 Suggested `results.tsv` header:
 
 ```text

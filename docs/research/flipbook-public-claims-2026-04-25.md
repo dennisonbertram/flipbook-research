@@ -6,6 +6,7 @@ Sources:
 
 - https://flipbook.page/
 - https://xcancel.com/zan2434/status/2046982383430496444
+- Agent-browser refresh: `docs/research/flipbook-agent-browser-about-refresh-2026-04-25.txt`
 
 ## What Flipbook Says It Is
 
@@ -15,11 +16,15 @@ The X launch thread phrases the same thesis as every pixel being streamed from a
 
 Re-review note: this is still the north star. The breakthrough claim is not a better UI renderer around model assets; it is a page/runtime where the visible surface is model-rendered pixels and interaction happens by asking the model/system to produce the next visible state.
 
+Browser refresh note: the live page still says each page contains no HTML, code, specific links, or fields, and that the whole surface is generated pixels. That means a proof of concept should be judged by whether the visual state can be regenerated, resized, animated, and changed as pixels, not by whether hidden DOM/layout machinery can imitate the demo.
+
 ## Text Claim
 
 Flipbook explicitly says the text is rendered by the image model as pixels, with no text overlays applied to the images. It also acknowledges that text can be imperfect or misplaced today.
 
 Implication for this repo: text overlays, OCR patch replacement, and mask compositing are useful diagnostics, but they are not the target architecture. Track C should keep moving toward generated text as model output pixels, even when the text benchmark is painful.
+
+The same refresh confirms Flipbook claims no text overlays on the images. So the "layer text on top" idea remains a product bridge or diagnostic only; it is not evidence for the pure neural-canvas path.
 
 ## Video Claim
 
@@ -62,6 +67,8 @@ C65-C69 are still aligned because they keep the output as generated pixels while
 - C68 coarse context improved the frontier with light context, while heavy context regressed.
 - C69 is the current robustness check: if light context holds across seeds, Track C should consolidate around that architecture; if it collapses, the next move should shift toward objective/data distribution rather than more context capacity.
 
+C75-C78 update that conclusion rather than changing it. Dual-residual decoding was a real positive signal because it separates source identity from destination-local correction while still emitting pixels from the model. Fused source/target residual decoding then regressed, which suggests the current bottleneck is spatial/detail representation, not just "show the MLP more coordinates."
+
 The key open question remains: can this become robust across seeds and prompts without adding a hidden layout engine? If not, the next model-layer move should be architectural, not another mask or overlay.
 
 ## Direction Check
@@ -72,3 +79,5 @@ The project is on the right path if it treats Flipbook as evidence for a two-sta
 2. Long term: merge page generation, animation, resize, scrolling, and interaction into one model-rendered surface.
 
 The current Track C work is trying to prove the hard part of the long-term path in miniature: can a compact neural renderer preserve readable semantic structure while content moves, reflows, and changes? That is the correct bottleneck to attack. The only caution is benchmark overfit. Every new win should be followed by stress tests that change layout, move regions independently, and alter illustration structure, not just make the same page wiggle more cleanly.
+
+Immediate direction after the refresh: keep Track C honest by preferring experiments that make the page become a different pixel state. RGB/neural-texture skip experiments are acceptable if they are treated as model parameters and are evaluated under reflow/resize, but they should not become a copy-paste compositor. Track D remains the place to test whether this can generalize beyond the single page.

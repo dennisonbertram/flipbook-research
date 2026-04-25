@@ -286,6 +286,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             decoder_mode: str = "single",
             target_branch_scale: float = 0.0,
             target_branch_hidden: int | None = None,
+            rgb_skip_scale: float = 0.0,
+            rgb_skip_mode: str = "source",
         ):
             super().__init__()
             self.width = width
@@ -308,7 +310,19 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             self.decoder_mode = decoder_mode
             self.target_branch_scale = float(target_branch_scale)
             self.target_branch_hidden = hidden if target_branch_hidden is None else max(8, int(target_branch_hidden))
+            rgb_skip_mode = rgb_skip_mode.lower()
+            if rgb_skip_mode in {"target", "dest", "destination", "output"}:
+                rgb_skip_mode = "target"
+            elif rgb_skip_mode != "both":
+                rgb_skip_mode = "source"
+            self.rgb_skip_scale = float(rgb_skip_scale)
+            self.rgb_skip_mode = rgb_skip_mode
             self.canvas = nn.Parameter(torch.randn(1, channels, height, width) * 0.02)
+            self.rgb_canvas = (
+                nn.Parameter(torch.zeros(1, 3, height, width))
+                if self.rgb_skip_scale > 0.0
+                else None
+            )
             if context_channels > 0:
                 context_sample_mode = context_sample_mode.lower()
                 if context_sample_mode in {"target", "dest", "destination", "output"}:
@@ -362,6 +376,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 nn.Linear(hidden, 2),
                 nn.Tanh(),
             )
+            if self.rgb_skip_scale > 0.0:
+                nn.init.zeros_(self.flow[-2].weight)
+                nn.init.zeros_(self.flow[-2].bias)
 
             def make_rgb_mlp(input_dim: int, mlp_hidden: int) -> nn.Sequential:
                 return nn.Sequential(
@@ -374,6 +391,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
 
             if self.decoder_mode == "single":
                 self.mlp = make_rgb_mlp(latent_dim + condition_dim, hidden)
+                if self.rgb_skip_scale > 0.0:
+                    nn.init.zeros_(self.mlp[-1].weight)
+                    nn.init.zeros_(self.mlp[-1].bias)
                 self.source_mlp = None
                 self.target_mlp = None
                 self.gate_mlp = None
@@ -519,6 +539,22 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 ).squeeze(0).squeeze(-1).transpose(0, 1)
                 detail_logits = self.detail_mlp(torch.cat([detail_sampled, condition], dim=-1))
                 logits = logits + self.detail_scale * torch.tanh(detail_logits)
+            if self.rgb_canvas is not None:
+                if self.rgb_skip_mode == "target":
+                    rgb_coords = coords01
+                elif self.rgb_skip_mode == "both":
+                    rgb_coords = (coords01 + sample_coords) * 0.5
+                else:
+                    rgb_coords = sample_coords
+                rgb_grid = rgb_coords.mul(2.0).sub(1.0).view(1, -1, 1, 2)
+                base_logits = F.grid_sample(
+                    self.rgb_canvas,
+                    rgb_grid,
+                    mode="bilinear",
+                    padding_mode="border",
+                    align_corners=True,
+                ).squeeze(0).squeeze(-1).transpose(0, 1)
+                logits = base_logits + self.rgb_skip_scale * torch.tanh(logits)
             return torch.sigmoid(logits)
 
         def forward_with_warp(self, coords01: torch.Tensor, t: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
@@ -789,6 +825,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     decoder_mode = str(config.get("decoder_mode", "single"))
     target_branch_scale = float(config.get("target_branch_scale", 0.0))
     target_branch_hidden = int(config.get("target_branch_hidden", config["hidden"]))
+    rgb_skip_scale = float(config.get("rgb_skip_scale", 0.0))
+    rgb_skip_mode = str(config.get("rgb_skip_mode", "source"))
 
     source = Image.open(io.BytesIO(input_png)).convert("RGB").resize((train_w, train_h), Image.Resampling.LANCZOS)
     target = torch.from_numpy(np.asarray(source, dtype=np.float32) / 255.0).to(device)
@@ -1035,7 +1073,12 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         decoder_mode=decoder_mode,
         target_branch_scale=target_branch_scale,
         target_branch_hidden=target_branch_hidden,
+        rgb_skip_scale=rgb_skip_scale,
+        rgb_skip_mode=rgb_skip_mode,
     ).to(device)
+    if model.rgb_canvas is not None:
+        with torch.no_grad():
+            model.rgb_canvas.copy_(torch.logit(target_chw.clamp(1e-4, 1.0 - 1e-4)))
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=base_lr, weight_decay=0.0)
     compile_start = perf_counter()
@@ -1545,6 +1588,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         canvas_type += "-coarse-context"
     if decoder_mode.lower().replace("_", "-") != "single":
         canvas_type += f"-{decoder_mode.lower().replace('_', '-')}"
+    if rgb_skip_scale > 0.0:
+        canvas_type += f"-rgb-skip-{model.rgb_skip_mode}"
     metrics = {
         "canvas_type": canvas_type,
         "train_resolution": config["train_resolution"],
@@ -1569,6 +1614,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "decoder_mode": model.decoder_mode,
         "target_branch_scale": target_branch_scale,
         "target_branch_hidden": target_branch_hidden,
+        "rgb_skip_scale": rgb_skip_scale,
+        "rgb_skip_mode": model.rgb_skip_mode,
         "freq_bands": int(config["freq_bands"]),
         "time_bands": int(config["time_bands"]),
         "lr": base_lr,
@@ -1698,6 +1745,11 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             f" Decoder uses separately gated source and target-position branches "
             f"(target hidden {target_branch_hidden})."
         )
+    if rgb_skip_scale > 0.0:
+        metrics["description"] += (
+            f" Renderer uses a learned RGB neural texture skip sampled in {model.rgb_skip_mode} mode, "
+            f"with bounded residual scale {rgb_skip_scale:g}."
+        )
     if layout_target_mid_sampling_ratio > 0.0:
         metrics["description"] += (
             f" Training directly samples {layout_target_mid_sampling_ratio:g} of points from "
@@ -1728,6 +1780,8 @@ def main(
     decoder_mode: str = "single",
     target_branch_scale: float = 0.0,
     target_branch_hidden: int = 0,
+    rgb_skip_scale: float = 0.0,
+    rgb_skip_mode: str = "source",
     freq_bands: int = 8,
     time_bands: int = 4,
     lr: float = 0.01,
@@ -1808,6 +1862,8 @@ def main(
         "decoder_mode": decoder_mode,
         "target_branch_scale": target_branch_scale,
         "target_branch_hidden": target_branch_hidden if target_branch_hidden > 0 else hidden,
+        "rgb_skip_scale": rgb_skip_scale,
+        "rgb_skip_mode": rgb_skip_mode,
         "freq_bands": freq_bands,
         "time_bands": time_bands,
         "lr": lr,

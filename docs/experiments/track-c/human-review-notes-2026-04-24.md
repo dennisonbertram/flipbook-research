@@ -2083,3 +2083,45 @@ C78 hypothesis:
 - Keep the C75 source-branch/residual-branch separation, but let the zero-initialized residual branch see both source-sampled and target-position latent features.
 - This differs from C74's failed concatenation because the main source renderer remains intact; the fused path can only learn a gated residual correction.
 - If the target repair branch was under-informed in C75-C77, fused residuals should improve pass frequency without returning to C74's single-MLP confusion.
+
+Completed C78 results:
+
+```text
+c78-fused-s025-c8-h64-seed2-s14000: OCR 0.6038, segment 1499.870ms, motion_delta 0.0475, latency_fail
+c78-fused-s035-c8-h80-seed4-s14000: OCR 0.5357, segment 1197.911ms, motion_delta 0.0475, quality_fail
+c78-fused-s025-c8-h64-seed5-s14000: OCR 0.5465, segment 1480.895ms, motion_delta 0.0526, quality_fail
+c78-fused-s025-c8-h80-seed5-s14000: OCR 0.4906, segment 1689.149ms, motion_delta 0.0507, quality_fail
+c78-fused-s035-c8-h80-seed1-s14000: OCR 0.4780, segment 1522.793ms, motion_delta 0.0501, quality_fail
+c78-fused-s035-c8-h80-seed2-s14000: OCR 0.4780, segment 1514.992ms, motion_delta 0.0512, quality_fail
+c78-fused-s025-c8-h80-seed1-s14000: OCR 0.4654, segment 1630.933ms, motion_delta 0.0512, quality_fail
+c78-fused-s025-c8-h80-seed6-s14000: OCR 0.4625, segment 1532.631ms, motion_delta 0.0489, quality_fail
+c78-fused-s025-c8-h80-seed2-s14000: OCR 0.4417, segment 1509.706ms, motion_delta 0.0487, quality_fail
+c78-fused-s025-c8-h80-seed4-s14000: OCR 0.3947, segment 1510.334ms, motion_delta 0.0508, quality_fail
+```
+
+Interpretation:
+
+- C78 does not stabilize dual-residual. The best OCR run is a latency miss, and most fused residual runs are both slower and below the quality gate.
+- The useful lesson is negative: simply exposing the target repair branch to both source and target latent features adds cost/confusion. The bottleneck now looks more like spatial high-frequency representation than missing MLP inputs.
+- The next branch should make text/detail easier to preserve as spatial content while keeping the renderer pixel-native.
+
+Next experiments:
+
+```text
+c79-rgbskip-s025-c8-seed1-s14000
+c79-rgbskip-s025-c8-seed2-s14000
+c79-rgbskip-s025-c8-seed4-s14000
+c79-rgbskip-s050-c8-seed1-s14000
+c79-rgbskip-s050-c8-seed2-s14000
+c79-rgbskip-s050-c8-seed4-s14000
+c79-rgbskip-s100-c8-seed2-s14000
+c79-rgbskip-s100-c8-seed5-s14000
+c79-rgbskip-s050-nocontext-seed1-s14000
+c79-rgbskip-s050-nocontext-seed2-s14000
+```
+
+C79 hypothesis:
+
+- A learned RGB neural texture initialized from the page can carry high-frequency strokes as model parameters, while the MLP learns bounded corrections for layout reflow.
+- Source-mode RGB sampling should behave like neural texture transport rather than an overlay: the output is still produced through the neural renderer and evaluated under reflow/resize.
+- If text blur is caused by reconstructing glyphs from a compressed latent feature grid, C79 should improve OCR without needing rectangular masks, OCR replacement, or a DOM/layout layer.

@@ -78,6 +78,8 @@ def general_visual_motion_args(
     decoder_mode: str | None = None,
     target_branch_scale: float | None = None,
     target_branch_hidden: int | None = None,
+    rgb_skip_scale: float | None = None,
+    rgb_skip_mode: str | None = None,
     freq_bands: int | None = None,
     time_bands: int | None = None,
     lr: float | None = None,
@@ -206,6 +208,10 @@ def general_visual_motion_args(
         args.extend(["--target-branch-scale", f"{target_branch_scale:g}"])
     if target_branch_hidden is not None:
         args.extend(["--target-branch-hidden", str(target_branch_hidden)])
+    if rgb_skip_scale is not None:
+        args.extend(["--rgb-skip-scale", f"{rgb_skip_scale:g}"])
+    if rgb_skip_mode is not None:
+        args.extend(["--rgb-skip-mode", rgb_skip_mode])
     if batch_size is not None:
         args.extend(["--batch-size", str(batch_size)])
     if freq_bands is not None:
@@ -577,6 +583,8 @@ def learned_layout_reflow_experiment(
     decoder_mode: str | None = None,
     target_branch_scale: float | None = None,
     target_branch_hidden: int | None = None,
+    rgb_skip_scale: float | None = None,
+    rgb_skip_mode: str | None = None,
     freq_bands: int = 10,
     time_bands: int | None = None,
     lr: float | None = None,
@@ -641,6 +649,11 @@ def learned_layout_reflow_experiment(
         if decoder_mode
         else ""
     )
+    rgb_skip_note = (
+        f", rgb neural texture skip {rgb_skip_scale:g} {rgb_skip_mode or 'source'}"
+        if rgb_skip_scale
+        else ""
+    )
     text_note = ", text-weighted" if text_box_loss_weight > 0 or text_box_sample_ratio > 0 else ""
     target_note = ", target-side reflow sampling" if layout_target_sampling or layout_target_weighting else ""
     if layout_target_sampling and layout_target_sampling_ratio is not None and layout_target_sampling_ratio < 1.0:
@@ -671,7 +684,7 @@ def learned_layout_reflow_experiment(
         notes=(
             "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions "
             "the illustration into a new page layout; output remains direct neural-canvas pixels. "
-            f"amount {amount:g}, flow scale {flow_scale:g}, {steps} steps, freq{freq_bands}{clip_note}{l1_note}{grad_note}{seed_note}{detail_note}{source_coord_note}{neighborhood_note}{context_note}{decoder_note}{text_note}{target_note}{mid_note}{flow_loss_note}{oracle_note}{curriculum_note}{endpoint_note}."
+            f"amount {amount:g}, flow scale {flow_scale:g}, {steps} steps, freq{freq_bands}{clip_note}{l1_note}{grad_note}{seed_note}{detail_note}{source_coord_note}{neighborhood_note}{context_note}{decoder_note}{rgb_skip_note}{text_note}{target_note}{mid_note}{flow_loss_note}{oracle_note}{curriculum_note}{endpoint_note}."
         ),
         args=general_visual_motion_args(
             label,
@@ -696,6 +709,8 @@ def learned_layout_reflow_experiment(
             decoder_mode=decoder_mode,
             target_branch_scale=target_branch_scale,
             target_branch_hidden=target_branch_hidden,
+            rgb_skip_scale=rgb_skip_scale,
+            rgb_skip_mode=rgb_skip_mode,
             freq_bands=freq_bands,
             time_bands=time_bands,
             lr=lr,
@@ -733,6 +748,45 @@ def learned_layout_reflow_experiment(
             min_motion=min_motion,
         ),
     )
+
+
+C79_RGB_SKIP_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        context_channels=context_channels,
+        context_scale=0.25,
+        rgb_skip_scale=rgb_skip_scale,
+        rgb_skip_mode=rgb_skip_mode,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    )
+    for label, seed, context_channels, rgb_skip_scale, rgb_skip_mode in [
+        ("c79-rgbskip-s025-c8-seed1-s14000", 1, 8, 0.25, "source"),
+        ("c79-rgbskip-s025-c8-seed2-s14000", 2, 8, 0.25, "source"),
+        ("c79-rgbskip-s025-c8-seed4-s14000", 4, 8, 0.25, "source"),
+        ("c79-rgbskip-s050-c8-seed1-s14000", 1, 8, 0.50, "source"),
+        ("c79-rgbskip-s050-c8-seed2-s14000", 2, 8, 0.50, "source"),
+        ("c79-rgbskip-s050-c8-seed4-s14000", 4, 8, 0.50, "source"),
+        ("c79-rgbskip-s100-c8-seed2-s14000", 2, 8, 1.00, "source"),
+        ("c79-rgbskip-s100-c8-seed5-s14000", 5, 8, 1.00, "source"),
+        ("c79-rgbskip-s050-nocontext-seed1-s14000", 1, 0, 0.50, "source"),
+        ("c79-rgbskip-s050-nocontext-seed2-s14000", 2, 0, 0.50, "source"),
+    ]
+]
 
 
 C78_FUSED_RESIDUAL_DECODER_EXPERIMENTS = [
@@ -1094,6 +1148,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C79_RGB_SKIP_EXPERIMENTS,
     *C78_FUSED_RESIDUAL_DECODER_EXPERIMENTS,
     *C77_DUAL_RESIDUAL_BASIN_MAP_EXPERIMENTS,
     *C76_DUAL_RESIDUAL_CONSOLIDATION_EXPERIMENTS,
