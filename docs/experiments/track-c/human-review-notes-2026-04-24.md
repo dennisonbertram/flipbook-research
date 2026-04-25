@@ -1703,3 +1703,46 @@ C69 hypothesis:
 - If light context is the stabilizer, c8/scale0.25 and c16/scale0.5 should produce multiple pass-quality seed repeats.
 - c4/c8/c12 and scale0.25/0.50 test whether there is a narrow context-capacity sweet spot.
 - If the seed repeats collapse again, the bottleneck is not just coarse context; it is probably the training distribution or objective.
+
+Completed C69 results:
+
+```text
+c69-context8s025-cross1-target60-c32h160-seed3-s14000: OCR 0.6019, segment 970.229ms, motion_delta 0.0512, pass
+c69-context4s025-cross1-target60-c32h160-seed1-s14000: OCR 0.5746, segment 811.086ms, motion_delta 0.0524, pass
+c69-context8s025-cross1-target60-c32h160-seed2-s14000: OCR 0.5525, segment 984.923ms, motion_delta 0.0504, pass
+c69-context12s025-cross1-target60-c32h160-seed1-s14000: OCR 0.5486, segment 989.633ms, motion_delta 0.0526, quality_fail
+c69-context16s050-cross1-target60-c32h160-seed2-s14000: OCR 0.5476, segment 979.132ms, motion_delta 0.0536, quality_fail
+c69-context8s025-cross1-target60-c32h160-seed5-s14000: OCR 0.5318, segment 970.567ms, motion_delta 0.0602, quality_fail
+c69-context8s050-cross1-target60-c32h160-seed1-s14000: OCR 0.5294, segment 1113.000ms, motion_delta 0.0515, quality_fail
+c69-context8s025-cross1-target60-c32h160-seed4-s14000: OCR 0.5031, segment 1305.045ms, motion_delta 0.0508, quality_fail
+c69-context16s050-cross1-target60-c32h160-seed3-s14000: OCR 0.4845, segment 974.191ms, motion_delta 0.0493, quality_fail
+c69-context16s050-cross1-target60-c32h160-seed4-s14000: OCR 0.4400, segment 977.897ms, motion_delta 0.0478, quality_fail
+```
+
+Interpretation:
+
+- Light context is real, but it is not a full robustness solution. Counting the original C68 seed1, the c8/scale0.25 family has three passes and two near-misses across seed1-5.
+- c16/scale0.5 did not reproduce the strong C68 seed1 result; the C69 repeats range from OCR `0.4400-0.5476`.
+- c4/scale0.25 passing at OCR `0.5746` suggests the useful context signal is compact, not high capacity.
+- Most runs remain inside the realtime budget; the failure is still text/layout fidelity. The next move should keep the light-context architecture and change the training distribution around target-layout text positions.
+
+Next experiments:
+
+```text
+c70-mid10-c8s025-seed4-s14000
+c70-mid20-c8s025-seed4-s14000
+c70-mid35-c8s025-seed4-s14000
+c70-mid20w012-c8s025-seed4-s14000
+c70-mid20-c8s025-seed5-s14000
+c70-mid20-c8s025-seed2-s14000
+c70-mid20-c4s025-seed2-s14000
+c70-mid20-c4s025-seed3-s14000
+c70-mid20-c8s025-target45-seed4-s14000
+c70-mid20-c8s025-text65-seed4-s14000
+```
+
+C70 hypothesis:
+
+- C69 may still undersample the actual reflowed target-layout glyph positions, especially on weak seeds.
+- Add direct target-midpoint glyph/text sampling during training: some samples are drawn from the synthetic reflowed midpoint's glyph/text distribution with time near `t=0.5`.
+- This is not a render-time text mask or overlay; it is only a training distribution change. If it helps seed4/5, the bottleneck is target-layout data coverage. If it regresses, C69's variance is more likely an architectural representation issue.

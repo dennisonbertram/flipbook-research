@@ -142,6 +142,8 @@ C6.7 shows latent-neighborhood decoding is useful but still not robust. The best
 
 C6.8 gives a strong positive signal for light coarse context. `c68-context8s025-cross1-target60-c32h160-seed1-s14000` reaches OCR `0.6269`, motion `0.0525`, and segment `998.129ms`, while `c68-context16s050-cross1-target60-c32h160-seed1-s14000` reaches OCR `0.6214`. Heavy context regresses (`c32/scale0.25` falls to OCR `0.4250`), so the likely useful region is small context capacity, not simply more latent features. C6.9 tests whether the c8/scale0.25 and c16/scale0.5 wins are robust across seeds.
 
+C6.9 partially validates light context but does not solve robustness. The c8/scale0.25 family gets two more passes: seed3 reaches OCR `0.6019`, seed2 reaches `0.5525`, while seed4/5 land at `0.5031/0.5318`. Counting C68 seed1, that is three passes and two near-misses across seed1-5. The c16/scale0.5 repeats do not hold (`0.4400-0.5476`), while c4/scale0.25 passes at OCR `0.5746`. C7.0 keeps the compact-context architecture and changes the training distribution: direct target-midpoint glyph/text sampling should tell us whether weak seeds are failing because target-layout text positions are underrepresented during training.
+
 Suggested `results.tsv` header:
 
 ```text
