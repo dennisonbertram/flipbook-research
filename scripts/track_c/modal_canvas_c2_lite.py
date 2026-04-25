@@ -1471,7 +1471,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             self.target_branch_scale = float(target_branch_scale)
             self.target_branch_hidden = hidden if target_branch_hidden is None else max(8, int(target_branch_hidden))
             target_canvas_mode = target_canvas_mode.lower().replace("_", "-")
-            if target_canvas_mode in {"mid", "midpoint", "gated", "target-gated"}:
+            if target_canvas_mode in {"blend", "switch", "replace", "target-blend", "mid-blend", "blend-gated"}:
+                target_canvas_mode = "blend"
+            elif target_canvas_mode in {"mid", "midpoint", "gated", "target-gated"}:
                 target_canvas_mode = "gated"
             elif target_canvas_mode in {"always", "target", "target-only"}:
                 target_canvas_mode = "always"
@@ -1547,7 +1549,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             condition_dim = coord_dim + time_dim + (coord_dim if source_coord_features else 0)
             context_taps = 2 if context_channels > 0 and self.context_sample_mode == "both" else 1
             latent_taps = 2 if self.latent_sample_mode == "both" else 1
-            target_canvas_taps = 1 if self.target_canvas is not None else 0
+            target_canvas_taps = 1 if self.target_canvas is not None and self.target_canvas_mode != "blend" else 0
             latent_dim = (
                 channels * len(offsets) * (latent_taps + target_canvas_taps)
                 + (context_channels * context_taps if context_channels > 0 else 0)
@@ -1640,10 +1642,16 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 sampled = self.sample_one_canvas_features(sample_coords)
             if self.target_canvas is not None:
                 target_sampled = self.sample_one_canvas_features(coords01, self.target_canvas)
-                if self.target_canvas_mode == "gated":
+                if self.target_canvas_mode == "blend":
+                    if target_sampled.shape != sampled.shape:
+                        raise RuntimeError("target_canvas_mode=blend requires source/target latent sampling with matching dimensions")
                     target_weight = torch.sin(t * torch.pi).square().clamp(0.0, 1.0)
-                    target_sampled = target_sampled * target_weight
-                sampled = torch.cat([sampled, target_sampled], dim=-1)
+                    sampled = sampled * (1.0 - target_weight) + target_sampled * target_weight
+                else:
+                    if self.target_canvas_mode == "gated":
+                        target_weight = torch.sin(t * torch.pi).square().clamp(0.0, 1.0)
+                        target_sampled = target_sampled * target_weight
+                    sampled = torch.cat([sampled, target_sampled], dim=-1)
             return sampled
 
         def sample_one_context(self, coords: torch.Tensor) -> torch.Tensor:
@@ -3073,7 +3081,13 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             f"(target hidden {target_branch_hidden})."
         )
     if model.target_canvas_mode != "none":
-        target_canvas_note = "midpoint-gated" if model.target_canvas_mode == "gated" else "always-visible"
+        target_canvas_note = (
+            "midpoint-blended"
+            if model.target_canvas_mode == "blend"
+            else "midpoint-gated"
+            if model.target_canvas_mode == "gated"
+            else "always-visible"
+        )
         metrics["description"] += (
             f" Decoder also receives a separate {target_canvas_note} target-state latent canvas "
             f"initialized at scale {target_canvas_init_scale:g}."

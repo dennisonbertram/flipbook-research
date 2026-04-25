@@ -202,21 +202,23 @@ C9.2 passed all ten initial stress runs, but it also proved the current gate is 
 
 C9.3 is a useful partial result, not a solution. The best naturalist run improves to OCR `0.5424`, and the best deep-sea contrast run still reaches OCR `0.8276`, but crop review shows the same source layer underneath. The failure appears representational: the single source-biased latent/decoder keeps carrying old high-frequency structure.
 
-C9.4 confirms that target-side decoder paths are not enough by themselves. Deep-sea full frames score well (`0.8667` OCR for both dual-residual and dual-gate, with `1265-1266ms` segment times), and the fastest latent-both deep-sea control reaches OCR `0.8000` at `922.816ms`. Naturalist remains much weaker (`0.5000` best OCR). Human crop review is the deciding result: the full frames look compelling, but `2x` crops still expose the old `Velarium`/`Materials`/diagram source layer. C9.5 therefore moves from decoder branching to a separate learned target-state latent canvas, gated around the midpoint, so the model has an explicit target page state rather than only a source-biased latent field.
+C9.4 confirms that target-side decoder paths are not enough by themselves. Deep-sea full frames score well (`0.8667` OCR for both dual-residual and dual-gate, with `1265-1266ms` segment times), and the fastest latent-both deep-sea control reaches OCR `0.8000` at `922.816ms`. Naturalist remains much weaker (`0.5000` best OCR). Human crop review is the deciding result: the full frames look compelling, but `2x` crops still expose the old `Velarium`/`Materials`/diagram source layer.
+
+C9.5 tests a separate learned target-state latent canvas concatenated beside the source latent features. All ten runs pass under the `1.3s` segment budget (`913-1172ms`). The best naturalist run improves slightly to OCR `0.5546`, while the best deep-sea result reaches OCR `0.8000`, below C94's `0.8667` deep-sea score. Human crop review says the architecture is still not clean: the old source text/diagram layer remains visible. C9.6 therefore makes the target-state test stricter by blending/switching between source and target latent canvases, so midpoint decoding cannot freely reuse the source latent features.
 
 Next experiments:
 
 ```text
-c95-v11-naturalist-tcanvas-gated-init02-rem025-seed0-s12000
-c95-v11-naturalist-tcanvas-gated-init05-rem025-seed0-s12000
-c95-v11-naturalist-tcanvas-gated-init02-rem025-seed1-s12000
-c95-v11-naturalist-tcanvas-always-init02-rem025-seed0-s12000
-c95-v11-naturalist-tcanvas-gated-init02-rem050-seed0-s12000
-c95-v12-deep-sea-tcanvas-gated-init02-rem050-seed0-s12000
-c95-v12-deep-sea-tcanvas-gated-init05-rem050-seed0-s12000
-c95-v12-deep-sea-tcanvas-gated-init02-rem050-seed1-s12000
-c95-v12-deep-sea-tcanvas-always-init02-rem050-seed0-s12000
-c95-v12-deep-sea-tcanvas-gated-init02-rem000-seed0-s12000
+c96-v11-naturalist-tblend-init02-rem025-seed0-s12000
+c96-v11-naturalist-tblend-init05-rem025-seed0-s12000
+c96-v11-naturalist-tblend-init02-rem025-seed1-s12000
+c96-v11-naturalist-tblend-init02-rem050-seed0-s12000
+c96-v11-naturalist-tblend-init02-rem000-seed0-s12000
+c96-v12-deep-sea-tblend-init02-rem050-seed0-s12000
+c96-v12-deep-sea-tblend-init05-rem050-seed0-s12000
+c96-v12-deep-sea-tblend-init02-rem050-seed1-s12000
+c96-v12-deep-sea-tblend-init02-rem000-seed0-s12000
+c96-v12-deep-sea-tblend-init02-rem100-seed0-s12000
 ```
 
 Suggested `results.tsv` header:

@@ -1145,6 +1145,51 @@ C94_TARGET_BRANCH_DECODER_EXPERIMENTS = [
 ]
 
 
+C96_TARGET_CANVAS_BLEND_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=12000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        latent_sample_mode="source",
+        target_canvas_mode="blend",
+        target_canvas_init_scale=target_canvas_init_scale,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_target_mid_sampling_ratio=mid_target_ratio,
+        layout_target_mid_time_width=mid_target_width,
+        layout_mid_time_ratio=0.65,
+        layout_mid_time_width=0.20,
+        source_remnant_loss_weight=remnant_weight,
+        source_remnant_margin=0.025,
+        source_remnant_change_floor=0.04,
+        motion_mode="layout-clean-reflow",
+        clean_target_variant=variant,
+        min_ocr=0.35,
+        min_motion=0.05,
+    )
+    for label, variant, seed, mid_target_ratio, mid_target_width, remnant_weight, target_canvas_init_scale in [
+        ("c96-v11-naturalist-tblend-init02-rem025-seed0-s12000", "naturalist-plate", 0, 0.35, 0.22, 0.25, 0.02),
+        ("c96-v11-naturalist-tblend-init05-rem025-seed0-s12000", "naturalist-plate", 0, 0.35, 0.22, 0.25, 0.05),
+        ("c96-v11-naturalist-tblend-init02-rem025-seed1-s12000", "naturalist-plate", 1, 0.35, 0.22, 0.25, 0.02),
+        ("c96-v11-naturalist-tblend-init02-rem050-seed0-s12000", "naturalist-plate", 0, 0.35, 0.22, 0.50, 0.02),
+        ("c96-v11-naturalist-tblend-init02-rem000-seed0-s12000", "naturalist-plate", 0, 0.35, 0.22, 0.00, 0.02),
+        ("c96-v12-deep-sea-tblend-init02-rem050-seed0-s12000", "deep-sea-lab", 0, 0.20, 0.18, 0.50, 0.02),
+        ("c96-v12-deep-sea-tblend-init05-rem050-seed0-s12000", "deep-sea-lab", 0, 0.20, 0.18, 0.50, 0.05),
+        ("c96-v12-deep-sea-tblend-init02-rem050-seed1-s12000", "deep-sea-lab", 1, 0.20, 0.18, 0.50, 0.02),
+        ("c96-v12-deep-sea-tblend-init02-rem000-seed0-s12000", "deep-sea-lab", 0, 0.20, 0.18, 0.00, 0.02),
+        ("c96-v12-deep-sea-tblend-init02-rem100-seed0-s12000", "deep-sea-lab", 0, 0.20, 0.18, 1.00, 0.02),
+    ]
+]
+
+
 C95_TARGET_STATE_CANVAS_EXPERIMENTS = [
     learned_layout_reflow_experiment(
         label,
@@ -1890,6 +1935,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C96_TARGET_CANVAS_BLEND_EXPERIMENTS,
     *C95_TARGET_STATE_CANVAS_EXPERIMENTS,
     *C94_TARGET_BRANCH_DECODER_EXPERIMENTS,
     *C93_SOURCE_REMNANT_CONTRAST_EXPERIMENTS,

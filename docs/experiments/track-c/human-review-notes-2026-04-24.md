@@ -2634,3 +2634,19 @@ Human read:
 - The high deep-sea OCR score should not be overread as clean repainting; the dark target page and labels score well while old source traces remain visible in crops.
 - Dual-residual, fused-residual, dual-gate, and latent-both controls did not solve source ghosts.
 - C95 should move to a separate target-state latent canvas/time-indexed state rather than more decoder-branch scalar tuning.
+
+Completed C95 visual review:
+
+```text
+c95-v11-naturalist-tcanvas-gated-init02-rem025-seed0-s12000: OCR 0.5546, segment 1147.522ms, pass
+c95-v11-naturalist-tcanvas-always-init02-rem025-seed0-s12000: OCR 0.5098, segment 913.200ms, pass
+c95-v12-deep-sea-tcanvas-always-init02-rem050-seed0-s12000: OCR 0.8000, segment 1129.219ms, pass
+c95-v12-deep-sea-tcanvas-gated-init02-rem050-seed0-s12000: OCR 0.7222, segment 948.805ms, pass
+```
+
+Human read:
+
+- C95 full frames are close to the clean target pages, especially naturalist and deep-sea at normal scale.
+- The `2x` crop review still shows the old source text and diagram layer very strongly.
+- The separate target canvas helps naturalist OCR a little, but concatenating target features beside source features is not enough to stop source leakage.
+- C96 should force a source-to-target latent switch/blend at the midpoint instead of appending the target canvas as extra decoder input.
