@@ -1,15 +1,27 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-25T01:15:06+00:00`
+Updated UTC: `2026-04-25T01:17:03+00:00`
 
 ## Active Sessions
 
 - `clawtest`
 - `track-c-autoresearch`
+- `track-c-c59-oracleflow-target50-c32h160-s12000`
+- `track-c-c59-oracleflow-target75-c24h128-s10000`
+- `track-c-c59-oracleflow-target75-c32h160-s12000`
+- `track-c-c59-oracleflow-target75-freq12-s10000`
+- `track-c-c59-oracleflow-target75-nosrc-c32h160-s12000`
+- `track-c-c59-oracleflow-weightonly-c32h160-s12000`
 - `track-c-github-sync`
 
 ## Queue
 
+- `c59-oracleflow-target75-c32h160-s12000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.75, mid-time 0.6, oracle layout flow.
+- `c59-oracleflow-target50-c32h160-s12000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.5, mid-time 0.6, oracle layout flow.
+- `c59-oracleflow-weightonly-c32h160-s12000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling, mid-time 0.6, oracle layout flow.
+- `c59-oracleflow-target75-c24h128-s10000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.75, mid-time 0.6, oracle layout flow.
+- `c59-oracleflow-target75-nosrc-c32h160-s12000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, target-side reflow sampling ratio 0.75, mid-time 0.6, oracle layout flow.
+- `c59-oracleflow-target75-freq12-s10000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq12, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.75, mid-time 0.6, oracle layout flow.
 - `c58-flow020-target50-c32h160-s12000`: done - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.2, 12000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.5, mid-time 0.6.
 - `c58-flow028-target50-c32h160-s12000`: done - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.28, 12000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.5, mid-time 0.6.
 - `c58-flow035-target50-c32h160-s12000`: done - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.35, 12000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.5, mid-time 0.6.

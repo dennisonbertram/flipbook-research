@@ -1,0 +1,203 @@
+✓ Initialized. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-F55qLdbsX3JspBKMLfUTnO
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/dennisonbertram/Develop/flipbook-research/scripts/track_c/modal_canva
+│   s_c2_lite.py
+└── 🔨 Created function train_and_render_motion.
+START 20260425T011627338752Z-c2-lite-glyph-layout-reflow-c59-oracleflow-target50-c32h160-s12000-1536x864-s12000 config={"batch_size": 131072, "channels": 32, "detail_channels": 0, "detail_hidden": 160, "detail_init_scale": 0.01, "detail_scale": 0.0, "edge_loss_weight": 0.9, "edge_sample_ratio": 0.09, "element_anchor_mode": "line", "element_anchor_padding": 3, "element_mask_mode": "rectangle", "element_render_mode": "sequential", "element_scale_ratio": 0.25, "experiment_label": "c59-oracleflow-target50-c32h160-s12000", "flow_scale": 0.1, "fps": 24, "frames": 33, "freq_bands": 10, "grad_clip": 0.5, "gradient_loss_offset_px": 1.0, "gradient_loss_ratio": 0.125, "gradient_loss_weight": 0.0, "hidden": 160, "l1_loss_weight": 0.0, "layout_flow_loss_weight": 0.0, "layout_mid_time_ratio": 0.6, "layout_mid_time_width": 0.28, "layout_oracle_flow": 1, "layout_supersample": 1.0, "layout_target_pair_ratio": 0.0, "layout_target_pair_weight": 1.0, "layout_target_sampling": 1, "layout_target_sampling_ratio": 0.5, "layout_target_weighting": 1, "layout_transform_pan": 0.0, "layout_transform_strength": 0.0, "lr": 0.01, "lr_schedule": "constant", "min_lr_ratio": 0.1, "min_motion_delta": 0.045, "min_ocr_similarity": 0.55, "motion_mode": "layout-reflow", "motion_strength": 1.0, "seed": 0, "source_coord_features": 1, "source_resolution": [1280, 736], "steps": 12000, "text_box_loss_weight": 0.0, "text_box_min_conf": 55.0, "text_box_padding": 0, "text_box_sample_ratio": 0.0, "text_boxes": "0 boxes", "time_bands": 4, "train_resolution": "1536x864", "video_layout_mode": "none", "video_viewport_mode": "static", "viewport_pan": 0.0, "viewport_zoom": 0.0}
+{
+  "canvas_type": "time-conditioned-latent-feature-grid-learned-flow-mlp-glyph-weighted-source-coord-oracle-flow",
+  "train_resolution": "1536x864",
+  "steps": 12000,
+  "batch_size": 131072,
+  "channels": 32,
+  "hidden": 160,
+  "detail_channels": 0,
+  "detail_hidden": 160,
+  "detail_scale": 0.0,
+  "detail_init_scale": 0.01,
+  "source_coord_features": 1,
+  "freq_bands": 10,
+  "time_bands": 4,
+  "lr": 0.01,
+  "lr_schedule": "constant",
+  "min_lr_ratio": 0.1,
+  "grad_clip": 0.5,
+  "l1_loss_weight": 0.0,
+  "gradient_loss_weight": 0.0,
+  "gradient_loss_ratio": 0.125,
+  "gradient_loss_offset_px": 1.0,
+  "seed": 0,
+  "experiment_label": "c59-oracleflow-target50-c32h160-s12000",
+  "flow_scale": 0.1,
+  "motion_mode": "layout-reflow",
+  "motion_strength": 1.0,
+  "video_viewport_mode": "static",
+  "viewport_zoom": 0.0,
+  "viewport_pan": 0.0,
+  "video_layout_mode": "none",
+  "layout_transform_strength": 0.0,
+  "layout_transform_pan": 0.0,
+  "layout_supersample": 1.0,
+  "layout_region_count": 0,
+  "element_scale_ratio": 0.25,
+  "element_anchor_padding": 3,
+  "element_mask_mode": "rectangle",
+  "element_anchor_mode": "line",
+  "element_render_mode": "sequential",
+  "element_line_count": 0,
+  "min_ocr_similarity": 0.55,
+  "min_motion_delta": 0.045,
+  "edge_sample_ratio": 0.09,
+  "edge_loss_weight": 0.9,
+  "text_box_sample_ratio": 0.0,
+  "text_box_loss_weight": 0.0,
+  "text_box_padding": 0,
+  "layout_target_sampling": 1,
+  "layout_target_weighting": 1,
+  "layout_target_sampling_ratio": 0.5,
+  "layout_target_pair_ratio": 0.0,
+  "layout_target_pair_weight": 1.0,
+  "layout_mid_time_ratio": 0.6,
+  "layout_mid_time_width": 0.28,
+  "layout_flow_loss_weight": 0.0,
+  "layout_oracle_flow": 1,
+  "text_box_count": 0,
+  "text_mask_coverage": 0.0,
+  "element_alpha_coverage": 0.0,
+  "compile_ms": 210504.426664,
+  "final_mse": 0.00017091332119889557,
+  "losses": [
+    {
+      "step": 0,
+      "mse": 0.2241796851158142
+    },
+    {
+      "step": 600,
+      "mse": 0.0010101103689521551
+    },
+    {
+      "step": 1200,
+      "mse": 0.0006072488613426685
+    },
+    {
+      "step": 1800,
+      "mse": 0.0004348726652096957
+    },
+    {
+      "step": 2400,
+      "mse": 0.00040086478111334145
+    },
+    {
+      "step": 3000,
+      "mse": 0.00036849279422312975
+    },
+    {
+      "step": 3600,
+      "mse": 0.00031490257242694497
+    },
+    {
+      "step": 4200,
+      "mse": 0.00031352019868791103
+    },
+    {
+      "step": 4800,
+      "mse": 0.0002872791374102235
+    },
+    {
+      "step": 5400,
+      "mse": 0.00027888588374480605
+    },
+    {
+      "step": 6000,
+      "mse": 0.00023350825358647853
+    },
+    {
+      "step": 6600,
+      "mse": 0.0002412240719422698
+    },
+    {
+      "step": 7200,
+      "mse": 0.00023004064860288054
+    },
+    {
+      "step": 7800,
+      "mse": 0.00022452684061136097
+    },
+    {
+      "step": 8400,
+      "mse": 0.0002244678180431947
+    },
+    {
+      "step": 9000,
+      "mse": 0.0001910683058667928
+    },
+    {
+      "step": 9600,
+      "mse": 0.00018896492838393897
+    },
+    {
+      "step": 10200,
+      "mse": 0.000178416637936607
+    },
+    {
+      "step": 10800,
+      "mse": 0.00017440749797970057
+    },
+    {
+      "step": 11400,
+      "mse": 0.00015256160986609757
+    },
+    {
+      "step": 11999,
+      "mse": 0.00017091332119889557
+    }
+  ],
+  "render_times": {
+    "render-960.png": 34.63921400000913,
+    "render-mid.png": 14.273898999988432,
+    "render-last.png": 14.17868699999758,
+    "render-512.png": 4.8641540000176064,
+    "crop-2x.png": 13.955009000000018
+  },
+  "render_960_ms": 34.63921400000913,
+  "render_33_wall_ms": 424.85698900000557,
+  "encode_ms": 273.70268100000317,
+  "resize_consistency": 0.999623043114568,
+  "temporal_consistency": 0.9995173060742673,
+  "motion_delta_model": 0.06493017077445984,
+  "loop_error_model": 0.0004826939257327467,
+  "description": "C4.7 neural canvas: learned full page layout reflow from x,y,t Learned warped/source coordinate features are included in the renderer MLP. Oracle inverse layout-flow coordinates are used as a diagnostic transport control.",
+  "run_id": "20260425T011627338752Z-c2-lite-glyph-layout-reflow-c59-oracleflow-target50-c32h160-s12000-1536x864-s12000",
+  "commit": "8cbef9d",
+  "track": "C",
+  "width": 960,
+  "height": 544,
+  "frames": 33,
+  "fps": 24,
+  "artifacts": {
+    "input": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T011627338752Z-c2-lite-glyph-layout-reflow-c59-oracleflow-target50-c32h160-s12000-1536x864-s12000/input.png",
+    "render_960": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T011627338752Z-c2-lite-glyph-layout-reflow-c59-oracleflow-target50-c32h160-s12000-1536x864-s12000/render-960.png",
+    "render_mid": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T011627338752Z-c2-lite-glyph-layout-reflow-c59-oracleflow-target50-c32h160-s12000-1536x864-s12000/render-mid.png",
+    "render_last": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T011627338752Z-c2-lite-glyph-layout-reflow-c59-oracleflow-target50-c32h160-s12000-1536x864-s12000/render-last.png",
+    "render_512": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T011627338752Z-c2-lite-glyph-layout-reflow-c59-oracleflow-target50-c32h160-s12000-1536x864-s12000/render-512.png",
+    "crop_2x": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T011627338752Z-c2-lite-glyph-layout-reflow-c59-oracleflow-target50-c32h160-s12000-1536x864-s12000/crop-2x.png",
+    "text_mask": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T011627338752Z-c2-lite-glyph-layout-reflow-c59-oracleflow-target50-c32h160-s12000-1536x864-s12000/text-mask.png",
+    "element_alpha_mask": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T011627338752Z-c2-lite-glyph-layout-reflow-c59-oracleflow-target50-c32h160-s12000-1536x864-s12000/element-alpha-mask.png",
+    "target_mid": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T011627338752Z-c2-lite-glyph-layout-reflow-c59-oracleflow-target50-c32h160-s12000-1536x864-s12000/target-mid.png",
+    "text_boxes": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T011627338752Z-c2-lite-glyph-layout-reflow-c59-oracleflow-target50-c32h160-s12000-1536x864-s12000/text-boxes.json",
+    "output": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T011627338752Z-c2-lite-glyph-layout-reflow-c59-oracleflow-target50-c32h160-s12000-1536x864-s12000/output.mp4",
+    "metrics": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T011627338752Z-c2-lite-glyph-layout-reflow-c59-oracleflow-target50-c32h160-s12000-1536x864-s12000/metrics.json",
+    "quality": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T011627338752Z-c2-lite-glyph-layout-reflow-c59-oracleflow-target50-c32h160-s12000-1536x864-s12000/quality.json"
+  },
+  "ocr_similarity": 0.5060240963855422,
+  "layout_similarity": 0.999623043114568,
+  "motion_delta": 0.05095769837498665,
+  "loop_error": 0.0003483569307718426,
+  "status": "near_miss"
+}
+DONE 20260425T011627338752Z-c2-lite-glyph-layout-reflow-c59-oracleflow-target50-c32h160-s12000-1536x864-s12000 quality=0.5060 motion=0.0510
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-F55qLdbsX3JspBKMLfUTnO
