@@ -819,6 +819,45 @@ C87_CLEAN_TARGET_VARIANT_EXPERIMENTS = [
 ]
 
 
+C88_UNBOXED_CLEAN_TARGET_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=12000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_target_mid_sampling_ratio=mid_target_ratio,
+        layout_target_mid_time_width=mid_target_width,
+        layout_mid_time_ratio=0.65,
+        layout_mid_time_width=0.20,
+        motion_mode="layout-clean-reflow",
+        clean_target_variant=variant,
+        min_ocr=0.35,
+        min_motion=0.05,
+    )
+    for label, variant, seed, mid_target_ratio, mid_target_width in [
+        ("c88-v3-unboxed-target60-mid20-seed0-s12000", "unboxed-columns", 0, 0.20, 0.18),
+        ("c88-v3-unboxed-target60-mid20-seed1-s12000", "unboxed-columns", 1, 0.20, 0.18),
+        ("c88-v3-unboxed-target60-mid20-seed2-s12000", "unboxed-columns", 2, 0.20, 0.18),
+        ("c88-v3-unboxed-target60-mid20-seed4-s12000", "unboxed-columns", 4, 0.20, 0.18),
+        ("c88-v4-callout-target60-mid20-seed0-s12000", "callout-map", 0, 0.20, 0.18),
+        ("c88-v4-callout-target60-mid20-seed1-s12000", "callout-map", 1, 0.20, 0.18),
+        ("c88-v4-callout-target60-mid20-seed2-s12000", "callout-map", 2, 0.20, 0.18),
+        ("c88-v4-callout-target60-mid20-seed4-s12000", "callout-map", 4, 0.20, 0.18),
+        ("c88-v3-unboxed-target60-mid35-seed0-s12000", "unboxed-columns", 0, 0.35, 0.22),
+        ("c88-v4-callout-target60-mid35-seed0-s12000", "callout-map", 0, 0.35, 0.22),
+    ]
+]
+
+
 C86_CLEAN_PAGE_STATE_EXPERIMENTS = [
     learned_layout_reflow_experiment(
         label,
@@ -1519,6 +1558,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C88_UNBOXED_CLEAN_TARGET_EXPERIMENTS,
     *C87_CLEAN_TARGET_VARIANT_EXPERIMENTS,
     *C86_CLEAN_PAGE_STATE_EXPERIMENTS,
     *C85_LEARNED_GATE_CONSOLIDATION_EXPERIMENTS,

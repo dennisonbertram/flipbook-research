@@ -2463,3 +2463,40 @@ C87 hypothesis:
 - If C86 is not just target-fixture overfit, the same C32/H160 recipe should pass on both `right-diagram` and `stacked` clean target variants.
 - Failure on one variant would point to target distribution sensitivity rather than renderer speed/capacity.
 - Passing both variants would justify moving from single-pair neural canvas to multi-state or generated-target tests.
+
+Completed C87 results:
+
+```text
+c87-v2-c32h160-target60-mid20-seed1-s12000: OCR 1.0000, segment 941.761ms, motion_delta 0.0619, pass
+c87-v2-c32h160-target60-mid20-seed4-s12000: OCR 1.0000, segment 925.172ms, motion_delta 0.0620, pass
+c87-v2-c32h160-target60-mid20-seed0-s12000: OCR 0.9565, segment 923.025ms, motion_delta 0.0622, pass
+c87-v1-c32h160-target60-mid20-seed0-s12000: OCR 0.9000, segment 920.211ms, motion_delta 0.0598, pass
+c87-v2-c32h160-target60-mid20-seed2-s12000: OCR 0.8800, segment 1130.668ms, motion_delta 0.0620, pass
+c87-v2-c32h160-target60-mid35-seed0-s12000: OCR 0.8800, segment 756.538ms, motion_delta 0.0632, pass
+c87-v1-c32h160-target60-mid20-seed4-s12000: OCR 0.8372, segment 927.614ms, motion_delta 0.0602, pass
+c87-v1-c32h160-target60-mid35-seed0-s12000: OCR 0.8095, segment 923.887ms, motion_delta 0.0604, pass
+c87-v1-c32h160-target60-mid20-seed2-s12000: OCR 0.7907, segment 916.258ms, motion_delta 0.0614, pass
+c87-v1-c32h160-target60-mid20-seed1-s12000: OCR 0.7442, segment 764.879ms, motion_delta 0.0602, pass
+```
+
+Interpretation:
+
+- C87 strongly validates that C86 was not only fitting one clean target page. The same compact no-context C32/H160 recipe passes on both `right-diagram` and `stacked`.
+- The best `stacked` runs hit perfect token OCR under the normalized eval, and both variants stay comfortably under the `1.3s` 33-frame plus encode target.
+- Human review is mostly positive: the midpoint visibly becomes the new target page. The remaining concern is faint source-remnant text in some large diagram bands, especially on stacked layouts.
+- C88 should make the target harder by removing neat card boxes and using floating callout text. If that passes, the next proof should move toward multi-state or generated-target tests.
+
+Next experiments:
+
+```text
+c88-v3-unboxed-target60-mid20-seed0-s12000
+c88-v3-unboxed-target60-mid20-seed1-s12000
+c88-v3-unboxed-target60-mid20-seed2-s12000
+c88-v3-unboxed-target60-mid20-seed4-s12000
+c88-v4-callout-target60-mid20-seed0-s12000
+c88-v4-callout-target60-mid20-seed1-s12000
+c88-v4-callout-target60-mid20-seed2-s12000
+c88-v4-callout-target60-mid20-seed4-s12000
+c88-v3-unboxed-target60-mid35-seed0-s12000
+c88-v4-callout-target60-mid35-seed0-s12000
+```

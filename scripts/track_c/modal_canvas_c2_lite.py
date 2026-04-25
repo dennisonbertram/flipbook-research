@@ -196,6 +196,10 @@ def create_clean_reflow_target(width: int, height: int, variant: str = "diagram-
         return create_clean_reflow_target_right_diagram(width, height)
     if variant_key in {"stacked", "poster-grid", "variant2", "v2"}:
         return create_clean_reflow_target_stacked(width, height)
+    if variant_key in {"unboxed-columns", "open-columns", "variant3", "v3"}:
+        return create_clean_reflow_target_unboxed_columns(width, height)
+    if variant_key in {"callout-map", "diagram-callouts", "variant4", "v4"}:
+        return create_clean_reflow_target_callout_map(width, height)
 
     img = Image.new("RGB", (width, height), "#f6f4ef")
     draw = ImageDraw.Draw(img)
@@ -478,6 +482,162 @@ def create_clean_reflow_target_stacked(width: int, height: int) -> Image.Image:
         draw.text((x + 14, cards_top + 12), heading, fill=ink, font=h_font)
         draw.line((x + 14, cards_top + 40, x + card_w - 14, cards_top + 40), fill="#d5c8b8", width=1)
         draw.multiline_text((x + 14, cards_top + 52), wrap_text(draw, body, body_font, card_w - 28), fill="#2b2b2b", font=body_font, spacing=4)
+    return img
+
+
+def create_clean_reflow_target_unboxed_columns(width: int, height: int) -> Image.Image:
+    img = Image.new("RGB", (width, height), "#f3f6f2")
+    draw = ImageDraw.Draw(img)
+    margin = int(width * 0.055)
+    top = int(height * 0.055)
+    ink = "#151719"
+    muted = "#586166"
+    line = "#b8c2b6"
+    accent = "#0e7490"
+    green = "#557a46"
+
+    draw.rounded_rectangle(
+        [margin, top, width - margin, height - top],
+        radius=max(10, width // 110),
+        fill="#fffef8",
+        outline=line,
+        width=2,
+    )
+    title_font = fixture_font(max(28, width // 32), bold=True)
+    sub_font = fixture_font(max(14, width // 82))
+    h_font = fixture_font(max(17, width // 66), bold=True)
+    body_font = fixture_font(max(13, width // 90))
+    tiny_font = fixture_font(max(10, width // 116))
+
+    x0 = margin + int(width * 0.032)
+    y0 = top + int(height * 0.032)
+    draw.text((x0, y0), "Sketchapedia: Roman Colosseum", fill=ink, font=title_font)
+    draw.text((x0, y0 + int(height * 0.058)), "Clean target variant: open columns without card boxes.", fill=muted, font=sub_font)
+
+    content_top = top + int(height * 0.145)
+    content_bottom = height - top - int(height * 0.055)
+    left_x = x0
+    left_w = int(width * 0.46)
+    right_x = left_x + left_w + int(width * 0.055)
+    right_w = width - margin - int(width * 0.035) - right_x
+    draw.line((right_x - int(width * 0.025), content_top, right_x - int(width * 0.025), content_bottom), fill="#d7ddd4", width=2)
+
+    draw.text((left_x, content_top), "Annotated Section Diagram", fill=ink, font=h_font)
+    cx = left_x + int(left_w * 0.50)
+    cy = content_top + int(height * 0.285)
+    rx = int(left_w * 0.38)
+    ry = int(height * 0.075)
+    for offset, color in [(0, accent), (16, "#6aa6b8"), (32, green), (48, "#8d7a4f")]:
+        draw.ellipse([cx - rx + offset, cy - ry + offset // 3, cx + rx - offset, cy + ry - offset // 3], outline=color, width=3)
+    draw.rectangle([cx - 15, cy - 50, cx + 15, cy + 50], fill="#fffdf8", outline="#c9c0b2")
+    for text, lx, ly in [
+        ("upper seating", cx + rx - 10, cy - ry - 28),
+        ("awnings", cx - rx - 68, cy - ry + 22),
+        ("arena floor", cx + rx + 8, cy + 6),
+        ("service level", cx - rx - 86, cy + ry - 18),
+    ]:
+        draw.text((lx, ly), text, fill=ink, font=tiny_font)
+        draw.line((lx - 8, ly + 8, cx, cy), fill="#8aa4a1", width=1)
+
+    summary_y = cy + int(height * 0.16)
+    draw.text((left_x, summary_y), "Reading Checks", fill=ink, font=h_font)
+    checks = [
+        "Text remains crisp after layout changes.",
+        "The diagram moves without becoming a pasted remnant.",
+        "Loop endpoints return quietly to the first page state.",
+    ]
+    for index, check in enumerate(checks):
+        y = summary_y + int(height * 0.052) + index * int(height * 0.055)
+        draw.text((left_x, y), f"{index + 1}.", fill=accent, font=h_font)
+        draw.multiline_text((left_x + 38, y + 2), wrap_text(draw, check, body_font, left_w - 48), fill="#273035", font=body_font, spacing=4)
+
+    sections = [
+        ("Arena Floor", "Trapdoors, lifts, and service passages created sudden reveals during public spectacles."),
+        ("Velarium", "A retractable awning system shaded spectators and required coordinated rope handling."),
+        ("Seating", "Social order was encoded into the architecture through tiered, separated seating bands."),
+        ("Materials", "Travertine, tuff, brick, and concrete carried both structure and ornament."),
+    ]
+    col_gap = int(width * 0.025)
+    col_w = (right_w - col_gap) // 2
+    row_h = int((content_bottom - content_top - int(height * 0.07)) / 2)
+    for index, (heading, body) in enumerate(sections):
+        col = index % 2
+        row = index // 2
+        x = right_x + col * (col_w + col_gap)
+        y = content_top + row * (row_h + int(height * 0.07))
+        draw.text((x, y), heading, fill=ink, font=h_font)
+        draw.line((x, y + int(height * 0.038), x + col_w, y + int(height * 0.038)), fill="#cfc8bb", width=1)
+        draw.multiline_text((x, y + int(height * 0.055)), wrap_text(draw, body, body_font, col_w), fill="#292d2f", font=body_font, spacing=4)
+    return img
+
+
+def create_clean_reflow_target_callout_map(width: int, height: int) -> Image.Image:
+    img = Image.new("RGB", (width, height), "#f7f4ef")
+    draw = ImageDraw.Draw(img)
+    margin = int(width * 0.055)
+    top = int(height * 0.055)
+    ink = "#171717"
+    muted = "#5d6268"
+    line = "#c8c0b5"
+    accent = "#0d6f91"
+    green = "#567c4f"
+
+    draw.rounded_rectangle(
+        [margin, top, width - margin, height - top],
+        radius=max(10, width // 110),
+        fill="#fffdf8",
+        outline=line,
+        width=2,
+    )
+    title_font = fixture_font(max(28, width // 32), bold=True)
+    sub_font = fixture_font(max(14, width // 82))
+    h_font = fixture_font(max(16, width // 70), bold=True)
+    body_font = fixture_font(max(12, width // 96))
+    tiny_font = fixture_font(max(10, width // 116))
+
+    x0 = margin + int(width * 0.032)
+    y0 = top + int(height * 0.032)
+    draw.text((x0, y0), "Sketchapedia: Roman Colosseum", fill=ink, font=title_font)
+    draw.text((x0, y0 + int(height * 0.058)), "Clean target variant: callout text floats around the diagram.", fill=muted, font=sub_font)
+
+    content_top = top + int(height * 0.155)
+    content_bottom = height - top - int(height * 0.055)
+    center_x = width // 2
+    center_y = content_top + int((content_bottom - content_top) * 0.50)
+    rx = int(width * 0.235)
+    ry = int(height * 0.105)
+    draw.text((center_x - int(width * 0.14), content_top), "Annotated Section Diagram", fill=ink, font=h_font)
+    for offset, color in [(0, accent), (18, "#6aa6b8"), (36, green), (54, "#8d7a4f")]:
+        draw.ellipse([center_x - rx + offset, center_y - ry + offset // 3, center_x + rx - offset, center_y + ry - offset // 3], outline=color, width=3)
+    draw.rectangle([center_x - 18, center_y - 60, center_x + 18, center_y + 60], fill="#fffdf8", outline=line)
+
+    callouts = [
+        ("Arena Floor", "Trapdoors and lifts created sudden reveals.", x0, content_top + int(height * 0.05), center_x - int(rx * 0.35), center_y),
+        ("Velarium", "A retractable awning shaded spectators.", width - x0 - int(width * 0.29), content_top + int(height * 0.05), center_x + int(rx * 0.25), center_y - int(ry * 0.55)),
+        ("Seating", "Tiered bands encoded social order.", x0 + int(width * 0.02), content_bottom - int(height * 0.18), center_x - int(rx * 0.6), center_y + int(ry * 0.5)),
+        ("Materials", "Travertine, tuff, brick, and concrete carried the structure.", width - x0 - int(width * 0.31), content_bottom - int(height * 0.18), center_x + int(rx * 0.7), center_y + int(ry * 0.2)),
+    ]
+    for heading, body, x, y, ax, ay in callouts:
+        w = int(width * 0.27)
+        draw.text((x, y), heading, fill=ink, font=h_font)
+        draw.line((x, y + int(height * 0.037), x + w, y + int(height * 0.037)), fill="#d4c8b9", width=1)
+        draw.multiline_text((x, y + int(height * 0.052)), wrap_text(draw, body, body_font, w), fill="#2d2d2d", font=body_font, spacing=4)
+        elbow_x = x + w if x < center_x else x
+        elbow_y = y + int(height * 0.07)
+        draw.line((elbow_x, elbow_y, ax, ay), fill="#8aa4a1", width=1)
+
+    labels = [
+        ("upper seating", center_x + rx - 10, center_y - ry - 28),
+        ("awnings", center_x - rx - 78, center_y - ry + 18),
+        ("arena floor", center_x + rx + 12, center_y + 4),
+        ("service level", center_x - rx - 96, center_y + ry - 18),
+    ]
+    for text, lx, ly in labels:
+        draw.text((lx, ly), text, fill=ink, font=tiny_font)
+        draw.line((lx - 8, ly + 8, center_x, center_y), fill="#8aa4a1", width=1)
+
+    footer = "No card boxes. Text, labels, and diagram must resolve as one generated page state."
+    draw.text((x0, content_bottom - int(height * 0.02)), footer, fill=muted, font=tiny_font)
     return img
 
 

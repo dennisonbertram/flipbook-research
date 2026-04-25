@@ -186,6 +186,8 @@ C8.6 is the strongest evidence so far for the pure neural-canvas path. Eight of 
 
 C8.7 starts that generality check. It keeps the C86 winning recipe (`C32/H160`, no context, source-coordinate features, cross latent neighborhood, target ratio `0.60`, target-mid ratio `0.20`) and swaps in two new clean target variants: `right-diagram` and `stacked`. The question is whether the success survives materially different page geometry, not whether another capacity trick can overfit the original target.
 
+C8.7 is a strong positive. All ten clean target-variant runs pass. `right-diagram` reaches OCR `0.9000` at `920.211ms`, and `stacked` reaches OCR `1.0000` at `925-942ms`; the fastest strong stacked run reaches OCR `0.8800` at `756.538ms`. Human review confirms real relayout into the target state, but faint source remnants are still visible in some large diagram bands. C8.8 therefore keeps the same recipe and changes the target distribution again toward unboxed text layouts and floating callouts, where text is not protected by neat card backgrounds.
+
 Suggested `results.tsv` header:
 
 ```text

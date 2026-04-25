@@ -76,3 +76,9 @@ C85 did not improve the branch, so C86 is now implemented as `layout-clean-reflo
 C86 is a positive proof for the pure neural-canvas direction, but it is still only one clean source-target pair. That is not enough to match Flipbook's public claim. Flipbook is pointing at a renderer where the visible page can become a different generated pixel state under resize, scroll, animation, or interaction.
 
 C87 therefore keeps the C86 winning recipe and changes only the clean target layout family. The two new targets, `right-diagram` and `stacked`, reposition the same semantic content into materially different page states. A pass across these variants would suggest the renderer is learning a more general state-to-state page transform. A failure would mean C86 was more likely a target-fixture fit than a reusable neural page renderer.
+
+## C87 Result And C88 Direction
+
+C87 passed all ten runs. The strongest `right-diagram` run reached OCR `0.9000` at `920.211ms`, while the strongest `stacked` runs reached OCR `1.0000` at `925-942ms`. This is the best evidence so far that the clean page-state result is not just one target fixture.
+
+The remaining visual concern is faint old-source text in some broad diagram regions. C88 therefore removes the easy card-box structure from the target: `unboxed-columns` uses open text columns, and `callout-map` places floating callout text around the diagram. This keeps the Flipbook-aligned target strict: the output is still one generated pixel surface, but the page state is less protected by rectangular text containers.
