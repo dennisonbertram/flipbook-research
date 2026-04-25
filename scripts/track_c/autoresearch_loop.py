@@ -666,6 +666,11 @@ def learned_layout_reflow_experiment(
         if gradient_loss_weight and gradient_loss_ratio
         else ""
     )
+    remnant_note = (
+        f", source-remnant contrast {source_remnant_loss_weight:g}"
+        if source_remnant_loss_weight
+        else ""
+    )
     seed_note = f", seed {seed}" if seed else ""
     detail_note = (
         f", residual detail c{detail_channels}/h{detail_hidden or hidden or 'base'} scale {detail_scale:g}"
