@@ -208,6 +208,10 @@ def create_clean_reflow_target(width: int, height: int, variant: str = "diagram-
         return create_clean_reflow_target_timeline_illustration(width, height)
     if variant_key in {"transit-illustration", "new-illustration-transit", "variant8", "v8"}:
         return create_clean_reflow_target_transit_illustration(width, height)
+    if variant_key in {"reef-topic", "new-topic-reef", "variant9", "v9"}:
+        return create_clean_reflow_target_reef_topic(width, height)
+    if variant_key in {"orbit-topic", "new-topic-orbit", "variant10", "v10"}:
+        return create_clean_reflow_target_orbit_topic(width, height)
 
     img = Image.new("RGB", (width, height), "#f6f4ef")
     draw = ImageDraw.Draw(img)
@@ -889,6 +893,210 @@ def create_clean_reflow_target_transit_illustration(width: int, height: int) -> 
         fill=muted,
         font=tiny_font,
     )
+    return img
+
+
+def create_clean_reflow_target_reef_topic(width: int, height: int) -> Image.Image:
+    img = Image.new("RGB", (width, height), "#eef7f8")
+    draw = ImageDraw.Draw(img)
+    margin = int(width * 0.055)
+    top = int(height * 0.055)
+    ink = "#132023"
+    muted = "#52676d"
+    line = "#b6cbd0"
+    teal = "#0e7490"
+    coral = "#c96852"
+    gold = "#c69a3a"
+    green = "#4f7f5f"
+
+    draw.rounded_rectangle(
+        [margin, top, width - margin, height - top],
+        radius=max(10, width // 110),
+        fill="#fffef8",
+        outline=line,
+        width=2,
+    )
+    title_font = fixture_font(max(28, width // 32), bold=True)
+    sub_font = fixture_font(max(14, width // 82))
+    h_font = fixture_font(max(17, width // 68), bold=True)
+    body_font = fixture_font(max(13, width // 92))
+    tiny_font = fixture_font(max(10, width // 116))
+
+    x0 = margin + int(width * 0.032)
+    y0 = top + int(height * 0.032)
+    draw.text((x0, y0), "Sketchapedia: Coral Reef Layers", fill=ink, font=title_font)
+    draw.text(
+        (x0, y0 + int(height * 0.058)),
+        "New topic target: reef zones, food webs, and protective structure.",
+        fill=muted,
+        font=sub_font,
+    )
+
+    content_top = top + int(height * 0.15)
+    content_bottom = height - top - int(height * 0.06)
+    diagram_x = x0
+    diagram_w = int(width * 0.54)
+    text_x = diagram_x + diagram_w + int(width * 0.055)
+    text_w = width - margin - int(width * 0.035) - text_x
+    water_top = content_top + int(height * 0.065)
+    water_bottom = content_bottom - int(height * 0.035)
+
+    draw.text((diagram_x, content_top), "Reef Cross Section", fill=ink, font=h_font)
+    draw.rectangle([diagram_x, water_top, diagram_x + diagram_w, water_bottom], fill="#e2f4f6", outline="#c2d8dd")
+    for i, color in enumerate(["#cfeef2", "#bde4ea", "#acd7df", "#9bcbd6"]):
+        y = water_top + i * int((water_bottom - water_top) / 4)
+        draw.rectangle([diagram_x, y, diagram_x + diagram_w, y + int((water_bottom - water_top) / 4)], fill=color)
+    shelf_y = water_bottom - int(height * 0.12)
+    points = [
+        (diagram_x + int(diagram_w * 0.04), water_bottom - 18),
+        (diagram_x + int(diagram_w * 0.20), shelf_y),
+        (diagram_x + int(diagram_w * 0.36), shelf_y - 36),
+        (diagram_x + int(diagram_w * 0.53), shelf_y - 12),
+        (diagram_x + int(diagram_w * 0.70), shelf_y - 64),
+        (diagram_x + int(diagram_w * 0.90), shelf_y - 22),
+        (diagram_x + diagram_w - 20, water_bottom - 18),
+    ]
+    draw.line(points, fill=gold, width=12, joint="curve")
+    for x, y in points[1:-1]:
+        draw.ellipse([x - 14, y - 14, x + 14, y + 14], fill=coral, outline="#fffdf8", width=3)
+    for x, y, label in [
+        (diagram_x + int(diagram_w * 0.18), water_top + int(height * 0.08), "sunlit lagoon"),
+        (diagram_x + int(diagram_w * 0.47), water_top + int(height * 0.18), "reef crest"),
+        (diagram_x + int(diagram_w * 0.72), water_top + int(height * 0.30), "outer slope"),
+    ]:
+        draw.text((x, y), label, fill=ink, font=tiny_font)
+        draw.line((x + 20, y + 22, x + 45, shelf_y - 20), fill=teal, width=1)
+    fish = [
+        (diagram_x + int(diagram_w * 0.26), water_top + int(height * 0.16), teal),
+        (diagram_x + int(diagram_w * 0.62), water_top + int(height * 0.12), green),
+        (diagram_x + int(diagram_w * 0.78), water_top + int(height * 0.22), coral),
+    ]
+    for x, y, color in fish:
+        draw.ellipse([x - 18, y - 8, x + 16, y + 8], outline=color, width=3)
+        draw.polygon([(x + 16, y), (x + 29, y - 9), (x + 29, y + 9)], outline=color, fill=None)
+
+    sections = [
+        ("Light", "Shallow water powers algae living inside coral tissue."),
+        ("Shelter", "Branching and mound shapes create hiding places for young fish."),
+        ("Flow", "Currents bring oxygen and plankton while carrying away waste."),
+        ("Stress", "Heat, acidification, and pollution can bleach living reef surfaces."),
+    ]
+    col_gap = int(width * 0.025)
+    col_w = (text_w - col_gap) // 2
+    row_h = int((content_bottom - content_top - int(height * 0.07)) / 2)
+    for index, (heading, body) in enumerate(sections):
+        col = index % 2
+        row = index // 2
+        x = text_x + col * (col_w + col_gap)
+        y = content_top + row * (row_h + int(height * 0.07))
+        draw.text((x, y), heading, fill=ink, font=h_font)
+        draw.line((x, y + int(height * 0.038), x + col_w, y + int(height * 0.038)), fill="#bfd1d3", width=1)
+        draw.multiline_text((x, y + int(height * 0.055)), wrap_text(draw, body, body_font, col_w), fill="#263236", font=body_font, spacing=4)
+
+    draw.text((diagram_x, content_bottom - int(height * 0.02)), "Target changes title, subject, diagram, labels, and body copy.", fill=muted, font=tiny_font)
+    return img
+
+
+def create_clean_reflow_target_orbit_topic(width: int, height: int) -> Image.Image:
+    img = Image.new("RGB", (width, height), "#f5f3f7")
+    draw = ImageDraw.Draw(img)
+    margin = int(width * 0.055)
+    top = int(height * 0.055)
+    ink = "#171720"
+    muted = "#5f6070"
+    line = "#c8c2d2"
+    blue = "#2b6cb0"
+    red = "#b75c4a"
+    purple = "#6b5aa8"
+    gold = "#b89445"
+
+    draw.rounded_rectangle(
+        [margin, top, width - margin, height - top],
+        radius=max(10, width // 110),
+        fill="#fffdfb",
+        outline=line,
+        width=2,
+    )
+    title_font = fixture_font(max(28, width // 32), bold=True)
+    sub_font = fixture_font(max(14, width // 82))
+    h_font = fixture_font(max(17, width // 68), bold=True)
+    body_font = fixture_font(max(13, width // 92))
+    tiny_font = fixture_font(max(10, width // 116))
+
+    x0 = margin + int(width * 0.032)
+    y0 = top + int(height * 0.032)
+    draw.text((x0, y0), "Sketchapedia: Mars Transfer Orbit", fill=ink, font=title_font)
+    draw.text(
+        (x0, y0 + int(height * 0.058)),
+        "New topic target: launch window, transfer arc, and arrival burn.",
+        fill=muted,
+        font=sub_font,
+    )
+
+    content_top = top + int(height * 0.15)
+    content_bottom = height - top - int(height * 0.06)
+    diagram_x = x0
+    diagram_w = int(width * 0.55)
+    text_x = diagram_x + diagram_w + int(width * 0.055)
+    text_w = width - margin - int(width * 0.035) - text_x
+    center_x = diagram_x + int(diagram_w * 0.50)
+    center_y = content_top + int((content_bottom - content_top) * 0.52)
+
+    draw.text((diagram_x, content_top), "Hohmann Transfer Sketch", fill=ink, font=h_font)
+    orbit_rx = int(diagram_w * 0.34)
+    orbit_ry = int(height * 0.18)
+    draw.ellipse([center_x - orbit_rx, center_y - orbit_ry, center_x + orbit_rx, center_y + orbit_ry], outline="#c5c2cf", width=2)
+    draw.ellipse([center_x - int(orbit_rx * 0.62), center_y - int(orbit_ry * 0.62), center_x + int(orbit_rx * 0.62), center_y + int(orbit_ry * 0.62)], outline="#d7d2dc", width=2)
+    draw.ellipse([center_x - 22, center_y - 22, center_x + 22, center_y + 22], fill=gold, outline="#8b6f28", width=2)
+
+    earth = (center_x - int(orbit_rx * 0.62), center_y + int(orbit_ry * 0.15))
+    mars = (center_x + int(orbit_rx * 0.88), center_y - int(orbit_ry * 0.35))
+    draw.ellipse([earth[0] - 16, earth[1] - 16, earth[0] + 16, earth[1] + 16], fill=blue, outline="#ffffff", width=3)
+    draw.ellipse([mars[0] - 14, mars[1] - 14, mars[0] + 14, mars[1] + 14], fill=red, outline="#ffffff", width=3)
+    draw.text((earth[0] - 28, earth[1] + 24), "Earth", fill=ink, font=tiny_font)
+    draw.text((mars[0] - 22, mars[1] - 42), "Mars", fill=ink, font=tiny_font)
+
+    arc = [
+        (earth[0], earth[1]),
+        (center_x - int(diagram_w * 0.08), center_y - int(height * 0.20)),
+        (center_x + int(diagram_w * 0.22), center_y - int(height * 0.22)),
+        (mars[0], mars[1]),
+    ]
+    draw.line(arc, fill=purple, width=5, joint="curve")
+    for x, y, label in [
+        (earth[0] - 105, earth[1] - 70, "departure burn"),
+        (center_x + int(diagram_w * 0.04), center_y - int(height * 0.25), "transfer coast"),
+        (mars[0] - 32, mars[1] + 28, "arrival trim"),
+    ]:
+        draw.text((x, y), label, fill=ink, font=tiny_font)
+        draw.line((x + 40, y + 18, center_x, center_y - int(height * 0.12)), fill="#8d86a8", width=1)
+
+    timeline_y = content_bottom - int(height * 0.08)
+    draw.line((diagram_x + 20, timeline_y, diagram_x + diagram_w - 20, timeline_y), fill="#c8c2d2", width=3)
+    for label, frac in [("launch", 0.08), ("coast", 0.48), ("capture", 0.86)]:
+        x = diagram_x + 20 + int((diagram_w - 40) * frac)
+        draw.ellipse([x - 9, timeline_y - 9, x + 9, timeline_y + 9], fill="#fffdfb", outline=purple, width=3)
+        draw.text((x - 24, timeline_y + 18), label, fill=ink, font=tiny_font)
+
+    sections = [
+        ("Window", "Planets must align so the spacecraft meets Mars months later."),
+        ("Energy", "Most fuel is spent changing velocity near departure and arrival."),
+        ("Coast", "The cruise phase follows a predictable ellipse around the Sun."),
+        ("Correction", "Small burns refine the path before the spacecraft reaches Mars."),
+    ]
+    col_gap = int(width * 0.025)
+    col_w = (text_w - col_gap) // 2
+    row_h = int((content_bottom - content_top - int(height * 0.07)) / 2)
+    for index, (heading, body) in enumerate(sections):
+        col = index % 2
+        row = index // 2
+        x = text_x + col * (col_w + col_gap)
+        y = content_top + row * (row_h + int(height * 0.07))
+        draw.text((x, y), heading, fill=ink, font=h_font)
+        draw.line((x, y + int(height * 0.038), x + col_w, y + int(height * 0.038)), fill="#d4c8d8", width=1)
+        draw.multiline_text((x, y + int(height * 0.055)), wrap_text(draw, body, body_font, col_w), fill="#2d2d38", font=body_font, spacing=4)
+
+    draw.text((diagram_x, content_bottom - int(height * 0.02)), "Target changes topic completely while staying a generated page image.", fill=muted, font=tiny_font)
     return img
 
 
