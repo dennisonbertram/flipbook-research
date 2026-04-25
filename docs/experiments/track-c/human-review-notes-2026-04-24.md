@@ -1616,3 +1616,46 @@ C67 hypothesis:
 - If the C66 C32/H160 win is a real basin, target60 seed repeats should produce multiple pass-quality runs, not one seed1 outlier.
 - Target-ratio `0.55/0.65` and radius `0.5/1.5px` test whether the C66 best is sitting on a narrow hyperparameter edge.
 - B196 and C40/H192 test whether the neighborhood decoder can convert extra training signal or capacity into a new frontier while staying inside the realtime segment budget.
+
+Completed C67 results:
+
+```text
+c67-neighbor-cross05-target60-c32h160-seed1-s14000: OCR 0.5957, segment 1265.377ms, motion_delta 0.0538, pass
+c67-neighbor-cross1-target60-c40h192-seed1-s12000: OCR 0.5521, segment 1074.821ms, motion_delta 0.0499, pass
+c67-neighbor-grid1-target60-c32h160-seed1-s14000: OCR 0.5233, segment 872.636ms, motion_delta 0.0504, quality_fail
+c67-neighbor-cross1-target65-c32h160-seed1-s14000: OCR 0.5176, segment 1098.704ms, motion_delta 0.0501, quality_fail
+c67-neighbor-cross1-target60-c32h160-seed4-s14000: OCR 0.5146, segment 1017.327ms, motion_delta 0.0510, quality_fail
+c67-neighbor-cross15-target60-c32h160-seed1-s14000: OCR 0.4970, segment 1099.051ms, motion_delta 0.0499, quality_fail
+c67-neighbor-cross1-target60-b196-c32h160-seed1-s10000: OCR 0.4750, segment 906.667ms, motion_delta 0.0494, quality_fail
+c67-neighbor-cross1-target55-c32h160-seed1-s14000: OCR 0.4520, segment 940.797ms, motion_delta 0.0515, quality_fail
+c67-neighbor-cross1-target60-c32h160-seed3-s14000: OCR 0.4368, segment 926.499ms, motion_delta 0.0516, quality_fail
+c67-neighbor-cross1-target60-c32h160-seed2-s14000: OCR 0.4267, segment 1057.804ms, motion_delta 0.0492, quality_fail
+```
+
+Interpretation:
+
+- C67 does not make C66 robust. The C66 seed1 C32/H160 `0.6178` result did not reproduce on seed2/3/4.
+- Smaller radius helps the seed1 family (`0.5px` reaches OCR `0.5957`), but it comes close to the latency ceiling at `1265ms`.
+- C40/H192 passes but only at OCR `0.5521`; more capacity alone is not the missing piece.
+- B196, target55, target65, grid1, and radius1.5 all regress. The neighborhood branch is useful, but the model still lacks a stabilizing representation for page-level context.
+
+C68 hypothesis:
+
+- A single high-resolution latent grid plus local taps may overfit local strokes without a stable coarse page representation.
+- Add a coarse latent context canvas sampled alongside the local latent neighborhood, then let one MLP fuse local glyph detail with broader page/layout context.
+- This remains pure neural-canvas pixel generation: no overlays, no text compositing, no render-time layout engine.
+
+Next experiments:
+
+```text
+c68-context16s025-cross1-target60-c32h160-seed1-s14000
+c68-context16s050-cross1-target60-c32h160-seed1-s14000
+c68-context32s025-cross1-target60-c32h160-seed1-s14000
+c68-context8s025-cross1-target60-c32h160-seed1-s14000
+c68-context16s025-cross05-target60-c32h160-seed1-s14000
+c68-context16s025-cross1-target60-c32h160-seed2-s14000
+c68-context16s025-cross1-target60-c32h160-seed3-s14000
+c68-context16s025-cross1-target60-c32h160-seed4-s14000
+c68-context16s025-cross1-target60-c24h128-seed2-s12000
+c68-context16s025-grid1-target60-c24h128-seed2-s12000
+```
