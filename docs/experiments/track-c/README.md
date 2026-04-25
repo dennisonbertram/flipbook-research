@@ -190,6 +190,23 @@ C8.7 is a strong positive. All ten clean target-variant runs pass. `right-diagra
 
 C8.8 passes the unboxed stress. All ten runs pass: `unboxed-columns` reaches OCR `0.9302` at `927.622ms` and a fast OCR `0.9091` at `765.567ms`; `callout-map` is harder but still reaches OCR `0.7826` at `772.390ms`. Visual review shows the unboxed target is clean and the callout target is usable, though small callout text remains the weaker surface. C8.9 should now change the target copy itself, so the model has to repaint new words rather than only move existing semantic text.
 
+C8.9 is a real positive on changed copy. All ten runs pass the current gates. The strongest `changed-callout` run reaches OCR `0.9259` at `1057.956ms`, another reaches OCR `0.8846` at `1196.854ms`, and the fastest `changed-callout` pass reaches OCR `0.7407` at `743.559ms`. The `changed-unboxed` family is visually readable but lower by OCR (`0.5000-0.6111`), likely because the dense right-column body text is a harder small-text target. Human review shows the new headings and body copy are genuinely present as pixels, while faint source remnants remain in open whitespace. C9.0 therefore changes the illustration grammar itself with `timeline-illustration` and `transit-illustration` targets.
+
+Next experiments:
+
+```text
+c90-v7-timeline-illustration-target60-mid20-seed0-s12000
+c90-v7-timeline-illustration-target60-mid20-seed1-s12000
+c90-v7-timeline-illustration-target60-mid20-seed2-s12000
+c90-v7-timeline-illustration-target60-mid20-seed4-s12000
+c90-v8-transit-illustration-target60-mid20-seed0-s12000
+c90-v8-transit-illustration-target60-mid20-seed1-s12000
+c90-v8-transit-illustration-target60-mid20-seed2-s12000
+c90-v8-transit-illustration-target60-mid20-seed4-s12000
+c90-v7-timeline-illustration-target60-mid35-seed0-s12000
+c90-v8-transit-illustration-target60-mid35-seed0-s12000
+```
+
 Suggested `results.tsv` header:
 
 ```text

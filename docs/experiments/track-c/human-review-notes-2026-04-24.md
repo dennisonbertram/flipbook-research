@@ -2537,3 +2537,19 @@ c89-v6-changed-callout-target60-mid20-seed4-s12000
 c89-v5-changed-unboxed-target60-mid35-seed0-s12000
 c89-v6-changed-callout-target60-mid35-seed0-s12000
 ```
+
+Completed C89 visual review:
+
+```text
+c89-v6-changed-callout-target60-mid20-seed0-s12000: OCR 0.9259, segment 1057.956ms, pass
+c89-v6-changed-callout-target60-mid20-seed2-s12000: OCR 0.8846, segment 1196.854ms, pass
+c89-v6-changed-callout-target60-mid35-seed0-s12000: OCR 0.7407, segment 743.559ms, pass
+c89-v5-changed-unboxed-target60-mid20-seed4-s12000: OCR 0.6111, segment 756.906ms, pass
+```
+
+Human read:
+
+- Best `changed-callout` is a strong positive. It visibly repaints the changed headings and body copy as part of the generated page, not as an overlay.
+- Best `changed-unboxed` is visually more readable than the OCR number suggests; dense small text likely hurts token-F1.
+- The old-source ghost problem remains visible as faint left-side remnants in open whitespace. It is subtle, but it matters because Flipbook's claim is a clean generated page surface.
+- C90 should therefore be treated as a hard generalization test: changed illustration structure plus changed text. Passing C90 would be stronger evidence than further text/layout variants around the same oval diagram.
