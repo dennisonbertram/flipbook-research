@@ -112,6 +112,10 @@ C5.6 is a useful negative. The best residual-detail run, `c56-detail16h128-025-t
 
 C5.7 switches to a cheaper architecture idea: source-coordinate conditioning. Instead of adding another canvas, the renderer MLP can see both the output coordinate and the learned warped/source coordinate used to sample the latent canvas. The hypothesis is that layout position and source-space glyph phase are separate facts; giving both to the model may preserve text strokes through reflow without masks, overlays, or a second render path.
 
+C5.7 is the first clear architecture win after the C49/C52 frontier. `c57-sourcecoord-target75-c32h160-s14000` reaches OCR `0.6264`, motion `0.0494`, and segment `817.800ms`, beating the previous learned layout-reflow best (`0.5761`) while staying under the `1.3s` 33-frame plus encode budget. Two more source-coordinate variants also beat the old frontier: `c57-sourcecoord-target50-c24h128-s12000` at OCR `0.6000` and `c57-sourcecoord-target-b196-s10000` at OCR `0.5981`. The useful signal is specific: exposing source-space phase helped more than residual detail, L1, gradient loss, or paired loss.
+
+C5.8 follows the transport hypothesis. The current learned-flow budget was only about `0.14` normalized-coordinate travel, but the layout-reflow target moves some bands by roughly `0.45`. That means the renderer may still be repainting too much detail from memory instead of moving source detail through the latent canvas. C5.8 tests larger learned-flow ranges (`0.20-0.45`) and an optional inverse-layout-flow supervision term, while keeping the output pure neural-canvas pixels.
+
 Suggested `results.tsv` header:
 
 ```text

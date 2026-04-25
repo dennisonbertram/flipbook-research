@@ -335,7 +335,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 feats.append(torch.cos(t * freq))
             return torch.cat(feats, dim=-1)
 
-        def forward(self, coords01: torch.Tensor, t: torch.Tensor) -> torch.Tensor:
+        def forward_with_warp(self, coords01: torch.Tensor, t: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
             coord_enc = self.encode_coords(coords01)
             time_enc = self.encode_time(t)
             flow = self.flow(torch.cat([coord_enc, time_enc], dim=-1)) * self.flow_scale
@@ -364,7 +364,10 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 ).squeeze(0).squeeze(-1).transpose(0, 1)
                 detail_logits = self.detail_mlp(torch.cat([detail_sampled, condition], dim=-1))
                 logits = logits + self.detail_scale * torch.tanh(detail_logits)
-            return torch.sigmoid(logits)
+            return torch.sigmoid(logits), sample_coords
+
+        def forward(self, coords01: torch.Tensor, t: torch.Tensor) -> torch.Tensor:
+            return self.forward_with_warp(coords01, t)[0]
 
         @torch.inference_mode()
         def render(self, out_w: int, out_h: int, viewport: tuple[float, float, float, float], t_value: float) -> torch.Tensor:
@@ -593,6 +596,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     layout_target_pair_weight = float(config.get("layout_target_pair_weight", 1.0))
     layout_mid_time_ratio = float(config.get("layout_mid_time_ratio", 0.0))
     layout_mid_time_width = float(config.get("layout_mid_time_width", 0.24))
+    layout_flow_loss_weight = float(config.get("layout_flow_loss_weight", 0.0))
     detail_channels = int(config.get("detail_channels", 0))
     detail_hidden = int(config.get("detail_hidden", config["hidden"]))
     detail_scale = float(config.get("detail_scale", 0.0))
@@ -778,6 +782,34 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     def sample_layout_reflow(coords01: torch.Tensor, t_col: torch.Tensor, amount: float) -> torch.Tensor:
         return sample_layout_reflow_from(target_chw, coords01, t_col, amount, 1.0)
 
+    def inverse_layout_reflow_coords(coords01: torch.Tensor, t_col: torch.Tensor, amount: float) -> tuple[torch.Tensor, torch.Tensor]:
+        source_coords = coords01.clone()
+        content_alpha = torch.zeros((coords01.shape[0], 1), device=coords01.device)
+        edge = 0.006
+        progress = torch.sin(t_col * torch.pi).square().clamp(0.0, 1.0) * amount
+        x = coords01[:, 0:1]
+        y = coords01[:, 1:2]
+
+        for source_box, target_box in layout_reflow_regions:
+            sx0, sy0, sx1, sy1 = source_box
+            tx0, ty0, tx1, ty1 = target_box
+            dx0 = sx0 + (tx0 - sx0) * progress
+            dy0 = sy0 + (ty0 - sy0) * progress
+            dx1 = sx1 + (tx1 - sx1) * progress
+            dy1 = sy1 + (ty1 - sy1) * progress
+            alpha = (
+                torch.sigmoid((x - dx0) / edge)
+                * torch.sigmoid((dx1 - x) / edge)
+                * torch.sigmoid((y - dy0) / edge)
+                * torch.sigmoid((dy1 - y) / edge)
+            ).clamp(0.0, 1.0)
+            source_x = sx0 + (x - dx0) * ((sx1 - sx0) / (dx1 - dx0).clamp_min(1e-6))
+            source_y = sy0 + (y - dy0) * ((sy1 - sy0) / (dy1 - dy0).clamp_min(1e-6))
+            mapped = torch.cat([source_x, source_y], dim=-1).clamp(0.0, 1.0)
+            source_coords = mapped * alpha + source_coords * (1.0 - alpha)
+            content_alpha = alpha + content_alpha * (1.0 - alpha)
+        return source_coords.clamp(0.0, 1.0), content_alpha.clamp(0.0, 1.0)
+
     model = TimeCanvas(
         width=train_w,
         height=train_h,
@@ -855,7 +887,11 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 focus = focus & (torch.rand((batch_size,), device=device) < layout_target_sampling_ratio)
             coords = torch.where(focus.unsqueeze(-1), moved_coords, coords)
         truth, target_coords = truth_for_coords(coords, t)
-        pred = model(coords, t)
+        if motion_mode in layout_reflow_motion_modes and layout_flow_loss_weight > 0.0:
+            pred, pred_source_coords = model.forward_with_warp(coords, t)
+        else:
+            pred = model(coords, t)
+            pred_source_coords = None
         error = pred - truth
         loss_per_sample = error.square().mean(dim=-1)
         if l1_loss_weight > 0.0:
@@ -871,6 +907,19 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             loss = (loss_per_sample * weights).mean()
         else:
             loss = loss_per_sample.mean()
+        if (
+            motion_mode in layout_reflow_motion_modes
+            and layout_flow_loss_weight > 0.0
+            and pred_source_coords is not None
+        ):
+            desired_source_coords, flow_alpha = inverse_layout_reflow_coords(coords, t, motion_strength)
+            flow_weights = flow_alpha.squeeze(-1)
+            if layout_target_weighting:
+                flow_glyph_weights = sample_layout_reflow_from(glyph_weight_chw, coords, t, motion_strength, 0.0).squeeze(-1)
+                flow_weights = flow_weights * (1.0 + edge_loss_weight * flow_glyph_weights)
+            flow_loss_per_sample = (pred_source_coords - desired_source_coords).square().mean(dim=-1)
+            flow_loss = (flow_loss_per_sample * flow_weights).sum() / flow_weights.sum().clamp_min(1e-6)
+            loss = loss + layout_flow_loss_weight * flow_loss
         if (
             motion_mode in layout_reflow_motion_modes
             and layout_target_pair_ratio > 0.0
@@ -1207,6 +1256,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         canvas_type += "-detail-residual"
     if source_coord_features:
         canvas_type += "-source-coord"
+    if layout_flow_loss_weight > 0.0:
+        canvas_type += "-flow-supervised"
     metrics = {
         "canvas_type": canvas_type,
         "train_resolution": config["train_resolution"],
@@ -1266,6 +1317,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "layout_target_pair_weight": layout_target_pair_weight,
         "layout_mid_time_ratio": layout_mid_time_ratio,
         "layout_mid_time_width": layout_mid_time_width,
+        "layout_flow_loss_weight": layout_flow_loss_weight,
         "text_box_count": len(config.get("text_boxes", [])),
         "text_mask_coverage": float(text_mask.mean().detach().cpu()),
         "element_alpha_coverage": float((element_alpha > 0.05).float().mean().detach().cpu()),
@@ -1310,6 +1362,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         metrics["description"] += " Residual detail canvas/head enabled for high-frequency pixel correction."
     if source_coord_features:
         metrics["description"] += " Learned warped/source coordinate features are included in the renderer MLP."
+    if layout_flow_loss_weight > 0.0:
+        metrics["description"] += " Learned flow is supervised toward the known inverse layout-reflow map."
     return {"artifacts": artifacts, "metrics": metrics}
 
 
@@ -1364,6 +1418,7 @@ def main(
     layout_target_pair_weight: float = 1.0,
     layout_mid_time_ratio: float = 0.0,
     layout_mid_time_width: float = 0.24,
+    layout_flow_loss_weight: float = 0.0,
     min_ocr_similarity: float = 0.5,
     min_motion_delta: float = 0.001,
     seed: int = 0,
@@ -1429,6 +1484,7 @@ def main(
         "layout_target_pair_weight": layout_target_pair_weight,
         "layout_mid_time_ratio": layout_mid_time_ratio,
         "layout_mid_time_width": layout_mid_time_width,
+        "layout_flow_loss_weight": layout_flow_loss_weight,
         "text_boxes": text_boxes,
         "source_resolution": source_resolution,
         "frames": frames,

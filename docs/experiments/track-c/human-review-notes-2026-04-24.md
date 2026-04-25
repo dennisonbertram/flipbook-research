@@ -1187,3 +1187,46 @@ C57 hypothesis:
 - The current MLP sees output coordinates and a latent sample from warped coordinates, but it does not explicitly see the warped/source coordinate.
 - Text strokes may need source-space phase information after layout motion; output-space coordinates alone are not enough.
 - Adding source-coordinate features should be much cheaper than C56 because it changes conditioning width, not canvas sampling count.
+
+Completed C57 results:
+
+```text
+c57-sourcecoord-target75-c32h160-s14000: OCR 0.6264, segment 817.800ms, motion_delta 0.0494, pass
+c57-sourcecoord-target50-c24h128-s12000: OCR 0.6000, segment 761.756ms, motion_delta 0.0519, pass
+c57-sourcecoord-target-b196-s10000: OCR 0.5981, segment 808.501ms, motion_delta 0.0505, pass
+c57-sourcecoord-weightonly-train1920-s13000: OCR 0.5498, segment 804.615ms, motion_delta 0.0502, pass
+c57-sourcecoord-weightonly-c32h160-s14000: OCR 0.5444, segment 685.778ms, motion_delta 0.0480, pass
+c57-sourcecoord-target50-c32h160-s14000: OCR 0.5238, segment 791.286ms, motion_delta 0.0487, quality_fail
+c57-sourcecoord-target50-flow08-s14000: OCR 0.5000, segment 806.558ms, motion_delta 0.0503, quality_fail
+c57-sourcecoord-target50-freq12-s12000: OCR 0.4654, segment 746.490ms, motion_delta 0.0510, quality_fail
+c57-sourcecoord-weight-b196-s14000: OCR 0.4528, segment 800.270ms, motion_delta 0.0503, quality_fail
+c57-sourcecoord-target50-seed1-s14000: OCR 0.4497, segment 806.916ms, motion_delta 0.0500, quality_fail
+```
+
+Interpretation:
+
+- Source-coordinate conditioning is the first architecture branch to beat the C49/C52 layout-reflow frontier.
+- The best C57 run improves the learned reflow OCR peak from `0.5761` to `0.6264`, while segment latency stays below `1.3s`.
+- The `target75` setting is the strongest, which suggests target-side coverage still matters when the MLP can see source-space phase.
+- Seed variance remains real: the seed `1` target50 run regressed, so the next branch should test a structural transport hypothesis rather than only retrying the same configuration.
+
+Next experiments:
+
+```text
+c58-flow020-target50-c32h160-s12000
+c58-flow028-target50-c32h160-s12000
+c58-flow035-target50-c32h160-s12000
+c58-flow035-weightonly-c32h160-s12000
+c58-flow045-target50-c32h160-s12000
+c58-flowsup025-w0025-target50-c32h160-s12000
+c58-flowsup035-w0025-target50-c32h160-s12000
+c58-flowsup035-w005-target50-c32h160-s12000
+c58-flowsup035-w0025-weightonly-c32h160-s12000
+c58-flowsup045-w0025-target50-c32h160-s12000
+```
+
+C58 hypothesis:
+
+- The learned-flow cap has been too small for full layout reflow. Some layout bands move around `0.45` in normalized page coordinates, while prior runs used `flow_scale=0.10`, internally capped around `0.14`.
+- Larger flow range should let the latent canvas transport source detail instead of forcing the MLP to repaint text from local output coordinates.
+- A light inverse-flow supervision term may make that transport learnable without adding masks, overlays, or a second sampled canvas.
