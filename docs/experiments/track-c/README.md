@@ -152,6 +152,10 @@ C7.2 is a robustness negative. Neither `c8/mid05` nor `c4/mid15` repeats: the be
 
 C7.3 shows coarse destination context is also not the stabilizer. Target-only context misses all runs; both-mode context gets one pass (`c73-c8both-seed1-s14000`, OCR `0.5614`) but does not reproduce and does not beat the earlier source-context seed1 result. C7.4 moves the destination signal to the high-resolution latent path: sample the main latent neighborhood at source, target, or both coordinates, while keeping the output pure neural-canvas pixels.
 
+C7.4 is a clean negative. High-resolution target/both latent sampling does not solve layout reflow: all ten C74 runs miss the OCR gate, with a best score of `0.5150` from `c74-latentboth-nocontext-seed1-s14000`. The target-only runs land around OCR `0.46`, and some dual-latent runs pressure or miss the `1.3s` segment budget. The lesson is that destination detail cannot simply be concatenated into the same decoder MLP.
+
+C7.5 adds a structural decoder test. The renderer now has a dual-residual mode: a source branch produces the main RGB logits from warped/source content, while a separate target-position branch produces a gated residual correction. The residual branch is initialized at zero so training starts close to the source-only renderer, then learns destination-local repairs only when useful. The C75 queue tests c8/c4/no-context variants and residual scales `0.25/0.50`.
+
 Suggested `results.tsv` header:
 
 ```text

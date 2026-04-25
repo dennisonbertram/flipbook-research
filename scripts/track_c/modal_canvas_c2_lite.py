@@ -283,6 +283,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             context_scale: float = 0.25,
             context_init_scale: float = 0.02,
             context_sample_mode: str = "source",
+            decoder_mode: str = "single",
+            target_branch_scale: float = 0.0,
+            target_branch_hidden: int | None = None,
         ):
             super().__init__()
             self.width = width
@@ -293,6 +296,16 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             self.detail_channels = detail_channels
             self.detail_scale = detail_scale
             self.source_coord_features = source_coord_features
+            decoder_mode = decoder_mode.lower().replace("_", "-")
+            if decoder_mode in {"dual", "dual-target", "dual-residual", "target-residual"}:
+                decoder_mode = "dual-residual"
+            elif decoder_mode in {"dual-gate", "gated-dual", "target-gate"}:
+                decoder_mode = "dual-gate"
+            else:
+                decoder_mode = "single"
+            self.decoder_mode = decoder_mode
+            self.target_branch_scale = float(target_branch_scale)
+            self.target_branch_hidden = hidden if target_branch_hidden is None else max(8, int(target_branch_hidden))
             self.canvas = nn.Parameter(torch.randn(1, channels, height, width) * 0.02)
             if context_channels > 0:
                 context_sample_mode = context_sample_mode.lower()
@@ -338,6 +351,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 channels * len(offsets) * latent_taps
                 + (context_channels * context_taps if context_channels > 0 else 0)
             )
+            branch_latent_dim = channels * len(offsets) + (context_channels if context_channels > 0 else 0)
             self.flow = nn.Sequential(
                 nn.Linear(coord_dim + time_dim, hidden),
                 nn.SiLU(),
@@ -346,13 +360,35 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 nn.Linear(hidden, 2),
                 nn.Tanh(),
             )
-            self.mlp = nn.Sequential(
-                nn.Linear(latent_dim + condition_dim, hidden),
-                nn.SiLU(),
-                nn.Linear(hidden, hidden),
-                nn.SiLU(),
-                nn.Linear(hidden, 3),
-            )
+
+            def make_rgb_mlp(input_dim: int, mlp_hidden: int) -> nn.Sequential:
+                return nn.Sequential(
+                    nn.Linear(input_dim, mlp_hidden),
+                    nn.SiLU(),
+                    nn.Linear(mlp_hidden, mlp_hidden),
+                    nn.SiLU(),
+                    nn.Linear(mlp_hidden, 3),
+                )
+
+            if self.decoder_mode == "single":
+                self.mlp = make_rgb_mlp(latent_dim + condition_dim, hidden)
+                self.source_mlp = None
+                self.target_mlp = None
+                self.gate_mlp = None
+            else:
+                self.mlp = None
+                self.source_mlp = make_rgb_mlp(branch_latent_dim + condition_dim, hidden)
+                self.target_mlp = make_rgb_mlp(branch_latent_dim + condition_dim, self.target_branch_hidden)
+                self.gate_mlp = nn.Sequential(
+                    nn.Linear(condition_dim, self.target_branch_hidden),
+                    nn.SiLU(),
+                    nn.Linear(self.target_branch_hidden, 1),
+                )
+                if self.decoder_mode == "dual-residual":
+                    nn.init.zeros_(self.target_mlp[-1].weight)
+                    nn.init.zeros_(self.target_mlp[-1].bias)
+                    nn.init.zeros_(self.gate_mlp[-1].weight)
+                    nn.init.constant_(self.gate_mlp[-1].bias, -1.5)
             if detail_channels > 0 and detail_scale != 0.0:
                 detail_hidden = hidden if detail_hidden is None else detail_hidden
                 self.detail_canvas = nn.Parameter(torch.randn(1, detail_channels, height, width) * detail_init_scale)
@@ -409,6 +445,12 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 return torch.cat([self.sample_one_context(sample_coords), self.sample_one_context(coords01)], dim=-1)
             return self.sample_one_context(sample_coords)
 
+        def sample_branch_features(self, coords: torch.Tensor) -> torch.Tensor:
+            sampled = self.sample_one_canvas_features(coords)
+            if self.context_canvas is not None:
+                sampled = torch.cat([sampled, self.sample_one_context(coords)], dim=-1)
+            return sampled
+
         def encode_coords(self, coords01: torch.Tensor) -> torch.Tensor:
             feats = [coords01]
             for i in range(self.freq_bands):
@@ -443,11 +485,22 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             condition_parts.append(time_enc)
             condition = torch.cat(condition_parts, dim=-1)
             grid = sample_coords.mul(2.0).sub(1.0).view(1, -1, 1, 2)
-            sampled = self.sample_canvas_features(coords01, sample_coords)
-            context_sampled = self.sample_context_features(coords01, sample_coords)
-            if context_sampled is not None:
-                sampled = torch.cat([sampled, context_sampled], dim=-1)
-            logits = self.mlp(torch.cat([sampled, condition], dim=-1))
+            if self.decoder_mode == "single":
+                sampled = self.sample_canvas_features(coords01, sample_coords)
+                context_sampled = self.sample_context_features(coords01, sample_coords)
+                if context_sampled is not None:
+                    sampled = torch.cat([sampled, context_sampled], dim=-1)
+                logits = self.mlp(torch.cat([sampled, condition], dim=-1))
+            else:
+                source_sampled = self.sample_branch_features(sample_coords)
+                target_sampled = self.sample_branch_features(coords01)
+                source_logits = self.source_mlp(torch.cat([source_sampled, condition], dim=-1))
+                target_logits = self.target_mlp(torch.cat([target_sampled, condition], dim=-1))
+                gate = torch.sigmoid(self.gate_mlp(condition))
+                if self.decoder_mode == "dual-gate":
+                    logits = source_logits * (1.0 - gate) + target_logits * gate
+                else:
+                    logits = source_logits + self.target_branch_scale * gate * torch.tanh(target_logits)
             if self.detail_canvas is not None and self.detail_mlp is not None:
                 detail_sampled = F.grid_sample(
                     self.detail_canvas,
@@ -725,6 +778,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     context_scale = float(config.get("context_scale", 0.25))
     context_init_scale = float(config.get("context_init_scale", 0.02))
     context_sample_mode = str(config.get("context_sample_mode", "source"))
+    decoder_mode = str(config.get("decoder_mode", "single"))
+    target_branch_scale = float(config.get("target_branch_scale", 0.0))
+    target_branch_hidden = int(config.get("target_branch_hidden", config["hidden"]))
 
     source = Image.open(io.BytesIO(input_png)).convert("RGB").resize((train_w, train_h), Image.Resampling.LANCZOS)
     target = torch.from_numpy(np.asarray(source, dtype=np.float32) / 255.0).to(device)
@@ -968,6 +1024,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         context_scale=context_scale,
         context_init_scale=context_init_scale,
         context_sample_mode=context_sample_mode,
+        decoder_mode=decoder_mode,
+        target_branch_scale=target_branch_scale,
+        target_branch_hidden=target_branch_hidden,
     ).to(device)
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=base_lr, weight_decay=0.0)
@@ -1476,6 +1535,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         canvas_type += f"-latent-{latent_neighborhood_mode}-neighborhood"
     if context_channels > 0:
         canvas_type += "-coarse-context"
+    if decoder_mode.lower().replace("_", "-") != "single":
+        canvas_type += f"-{decoder_mode.lower().replace('_', '-')}"
     metrics = {
         "canvas_type": canvas_type,
         "train_resolution": config["train_resolution"],
@@ -1497,6 +1558,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "context_init_scale": context_init_scale,
         "context_sample_mode": context_sample_mode,
         "context_resolution": list(model.context_canvas.shape[-2:]) if model.context_canvas is not None else [0, 0],
+        "decoder_mode": model.decoder_mode,
+        "target_branch_scale": target_branch_scale,
+        "target_branch_hidden": target_branch_hidden,
         "freq_bands": int(config["freq_bands"]),
         "time_bands": int(config["time_bands"]),
         "lr": base_lr,
@@ -1611,6 +1675,16 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             f" Decoder also samples a coarse context latent canvas with {context_channels} channels "
             f"at scale {context_scale:g} in {context_sample_mode} mode."
         )
+    if model.decoder_mode == "dual-residual":
+        metrics["description"] += (
+            f" Decoder uses a source branch plus gated target-position residual branch "
+            f"(scale {target_branch_scale:g}, target hidden {target_branch_hidden})."
+        )
+    elif model.decoder_mode == "dual-gate":
+        metrics["description"] += (
+            f" Decoder uses separately gated source and target-position branches "
+            f"(target hidden {target_branch_hidden})."
+        )
     if layout_target_mid_sampling_ratio > 0.0:
         metrics["description"] += (
             f" Training directly samples {layout_target_mid_sampling_ratio:g} of points from "
@@ -1638,6 +1712,9 @@ def main(
     context_scale: float = 0.25,
     context_init_scale: float = 0.02,
     context_sample_mode: str = "source",
+    decoder_mode: str = "single",
+    target_branch_scale: float = 0.0,
+    target_branch_hidden: int = 0,
     freq_bands: int = 8,
     time_bands: int = 4,
     lr: float = 0.01,
@@ -1715,6 +1792,9 @@ def main(
         "context_scale": context_scale,
         "context_init_scale": context_init_scale,
         "context_sample_mode": context_sample_mode,
+        "decoder_mode": decoder_mode,
+        "target_branch_scale": target_branch_scale,
+        "target_branch_hidden": target_branch_hidden if target_branch_hidden > 0 else hidden,
         "freq_bands": freq_bands,
         "time_bands": time_bands,
         "lr": lr,

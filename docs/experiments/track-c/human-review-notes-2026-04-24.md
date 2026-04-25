@@ -1915,3 +1915,45 @@ C74 hypothesis:
 - The decoder may need high-resolution target-coordinate latent features, not just coarse target context.
 - `latentboth` concatenates high-resolution source-sampled and target-sampled latent neighborhoods.
 - `latenttarget` tests whether destination detail alone is useful; no-context dual-latent tests whether the high-res dual sample can replace coarse context.
+
+Completed C74 results:
+
+```text
+c74-latentboth-nocontext-seed1-s14000: OCR 0.5150, segment 1125.600ms, motion_delta 0.0512, quality_fail
+c74-latentboth-c4-seed4-s14000: OCR 0.5031, segment 1493.471ms, motion_delta 0.0519, quality_fail
+c74-latentboth-c8-seed1-s14000: OCR 0.5000, segment 1248.325ms, motion_delta 0.0523, quality_fail
+c74-latentboth-c8-seed4-s14000: OCR 0.4906, segment 1240.517ms, motion_delta 0.0484, quality_fail
+c74-latentboth-c4-seed1-s14000: OCR 0.4780, segment 980.285ms, motion_delta 0.0535, quality_fail
+c74-latentboth-c4-seed2-s14000: OCR 0.4780, segment 1245.005ms, motion_delta 0.0473, quality_fail
+c74-latenttarget-c8-seed1-s14000: OCR 0.4654, segment 987.915ms, motion_delta 0.0527, quality_fail
+c74-latentboth-c8-seed2-s14000: OCR 0.4654, segment 1388.499ms, motion_delta 0.0476, quality_fail
+c74-latenttarget-c8-seed2-s14000: OCR 0.4625, segment 986.443ms, motion_delta 0.0502, quality_fail
+c74-latentboth-nocontext-seed2-s14000: OCR 0.4400, segment 973.454ms, motion_delta 0.0512, quality_fail
+```
+
+Interpretation:
+
+- C74 is a clean negative for simple source/target latent concatenation. No run clears OCR; several dual-latent runs also pressure or miss the 1.3s segment budget.
+- Target-only high-resolution latent features are not enough to redraw destination-local text/detail.
+- The next model-layer move should separate roles inside the decoder instead of handing one MLP a larger pile of coordinates and features.
+
+Next experiments:
+
+```text
+c75-dualres-s025-c8-seed1-s14000
+c75-dualres-s025-c8-seed2-s14000
+c75-dualres-s025-c8-seed4-s14000
+c75-dualres-s050-c8-seed1-s14000
+c75-dualres-s050-c8-seed2-s14000
+c75-dualres-s050-c8-seed4-s14000
+c75-dualres-s050-c4-seed1-s14000
+c75-dualres-s050-c4-seed2-s14000
+c75-dualres-s050-c4-seed4-s14000
+c75-dualres-s050-nocontext-seed1-s14000
+```
+
+C75 hypothesis:
+
+- A source branch can preserve content identity from the warped/source coordinate, while a gated target-position residual branch can repair destination-local layout/detail.
+- Initializing the target residual branch at zero keeps the model near the source-only baseline early in training, then lets it learn only useful destination corrections.
+- This remains pure neural-canvas rendering: every output pixel is produced by the model, with no overlay, mask compositing, or layout runtime at render time.

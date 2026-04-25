@@ -75,6 +75,9 @@ def general_visual_motion_args(
     context_scale: float | None = None,
     context_init_scale: float | None = None,
     context_sample_mode: str | None = None,
+    decoder_mode: str | None = None,
+    target_branch_scale: float | None = None,
+    target_branch_hidden: int | None = None,
     freq_bands: int | None = None,
     time_bands: int | None = None,
     lr: float | None = None,
@@ -197,6 +200,12 @@ def general_visual_motion_args(
         args.extend(["--context-init-scale", f"{context_init_scale:g}"])
     if context_sample_mode is not None:
         args.extend(["--context-sample-mode", context_sample_mode])
+    if decoder_mode is not None:
+        args.extend(["--decoder-mode", decoder_mode])
+    if target_branch_scale is not None:
+        args.extend(["--target-branch-scale", f"{target_branch_scale:g}"])
+    if target_branch_hidden is not None:
+        args.extend(["--target-branch-hidden", str(target_branch_hidden)])
     if batch_size is not None:
         args.extend(["--batch-size", str(batch_size)])
     if freq_bands is not None:
@@ -565,6 +574,9 @@ def learned_layout_reflow_experiment(
     context_scale: float | None = None,
     context_init_scale: float | None = None,
     context_sample_mode: str | None = None,
+    decoder_mode: str | None = None,
+    target_branch_scale: float | None = None,
+    target_branch_hidden: int | None = None,
     freq_bands: int = 10,
     time_bands: int | None = None,
     lr: float | None = None,
@@ -623,6 +635,12 @@ def learned_layout_reflow_experiment(
         if context_channels
         else ""
     )
+    decoder_note = (
+        f", decoder {decoder_mode} target-scale {target_branch_scale if target_branch_scale is not None else 0:g}"
+        f" target-h{target_branch_hidden if target_branch_hidden is not None else 'base'}"
+        if decoder_mode
+        else ""
+    )
     text_note = ", text-weighted" if text_box_loss_weight > 0 or text_box_sample_ratio > 0 else ""
     target_note = ", target-side reflow sampling" if layout_target_sampling or layout_target_weighting else ""
     if layout_target_sampling and layout_target_sampling_ratio is not None and layout_target_sampling_ratio < 1.0:
@@ -653,7 +671,7 @@ def learned_layout_reflow_experiment(
         notes=(
             "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions "
             "the illustration into a new page layout; output remains direct neural-canvas pixels. "
-            f"amount {amount:g}, flow scale {flow_scale:g}, {steps} steps, freq{freq_bands}{clip_note}{l1_note}{grad_note}{seed_note}{detail_note}{source_coord_note}{neighborhood_note}{context_note}{text_note}{target_note}{mid_note}{flow_loss_note}{oracle_note}{curriculum_note}{endpoint_note}."
+            f"amount {amount:g}, flow scale {flow_scale:g}, {steps} steps, freq{freq_bands}{clip_note}{l1_note}{grad_note}{seed_note}{detail_note}{source_coord_note}{neighborhood_note}{context_note}{decoder_note}{text_note}{target_note}{mid_note}{flow_loss_note}{oracle_note}{curriculum_note}{endpoint_note}."
         ),
         args=general_visual_motion_args(
             label,
@@ -675,6 +693,9 @@ def learned_layout_reflow_experiment(
             context_scale=context_scale,
             context_init_scale=context_init_scale,
             context_sample_mode=context_sample_mode,
+            decoder_mode=decoder_mode,
+            target_branch_scale=target_branch_scale,
+            target_branch_hidden=target_branch_hidden,
             freq_bands=freq_bands,
             time_bands=time_bands,
             lr=lr,
@@ -712,6 +733,46 @@ def learned_layout_reflow_experiment(
             min_motion=min_motion,
         ),
     )
+
+
+C75_DUAL_RESIDUAL_DECODER_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        context_channels=context_channels,
+        context_scale=0.25,
+        decoder_mode="dual-residual",
+        target_branch_scale=target_scale,
+        target_branch_hidden=target_hidden,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    )
+    for label, seed, context_channels, target_scale, target_hidden in [
+        ("c75-dualres-s025-c8-seed1-s14000", 1, 8, 0.25, 80),
+        ("c75-dualres-s025-c8-seed2-s14000", 2, 8, 0.25, 80),
+        ("c75-dualres-s025-c8-seed4-s14000", 4, 8, 0.25, 80),
+        ("c75-dualres-s050-c8-seed1-s14000", 1, 8, 0.50, 80),
+        ("c75-dualres-s050-c8-seed2-s14000", 2, 8, 0.50, 80),
+        ("c75-dualres-s050-c8-seed4-s14000", 4, 8, 0.50, 80),
+        ("c75-dualres-s050-c4-seed1-s14000", 1, 4, 0.50, 80),
+        ("c75-dualres-s050-c4-seed2-s14000", 2, 4, 0.50, 80),
+        ("c75-dualres-s050-c4-seed4-s14000", 4, 4, 0.50, 80),
+        ("c75-dualres-s050-nocontext-seed1-s14000", 1, 0, 0.50, 80),
+    ]
+]
 
 
 C74_DUAL_LATENT_EXPERIMENTS = [
@@ -911,6 +972,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C75_DUAL_RESIDUAL_DECODER_EXPERIMENTS,
     *C74_DUAL_LATENT_EXPERIMENTS,
     *C73_CONTEXT_MODE_EXPERIMENTS,
     *C72_ROBUSTNESS_MAP_EXPERIMENTS,
