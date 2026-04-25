@@ -1,6 +1,6 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-25T04:48:38+00:00`
+Updated UTC: `2026-04-25T04:51:28+00:00`
 
 ## Active Sessions
 
@@ -8,11 +8,30 @@ Updated UTC: `2026-04-25T04:48:38+00:00`
 - `pr1467-monitor`
 - `pr1483-checks`
 - `track-c-autoresearch`
-- `track-c-evaluate-c76`
+- `track-c-c77-map-s025-c8-h80-seed5-s14000`
+- `track-c-c77-map-s025-c8-h80-seed6-s14000`
+- `track-c-c77-map-s025-c8-h80-seed7-s14000`
+- `track-c-c77-map-s025-c8-h80-seed8-s14000`
+- `track-c-c77-map-s035-c8-h64-seed5-s14000`
+- `track-c-c77-map-s035-c8-h64-seed6-s14000`
+- `track-c-c77-map-s035-c8-h64-seed7-s14000`
+- `track-c-c77-map-s035-c8-h64-seed8-s14000`
+- `track-c-c77-stab-s025-c8-h80-clip025-seed4-s14000`
+- `track-c-c77-stab-s025-c8-h80-lr007-seed1-s14000`
 - `track-c-github-sync`
 
 ## Queue
 
+- `c77-map-s025-c8-h80-seed5-s14000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 5, source-coord features, latent cross neighborhood r1px source, context c8 scale 0.25 source, decoder dual-residual target-scale 0.25 target-h80, target-side reflow sampling ratio 0.6, mid-time 0.6.
+- `c77-map-s025-c8-h80-seed6-s14000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 6, source-coord features, latent cross neighborhood r1px source, context c8 scale 0.25 source, decoder dual-residual target-scale 0.25 target-h80, target-side reflow sampling ratio 0.6, mid-time 0.6.
+- `c77-map-s025-c8-h80-seed7-s14000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 7, source-coord features, latent cross neighborhood r1px source, context c8 scale 0.25 source, decoder dual-residual target-scale 0.25 target-h80, target-side reflow sampling ratio 0.6, mid-time 0.6.
+- `c77-map-s025-c8-h80-seed8-s14000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 8, source-coord features, latent cross neighborhood r1px source, context c8 scale 0.25 source, decoder dual-residual target-scale 0.25 target-h80, target-side reflow sampling ratio 0.6, mid-time 0.6.
+- `c77-map-s035-c8-h64-seed5-s14000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 5, source-coord features, latent cross neighborhood r1px source, context c8 scale 0.25 source, decoder dual-residual target-scale 0.35 target-h64, target-side reflow sampling ratio 0.6, mid-time 0.6.
+- `c77-map-s035-c8-h64-seed6-s14000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 6, source-coord features, latent cross neighborhood r1px source, context c8 scale 0.25 source, decoder dual-residual target-scale 0.35 target-h64, target-side reflow sampling ratio 0.6, mid-time 0.6.
+- `c77-map-s035-c8-h64-seed7-s14000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 7, source-coord features, latent cross neighborhood r1px source, context c8 scale 0.25 source, decoder dual-residual target-scale 0.35 target-h64, target-side reflow sampling ratio 0.6, mid-time 0.6.
+- `c77-map-s035-c8-h64-seed8-s14000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 8, source-coord features, latent cross neighborhood r1px source, context c8 scale 0.25 source, decoder dual-residual target-scale 0.35 target-h64, target-side reflow sampling ratio 0.6, mid-time 0.6.
+- `c77-stab-s025-c8-h80-lr007-seed1-s14000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 1, source-coord features, latent cross neighborhood r1px source, context c8 scale 0.25 source, decoder dual-residual target-scale 0.25 target-h80, target-side reflow sampling ratio 0.6, mid-time 0.6.
+- `c77-stab-s025-c8-h80-clip025-seed4-s14000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.25, seed 4, source-coord features, latent cross neighborhood r1px source, context c8 scale 0.25 source, decoder dual-residual target-scale 0.25 target-h80, target-side reflow sampling ratio 0.6, mid-time 0.6.
 - `c76-dualres-s025-c8-th48-seed1-s14000`: done - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 1, source-coord features, latent cross neighborhood r1px source, context c8 scale 0.25 source, decoder dual-residual target-scale 0.25 target-h48, target-side reflow sampling ratio 0.6, mid-time 0.6.
 - `c76-dualres-s025-c8-th48-seed2-s14000`: done - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 2, source-coord features, latent cross neighborhood r1px source, context c8 scale 0.25 source, decoder dual-residual target-scale 0.25 target-h48, target-side reflow sampling ratio 0.6, mid-time 0.6.
 - `c76-dualres-s025-c8-th48-seed4-s14000`: done - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 4, source-coord features, latent cross neighborhood r1px source, context c8 scale 0.25 source, decoder dual-residual target-scale 0.25 target-h48, target-side reflow sampling ratio 0.6, mid-time 0.6.
