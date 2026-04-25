@@ -1,6 +1,6 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-25T13:37:21+00:00`
+Updated UTC: `2026-04-25T13:43:25+00:00`
 
 ## Active Sessions
 
@@ -9,9 +9,12 @@ Updated UTC: `2026-04-25T13:37:21+00:00`
 - `pr1337-gh-checks`
 - `pr1419-checks-monitor`
 - `pr1467-monitor`
+- `pr1497-checks`
 - `track-c-autoresearch`
 - `track-c-github-sync`
 - `track-c-output-browser-8765`
+- `track-v-kling-smoke`
+- `track-v-ltx-fal-smoke`
 
 ## Queue
 
