@@ -150,6 +150,8 @@ C7.1 keeps the low-dose target-mid signal alive but does not make it robust. `c7
 
 C7.2 is a robustness negative. Neither `c8/mid05` nor `c4/mid15` repeats: the best run is `c72-c4mid20-seed4-s14000` at OCR `0.5389`, and all ten runs miss the OCR gate. Target-midpoint sampling can rescue individual seeds, but it is not the stabilizer. C7.3 returns to architecture by changing how coarse context is sampled: source-coordinate context preserves content identity, target-coordinate context may encode destination layout, and both-mode context tests whether the decoder needs both.
 
+C7.3 shows coarse destination context is also not the stabilizer. Target-only context misses all runs; both-mode context gets one pass (`c73-c8both-seed1-s14000`, OCR `0.5614`) but does not reproduce and does not beat the earlier source-context seed1 result. C7.4 moves the destination signal to the high-resolution latent path: sample the main latent neighborhood at source, target, or both coordinates, while keeping the output pure neural-canvas pixels.
+
 Suggested `results.tsv` header:
 
 ```text

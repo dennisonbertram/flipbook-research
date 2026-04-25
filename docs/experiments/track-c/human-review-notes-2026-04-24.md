@@ -1873,3 +1873,45 @@ C73 hypothesis:
 - Source-coordinate context may preserve glyph/source detail but underrepresent the destination page layout.
 - Target-coordinate context samples the coarse context canvas at the output coordinate, giving the decoder destination-layout memory.
 - Both-mode context concatenates source-sampled and target-sampled coarse features, testing whether the model needs both content identity and destination layout. This remains pure neural-canvas pixel generation.
+
+Completed C73 results:
+
+```text
+c73-c8both-seed1-s14000: OCR 0.5614, segment 1149.288ms, motion_delta 0.0527, pass
+c73-c8target-seed4-s14000: OCR 0.5031, segment 983.480ms, motion_delta 0.0494, quality_fail
+c73-c4both-seed2-s14000: OCR 0.5000, segment 974.030ms, motion_delta 0.0487, quality_fail
+c73-c8both-seed4-s14000: OCR 0.5000, segment 993.664ms, motion_delta 0.0499, quality_fail
+c73-c4both-seed1-s14000: OCR 0.4906, segment 960.361ms, motion_delta 0.0502, quality_fail
+c73-c4target-seed1-s14000: OCR 0.4906, segment 1171.539ms, motion_delta 0.0514, quality_fail
+c73-c4target-seed2-s14000: OCR 0.4780, segment 980.857ms, motion_delta 0.0492, quality_fail
+c73-c8both-seed2-s14000: OCR 0.4780, segment 824.284ms, motion_delta 0.0507, quality_fail
+c73-c8target-seed1-s14000: OCR 0.4750, segment 1153.291ms, motion_delta 0.0508, quality_fail
+c73-c8target-seed2-s14000: OCR 0.4750, segment 985.001ms, motion_delta 0.0501, quality_fail
+```
+
+Interpretation:
+
+- Coarse target-only context is not useful. It misses every run and does not improve the weak seeds.
+- Coarse both-mode context gives one pass (`c8both/seed1`) but does not beat the earlier source-context seed1 frontier and does not reproduce on seed2/4.
+- Destination information may need to arrive at high-resolution latent detail scale, not only coarse-context scale.
+
+Next experiments:
+
+```text
+c74-latentboth-c8-seed1-s14000
+c74-latentboth-c8-seed2-s14000
+c74-latentboth-c8-seed4-s14000
+c74-latenttarget-c8-seed1-s14000
+c74-latenttarget-c8-seed2-s14000
+c74-latentboth-c4-seed1-s14000
+c74-latentboth-c4-seed2-s14000
+c74-latentboth-c4-seed4-s14000
+c74-latentboth-nocontext-seed1-s14000
+c74-latentboth-nocontext-seed2-s14000
+```
+
+C74 hypothesis:
+
+- The decoder may need high-resolution target-coordinate latent features, not just coarse target context.
+- `latentboth` concatenates high-resolution source-sampled and target-sampled latent neighborhoods.
+- `latenttarget` tests whether destination detail alone is useful; no-context dual-latent tests whether the high-res dual sample can replace coarse context.
