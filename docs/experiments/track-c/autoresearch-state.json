@@ -1,8 +1,7 @@
 {
-  "updated_utc": "2026-04-25T23:02:44+00:00",
+  "updated_utc": "2026-04-25T23:17:12+00:00",
   "active_sessions": [
     "agent-browser-chrome",
-    "agent-browser-media-ux",
     "clawtest",
     "open-agents-web",
     "pr-1419-checks",
@@ -14,14 +13,13 @@
     "pubv31",
     "sexual-wellness-dev",
     "track-c-autoresearch",
-    "track-c-c110-v08-transit-indrecomp-truthrem075-tpow1-control-seed1-s12000",
-    "track-c-c110-v08-transit-indrecomp-truthrem075-tpow1-directsrc018-seed1-s12000",
-    "track-c-c110-v09-reef-indrecomp-truthrem075-tpow1-control-seed5-s12000",
-    "track-c-c110-v09-reef-indrecomp-truthrem075-tpow1-directsrc018-seed5-s12000",
-    "track-c-c110-v10-orbit-indrecomp-truthrem075-tpow1-directsrc025-seed6-s12000",
-    "track-c-c110-v11-naturalist-indrecomp-truthrem075-tpow025-control-seed6-s12000",
-    "track-c-c110-v11-naturalist-indrecomp-truthrem075-tpow025-directsrc018-seed6-s12000",
-    "track-c-c110-v11-naturalist-indrecomp-truthrem075-tpow05-directsrc018-seed6-s12000",
+    "track-c-c111-v08-transit-indrecomp-blend-truthrem075-tpow1-control-seed2-s12000",
+    "track-c-c111-v08-transit-indrecomp-talways-truthrem075-tpow1-control-seed2-s12000",
+    "track-c-c111-v09-reef-indrecomp-blend-truthrem075-tpow1-control-seed6-s12000",
+    "track-c-c111-v09-reef-indrecomp-talways-truthrem075-tpow1-control-seed6-s12000",
+    "track-c-c111-v11-naturalist-indrecomp-blend-truthrem075-tpow025-control-seed7-s12000",
+    "track-c-c111-v11-naturalist-indrecomp-talways-truthrem075-tpow025-control-seed7-s12000",
+    "track-c-c111-v11-naturalist-indrecomp-talways-truthrem075-tpow025-directsrc018-seed7-s12000",
     "track-c-github-sync",
     "track-c-output-browser-8765",
     "track-v-output-browser-8766",
@@ -30,6 +28,76 @@
     "workflow-worker"
   ],
   "experiments": [
+    {
+      "label": "c111-v11-naturalist-indrecomp-blend-truthrem075-tpow025-control-seed7-s12000",
+      "session": "track-c-c111-v11-naturalist-indrecomp-blend-truthrem075-tpow025-control-seed7-s12000",
+      "log": "docs/experiments/track-c/c111-v11-naturalist-indrecomp-blend-truthrem075-tpow025-control-seed7-s12000.log",
+      "done": false,
+      "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.75 ref truth timepow 0.25, seed 7, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.6 width 0.24, mid-time 0.68, endpoint anchors 0.14/0.55, clean target naturalist-plate."
+    },
+    {
+      "label": "c111-v11-naturalist-indrecomp-blend-truthrem075-tpow025-directsrc018-seed7-s12000",
+      "session": "track-c-c111-v11-naturalist-indrecomp-blend-truthrem075-tpow025-directsrc018-seed7-s12000",
+      "log": "docs/experiments/track-c/c111-v11-naturalist-indrecomp-blend-truthrem075-tpow025-directsrc018-seed7-s12000.log",
+      "done": true,
+      "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.75 ref truth timepow 0.25, source-remnant direct 0.18 region source-only, seed 7, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.6 width 0.24, mid-time 0.68, endpoint anchors 0.14/0.55, clean target naturalist-plate."
+    },
+    {
+      "label": "c111-v11-naturalist-indrecomp-talways-truthrem075-tpow025-control-seed7-s12000",
+      "session": "track-c-c111-v11-naturalist-indrecomp-talways-truthrem075-tpow025-control-seed7-s12000",
+      "log": "docs/experiments/track-c/c111-v11-naturalist-indrecomp-talways-truthrem075-tpow025-control-seed7-s12000.log",
+      "done": false,
+      "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.75 ref truth timepow 0.25, seed 7, source-coord features, latent cross neighborhood r1px source, target-state canvas always init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.6 width 0.24, mid-time 0.68, endpoint anchors 0.14/0.55, clean target naturalist-plate."
+    },
+    {
+      "label": "c111-v11-naturalist-indrecomp-talways-truthrem075-tpow025-directsrc018-seed7-s12000",
+      "session": "track-c-c111-v11-naturalist-indrecomp-talways-truthrem075-tpow025-directsrc018-seed7-s12000",
+      "log": "docs/experiments/track-c/c111-v11-naturalist-indrecomp-talways-truthrem075-tpow025-directsrc018-seed7-s12000.log",
+      "done": false,
+      "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.75 ref truth timepow 0.25, source-remnant direct 0.18 region source-only, seed 7, source-coord features, latent cross neighborhood r1px source, target-state canvas always init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.6 width 0.24, mid-time 0.68, endpoint anchors 0.14/0.55, clean target naturalist-plate."
+    },
+    {
+      "label": "c111-v11-naturalist-indrecomp-statesplit-truthrem075-tpow025-control-seed7-s12000",
+      "session": "track-c-c111-v11-naturalist-indrecomp-statesplit-truthrem075-tpow025-control-seed7-s12000",
+      "log": "docs/experiments/track-c/c111-v11-naturalist-indrecomp-statesplit-truthrem075-tpow025-control-seed7-s12000.log",
+      "done": true,
+      "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.75 ref truth timepow 0.25, seed 7, latent cross neighborhood r1px source, decoder state-split target-scale 0 target-h160, target-state canvas always init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.6 width 0.24, mid-time 0.68, endpoint anchors 0.14/0.55, clean target naturalist-plate."
+    },
+    {
+      "label": "c111-v11-naturalist-indrecomp-statesplit-truthrem075-tpow025-directsrc018-seed7-s12000",
+      "session": "track-c-c111-v11-naturalist-indrecomp-statesplit-truthrem075-tpow025-directsrc018-seed7-s12000",
+      "log": "docs/experiments/track-c/c111-v11-naturalist-indrecomp-statesplit-truthrem075-tpow025-directsrc018-seed7-s12000.log",
+      "done": true,
+      "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.75 ref truth timepow 0.25, source-remnant direct 0.18 region source-only, seed 7, latent cross neighborhood r1px source, decoder state-split target-scale 0 target-h160, target-state canvas always init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.6 width 0.24, mid-time 0.68, endpoint anchors 0.14/0.55, clean target naturalist-plate."
+    },
+    {
+      "label": "c111-v08-transit-indrecomp-blend-truthrem075-tpow1-control-seed2-s12000",
+      "session": "track-c-c111-v08-transit-indrecomp-blend-truthrem075-tpow1-control-seed2-s12000",
+      "log": "docs/experiments/track-c/c111-v08-transit-indrecomp-blend-truthrem075-tpow1-control-seed2-s12000.log",
+      "done": false,
+      "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.75 ref truth timepow 1, seed 2, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.68, endpoint anchors 0.14/0.55, clean target transit-illustration."
+    },
+    {
+      "label": "c111-v08-transit-indrecomp-talways-truthrem075-tpow1-control-seed2-s12000",
+      "session": "track-c-c111-v08-transit-indrecomp-talways-truthrem075-tpow1-control-seed2-s12000",
+      "log": "docs/experiments/track-c/c111-v08-transit-indrecomp-talways-truthrem075-tpow1-control-seed2-s12000.log",
+      "done": false,
+      "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.75 ref truth timepow 1, seed 2, source-coord features, latent cross neighborhood r1px source, target-state canvas always init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.68, endpoint anchors 0.14/0.55, clean target transit-illustration."
+    },
+    {
+      "label": "c111-v09-reef-indrecomp-blend-truthrem075-tpow1-control-seed6-s12000",
+      "session": "track-c-c111-v09-reef-indrecomp-blend-truthrem075-tpow1-control-seed6-s12000",
+      "log": "docs/experiments/track-c/c111-v09-reef-indrecomp-blend-truthrem075-tpow1-control-seed6-s12000.log",
+      "done": false,
+      "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.75 ref truth timepow 1, seed 6, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.68, endpoint anchors 0.14/0.55, clean target reef-topic."
+    },
+    {
+      "label": "c111-v09-reef-indrecomp-talways-truthrem075-tpow1-control-seed6-s12000",
+      "session": "track-c-c111-v09-reef-indrecomp-talways-truthrem075-tpow1-control-seed6-s12000",
+      "log": "docs/experiments/track-c/c111-v09-reef-indrecomp-talways-truthrem075-tpow1-control-seed6-s12000.log",
+      "done": false,
+      "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.75 ref truth timepow 1, seed 6, source-coord features, latent cross neighborhood r1px source, target-state canvas always init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.68, endpoint anchors 0.14/0.55, clean target reef-topic."
+    },
     {
       "label": "c110-v11-naturalist-indrecomp-truthrem075-tpow05-control-seed6-s12000",
       "session": "track-c-c110-v11-naturalist-indrecomp-truthrem075-tpow05-control-seed6-s12000",
@@ -41,21 +109,21 @@
       "label": "c110-v11-naturalist-indrecomp-truthrem075-tpow05-directsrc018-seed6-s12000",
       "session": "track-c-c110-v11-naturalist-indrecomp-truthrem075-tpow05-directsrc018-seed6-s12000",
       "log": "docs/experiments/track-c/c110-v11-naturalist-indrecomp-truthrem075-tpow05-directsrc018-seed6-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.75 ref truth timepow 0.5, source-remnant direct 0.18 region source-only, seed 6, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.6 width 0.24, mid-time 0.68, endpoint anchors 0.14/0.55, clean target naturalist-plate."
     },
     {
       "label": "c110-v11-naturalist-indrecomp-truthrem075-tpow025-control-seed6-s12000",
       "session": "track-c-c110-v11-naturalist-indrecomp-truthrem075-tpow025-control-seed6-s12000",
       "log": "docs/experiments/track-c/c110-v11-naturalist-indrecomp-truthrem075-tpow025-control-seed6-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.75 ref truth timepow 0.25, seed 6, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.6 width 0.24, mid-time 0.68, endpoint anchors 0.14/0.55, clean target naturalist-plate."
     },
     {
       "label": "c110-v11-naturalist-indrecomp-truthrem075-tpow025-directsrc018-seed6-s12000",
       "session": "track-c-c110-v11-naturalist-indrecomp-truthrem075-tpow025-directsrc018-seed6-s12000",
       "log": "docs/experiments/track-c/c110-v11-naturalist-indrecomp-truthrem075-tpow025-directsrc018-seed6-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.75 ref truth timepow 0.25, source-remnant direct 0.18 region source-only, seed 6, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.6 width 0.24, mid-time 0.68, endpoint anchors 0.14/0.55, clean target naturalist-plate."
     },
     {
@@ -69,35 +137,35 @@
       "label": "c110-v10-orbit-indrecomp-truthrem075-tpow1-directsrc025-seed6-s12000",
       "session": "track-c-c110-v10-orbit-indrecomp-truthrem075-tpow1-directsrc025-seed6-s12000",
       "log": "docs/experiments/track-c/c110-v10-orbit-indrecomp-truthrem075-tpow1-directsrc025-seed6-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.75 ref truth timepow 1, source-remnant direct 0.25 region source-only, seed 6, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.68, endpoint anchors 0.14/0.55, clean target orbit-topic."
     },
     {
       "label": "c110-v09-reef-indrecomp-truthrem075-tpow1-control-seed5-s12000",
       "session": "track-c-c110-v09-reef-indrecomp-truthrem075-tpow1-control-seed5-s12000",
       "log": "docs/experiments/track-c/c110-v09-reef-indrecomp-truthrem075-tpow1-control-seed5-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.75 ref truth timepow 1, seed 5, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.68, endpoint anchors 0.14/0.55, clean target reef-topic."
     },
     {
       "label": "c110-v09-reef-indrecomp-truthrem075-tpow1-directsrc018-seed5-s12000",
       "session": "track-c-c110-v09-reef-indrecomp-truthrem075-tpow1-directsrc018-seed5-s12000",
       "log": "docs/experiments/track-c/c110-v09-reef-indrecomp-truthrem075-tpow1-directsrc018-seed5-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.75 ref truth timepow 1, source-remnant direct 0.18 region source-only, seed 5, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.68, endpoint anchors 0.14/0.55, clean target reef-topic."
     },
     {
       "label": "c110-v08-transit-indrecomp-truthrem075-tpow1-control-seed1-s12000",
       "session": "track-c-c110-v08-transit-indrecomp-truthrem075-tpow1-control-seed1-s12000",
       "log": "docs/experiments/track-c/c110-v08-transit-indrecomp-truthrem075-tpow1-control-seed1-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.75 ref truth timepow 1, seed 1, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.68, endpoint anchors 0.14/0.55, clean target transit-illustration."
     },
     {
       "label": "c110-v08-transit-indrecomp-truthrem075-tpow1-directsrc018-seed1-s12000",
       "session": "track-c-c110-v08-transit-indrecomp-truthrem075-tpow1-directsrc018-seed1-s12000",
       "log": "docs/experiments/track-c/c110-v08-transit-indrecomp-truthrem075-tpow1-directsrc018-seed1-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.75 ref truth timepow 1, source-remnant direct 0.18 region source-only, seed 1, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.68, endpoint anchors 0.14/0.55, clean target transit-illustration."
     },
     {
