@@ -166,6 +166,8 @@ C7.8 is also negative. Fusing source and target features into the residual branc
 
 C7.9 is a clean negative. The RGB texture made the renderer fast (`~909-1111ms`) but too rigid: the best OCR run is `c79-rgbskip-s100-c8-seed2-s14000` at OCR `0.4952`, with motion only `0.0228`. Lower residual scales often collapse motion to zero. Visual review shows ghosted/smeared source texture rather than a clean new layout. C8.0 keeps the useful idea but attenuates the RGB base logits and increases residual capacity, testing whether the texture can become a detail prior instead of an uneraseable copy of the source page.
 
+C8.0 is a partial recovery. Attenuating the RGB base restores motion and improves quality over C79. The best run is `c80-rgbbase025-res200-nocontext-seed2-s14000` at OCR `0.5967`, segment `757.305ms`, and motion `0.0416`, just below the `0.045` motion gate. Context hurts this branch: the same base/residual with c8 context falls to OCR `0.4941`. C8.1 therefore focuses on no-context variants around base `0.20-0.30`, residual `2.0-3.0`, and slightly stronger layout amount to see whether the near-miss can clear motion without losing text.
+
 Suggested `results.tsv` header:
 
 ```text

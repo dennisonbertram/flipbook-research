@@ -2167,3 +2167,45 @@ C80 hypothesis:
 - The RGB texture can still be useful if it is a detail prior rather than an uneraseable source copy.
 - Attenuating base logits (`0.25-0.75`) and increasing bounded residual scale (`1-4`) should let the renderer erase/repaint while keeping a spatial hint for strokes.
 - If C80 remains below C75/C62, the project should stop pursuing direct RGB skips and return to structured transport/decoder architectures.
+
+Completed C80 results:
+
+```text
+c80-rgbbase025-res200-nocontext-seed2-s14000: OCR 0.5967, segment 757.305ms, motion_delta 0.0416, quality_fail
+c80-rgbbase050-res400-c8-seed1-s14000: OCR 0.5357, segment 801.038ms, motion_delta 0.0484, quality_fail
+c80-rgbbase050-res400-c8-seed2-s14000: OCR 0.5000, segment 970.779ms, motion_delta 0.0484, quality_fail
+c80-rgbbase025-res200-c8-seed2-s14000: OCR 0.4941, segment 806.203ms, motion_delta 0.0375, quality_fail
+c80-rgbbase050-res400-c8-seed4-s14000: OCR 0.4906, segment 975.696ms, motion_delta 0.0505, quality_fail
+c80-rgbbase025-res200-c8-seed4-s14000: OCR 0.4654, segment 979.569ms, motion_delta 0.0374, quality_fail
+c80-rgbbase025-res100-c8-seed2-s14000: OCR 0.4476, segment 1016.571ms, motion_delta 0.0235, quality_fail
+c80-rgbbase025-res400-c8-seed2-s14000: OCR 0.4304, segment 964.514ms, motion_delta 0.0484, quality_fail
+c80-rgbbase050-res200-c8-seed2-s14000: OCR 0.3926, segment 969.812ms, motion_delta 0.0435, quality_fail
+c80-rgbbase075-res200-c8-seed2-s14000: OCR 0.0357, segment 949.416ms, motion_delta 0.0000, quality_fail
+```
+
+Interpretation:
+
+- C80 rescues the RGB texture idea from the C79 failure mode. Base attenuation plus more residual capacity raises the best OCR from `0.4952` to `0.5967`.
+- The best run is a near-miss on motion, not quality or latency. That is materially different from C79's frozen/ghosted behavior.
+- Context hurts this branch: no-context base `0.25` / residual `2.0` beats the c8-context equivalent by about `0.10` OCR. Coarse context may be fighting the RGB texture transport.
+
+Next experiments:
+
+```text
+c81-nctx-b025-r200-a110-seed2-s14000
+c81-nctx-b025-r250-a100-seed2-s14000
+c81-nctx-b025-r250-a110-seed2-s14000
+c81-nctx-b025-r300-a100-seed2-s14000
+c81-nctx-b020-r250-a100-seed2-s14000
+c81-nctx-b030-r250-a100-seed2-s14000
+c81-nctx-b025-r250-a100-seed1-s14000
+c81-nctx-b025-r250-a100-seed4-s14000
+c81-nctx-b025-r250-a110-seed4-s14000
+c81-nctx-b050-r400-a100-seed2-s14000
+```
+
+C81 hypothesis:
+
+- The best C80 point needs a small motion push, not a new mechanism.
+- No-context RGB texture runs should be tested around the base `0.25` / residual `2.0` basin with residual `2.5-3.0`, base `0.20-0.30`, and layout amount `1.10`.
+- If the near-miss does not turn into a pass across seeds, RGB texture should be treated as a diagnostic branch rather than the main architecture path.
