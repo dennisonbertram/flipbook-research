@@ -224,16 +224,18 @@ C10.3 is a useful negative on scalar timing. It mostly preserves OCR, including 
 
 C10.4 is complete and says the heavy sampling reserve is too sharp. `srcsample18` keeps timeline (`0.9677` OCR), reef (`0.7500`), orbit (`0.7429`), and deep-sea (`0.7059`) passing, but transition source-residual gains are not better enough: timeline regresses to `0.0783`, reef to `0.0520`, orbit only reaches `0.0452`, and deep-sea is near-neutral at `0.0021` with lower OCR. Naturalist remains the weak fixture: `time_power=0.5` barely passes OCR (`0.3519`) and `time_power=0.25` fails. C10.5 should repeat the same matrix with a smaller `srcsample06` reserve.
 
+C10.5 is complete. Smaller source-only sampling restores OCR and pass status for most variants, but it is not the cleanup lever: timeline `0.0691`, reef `0.0598`, orbit `0.0550`, and deep-sea `0.0133` do not beat the best C10.2/C10.3 residuals. Naturalist `time_power=0.25` improves to `0.1235` and passes at OCR `0.3689`; the `time_power=0.5` same-seed run misses latency at `1303.764ms`. C10.6 should add direct weighted transition-target loss on remnant regions instead of reserving more sample mass.
+
 Next experiments:
 
 ```text
-C105 lower source-only remnant-edge sampling:
-c105-v07-timeline-indrecomp-truthrem075-tpow1-srcsample06-seed4-s12000
-c105-v10-orbit-indrecomp-truthrem075-tpow1-srcsample06-seed4-s12000
-c105-v09-reef-indrecomp-truthrem075-tpow1-srcsample06-seed4-s12000
-c105-v12-deep-sea-indrecomp-truthrem075-tpow1-srcsample06-seed6-s12000
-c105-v11-naturalist-indrecomp-truthrem075-tpow05-srcsample06-seed5-s12000
-c105-v11-naturalist-indrecomp-truthrem075-tpow025-srcsample06-seed5-s12000
+C106 direct transition remnant loss:
+c106-v07-timeline-indrecomp-truthrem075-tpow1-direct035-seed4-s12000
+c106-v10-orbit-indrecomp-truthrem075-tpow1-direct035-seed4-s12000
+c106-v09-reef-indrecomp-truthrem075-tpow1-direct035-seed4-s12000
+c106-v12-deep-sea-indrecomp-truthrem075-tpow1-direct035-seed6-s12000
+c106-v11-naturalist-indrecomp-truthrem075-tpow05-direct035-seed5-s12000
+c106-v11-naturalist-indrecomp-truthrem075-tpow025-direct035-seed5-s12000
 ```
 
 Suggested `results.tsv` header:

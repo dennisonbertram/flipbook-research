@@ -2080,6 +2080,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     source_remnant_time_power = float(config.get("source_remnant_time_power", 2.0))
     source_remnant_sample_ratio = float(config.get("source_remnant_sample_ratio", 0.0))
     source_remnant_sample_time_width = float(config.get("source_remnant_sample_time_width", 0.18))
+    source_remnant_direct_loss_weight = float(config.get("source_remnant_direct_loss_weight", 0.0))
     motion_mode = str(config.get("motion_mode", "jiggle"))
     motion_strength = float(config.get("motion_strength", flow_scale))
     clean_target_variant = str(config.get("clean_target_variant", "diagram-left"))
@@ -2690,7 +2691,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         else:
             loss = loss_per_sample.mean()
         if (
-            source_remnant_loss_weight > 0.0
+            (source_remnant_loss_weight > 0.0 or source_remnant_direct_loss_weight > 0.0)
             and motion_mode in clean_layout_motion_modes
             and clean_target_chw is not None
         ):
@@ -2703,10 +2704,14 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             midpoint_weight = clean_progress(t, step_motion_strength).squeeze(-1).clamp(0.0, 1.0)
             midpoint_weight = midpoint_weight.pow(max(0.0, source_remnant_time_power))
             remnant_weights = change_weight * midpoint_weight
-            remnant_loss = (
-                F.relu(source_remnant_margin + target_distance - source_distance) * remnant_weights
-            ).sum() / remnant_weights.sum().clamp_min(1e-6)
-            loss = loss + source_remnant_loss_weight * remnant_loss
+            if source_remnant_loss_weight > 0.0:
+                remnant_loss = (
+                    F.relu(source_remnant_margin + target_distance - source_distance) * remnant_weights
+                ).sum() / remnant_weights.sum().clamp_min(1e-6)
+                loss = loss + source_remnant_loss_weight * remnant_loss
+            if source_remnant_direct_loss_weight > 0.0:
+                direct_remnant_loss = (target_distance * remnant_weights).sum() / remnant_weights.sum().clamp_min(1e-6)
+                loss = loss + source_remnant_direct_loss_weight * direct_remnant_loss
         if (
             motion_mode in layout_reflow_motion_modes
             and layout_flow_loss_weight > 0.0
@@ -3157,6 +3162,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "source_remnant_time_power": source_remnant_time_power,
         "source_remnant_sample_ratio": source_remnant_sample_ratio,
         "source_remnant_sample_time_width": source_remnant_sample_time_width,
+        "source_remnant_direct_loss_weight": source_remnant_direct_loss_weight,
         "seed": seed,
         "experiment_label": config.get("experiment_label", ""),
         "flow_scale": flow_scale,
@@ -3326,6 +3332,11 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             f" Source-only remnant-edge sampling reserves {source_remnant_sample_ratio:g} of training points "
             f"near transition times."
         )
+    if source_remnant_direct_loss_weight > 0.0:
+        metrics["description"] += (
+            f" A direct source-remnant transition loss ({source_remnant_direct_loss_weight:g}) adds weighted "
+            "L1 pressure toward the same remnant reference."
+        )
     return {"artifacts": artifacts, "metrics": metrics}
 
 
@@ -3375,6 +3386,7 @@ def main(
     source_remnant_time_power: float = 2.0,
     source_remnant_sample_ratio: float = 0.0,
     source_remnant_sample_time_width: float = 0.18,
+    source_remnant_direct_loss_weight: float = 0.0,
     flow_scale: float = 0.006,
     motion_mode: str = "jiggle",
     motion_strength: float = -1.0,
@@ -3470,6 +3482,7 @@ def main(
         "source_remnant_time_power": source_remnant_time_power,
         "source_remnant_sample_ratio": source_remnant_sample_ratio,
         "source_remnant_sample_time_width": source_remnant_sample_time_width,
+        "source_remnant_direct_loss_weight": source_remnant_direct_loss_weight,
         "seed": seed,
         "flow_scale": flow_scale,
         "motion_mode": motion_mode,
