@@ -40,3 +40,5 @@ C94 did still show the source layer in crops. C95 tested a dual-state representa
 ## Current Status
 
 As of this assessment update, C96 is complete and is another partial/negative architecture result. It keeps render time stable (`~1.1s` segments for most passes), but best naturalist OCR (`0.5310`) trails C95 and the crop review still reveals source remnants. C97 is implemented as a stricter state-split decoder test. Track C is scientifically useful, but it is not yet a product proof.
+
+The evaluator now also reports source-residual gain/cosine and source-only edge bias in changed regions. These metrics ask whether the render's residual from the target is aligned with the old source image, especially around old source edges that should have disappeared. That is closer to the human crop-review failure than OCR alone.
