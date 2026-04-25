@@ -234,20 +234,22 @@ C10.8 is complete. Source-only direct `0.25` gives the best orbit residual in th
 
 C10.9 is complete and should be read as a useful but overfit-sensitive result. Naturalist directsrc `0.18` passes at both timings: `time_power=0.5` gives OCR `0.3889`, segment `918.956ms`, residual gain `0.1215`; `time_power=0.25` gives OCR `0.3913`, segment `1129.706ms`, residual gain `0.1261`. The lower directsrc `0.15/time_power=0.25` point has better OCR/residual (`0.4356` / `0.1155`) but misses latency at `1302.489ms`. Orbit directsrc `0.25` repeats as a pass at seed 5 with residual `0.0330` but sits on the latency edge (`1299.982ms`). Deep-sea directsrc `0.15` reaches near-zero residual (`-0.0006`) but is too slow (`1484.167ms`). C11.0 should validate against same-seed controls and holdouts rather than tuning new weights.
 
+C11.0 is complete. The naturalist `time_power=0.25/directsrc=0.18` pair is a real same-seed win: OCR `0.4808` vs `0.4571`, segment `1108.582ms` vs `1108.945ms`, residual gain `0.1129` vs `0.1274`. That does not make source-only direct loss a default. Naturalist `time_power=0.5/directsrc=0.18` fails, reef directsrc `0.18` hurts OCR while only slightly improving residual, transit directsrc `0.18` improves OCR but worsens residual, and orbit directsrc `0.25` improves residual while cutting OCR from `1.0000` to `0.7368`. C11.1 moves back to target-state structure instead of direct-weight tuning.
+
 Next experiments:
 
 ```text
-C110 direct-loss validation:
-c110-v11-naturalist-indrecomp-truthrem075-tpow05-control-seed6-s12000
-c110-v11-naturalist-indrecomp-truthrem075-tpow05-directsrc018-seed6-s12000
-c110-v11-naturalist-indrecomp-truthrem075-tpow025-control-seed6-s12000
-c110-v11-naturalist-indrecomp-truthrem075-tpow025-directsrc018-seed6-s12000
-c110-v10-orbit-indrecomp-truthrem075-tpow1-control-seed6-s12000
-c110-v10-orbit-indrecomp-truthrem075-tpow1-directsrc025-seed6-s12000
-c110-v09-reef-indrecomp-truthrem075-tpow1-control-seed5-s12000
-c110-v09-reef-indrecomp-truthrem075-tpow1-directsrc018-seed5-s12000
-c110-v08-transit-indrecomp-truthrem075-tpow1-control-seed1-s12000
-c110-v08-transit-indrecomp-truthrem075-tpow1-directsrc018-seed1-s12000
+C111 target-state structure:
+c111-v11-naturalist-indrecomp-blend-truthrem075-tpow025-control-seed7-s12000
+c111-v11-naturalist-indrecomp-blend-truthrem075-tpow025-directsrc018-seed7-s12000
+c111-v11-naturalist-indrecomp-talways-truthrem075-tpow025-control-seed7-s12000
+c111-v11-naturalist-indrecomp-talways-truthrem075-tpow025-directsrc018-seed7-s12000
+c111-v11-naturalist-indrecomp-statesplit-truthrem075-tpow025-control-seed7-s12000
+c111-v11-naturalist-indrecomp-statesplit-truthrem075-tpow025-directsrc018-seed7-s12000
+c111-v08-transit-indrecomp-blend-truthrem075-tpow1-control-seed2-s12000
+c111-v08-transit-indrecomp-talways-truthrem075-tpow1-control-seed2-s12000
+c111-v09-reef-indrecomp-blend-truthrem075-tpow1-control-seed6-s12000
+c111-v09-reef-indrecomp-talways-truthrem075-tpow1-control-seed6-s12000
 ```
 
 Suggested `results.tsv` header:

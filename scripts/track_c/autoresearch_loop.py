@@ -1898,6 +1898,69 @@ C110_DIRECT_VALIDATION_EXPERIMENTS = [
 ]
 
 
+C111_TARGET_STATE_STRUCTURE_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=12000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=0 if decoder_mode == "state-split" else 1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        latent_sample_mode="source",
+        decoder_mode=decoder_mode,
+        target_branch_hidden=160 if decoder_mode else None,
+        target_canvas_mode=target_canvas_mode,
+        target_canvas_init_scale=0.02,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.65,
+        layout_target_mid_sampling_ratio=mid_target_ratio,
+        layout_target_mid_time_width=mid_target_width,
+        layout_mid_time_ratio=0.68,
+        layout_mid_time_width=0.24,
+        layout_endpoint_ratio=0.14,
+        layout_endpoint_target_ratio=0.55,
+        source_remnant_loss_weight=0.75,
+        source_remnant_margin=0.025,
+        source_remnant_change_floor=0.04,
+        source_remnant_reference="truth",
+        source_remnant_time_power=time_power,
+        source_remnant_direct_loss_weight=direct_weight,
+        source_remnant_direct_region="source-only" if direct_weight else None,
+        motion_mode="layout-clean-independent-recompose",
+        clean_target_variant=variant,
+        min_ocr=0.35,
+        min_motion=0.05,
+    )
+    for (
+        label,
+        variant,
+        seed,
+        mid_target_ratio,
+        mid_target_width,
+        time_power,
+        decoder_mode,
+        target_canvas_mode,
+        direct_weight,
+    ) in [
+        ("c111-v11-naturalist-indrecomp-blend-truthrem075-tpow025-control-seed7-s12000", "naturalist-plate", 7, 0.60, 0.24, 0.25, None, "blend", None),
+        ("c111-v11-naturalist-indrecomp-blend-truthrem075-tpow025-directsrc018-seed7-s12000", "naturalist-plate", 7, 0.60, 0.24, 0.25, None, "blend", 0.18),
+        ("c111-v11-naturalist-indrecomp-talways-truthrem075-tpow025-control-seed7-s12000", "naturalist-plate", 7, 0.60, 0.24, 0.25, None, "always", None),
+        ("c111-v11-naturalist-indrecomp-talways-truthrem075-tpow025-directsrc018-seed7-s12000", "naturalist-plate", 7, 0.60, 0.24, 0.25, None, "always", 0.18),
+        ("c111-v11-naturalist-indrecomp-statesplit-truthrem075-tpow025-control-seed7-s12000", "naturalist-plate", 7, 0.60, 0.24, 0.25, "state-split", "always", None),
+        ("c111-v11-naturalist-indrecomp-statesplit-truthrem075-tpow025-directsrc018-seed7-s12000", "naturalist-plate", 7, 0.60, 0.24, 0.25, "state-split", "always", 0.18),
+        ("c111-v08-transit-indrecomp-blend-truthrem075-tpow1-control-seed2-s12000", "transit-illustration", 2, 0.35, 0.22, 1.0, None, "blend", None),
+        ("c111-v08-transit-indrecomp-talways-truthrem075-tpow1-control-seed2-s12000", "transit-illustration", 2, 0.35, 0.22, 1.0, None, "always", None),
+        ("c111-v09-reef-indrecomp-blend-truthrem075-tpow1-control-seed6-s12000", "reef-topic", 6, 0.35, 0.22, 1.0, None, "blend", None),
+        ("c111-v09-reef-indrecomp-talways-truthrem075-tpow1-control-seed6-s12000", "reef-topic", 6, 0.35, 0.22, 1.0, None, "always", None),
+    ]
+]
+
+
 C98_TRANSITION_AWARE_EXPERIMENTS = [
     learned_layout_reflow_experiment(
         label,
@@ -2795,6 +2858,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C111_TARGET_STATE_STRUCTURE_EXPERIMENTS,
     *C110_DIRECT_VALIDATION_EXPERIMENTS,
     *C109_NATURALIST_DIRECT_CALIBRATION_EXPERIMENTS,
     *C108_SOURCE_ONLY_DIRECT_LIGHT_EXPERIMENTS,
