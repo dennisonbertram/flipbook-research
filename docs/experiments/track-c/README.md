@@ -146,6 +146,8 @@ C6.9 partially validates light context but does not solve robustness. The c8/sca
 
 C7.0 shows direct target-midpoint sampling can help, but only in a small dose. `c70-mid10-c8s025-seed4-s14000` rescues the C69 weak seed4 from OCR `0.5031` to `0.5822` and passes. Heavier `mid20` generally regresses c8 seeds, `mid35` lands just below the gate at OCR `0.5497`, and the OCR text-box ablation does not help (`0.4780`). c4 context remains promising: `c70-mid20-c4s025-seed3-s14000` passes at OCR `0.5792`, with seed2 near the gate at `0.5444`. C7.1 consolidates low target-mid sampling (`0.05-0.15`) across c8 and c4 weak seeds without text-box supervision.
 
+C7.1 keeps the low-dose target-mid signal alive but does not make it robust. `c71-mid05-c8s025-seed5-s14000` passes at OCR `0.5905`, and `c71-mid15-c4s025-seed2-s14000` passes at OCR `0.5701`. `c71-mid10-c4s025-seed4-s14000` clears OCR at `0.5581` but misses latency at `1352ms`. The rest of the low-dose c8/c4 weak-seed map misses. C7.2 therefore stops adding mechanisms and maps robustness for the two plausible recipes: `c8/mid05` and `c4/mid15`.
+
 Suggested `results.tsv` header:
 
 ```text

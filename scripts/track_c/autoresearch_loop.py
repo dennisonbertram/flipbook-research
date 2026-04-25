@@ -703,6 +703,45 @@ def learned_layout_reflow_experiment(
     )
 
 
+C72_ROBUSTNESS_MAP_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        context_channels=context_channels,
+        context_scale=0.25,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_target_mid_sampling_ratio=mid_ratio,
+        layout_target_mid_time_width=0.24,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    )
+    for label, seed, mid_ratio, context_channels in [
+        ("c72-c8mid05-seed1-s14000", 1, 0.05, 8),
+        ("c72-c8mid05-seed2-s14000", 2, 0.05, 8),
+        ("c72-c8mid05-seed3-s14000", 3, 0.05, 8),
+        ("c72-c8mid05-seed4-s14000", 4, 0.05, 8),
+        ("c72-c8mid05-seed6-s14000", 6, 0.05, 8),
+        ("c72-c4mid15-seed1-s14000", 1, 0.15, 4),
+        ("c72-c4mid15-seed3-s14000", 3, 0.15, 4),
+        ("c72-c4mid15-seed4-s14000", 4, 0.15, 4),
+        ("c72-c4mid15-seed5-s14000", 5, 0.15, 4),
+        ("c72-c4mid20-seed4-s14000", 4, 0.20, 4),
+    ]
+]
+
+
 C71_LOW_TARGET_MID_EXPERIMENTS = [
     learned_layout_reflow_experiment(
         label,
@@ -785,6 +824,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C72_ROBUSTNESS_MAP_EXPERIMENTS,
     *C71_LOW_TARGET_MID_EXPERIMENTS,
     *C70_TARGET_MID_EXPERIMENTS,
     learned_layout_reflow_experiment(

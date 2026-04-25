@@ -1789,3 +1789,45 @@ C71 hypothesis:
 - The useful C70 region is a low direct target-mid sampling dose, not the heavier `0.20-0.35` range.
 - C71 tests whether `0.05/0.075/0.10/0.15` can make weak c8 seeds more stable and whether c4 context is a better compact-context basin.
 - A strong outcome would be multiple c8/c4 weak-seed passes without enabling OCR-box text supervision.
+
+Completed C71 results:
+
+```text
+c71-mid05-c8s025-seed5-s14000: OCR 0.5905, segment 987.250ms, motion_delta 0.0508, pass
+c71-mid15-c4s025-seed2-s14000: OCR 0.5701, segment 989.769ms, motion_delta 0.0503, pass
+c71-mid10-c4s025-seed4-s14000: OCR 0.5581, segment 1352.030ms, motion_delta 0.0471, latency_fail
+c71-mid10-c8s025-seed5-s14000: OCR 0.5106, segment 1162.595ms, motion_delta 0.0530, quality_fail
+c71-mid10-c8s025-seed2-s14000: OCR 0.5000, segment 803.845ms, motion_delta 0.0507, quality_fail
+c71-mid10-c4s025-seed2-s14000: OCR 0.4780, segment 1005.385ms, motion_delta 0.0478, quality_fail
+c71-mid10-c4s025-seed3-s14000: OCR 0.4750, segment 994.048ms, motion_delta 0.0510, quality_fail
+c71-mid05-c8s025-seed4-s14000: OCR 0.4725, segment 988.146ms, motion_delta 0.0502, quality_fail
+c71-mid075-c8s025-seed4-s14000: OCR 0.4528, segment 1002.821ms, motion_delta 0.0566, quality_fail
+c71-mid15-c8s025-seed4-s14000: OCR 0.4267, segment 1212.909ms, motion_delta 0.0511, quality_fail
+```
+
+Interpretation:
+
+- The low-dose signal is real but not globally robust. `c8/mid05` rescues seed5, while seed4 only passed in the earlier `c70-mid10` run.
+- The c4 branch still looks like the more compact basin: `c4/mid15/seed2` passes, and `c4/mid10/seed4` clears OCR but misses latency.
+- This is not enough to declare the pure neural-canvas path solved. It does, however, narrow the next robustness check to two plausible recipes: `c8/mid05` and `c4/mid15`.
+
+Next experiments:
+
+```text
+c72-c8mid05-seed1-s14000
+c72-c8mid05-seed2-s14000
+c72-c8mid05-seed3-s14000
+c72-c8mid05-seed4-s14000
+c72-c8mid05-seed6-s14000
+c72-c4mid15-seed1-s14000
+c72-c4mid15-seed3-s14000
+c72-c4mid15-seed4-s14000
+c72-c4mid15-seed5-s14000
+c72-c4mid20-seed4-s14000
+```
+
+C72 hypothesis:
+
+- If either low-dose recipe is real, it should produce several pass/near-pass seeds without further tuning.
+- `c8/mid05` tests the lowest-dose rescue path that helped seed5.
+- `c4/mid15` tests whether the smaller context canvas is a more stable representation than c8 for target-mid sampling.
