@@ -104,6 +104,10 @@ C5.4 tests that next step: a local gradient-consistency term on reflowed output 
 
 C5.4 is negative/neutral. The best gradient run, `c54-reflow-grad050-r00625-weightonly-c32h160-s14000`, reaches OCR `0.5614`, motion `0.0496`, and segment `720.876ms`, matching an older weight-only result but not the C49/C52 frontier. Partial-target sampling plus gradient loss regresses sharply. C5.5 switches from target replacement to paired target loss: keep the original source-focused sample, then add a second loss at that same content point's reflowed target coordinate.
 
+C5.5 is also negative. The best paired-loss run, `c55-reflow-pair009-w050-b196-s10000`, reaches OCR `0.5495`, motion `0.0485`, and segment `697.042ms`, below the C49/C52 frontier. The broader set ranges from OCR `0.4000` to `0.5161` and does not show a monotonic pair-weight signal. The lesson is that more target-side loss pressure is not enough; the model appears capacity-entangled between coarse layout transport and high-frequency text/detail reconstruction.
+
+C5.6 starts an architecture branch. The renderer now has an optional residual detail canvas/head: the base latent canvas still learns the page and flow, while a small second latent grid and MLP can add bounded high-frequency RGB-logit corrections at the same neural-canvas query coordinates. The C56 queue tests detail channels `8/16`, scales `0.125/0.25/0.50`, and both target-sampling and weight-only variants around the strongest C49/C52 reflow families. This keeps the output pure neural-canvas pixels while asking whether text strokes need a separate detail path instead of more hand-written masking or loss tricks.
+
 Suggested `results.tsv` header:
 
 ```text
