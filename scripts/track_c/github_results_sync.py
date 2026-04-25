@@ -11,6 +11,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 TRACK_C_DOCS = Path("docs/experiments/track-c")
+SYNC_PATHS = [
+    TRACK_C_DOCS,
+    Path("docs/research/track-c-clean-page-state-next.md"),
+    Path("scripts/track_c/modal_canvas_c2_lite.py"),
+    Path("scripts/track_c/autoresearch_loop.py"),
+    Path("scripts/track_c/evaluate_run.py"),
+    Path("scripts/track_c/github_results_sync.py"),
+]
 TERMINAL_LOG_MARKERS = ("DONE ", "Traceback", "Invalid value", "FileExistsError")
 
 
@@ -66,11 +74,21 @@ def sync_docs(project_dir: Path, clone_dir: Path) -> None:
         text = log_path.read_text(encoding="utf-8", errors="replace")
         if not any(marker in text for marker in TERMINAL_LOG_MARKERS):
             log_path.unlink()
+    for rel_path in SYNC_PATHS:
+        if rel_path == TRACK_C_DOCS:
+            continue
+        source_file = project_dir / rel_path
+        if not source_file.exists():
+            continue
+        dest_file = clone_dir / rel_path
+        dest_file.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source_file, dest_file)
 
 
 def commit_if_needed(clone_dir: Path) -> bool:
-    checked(["git", "add", str(TRACK_C_DOCS)], clone_dir)
-    status = checked(["git", "status", "--porcelain", "--", str(TRACK_C_DOCS)], clone_dir).strip()
+    paths = [str(path) for path in SYNC_PATHS]
+    checked(["git", "add", *paths], clone_dir)
+    status = checked(["git", "status", "--porcelain", "--", *paths], clone_dir).strip()
     if not status:
         log("no Track C docs changes to publish")
         return False
