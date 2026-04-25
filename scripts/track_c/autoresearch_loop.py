@@ -735,6 +735,48 @@ def learned_layout_reflow_experiment(
     )
 
 
+C77_DUAL_RESIDUAL_BASIN_MAP_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        context_channels=8,
+        context_scale=0.25,
+        decoder_mode="dual-residual",
+        target_branch_scale=target_scale,
+        target_branch_hidden=target_hidden,
+        lr=lr,
+        grad_clip=grad_clip,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    )
+    for label, seed, target_scale, target_hidden, lr, grad_clip in [
+        ("c77-map-s025-c8-h80-seed5-s14000", 5, 0.25, 80, None, 0.5),
+        ("c77-map-s025-c8-h80-seed6-s14000", 6, 0.25, 80, None, 0.5),
+        ("c77-map-s025-c8-h80-seed7-s14000", 7, 0.25, 80, None, 0.5),
+        ("c77-map-s025-c8-h80-seed8-s14000", 8, 0.25, 80, None, 0.5),
+        ("c77-map-s035-c8-h64-seed5-s14000", 5, 0.35, 64, None, 0.5),
+        ("c77-map-s035-c8-h64-seed6-s14000", 6, 0.35, 64, None, 0.5),
+        ("c77-map-s035-c8-h64-seed7-s14000", 7, 0.35, 64, None, 0.5),
+        ("c77-map-s035-c8-h64-seed8-s14000", 8, 0.35, 64, None, 0.5),
+        ("c77-stab-s025-c8-h80-lr007-seed1-s14000", 1, 0.25, 80, 0.007, 0.5),
+        ("c77-stab-s025-c8-h80-clip025-seed4-s14000", 4, 0.25, 80, None, 0.25),
+    ]
+]
+
+
 C76_DUAL_RESIDUAL_CONSOLIDATION_EXPERIMENTS = [
     learned_layout_reflow_experiment(
         label,
@@ -1012,6 +1054,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C77_DUAL_RESIDUAL_BASIN_MAP_EXPERIMENTS,
     *C76_DUAL_RESIDUAL_CONSOLIDATION_EXPERIMENTS,
     *C75_DUAL_RESIDUAL_DECODER_EXPERIMENTS,
     *C74_DUAL_LATENT_EXPERIMENTS,

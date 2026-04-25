@@ -158,6 +158,8 @@ C7.5 adds a structural decoder test. The renderer now has a dual-residual mode: 
 
 C7.5 is a real positive architecture signal but not robust yet. `c75-dualres-s025-c8-seed2-s14000` reaches OCR `0.6415`, motion `0.0500`, and segment `1079ms`, which is close to the old C62 high point and materially better than C74. `c75-dualres-s050-nocontext-seed1-s14000` also passes at OCR `0.5771`, suggesting branch separation has value even without coarse context. The weak points are seed variance and latency: several near-misses land around OCR `0.545-0.549` or segment `1.32-1.37s`. C7.6 consolidates this branch with smaller target residual heads, c8 scale `0.25/0.35`, and no-context repeats.
 
+C7.6 mostly shows that shrinking the target residual branch trades away quality. The smaller heads are often fast, but only `c76-dualres-s035-c8-th64-seed1-s14000` preserves the C75-quality basin, reaching OCR `0.6154` and missing latency by `13.9ms`. No-context repeats do not reproduce the C75 no-context pass with `h64`. C7.7 maps the basin across new seeds for the two plausible recipes (`s0.25/c8/h80` and `s0.35/c8/h64`) and tries two lightweight optimizer stabilizers on weak/near-miss seeds.
+
 Suggested `results.tsv` header:
 
 ```text

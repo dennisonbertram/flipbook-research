@@ -2000,3 +2000,44 @@ C76 hypothesis:
 - A smaller target residual branch (`h48/h64`) may keep the useful branch separation while pulling latency back under budget.
 - `s0.25/c8` is the quality anchor; `s0.35/c8` tests whether the near-miss seeds need slightly more target correction without the instability of `s0.50`.
 - No-context repeats test whether coarse context is optional once the decoder roles are separated.
+
+Completed C76 results:
+
+```text
+c76-dualres-s035-c8-th64-seed1-s14000: OCR 0.6154, segment 1313.923ms, motion_delta 0.0510, latency_fail
+c76-dualres-s025-c8-th48-seed2-s14000: OCR 0.4875, segment 1272.405ms, motion_delta 0.0474, quality_fail
+c76-dualres-s050-nocontext-th64-seed4-s14000: OCR 0.4780, segment 1204.973ms, motion_delta 0.0493, quality_fail
+c76-dualres-s025-c8-th48-seed4-s14000: OCR 0.4654, segment 1042.119ms, motion_delta 0.0504, quality_fail
+c76-dualres-s050-nocontext-th64-seed2-s14000: OCR 0.4625, segment 990.261ms, motion_delta 0.0511, quality_fail
+c76-dualres-s035-c8-th64-seed2-s14000: OCR 0.4444, segment 1309.871ms, motion_delta 0.0488, quality_fail
+c76-dualres-s025-nocontext-th64-seed2-s14000: OCR 0.4430, segment 1204.061ms, motion_delta 0.0507, quality_fail
+c76-dualres-s050-nocontext-th64-seed1-s14000: OCR 0.4403, segment 1239.462ms, motion_delta 0.0507, quality_fail
+c76-dualres-s025-c8-th48-seed1-s14000: OCR 0.4264, segment 1437.339ms, motion_delta 0.0494, quality_fail
+c76-dualres-s035-c8-th64-seed4-s14000: OCR 0.3841, segment 1299.373ms, motion_delta 0.0499, quality_fail
+```
+
+Interpretation:
+
+- C76 is not a consolidation win. Smaller target heads usually improve speed but lose the high-quality C75 behavior.
+- The exception is `s0.35/c8/h64/seed1`, which clears OCR strongly (`0.6154`) and misses latency by only `13.9ms`. That means the architecture still has a real basin, but branch capacity/optimization remains unstable.
+- No-context repeats did not reproduce the C75 no-context pass once the target branch changed from `h80` to `h64`.
+
+Next experiments:
+
+```text
+c77-map-s025-c8-h80-seed5-s14000
+c77-map-s025-c8-h80-seed6-s14000
+c77-map-s025-c8-h80-seed7-s14000
+c77-map-s025-c8-h80-seed8-s14000
+c77-map-s035-c8-h64-seed5-s14000
+c77-map-s035-c8-h64-seed6-s14000
+c77-map-s035-c8-h64-seed7-s14000
+c77-map-s035-c8-h64-seed8-s14000
+c77-stab-s025-c8-h80-lr007-seed1-s14000
+c77-stab-s025-c8-h80-clip025-seed4-s14000
+```
+
+C77 hypothesis:
+
+- If the dual-residual architecture is viable, the C75/C76 high-quality basin should appear in more seeds for either `s0.25/c8/h80` or `s0.35/c8/h64`.
+- Lower LR on the weak seed1 and tighter clipping on the near-miss seed4 test whether the instability is optimizer noise rather than architectural insufficiency.
