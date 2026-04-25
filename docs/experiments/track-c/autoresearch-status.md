@@ -1,15 +1,35 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-25T01:54:04+00:00`
+Updated UTC: `2026-04-25T01:59:19+00:00`
 
 ## Active Sessions
 
 - `clawtest`
 - `track-c-autoresearch`
+- `track-c-c63-sourcecoord-target50-c24h128-seed2-s12000`
+- `track-c-c63-sourcecoord-target55-c24h128-seed2-s12000`
+- `track-c-c63-sourcecoord-target60-c24h128-edge06-seed2-s12000`
+- `track-c-c63-sourcecoord-target60-c24h128-edge12-seed2-s12000`
+- `track-c-c63-sourcecoord-target60-c24h128-seed2-s10000`
+- `track-c-c63-sourcecoord-target60-c24h128-seed2-s14000`
+- `track-c-c63-sourcecoord-target60-c24h128-seed3-s12000`
+- `track-c-c63-sourcecoord-target60-c24h128-seed4-s12000`
+- `track-c-c63-sourcecoord-target60-c24h128-seed5-s12000`
+- `track-c-c63-sourcecoord-target65-c24h128-seed2-s12000`
 - `track-c-github-sync`
 
 ## Queue
 
+- `c63-sourcecoord-target60-c24h128-seed3-s12000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 12000 steps, freq10, grad clip 0.5, seed 3, source-coord features, target-side reflow sampling ratio 0.6, mid-time 0.6.
+- `c63-sourcecoord-target60-c24h128-seed4-s12000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 12000 steps, freq10, grad clip 0.5, seed 4, source-coord features, target-side reflow sampling ratio 0.6, mid-time 0.6.
+- `c63-sourcecoord-target60-c24h128-seed5-s12000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 12000 steps, freq10, grad clip 0.5, seed 5, source-coord features, target-side reflow sampling ratio 0.6, mid-time 0.6.
+- `c63-sourcecoord-target50-c24h128-seed2-s12000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 12000 steps, freq10, grad clip 0.5, seed 2, source-coord features, target-side reflow sampling ratio 0.5, mid-time 0.6.
+- `c63-sourcecoord-target55-c24h128-seed2-s12000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 12000 steps, freq10, grad clip 0.5, seed 2, source-coord features, target-side reflow sampling ratio 0.55, mid-time 0.6.
+- `c63-sourcecoord-target65-c24h128-seed2-s12000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 12000 steps, freq10, grad clip 0.5, seed 2, source-coord features, target-side reflow sampling ratio 0.65, mid-time 0.6.
+- `c63-sourcecoord-target60-c24h128-seed2-s10000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 10000 steps, freq10, grad clip 0.5, seed 2, source-coord features, target-side reflow sampling ratio 0.6, mid-time 0.6.
+- `c63-sourcecoord-target60-c24h128-seed2-s14000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 14000 steps, freq10, grad clip 0.5, seed 2, source-coord features, target-side reflow sampling ratio 0.6, mid-time 0.6.
+- `c63-sourcecoord-target60-c24h128-edge06-seed2-s12000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 12000 steps, freq10, grad clip 0.5, seed 2, source-coord features, target-side reflow sampling ratio 0.6, mid-time 0.6.
+- `c63-sourcecoord-target60-c24h128-edge12-seed2-s12000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 12000 steps, freq10, grad clip 0.5, seed 2, source-coord features, target-side reflow sampling ratio 0.6, mid-time 0.6.
 - `c62-sourcecoord-target60-b196-s12000`: done - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.6, mid-time 0.6.
 - `c62-sourcecoord-target60-b196-s14000`: done - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.6, mid-time 0.6.
 - `c62-sourcecoord-target60-b196-seed1-s10000`: done - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq10, grad clip 0.5, seed 1, source-coord features, target-side reflow sampling ratio 0.6, mid-time 0.6.
