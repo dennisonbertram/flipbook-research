@@ -1957,3 +1957,46 @@ C75 hypothesis:
 - A source branch can preserve content identity from the warped/source coordinate, while a gated target-position residual branch can repair destination-local layout/detail.
 - Initializing the target residual branch at zero keeps the model near the source-only baseline early in training, then lets it learn only useful destination corrections.
 - This remains pure neural-canvas rendering: every output pixel is produced by the model, with no overlay, mask compositing, or layout runtime at render time.
+
+Completed C75 results:
+
+```text
+c75-dualres-s025-c8-seed2-s14000: OCR 0.6415, segment 1079.082ms, motion_delta 0.0500, pass
+c75-dualres-s050-nocontext-seed1-s14000: OCR 0.5771, segment 1224.590ms, motion_delta 0.0502, pass
+c75-dualres-s050-c8-seed1-s14000: OCR 0.5488, segment 1106.636ms, motion_delta 0.0469, quality_fail
+c75-dualres-s025-c8-seed4-s14000: OCR 0.5476, segment 1373.106ms, motion_delta 0.0533, quality_fail
+c75-dualres-s050-c8-seed2-s14000: OCR 0.5446, segment 1323.006ms, motion_delta 0.0487, quality_fail
+c75-dualres-s050-c4-seed2-s14000: OCR 0.5238, segment 1336.352ms, motion_delta 0.0475, quality_fail
+c75-dualres-s050-c4-seed1-s14000: OCR 0.4906, segment 1172.646ms, motion_delta 0.0503, quality_fail
+c75-dualres-s025-c8-seed1-s14000: OCR 0.4654, segment 1327.246ms, motion_delta 0.0511, quality_fail
+c75-dualres-s050-c8-seed4-s14000: OCR 0.4400, segment 1334.983ms, motion_delta 0.0491, quality_fail
+c75-dualres-s050-c4-seed4-s14000: OCR 0.4267, segment 1524.649ms, motion_delta 0.0520, quality_fail
+```
+
+Interpretation:
+
+- C75 is the strongest architecture signal since source-coordinate conditioning. It produces a new high-quality C75 pass at OCR `0.6415`, close to the old C62 high point and above the C68/C69 compact-context band.
+- The result is still seed-sensitive. c8/scale0.25 seed2 is excellent, seed4 nearly clears OCR but misses latency, and seed1 is weak.
+- c8/scale0.50 is not better than scale0.25. c4 context is weak. The no-context pass is important because it suggests the branch separation itself carries value, not just more context features.
+- Latency is now part of the problem: several near-misses clear or nearly clear quality but land around `1.32-1.37s`.
+
+Next experiments:
+
+```text
+c76-dualres-s025-c8-th48-seed1-s14000
+c76-dualres-s025-c8-th48-seed2-s14000
+c76-dualres-s025-c8-th48-seed4-s14000
+c76-dualres-s035-c8-th64-seed1-s14000
+c76-dualres-s035-c8-th64-seed2-s14000
+c76-dualres-s035-c8-th64-seed4-s14000
+c76-dualres-s050-nocontext-th64-seed1-s14000
+c76-dualres-s050-nocontext-th64-seed2-s14000
+c76-dualres-s050-nocontext-th64-seed4-s14000
+c76-dualres-s025-nocontext-th64-seed2-s14000
+```
+
+C76 hypothesis:
+
+- A smaller target residual branch (`h48/h64`) may keep the useful branch separation while pulling latency back under budget.
+- `s0.25/c8` is the quality anchor; `s0.35/c8` tests whether the near-miss seeds need slightly more target correction without the instability of `s0.50`.
+- No-context repeats test whether coarse context is optional once the decoder roles are separated.

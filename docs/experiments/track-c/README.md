@@ -156,6 +156,8 @@ C7.4 is a clean negative. High-resolution target/both latent sampling does not s
 
 C7.5 adds a structural decoder test. The renderer now has a dual-residual mode: a source branch produces the main RGB logits from warped/source content, while a separate target-position branch produces a gated residual correction. The residual branch is initialized at zero so training starts close to the source-only renderer, then learns destination-local repairs only when useful. The C75 queue tests c8/c4/no-context variants and residual scales `0.25/0.50`.
 
+C7.5 is a real positive architecture signal but not robust yet. `c75-dualres-s025-c8-seed2-s14000` reaches OCR `0.6415`, motion `0.0500`, and segment `1079ms`, which is close to the old C62 high point and materially better than C74. `c75-dualres-s050-nocontext-seed1-s14000` also passes at OCR `0.5771`, suggesting branch separation has value even without coarse context. The weak points are seed variance and latency: several near-misses land around OCR `0.545-0.549` or segment `1.32-1.37s`. C7.6 consolidates this branch with smaller target residual heads, c8 scale `0.25/0.35`, and no-context repeats.
+
 Suggested `results.tsv` header:
 
 ```text

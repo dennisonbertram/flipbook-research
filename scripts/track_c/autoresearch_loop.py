@@ -735,6 +735,46 @@ def learned_layout_reflow_experiment(
     )
 
 
+C76_DUAL_RESIDUAL_CONSOLIDATION_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        context_channels=context_channels,
+        context_scale=0.25,
+        decoder_mode="dual-residual",
+        target_branch_scale=target_scale,
+        target_branch_hidden=target_hidden,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    )
+    for label, seed, context_channels, target_scale, target_hidden in [
+        ("c76-dualres-s025-c8-th48-seed1-s14000", 1, 8, 0.25, 48),
+        ("c76-dualres-s025-c8-th48-seed2-s14000", 2, 8, 0.25, 48),
+        ("c76-dualres-s025-c8-th48-seed4-s14000", 4, 8, 0.25, 48),
+        ("c76-dualres-s035-c8-th64-seed1-s14000", 1, 8, 0.35, 64),
+        ("c76-dualres-s035-c8-th64-seed2-s14000", 2, 8, 0.35, 64),
+        ("c76-dualres-s035-c8-th64-seed4-s14000", 4, 8, 0.35, 64),
+        ("c76-dualres-s050-nocontext-th64-seed1-s14000", 1, 0, 0.50, 64),
+        ("c76-dualres-s050-nocontext-th64-seed2-s14000", 2, 0, 0.50, 64),
+        ("c76-dualres-s050-nocontext-th64-seed4-s14000", 4, 0, 0.50, 64),
+        ("c76-dualres-s025-nocontext-th64-seed2-s14000", 2, 0, 0.25, 64),
+    ]
+]
+
+
 C75_DUAL_RESIDUAL_DECODER_EXPERIMENTS = [
     learned_layout_reflow_experiment(
         label,
@@ -972,6 +1012,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C76_DUAL_RESIDUAL_CONSOLIDATION_EXPERIMENTS,
     *C75_DUAL_RESIDUAL_DECODER_EXPERIMENTS,
     *C74_DUAL_LATENT_EXPERIMENTS,
     *C73_CONTEXT_MODE_EXPERIMENTS,
