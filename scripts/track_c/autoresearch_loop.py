@@ -663,7 +663,13 @@ def learned_layout_reflow_experiment(
     min_ocr: float = 0.35,
     min_motion: float = 0.035,
 ) -> Experiment:
-    clean_mode = motion_mode in {"layout-clean-reflow", "clean-layout-reflow"}
+    clean_mode = motion_mode in {
+        "layout-clean-reflow",
+        "clean-layout-reflow",
+        "layout-clean-move-reveal",
+        "clean-layout-move-reveal",
+        "clean-move-reveal",
+    }
     proof_name = "Learned clean page-state proof" if clean_mode else "Learned layout-reflow proof"
     proof_detail = (
         "the training target is a separate clean page state at the midpoint, then loops back to the source"
@@ -1141,6 +1147,64 @@ C94_TARGET_BRANCH_DECODER_EXPERIMENTS = [
         ("c94-v12-deep-sea-dualfused-s050-rem050-seed0-s12000", "deep-sea-lab", 0.20, 0.18, 0.50, "dual-residual-fused", 0.50, "source"),
         ("c94-v12-deep-sea-dualgate-s100-rem050-seed0-s12000", "deep-sea-lab", 0.20, 0.18, 0.50, "dual-gate", 1.00, "source"),
         ("c94-v12-deep-sea-latentboth-rem050-seed0-s12000", "deep-sea-lab", 0.20, 0.18, 0.50, "single", 0.00, "both"),
+    ]
+]
+
+
+C98_TRANSITION_AWARE_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=12000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=source_coord_features,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        latent_sample_mode="source",
+        decoder_mode=decoder_mode,
+        target_branch_hidden=160 if decoder_mode else None,
+        target_canvas_mode=target_canvas_mode,
+        target_canvas_init_scale=target_canvas_init_scale,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_target_mid_sampling_ratio=mid_target_ratio,
+        layout_target_mid_time_width=mid_target_width,
+        layout_mid_time_ratio=0.65,
+        layout_mid_time_width=0.20,
+        layout_endpoint_ratio=0.12,
+        layout_endpoint_target_ratio=0.50,
+        source_remnant_loss_weight=remnant_weight,
+        source_remnant_margin=0.025,
+        source_remnant_change_floor=0.04,
+        motion_mode="layout-clean-move-reveal",
+        clean_target_variant=variant,
+        min_ocr=0.35,
+        min_motion=0.05,
+    )
+    for (
+        label,
+        variant,
+        seed,
+        source_coord_features,
+        mid_target_ratio,
+        mid_target_width,
+        remnant_weight,
+        decoder_mode,
+        target_canvas_mode,
+        target_canvas_init_scale,
+    ) in [
+        ("c98-v11-naturalist-movereveal-base-rem025-mid35-seed0-s12000", "naturalist-plate", 0, 1, 0.35, 0.22, 0.25, None, None, None),
+        ("c98-v11-naturalist-movereveal-tblend-init02-rem025-mid35-seed0-s12000", "naturalist-plate", 0, 1, 0.35, 0.22, 0.25, None, "blend", 0.02),
+        ("c98-v11-naturalist-movereveal-tblend-init02-rem025-mid50-seed0-s12000", "naturalist-plate", 0, 1, 0.50, 0.24, 0.25, None, "blend", 0.02),
+        ("c98-v11-naturalist-movereveal-statesplit-init02-rem025-mid50-seed0-s12000", "naturalist-plate", 0, 0, 0.50, 0.24, 0.25, "state-split", "always", 0.02),
+        ("c98-v12-deep-sea-movereveal-base-rem050-mid20-seed0-s12000", "deep-sea-lab", 0, 1, 0.20, 0.18, 0.50, None, None, None),
+        ("c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed0-s12000", "deep-sea-lab", 0, 1, 0.20, 0.18, 0.50, None, "blend", 0.02),
+        ("c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed1-s12000", "deep-sea-lab", 1, 1, 0.20, 0.18, 0.50, None, "blend", 0.02),
+        ("c98-v12-deep-sea-movereveal-statesplit-init02-rem050-mid20-seed1-s12000", "deep-sea-lab", 1, 1, 0.20, 0.18, 0.50, "state-split", "always", 0.02),
     ]
 ]
 
@@ -1984,6 +2048,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C98_TRANSITION_AWARE_EXPERIMENTS,
     *C97_STATE_SPLIT_TARGET_EXPERIMENTS,
     *C96_TARGET_CANVAS_BLEND_EXPERIMENTS,
     *C95_TARGET_STATE_CANVAS_EXPERIMENTS,

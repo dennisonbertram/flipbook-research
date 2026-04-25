@@ -1841,7 +1841,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     independent_field_layout_modes = {"independent-field", "region-field"} | independent_translate_layout_modes
     independent_layout_modes = independent_hard_layout_modes | independent_field_layout_modes
     independent_sprite_motion_modes = {"independent-sprite-translate", "region-sprite-translate"}
-    clean_layout_motion_modes = {"layout-clean-reflow", "clean-layout-reflow"}
+    clean_move_reveal_motion_modes = {"layout-clean-move-reveal", "clean-layout-move-reveal", "clean-move-reveal"}
+    clean_layout_motion_modes = {"layout-clean-reflow", "clean-layout-reflow"} | clean_move_reveal_motion_modes
     layout_reflow_motion_modes = {"layout-reflow", "sprite-layout-reflow"} | clean_layout_motion_modes
 
     def apply_independent_region_field(
@@ -2281,9 +2282,34 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         target_sample = sample_target(target_clean_chw, coords01)
         return source_sample * (1.0 - progress) + target_sample * progress
 
+    def sample_clean_move_reveal_from(
+        source_chw: torch.Tensor,
+        target_clean_chw: torch.Tensor,
+        coords01: torch.Tensor,
+        t_col: torch.Tensor,
+        amount: float,
+    ) -> torch.Tensor:
+        progress = clean_progress(t_col, amount)
+        source_static = sample_target(source_chw, coords01)
+        source_moved = sample_layout_reflow_from(source_chw, coords01, t_col, amount, 1.0)
+        source_layer = source_static * (1.0 - progress) + source_moved * progress
+
+        # The target page eases in from a small offset so transition crops test motion, not only crossfade.
+        target_offset = torch.cat(
+            [
+                0.045 * (1.0 - progress),
+                -0.025 * (1.0 - progress),
+            ],
+            dim=-1,
+        )
+        target_sample = sample_target(target_clean_chw, (coords01 - target_offset).clamp(0.0, 1.0))
+        return source_layer * (1.0 - progress) + target_sample * progress
+
     def sample_clean_layout_reflow(coords01: torch.Tensor, t_col: torch.Tensor, amount: float) -> torch.Tensor:
         if clean_target_chw is None:
             return sample_layout_reflow(coords01, t_col, amount)
+        if motion_mode in clean_move_reveal_motion_modes:
+            return sample_clean_move_reveal_from(target_chw, clean_target_chw, coords01, t_col, amount)
         return sample_clean_layout_reflow_from(target_chw, clean_target_chw, coords01, t_col, amount)
 
     def inverse_layout_reflow_coords(coords01: torch.Tensor, t_col: torch.Tensor, amount: float) -> tuple[torch.Tensor, torch.Tensor]:
@@ -2834,11 +2860,17 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             )
         return frame
 
-    def render_target_frame(width: int, height: int, t_value: float) -> torch.Tensor:
-        xs = torch.linspace(0.0, 1.0, width, device=device)
-        ys = torch.linspace(0.0, 1.0, height, device=device)
+    def render_target_view(
+        width: int,
+        height: int,
+        viewport: tuple[float, float, float, float],
+        t_value: float,
+    ) -> torch.Tensor:
+        x, y, w, h = viewport
+        xs = torch.linspace(x, x + w, width, device=device)
+        ys = torch.linspace(y, y + h, height, device=device)
         yy, xx = torch.meshgrid(ys, xs, indexing="ij")
-        coords = torch.stack([xx.reshape(-1), yy.reshape(-1)], dim=-1)
+        coords = torch.stack([xx.reshape(-1), yy.reshape(-1)], dim=-1).clamp(0.0, 1.0)
         t = torch.full((coords.shape[0], 1), t_value, device=device)
         if motion_mode in clean_layout_motion_modes:
             return sample_clean_layout_reflow(coords, t, motion_strength).view(height, width, 3)
@@ -2848,6 +2880,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             return sample_independent_sprite_translation(coords, t, motion_strength).view(height, width, 3)
         target_coords = target_coords_for_motion(coords, t, motion_strength, motion_mode)
         return sample_target(target_chw, target_coords).view(height, width, 3)
+
+    def render_target_frame(width: int, height: int, t_value: float) -> torch.Tensor:
+        return render_target_view(width, height, (0.0, 0.0, 1.0, 1.0), t_value)
 
     first = render_named("render-960.png", 960, 544, (0.0, 0.0, 1.0, 1.0), 0.0)
     render_named("render-mid.png", 960, 544, (0.0, 0.0, 1.0, 1.0), 0.5)
@@ -2868,6 +2903,12 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         artifacts[mid_name] = base64.b64encode(tensor_to_png_bytes(layout_mid)).decode("ascii")
     if motion_mode in layout_reflow_motion_modes or motion_mode in independent_sprite_motion_modes:
         artifacts["target-mid.png"] = base64.b64encode(tensor_to_png_bytes(render_target_frame(960, 544, 0.5))).decode("ascii")
+        artifacts["target-crop-2x.png"] = base64.b64encode(
+            tensor_to_png_bytes(render_target_view(960, 544, (0.25, 0.25, 0.5, 0.5), 0.25))
+        ).decode("ascii")
+        artifacts["target-mid-crop-2x.png"] = base64.b64encode(
+            tensor_to_png_bytes(render_target_view(960, 544, (0.25, 0.25, 0.5, 0.5), 0.5))
+        ).decode("ascii")
     artifacts["text-mask.png"] = base64.b64encode(
         tensor_to_png_bytes(text_mask.unsqueeze(-1).repeat(1, 1, 3))
     ).decode("ascii")
@@ -3348,6 +3389,8 @@ def main(
         "text_mask": str(run_dir / "text-mask.png"),
         "element_alpha_mask": str(run_dir / "element-alpha-mask.png"),
         "target_mid": str(run_dir / "target-mid.png"),
+        "target_crop_2x": str(run_dir / "target-crop-2x.png"),
+        "target_mid_crop_2x": str(run_dir / "target-mid-crop-2x.png"),
         "text_boxes": str(run_dir / "text-boxes.json"),
         "output": str(run_dir / "output.mp4"),
         "metrics": str(run_dir / "metrics.json"),

@@ -114,6 +114,8 @@ def artifacts_for(run_dir: Path, metrics: dict[str, Any]) -> dict[str, str | Non
         "text_mask": rel(run_dir / "text-mask.png") if (run_dir / "text-mask.png").exists() else rel(metrics_artifacts.get("text_mask")),
         "element_alpha_mask": rel(run_dir / "element-alpha-mask.png") if (run_dir / "element-alpha-mask.png").exists() else rel(metrics_artifacts.get("element_alpha_mask")),
         "target_mid": rel(run_dir / "target-mid.png") if (run_dir / "target-mid.png").exists() else rel(metrics_artifacts.get("target_mid")),
+        "target_crop_2x": rel(run_dir / "target-crop-2x.png") if (run_dir / "target-crop-2x.png").exists() else rel(metrics_artifacts.get("target_crop_2x")),
+        "target_mid_crop_2x": rel(run_dir / "target-mid-crop-2x.png") if (run_dir / "target-mid-crop-2x.png").exists() else rel(metrics_artifacts.get("target_mid_crop_2x")),
         "text_boxes": rel(run_dir / "text-boxes.json") if (run_dir / "text-boxes.json").exists() else rel(metrics_artifacts.get("text_boxes")),
         "video": rel(run_dir / "output.mp4") if (run_dir / "output.mp4").exists() else rel(metrics_artifacts.get("output")),
     }
@@ -144,6 +146,12 @@ def change_region_metrics(
             "change_region_target_delta": None,
             "change_region_source_delta": None,
             "change_region_source_bias": None,
+            "change_region_source_residual_cosine": None,
+            "change_region_source_residual_gain": None,
+            "source_only_edge_fraction": None,
+            "source_only_edge_target_delta": None,
+            "source_only_edge_source_delta": None,
+            "source_only_edge_bias": None,
         }
 
     with Image.open(mid_path) as mid_img, Image.open(source_path) as source_img, Image.open(target_path) as target_img:
@@ -163,15 +171,60 @@ def change_region_metrics(
             "change_region_target_delta": None,
             "change_region_source_delta": None,
             "change_region_source_bias": None,
+            "change_region_source_residual_cosine": None,
+            "change_region_source_residual_gain": None,
+            "source_only_edge_fraction": None,
+            "source_only_edge_target_delta": None,
+            "source_only_edge_source_delta": None,
+            "source_only_edge_bias": None,
         }
+
+    def edge_magnitude(rgb: np.ndarray) -> np.ndarray:
+        gray = rgb[:, :, 0] * 0.2126 + rgb[:, :, 1] * 0.7152 + rgb[:, :, 2] * 0.0722
+        gx = np.zeros_like(gray)
+        gy = np.zeros_like(gray)
+        gx[:, 1:-1] = gray[:, 2:] - gray[:, :-2]
+        gy[1:-1, :] = gray[2:, :] - gray[:-2, :]
+        return np.sqrt(gx * gx + gy * gy)
 
     target_delta = float(np.abs(mid - target).mean(axis=2)[changed].mean())
     source_delta = float(np.abs(mid - source).mean(axis=2)[changed].mean())
+    render_residual = (mid - target)[changed].reshape(-1)
+    source_residual = (source - target)[changed].reshape(-1)
+    source_norm_sq = float(np.dot(source_residual, source_residual))
+    render_norm = float(np.linalg.norm(render_residual))
+    source_norm = float(np.linalg.norm(source_residual))
+    residual_cosine = None
+    residual_gain = None
+    if render_norm > 1e-8 and source_norm > 1e-8:
+        residual_cosine = float(np.dot(render_residual, source_residual) / (render_norm * source_norm))
+    if source_norm_sq > 1e-8:
+        residual_gain = float(np.dot(render_residual, source_residual) / source_norm_sq)
+
+    source_edge = edge_magnitude(source)
+    target_edge = edge_magnitude(target)
+    edge_floor = float(np.quantile(source_edge, 0.85))
+    source_only_edges = changed & (source_edge > max(0.015, edge_floor)) & (source_edge > target_edge * 1.35 + 0.015)
+    source_only_edge_count = int(source_only_edges.sum())
+    source_only_edge_fraction = source_only_edge_count / total_pixels
+    source_only_edge_target_delta = None
+    source_only_edge_source_delta = None
+    source_only_edge_bias = None
+    if source_only_edge_count:
+        source_only_edge_target_delta = float(np.abs(mid - target).mean(axis=2)[source_only_edges].mean())
+        source_only_edge_source_delta = float(np.abs(mid - source).mean(axis=2)[source_only_edges].mean())
+        source_only_edge_bias = source_only_edge_target_delta - source_only_edge_source_delta
     return {
         "change_region_fraction": count / total_pixels,
         "change_region_target_delta": target_delta,
         "change_region_source_delta": source_delta,
         "change_region_source_bias": target_delta - source_delta,
+        "change_region_source_residual_cosine": residual_cosine,
+        "change_region_source_residual_gain": residual_gain,
+        "source_only_edge_fraction": source_only_edge_fraction,
+        "source_only_edge_target_delta": source_only_edge_target_delta,
+        "source_only_edge_source_delta": source_only_edge_source_delta,
+        "source_only_edge_bias": source_only_edge_bias,
     }
 
 
@@ -267,6 +320,12 @@ def build_eval(run_dir: Path, scenarios: dict[str, dict[str, Any]]) -> dict[str,
             "change_region_target_delta": change_metrics["change_region_target_delta"],
             "change_region_source_delta": change_metrics["change_region_source_delta"],
             "change_region_source_bias": change_metrics["change_region_source_bias"],
+            "change_region_source_residual_cosine": change_metrics["change_region_source_residual_cosine"],
+            "change_region_source_residual_gain": change_metrics["change_region_source_residual_gain"],
+            "source_only_edge_fraction": change_metrics["source_only_edge_fraction"],
+            "source_only_edge_target_delta": change_metrics["source_only_edge_target_delta"],
+            "source_only_edge_source_delta": change_metrics["source_only_edge_source_delta"],
+            "source_only_edge_bias": change_metrics["source_only_edge_bias"],
             "model_rendered_pixel_ratio": 1.0,
         },
         "artifacts": artifacts_for(run_dir, metrics),
@@ -329,6 +388,8 @@ def write_contact_sheet(run_dir: Path, eval_doc: dict[str, Any]) -> Path | None:
         ("target mid", run_dir / "target-mid.png"),
         ("last", run_dir / "render-last.png"),
         ("crop 2x", run_dir / "crop-2x.png"),
+        ("target crop 2x", run_dir / "target-crop-2x.png"),
+        ("target mid crop 2x", run_dir / "target-mid-crop-2x.png"),
         ("text mask", run_dir / "text-mask.png"),
         ("element alpha", run_dir / "element-alpha-mask.png"),
     ]
@@ -373,6 +434,9 @@ def write_summary(run_dir: Path, eval_doc: dict[str, Any]) -> Path:
         f"- Target-mid similarity: `{float(metrics['target_mid_similarity'] or 0.0):.4f}`",
         f"- Change-region target delta: `{float(metrics['change_region_target_delta'] or 0.0):.4f}`",
         f"- Change-region source bias: `{float(metrics['change_region_source_bias'] or 0.0):.4f}`",
+        f"- Source-residual gain: `{float(metrics['change_region_source_residual_gain'] or 0.0):.4f}`",
+        f"- Source-residual cosine: `{float(metrics['change_region_source_residual_cosine'] or 0.0):.4f}`",
+        f"- Source-only edge bias: `{float(metrics['source_only_edge_bias'] or 0.0):.4f}`",
         "",
         "## Failed Gates",
         "",
@@ -413,6 +477,12 @@ TSV_FIELDS = [
     "change_region_target_delta",
     "change_region_source_delta",
     "change_region_source_bias",
+    "change_region_source_residual_gain",
+    "change_region_source_residual_cosine",
+    "source_only_edge_fraction",
+    "source_only_edge_target_delta",
+    "source_only_edge_source_delta",
+    "source_only_edge_bias",
     "pixel_source_class",
     "failed_gates",
 ]
@@ -449,6 +519,12 @@ def write_tsv(path: Path, eval_docs: list[dict[str, Any]]) -> None:
                 "change_region_target_delta": f'{float(metrics["change_region_target_delta"] or 0.0):.4f}',
                 "change_region_source_delta": f'{float(metrics["change_region_source_delta"] or 0.0):.4f}',
                 "change_region_source_bias": f'{float(metrics["change_region_source_bias"] or 0.0):.4f}',
+                "change_region_source_residual_gain": f'{float(metrics["change_region_source_residual_gain"] or 0.0):.4f}',
+                "change_region_source_residual_cosine": f'{float(metrics["change_region_source_residual_cosine"] or 0.0):.4f}',
+                "source_only_edge_fraction": f'{float(metrics["source_only_edge_fraction"] or 0.0):.4f}',
+                "source_only_edge_target_delta": f'{float(metrics["source_only_edge_target_delta"] or 0.0):.4f}',
+                "source_only_edge_source_delta": f'{float(metrics["source_only_edge_source_delta"] or 0.0):.4f}',
+                "source_only_edge_bias": f'{float(metrics["source_only_edge_bias"] or 0.0):.4f}',
                 "pixel_source_class": doc["pixel_source_class"],
                 "failed_gates": ",".join(scenario["failed_gates"]),
             }
