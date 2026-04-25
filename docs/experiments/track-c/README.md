@@ -206,19 +206,21 @@ C9.4 confirms that target-side decoder paths are not enough by themselves. Deep-
 
 C9.5 tests a separate learned target-state latent canvas concatenated beside the source latent features. All ten runs pass under the `1.3s` segment budget (`913-1172ms`). The best naturalist run improves slightly to OCR `0.5546`, while the best deep-sea result reaches OCR `0.8000`, below C94's `0.8667` deep-sea score. Human crop review says the architecture is still not clean: the old source text/diagram layer remains visible. C9.6 therefore makes the target-state test stricter by blending/switching between source and target latent canvases, so midpoint decoding cannot freely reuse the source latent features.
 
+C9.6 is another useful negative. The stricter target-canvas blend keeps most runs under budget and makes render time very consistent (`~852ms` render, `~1.1s` segment for most passes). Best naturalist is `0.5310` OCR, and best deep-sea remains `0.8000` OCR. The crop review still shows the same old `Velarium`/`Materials`/diagram layer under the target page. The failure is no longer just a loss-weighting problem or a source/target feature concatenation problem. C9.7 therefore tests a harder state split: separate source and target decoders, an independent target latent canvas, and deterministic midpoint blending between decoder outputs. If C9.7 still ghosts, Track C should stop spending compute on two-state canvas tweaks and move toward a different renderer family.
+
 Next experiments:
 
 ```text
-c96-v11-naturalist-tblend-init02-rem025-seed0-s12000
-c96-v11-naturalist-tblend-init05-rem025-seed0-s12000
-c96-v11-naturalist-tblend-init02-rem025-seed1-s12000
-c96-v11-naturalist-tblend-init02-rem050-seed0-s12000
-c96-v11-naturalist-tblend-init02-rem000-seed0-s12000
-c96-v12-deep-sea-tblend-init02-rem050-seed0-s12000
-c96-v12-deep-sea-tblend-init05-rem050-seed0-s12000
-c96-v12-deep-sea-tblend-init02-rem050-seed1-s12000
-c96-v12-deep-sea-tblend-init02-rem000-seed0-s12000
-c96-v12-deep-sea-tblend-init02-rem100-seed0-s12000
+c97-v11-naturalist-statesplit-init02-rem025-mid35-seed0-s12000
+c97-v11-naturalist-statesplit-init02-rem025-mid50-seed0-s12000
+c97-v11-naturalist-statesplit-init05-rem025-mid35-seed0-s12000
+c97-v11-naturalist-statesplit-init02-rem050-mid35-seed0-s12000
+c97-v11-naturalist-statesplit-noscoord-init02-rem025-mid50-seed0-s12000
+c97-v12-deep-sea-statesplit-init02-rem050-mid20-seed0-s12000
+c97-v12-deep-sea-statesplit-init02-rem050-mid35-seed0-s12000
+c97-v12-deep-sea-statesplit-init05-rem050-mid20-seed0-s12000
+c97-v12-deep-sea-statesplit-init02-rem100-mid20-seed0-s12000
+c97-v12-deep-sea-statesplit-init02-rem050-mid20-seed1-s12000
 ```
 
 Suggested `results.tsv` header:

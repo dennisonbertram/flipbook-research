@@ -1465,6 +1465,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 decoder_mode = "dual-residual-fused"
             elif decoder_mode in {"dual-gate", "gated-dual", "target-gate"}:
                 decoder_mode = "dual-gate"
+            elif decoder_mode in {"state-split", "split-state", "state", "target-state"}:
+                decoder_mode = "state-split"
             else:
                 decoder_mode = "single"
             self.decoder_mode = decoder_mode
@@ -1506,7 +1508,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             )
             self.target_canvas = (
                 nn.Parameter(torch.randn(1, channels, height, width) * float(target_canvas_init_scale))
-                if self.target_canvas_mode != "none"
+                if self.target_canvas_mode != "none" or self.decoder_mode == "state-split"
                 else None
             )
             if context_channels > 0:
@@ -1547,6 +1549,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             coord_dim = 2 + 4 * freq_bands
             time_dim = 1 + 2 * time_bands
             condition_dim = coord_dim + time_dim + (coord_dim if source_coord_features else 0)
+            target_condition_dim = coord_dim + time_dim if self.decoder_mode == "state-split" else condition_dim
             context_taps = 2 if context_channels > 0 and self.context_sample_mode == "both" else 1
             latent_taps = 2 if self.latent_sample_mode == "both" else 1
             target_canvas_taps = 1 if self.target_canvas is not None and self.target_canvas_mode != "blend" else 0
@@ -1586,21 +1589,26 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 self.gate_mlp = None
             else:
                 self.mlp = None
-                target_input_dim = branch_latent_dim + condition_dim
+                target_input_dim = branch_latent_dim + target_condition_dim
                 if self.decoder_mode == "dual-residual-fused":
                     target_input_dim = branch_latent_dim * 2 + condition_dim
                 self.source_mlp = make_rgb_mlp(branch_latent_dim + condition_dim, hidden)
                 self.target_mlp = make_rgb_mlp(target_input_dim, self.target_branch_hidden)
-                self.gate_mlp = nn.Sequential(
-                    nn.Linear(condition_dim, self.target_branch_hidden),
-                    nn.SiLU(),
-                    nn.Linear(self.target_branch_hidden, 1),
+                self.gate_mlp = (
+                    None
+                    if self.decoder_mode == "state-split"
+                    else nn.Sequential(
+                        nn.Linear(condition_dim, self.target_branch_hidden),
+                        nn.SiLU(),
+                        nn.Linear(self.target_branch_hidden, 1),
+                    )
                 )
                 if self.decoder_mode in {"dual-residual", "dual-residual-fused"}:
                     nn.init.zeros_(self.target_mlp[-1].weight)
                     nn.init.zeros_(self.target_mlp[-1].bias)
-                    nn.init.zeros_(self.gate_mlp[-1].weight)
-                    nn.init.constant_(self.gate_mlp[-1].bias, -1.5)
+                    if self.gate_mlp is not None:
+                        nn.init.zeros_(self.gate_mlp[-1].weight)
+                        nn.init.constant_(self.gate_mlp[-1].bias, -1.5)
             if detail_channels > 0 and detail_scale != 0.0:
                 detail_hidden = hidden if detail_hidden is None else detail_hidden
                 self.detail_canvas = nn.Parameter(torch.randn(1, detail_channels, height, width) * detail_init_scale)
@@ -1673,8 +1681,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 return torch.cat([self.sample_one_context(sample_coords), self.sample_one_context(coords01)], dim=-1)
             return self.sample_one_context(sample_coords)
 
-        def sample_branch_features(self, coords: torch.Tensor) -> torch.Tensor:
-            sampled = self.sample_one_canvas_features(coords)
+        def sample_branch_features(self, coords: torch.Tensor, canvas: torch.Tensor | None = None) -> torch.Tensor:
+            sampled = self.sample_one_canvas_features(coords, canvas)
             if self.context_canvas is not None:
                 sampled = torch.cat([sampled, self.sample_one_context(coords)], dim=-1)
             return sampled
@@ -1721,17 +1729,25 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 logits = self.mlp(torch.cat([sampled, condition], dim=-1))
             else:
                 source_sampled = self.sample_branch_features(sample_coords)
-                target_sampled = self.sample_branch_features(coords01)
+                target_canvas = self.target_canvas if self.decoder_mode == "state-split" else None
+                target_sampled = self.sample_branch_features(coords01, target_canvas)
                 source_logits = self.source_mlp(torch.cat([source_sampled, condition], dim=-1))
-                target_input = torch.cat([target_sampled, condition], dim=-1)
+                target_condition = condition
+                if self.decoder_mode == "state-split":
+                    target_condition = torch.cat([coord_enc, time_enc], dim=-1)
+                target_input = torch.cat([target_sampled, target_condition], dim=-1)
                 if self.decoder_mode == "dual-residual-fused":
                     target_input = torch.cat([source_sampled, target_sampled, condition], dim=-1)
                 target_logits = self.target_mlp(target_input)
-                gate = torch.sigmoid(self.gate_mlp(condition))
-                if self.decoder_mode == "dual-gate":
-                    logits = source_logits * (1.0 - gate) + target_logits * gate
+                if self.decoder_mode == "state-split":
+                    state_weight = torch.sin(t * torch.pi).square().clamp(0.0, 1.0)
+                    logits = source_logits * (1.0 - state_weight) + target_logits * state_weight
                 else:
-                    logits = source_logits + self.target_branch_scale * gate * torch.tanh(target_logits)
+                    gate = torch.sigmoid(self.gate_mlp(condition))
+                    if self.decoder_mode == "dual-gate":
+                        logits = source_logits * (1.0 - gate) + target_logits * gate
+                    else:
+                        logits = source_logits + self.target_branch_scale * gate * torch.tanh(target_logits)
             if self.detail_canvas is not None and self.detail_mlp is not None:
                 detail_sampled = F.grid_sample(
                     self.detail_canvas,
@@ -3080,9 +3096,17 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             f" Decoder uses separately gated source and target-position branches "
             f"(target hidden {target_branch_hidden})."
         )
-    if model.target_canvas_mode != "none":
+    elif model.decoder_mode == "state-split":
+        metrics["description"] += (
+            f" Decoder uses separate source and target-state branches, with the target branch "
+            f"sampling an independent target latent canvas and blending by midpoint progress "
+            f"(target hidden {target_branch_hidden})."
+        )
+    if model.target_canvas_mode != "none" or model.decoder_mode == "state-split":
         target_canvas_note = (
-            "midpoint-blended"
+            "state-split"
+            if model.decoder_mode == "state-split"
+            else "midpoint-blended"
             if model.target_canvas_mode == "blend"
             else "midpoint-gated"
             if model.target_canvas_mode == "gated"

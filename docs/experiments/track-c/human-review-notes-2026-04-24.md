@@ -2650,3 +2650,20 @@ Human read:
 - The `2x` crop review still shows the old source text and diagram layer very strongly.
 - The separate target canvas helps naturalist OCR a little, but concatenating target features beside source features is not enough to stop source leakage.
 - C96 should force a source-to-target latent switch/blend at the midpoint instead of appending the target canvas as extra decoder input.
+
+Completed C96 visual review:
+
+```text
+c96-v11-naturalist-tblend-init02-rem025-seed0-s12000: OCR 0.5310, segment 1101.616ms, pass
+c96-v11-naturalist-tblend-init02-rem050-seed0-s12000: OCR 0.4000, segment 1123.401ms, pass
+c96-v12-deep-sea-tblend-init02-rem000-seed0-s12000: OCR 0.8000, segment 1097.414ms, pass
+c96-v12-deep-sea-tblend-init02-rem100-seed0-s12000: OCR 0.8000, segment 1163.620ms, pass
+```
+
+Human read:
+
+- C96 is fast and stable, with most render segments around `1.1s`.
+- It does not beat C95/C94 by OCR, and it does not solve the crop-level source leak.
+- The crop montage still shows old `Velarium`, `Materials`, body text, and oval diagram traces under both the naturalist and deep-sea targets.
+- The implication is sharp: switching/blending latent feature canvases is still too coupled to the source-biased decoder path.
+- C97 should split the decoder itself: source branch from source canvas, target branch from independent target canvas, blended only at the final decoder-output level by midpoint progress.
