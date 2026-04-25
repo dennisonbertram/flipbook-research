@@ -1,12 +1,162 @@
 {
-  "updated_utc": "2026-04-25T06:07:38+00:00",
+  "updated_utc": "2026-04-25T06:26:27+00:00",
   "active_sessions": [
     "clawtest",
     "pr1467-monitor",
     "track-c-autoresearch",
+    "track-c-c83-nctx-b020-r275-a110-seed4-s14000",
+    "track-c-c83-nctx-b025-r275-a100-seed4-s14000",
+    "track-c-c83-nctx-b025-r275-a110-seed0-s14000",
+    "track-c-c83-nctx-b025-r275-a110-seed1-s14000",
+    "track-c-c83-nctx-b025-r275-a110-seed2-s14000",
+    "track-c-c83-nctx-b025-r275-a110-seed3-s14000",
+    "track-c-c83-nctx-b025-r275-a110-seed5-s14000",
+    "track-c-c83-nctx-b025-r275-a115-seed4-s14000",
+    "track-c-c83-nctx-b025-r325-a110-seed4-s14000",
+    "track-c-c83-nctx-b030-r275-a110-seed4-s14000",
     "track-c-github-sync"
   ],
   "experiments": [
+    {
+      "label": "c83-nctx-b025-r275-a110-seed0-s14000",
+      "session": "track-c-c83-nctx-b025-r275-a110-seed0-s14000",
+      "log": "docs/experiments/track-c/c83-nctx-b025-r275-a110-seed0-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 2.75 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c83-nctx-b025-r275-a110-seed1-s14000",
+      "session": "track-c-c83-nctx-b025-r275-a110-seed1-s14000",
+      "log": "docs/experiments/track-c/c83-nctx-b025-r275-a110-seed1-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 1, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 2.75 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c83-nctx-b025-r275-a110-seed2-s14000",
+      "session": "track-c-c83-nctx-b025-r275-a110-seed2-s14000",
+      "log": "docs/experiments/track-c/c83-nctx-b025-r275-a110-seed2-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 2, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 2.75 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c83-nctx-b025-r275-a110-seed3-s14000",
+      "session": "track-c-c83-nctx-b025-r275-a110-seed3-s14000",
+      "log": "docs/experiments/track-c/c83-nctx-b025-r275-a110-seed3-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 3, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 2.75 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c83-nctx-b025-r275-a110-seed5-s14000",
+      "session": "track-c-c83-nctx-b025-r275-a110-seed5-s14000",
+      "log": "docs/experiments/track-c/c83-nctx-b025-r275-a110-seed5-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 5, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 2.75 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c83-nctx-b020-r275-a110-seed4-s14000",
+      "session": "track-c-c83-nctx-b020-r275-a110-seed4-s14000",
+      "log": "docs/experiments/track-c/c83-nctx-b020-r275-a110-seed4-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 4, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.2 residual 2.75 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c83-nctx-b030-r275-a110-seed4-s14000",
+      "session": "track-c-c83-nctx-b030-r275-a110-seed4-s14000",
+      "log": "docs/experiments/track-c/c83-nctx-b030-r275-a110-seed4-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 4, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.3 residual 2.75 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c83-nctx-b025-r325-a110-seed4-s14000",
+      "session": "track-c-c83-nctx-b025-r325-a110-seed4-s14000",
+      "log": "docs/experiments/track-c/c83-nctx-b025-r325-a110-seed4-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 4, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 3.25 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c83-nctx-b025-r275-a100-seed4-s14000",
+      "session": "track-c-c83-nctx-b025-r275-a100-seed4-s14000",
+      "log": "docs/experiments/track-c/c83-nctx-b025-r275-a100-seed4-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 4, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 2.75 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c83-nctx-b025-r275-a115-seed4-s14000",
+      "session": "track-c-c83-nctx-b025-r275-a115-seed4-s14000",
+      "log": "docs/experiments/track-c/c83-nctx-b025-r275-a115-seed4-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.15, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 4, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 2.75 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c82-nctx-b025-r250-a110-seed0-s14000",
+      "session": "track-c-c82-nctx-b025-r250-a110-seed0-s14000",
+      "log": "docs/experiments/track-c/c82-nctx-b025-r250-a110-seed0-s14000.log",
+      "done": true,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 2.5 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c82-nctx-b025-r250-a110-seed1-s14000",
+      "session": "track-c-c82-nctx-b025-r250-a110-seed1-s14000",
+      "log": "docs/experiments/track-c/c82-nctx-b025-r250-a110-seed1-s14000.log",
+      "done": true,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 1, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 2.5 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c82-nctx-b025-r250-a110-seed3-s14000",
+      "session": "track-c-c82-nctx-b025-r250-a110-seed3-s14000",
+      "log": "docs/experiments/track-c/c82-nctx-b025-r250-a110-seed3-s14000.log",
+      "done": true,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 3, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 2.5 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c82-nctx-b025-r250-a110-seed5-s14000",
+      "session": "track-c-c82-nctx-b025-r250-a110-seed5-s14000",
+      "log": "docs/experiments/track-c/c82-nctx-b025-r250-a110-seed5-s14000.log",
+      "done": true,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 5, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 2.5 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c82-nctx-b025-r200-a120-seed2-s14000",
+      "session": "track-c-c82-nctx-b025-r200-a120-seed2-s14000",
+      "log": "docs/experiments/track-c/c82-nctx-b025-r200-a120-seed2-s14000.log",
+      "done": true,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.2, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 2, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 2 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c82-nctx-b025-r225-a115-seed2-s14000",
+      "session": "track-c-c82-nctx-b025-r225-a115-seed2-s14000",
+      "log": "docs/experiments/track-c/c82-nctx-b025-r225-a115-seed2-s14000.log",
+      "done": true,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.15, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 2, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 2.25 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c82-nctx-b025-r300-a105-seed2-s14000",
+      "session": "track-c-c82-nctx-b025-r300-a105-seed2-s14000",
+      "log": "docs/experiments/track-c/c82-nctx-b025-r300-a105-seed2-s14000.log",
+      "done": true,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.05, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 2, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 3 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c82-nctx-b025-r300-a110-seed2-s14000",
+      "session": "track-c-c82-nctx-b025-r300-a110-seed2-s14000",
+      "log": "docs/experiments/track-c/c82-nctx-b025-r300-a110-seed2-s14000.log",
+      "done": true,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 2, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 3 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c82-nctx-b025-r225-a115-seed4-s14000",
+      "session": "track-c-c82-nctx-b025-r225-a115-seed4-s14000",
+      "log": "docs/experiments/track-c/c82-nctx-b025-r225-a115-seed4-s14000.log",
+      "done": true,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.15, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 4, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 2.25 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c82-nctx-b025-r275-a110-seed4-s14000",
+      "session": "track-c-c82-nctx-b025-r275-a110-seed4-s14000",
+      "log": "docs/experiments/track-c/c82-nctx-b025-r275-a110-seed4-s14000.log",
+      "done": true,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 4, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 2.75 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
     {
       "label": "c81-nctx-b025-r200-a110-seed2-s14000",
       "session": "track-c-c81-nctx-b025-r200-a110-seed2-s14000",
