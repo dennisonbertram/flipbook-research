@@ -69,3 +69,12 @@
 [2026-04-25T07:32:44+00:00] eval 20260425T072030941112Z-c2-lite-glyph-layout-clean-reflow-c86-clean-c32h160-target60-mid20-seed1-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	752.003ms	ocr=0.7527
 [2026-04-25T07:32:44+00:00] eval 20260425T072030955973Z-c2-lite-glyph-layout-clean-reflow-c86-clean-c32h160-target80-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	921.003ms	ocr=0.4808
 [2026-04-25T07:32:44+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-25T07:32:46+00:00] published Track C docs update: 2026-04-25 07:32 UTC
+[2026-04-25T07:43:42+00:00] eval 20260425T072030442425Z-c2-lite-glyph-layout-clean-reflow-c86-clean-c32h160-target60-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	942.174ms	ocr=0.7347
+[2026-04-25T07:43:42+00:00] eval 20260425T072030584260Z-c2-lite-glyph-layout-clean-reflow-c86-clean-c32h160-context8-target60-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	quality_fail	813.604ms	ocr=0.3492
+[2026-04-25T07:43:42+00:00] eval 20260425T072030606287Z-c2-lite-glyph-layout-clean-reflow-c86-clean-c40h192-target60-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1218.898ms	ocr=0.7391
+[2026-04-25T07:43:42+00:00] eval 20260425T072030686455Z-c2-lite-glyph-layout-clean-reflow-c86-clean-c24h128-target60-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	824.892ms	ocr=0.3548
+[2026-04-25T07:43:42+00:00] eval 20260425T072030816174Z-c2-lite-glyph-layout-clean-reflow-c86-clean-c32h160-target60-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	925.425ms	ocr=0.7216
+[2026-04-25T07:43:42+00:00] eval 20260425T072030941112Z-c2-lite-glyph-layout-clean-reflow-c86-clean-c32h160-target60-mid20-seed1-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	752.003ms	ocr=0.7527
+[2026-04-25T07:43:42+00:00] eval 20260425T072030955973Z-c2-lite-glyph-layout-clean-reflow-c86-clean-c32h160-target80-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	921.003ms	ocr=0.4808
+[2026-04-25T07:43:42+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
