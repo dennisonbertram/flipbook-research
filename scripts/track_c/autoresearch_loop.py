@@ -735,6 +735,46 @@ def learned_layout_reflow_experiment(
     )
 
 
+C78_FUSED_RESIDUAL_DECODER_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        context_channels=8,
+        context_scale=0.25,
+        decoder_mode="dual-residual-fused",
+        target_branch_scale=target_scale,
+        target_branch_hidden=target_hidden,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    )
+    for label, seed, target_scale, target_hidden in [
+        ("c78-fused-s025-c8-h80-seed1-s14000", 1, 0.25, 80),
+        ("c78-fused-s025-c8-h80-seed2-s14000", 2, 0.25, 80),
+        ("c78-fused-s025-c8-h80-seed4-s14000", 4, 0.25, 80),
+        ("c78-fused-s025-c8-h80-seed5-s14000", 5, 0.25, 80),
+        ("c78-fused-s025-c8-h80-seed6-s14000", 6, 0.25, 80),
+        ("c78-fused-s035-c8-h80-seed1-s14000", 1, 0.35, 80),
+        ("c78-fused-s035-c8-h80-seed2-s14000", 2, 0.35, 80),
+        ("c78-fused-s035-c8-h80-seed4-s14000", 4, 0.35, 80),
+        ("c78-fused-s025-c8-h64-seed2-s14000", 2, 0.25, 64),
+        ("c78-fused-s025-c8-h64-seed5-s14000", 5, 0.25, 64),
+    ]
+]
+
+
 C77_DUAL_RESIDUAL_BASIN_MAP_EXPERIMENTS = [
     learned_layout_reflow_experiment(
         label,
@@ -1054,6 +1094,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C78_FUSED_RESIDUAL_DECODER_EXPERIMENTS,
     *C77_DUAL_RESIDUAL_BASIN_MAP_EXPERIMENTS,
     *C76_DUAL_RESIDUAL_CONSOLIDATION_EXPERIMENTS,
     *C75_DUAL_RESIDUAL_DECODER_EXPERIMENTS,

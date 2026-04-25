@@ -299,6 +299,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             decoder_mode = decoder_mode.lower().replace("_", "-")
             if decoder_mode in {"dual", "dual-target", "dual-residual", "target-residual"}:
                 decoder_mode = "dual-residual"
+            elif decoder_mode in {"dual-fused", "fused-dual", "dual-residual-fused", "fused-residual"}:
+                decoder_mode = "dual-residual-fused"
             elif decoder_mode in {"dual-gate", "gated-dual", "target-gate"}:
                 decoder_mode = "dual-gate"
             else:
@@ -377,14 +379,17 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 self.gate_mlp = None
             else:
                 self.mlp = None
+                target_input_dim = branch_latent_dim + condition_dim
+                if self.decoder_mode == "dual-residual-fused":
+                    target_input_dim = branch_latent_dim * 2 + condition_dim
                 self.source_mlp = make_rgb_mlp(branch_latent_dim + condition_dim, hidden)
-                self.target_mlp = make_rgb_mlp(branch_latent_dim + condition_dim, self.target_branch_hidden)
+                self.target_mlp = make_rgb_mlp(target_input_dim, self.target_branch_hidden)
                 self.gate_mlp = nn.Sequential(
                     nn.Linear(condition_dim, self.target_branch_hidden),
                     nn.SiLU(),
                     nn.Linear(self.target_branch_hidden, 1),
                 )
-                if self.decoder_mode == "dual-residual":
+                if self.decoder_mode in {"dual-residual", "dual-residual-fused"}:
                     nn.init.zeros_(self.target_mlp[-1].weight)
                     nn.init.zeros_(self.target_mlp[-1].bias)
                     nn.init.zeros_(self.gate_mlp[-1].weight)
@@ -495,7 +500,10 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 source_sampled = self.sample_branch_features(sample_coords)
                 target_sampled = self.sample_branch_features(coords01)
                 source_logits = self.source_mlp(torch.cat([source_sampled, condition], dim=-1))
-                target_logits = self.target_mlp(torch.cat([target_sampled, condition], dim=-1))
+                target_input = torch.cat([target_sampled, condition], dim=-1)
+                if self.decoder_mode == "dual-residual-fused":
+                    target_input = torch.cat([source_sampled, target_sampled, condition], dim=-1)
+                target_logits = self.target_mlp(target_input)
                 gate = torch.sigmoid(self.gate_mlp(condition))
                 if self.decoder_mode == "dual-gate":
                     logits = source_logits * (1.0 - gate) + target_logits * gate
@@ -1679,6 +1687,11 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         metrics["description"] += (
             f" Decoder uses a source branch plus gated target-position residual branch "
             f"(scale {target_branch_scale:g}, target hidden {target_branch_hidden})."
+        )
+    elif model.decoder_mode == "dual-residual-fused":
+        metrics["description"] += (
+            f" Decoder uses a source branch plus gated residual branch that sees both source "
+            f"and target-position features (scale {target_branch_scale:g}, target hidden {target_branch_hidden})."
         )
     elif model.decoder_mode == "dual-gate":
         metrics["description"] += (

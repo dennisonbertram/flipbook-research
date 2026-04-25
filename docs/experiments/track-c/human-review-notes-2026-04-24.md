@@ -2041,3 +2041,45 @@ C77 hypothesis:
 
 - If the dual-residual architecture is viable, the C75/C76 high-quality basin should appear in more seeds for either `s0.25/c8/h80` or `s0.35/c8/h64`.
 - Lower LR on the weak seed1 and tighter clipping on the near-miss seed4 test whether the instability is optimizer noise rather than architectural insufficiency.
+
+Completed C77 results:
+
+```text
+c77-map-s025-c8-h80-seed5-s14000: OCR 0.5660, segment 1456.163ms, motion_delta 0.0477, quality_fail
+c77-map-s025-c8-h80-seed7-s14000: OCR 0.5357, segment 1335.632ms, motion_delta 0.0508, quality_fail
+c77-map-s035-c8-h64-seed7-s14000: OCR 0.5278, segment 1306.513ms, motion_delta 0.0483, quality_fail
+c77-map-s025-c8-h80-seed6-s14000: OCR 0.5234, segment 1335.926ms, motion_delta 0.0498, quality_fail
+c77-map-s035-c8-h64-seed6-s14000: OCR 0.5233, segment 1309.011ms, motion_delta 0.0498, quality_fail
+c77-map-s025-c8-h80-seed8-s14000: OCR 0.4906, segment 1109.897ms, motion_delta 0.0523, quality_fail
+c77-map-s035-c8-h64-seed8-s14000: OCR 0.4875, segment 1507.711ms, motion_delta 0.0513, quality_fail
+c77-stab-s025-c8-h80-clip025-seed4-s14000: OCR 0.4875, segment 1336.055ms, motion_delta 0.0504, quality_fail
+c77-stab-s025-c8-h80-lr007-seed1-s14000: OCR 0.4742, segment 1336.149ms, motion_delta 0.0520, quality_fail
+c77-map-s035-c8-h64-seed5-s14000: OCR 0.4625, segment 1338.574ms, motion_delta 0.0520, quality_fail
+```
+
+Interpretation:
+
+- C77 is a negative basin map. The C75 high-quality result does not appear frequently across new seeds.
+- The best new seed (`s0.25/c8/h80/seed5`) clears OCR but misses latency badly. The optimizer tweaks do not rescue the weak/near-miss seeds.
+- Dual-residual remains a useful clue, but the branch design is brittle. The next move should make the residual branch more informed rather than just changing seed or optimizer.
+
+Next experiments:
+
+```text
+c78-fused-s025-c8-h80-seed1-s14000
+c78-fused-s025-c8-h80-seed2-s14000
+c78-fused-s025-c8-h80-seed4-s14000
+c78-fused-s025-c8-h80-seed5-s14000
+c78-fused-s025-c8-h80-seed6-s14000
+c78-fused-s035-c8-h80-seed1-s14000
+c78-fused-s035-c8-h80-seed2-s14000
+c78-fused-s035-c8-h80-seed4-s14000
+c78-fused-s025-c8-h64-seed2-s14000
+c78-fused-s025-c8-h64-seed5-s14000
+```
+
+C78 hypothesis:
+
+- Keep the C75 source-branch/residual-branch separation, but let the zero-initialized residual branch see both source-sampled and target-position latent features.
+- This differs from C74's failed concatenation because the main source renderer remains intact; the fused path can only learn a gated residual correction.
+- If the target repair branch was under-informed in C75-C77, fused residuals should improve pass frequency without returning to C74's single-MLP confusion.

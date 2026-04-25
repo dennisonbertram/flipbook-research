@@ -160,6 +160,8 @@ C7.5 is a real positive architecture signal but not robust yet. `c75-dualres-s02
 
 C7.6 mostly shows that shrinking the target residual branch trades away quality. The smaller heads are often fast, but only `c76-dualres-s035-c8-th64-seed1-s14000` preserves the C75-quality basin, reaching OCR `0.6154` and missing latency by `13.9ms`. No-context repeats do not reproduce the C75 no-context pass with `h64`. C7.7 maps the basin across new seeds for the two plausible recipes (`s0.25/c8/h80` and `s0.35/c8/h64`) and tries two lightweight optimizer stabilizers on weak/near-miss seeds.
 
+C7.7 is a negative basin map. No C77 run passes; the best new seed reaches OCR `0.5660` but misses latency at `1456ms`, and the optimizer tweaks do not rescue weak seeds. This suggests C75's split-branch decoder found a real but brittle basin. C7.8 keeps the split but makes the residual branch fused: it still starts at zero and cannot replace the source branch, but it can see both source-sampled and target-position features when learning corrections.
+
 Suggested `results.tsv` header:
 
 ```text
