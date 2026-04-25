@@ -420,3 +420,12 @@
 [2026-04-25T14:44:47+00:00] eval 20260425T082817330945Z-c2-lite-glyph-layout-clean-reflow-c91-v10-orbit-topic-target60-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	939.673ms	ocr=0.9333
 [2026-04-25T14:44:47+00:00] eval 20260425T082817420539Z-c2-lite-glyph-layout-clean-reflow-c91-v9-reef-topic-target60-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	908.477ms	ocr=0.8485
 [2026-04-25T14:44:47+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-25T14:44:50+00:00] published Track C docs update: 2026-04-25 14:44 UTC
+[2026-04-25T14:55:54+00:00] eval 20260425T144355186223Z-c2-lite-glyph-layout-clean-reflow-c92-v12-deep-sea-lab-target60-mid20-seed2-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	915.596ms	ocr=0.7500
+[2026-04-25T14:55:54+00:00] eval 20260425T144355216180Z-c2-lite-glyph-layout-clean-reflow-c92-v12-deep-sea-lab-target60-mid20-seed4-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	935.689ms	ocr=0.7222
+[2026-04-25T14:55:54+00:00] eval 20260425T144355283906Z-c2-lite-glyph-layout-clean-reflow-c92-v11-naturalist-plate-target60-mid20-seed1-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	750.940ms	ocr=0.4954
+[2026-04-25T14:55:54+00:00] eval 20260425T144355446707Z-c2-lite-glyph-layout-clean-reflow-c92-v12-deep-sea-lab-target60-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	759.837ms	ocr=0.8966
+[2026-04-25T14:55:54+00:00] eval 20260425T144355660905Z-c2-lite-glyph-layout-clean-reflow-c92-v11-naturalist-plate-target60-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	936.889ms	ocr=0.4361
+[2026-04-25T14:55:54+00:00] eval 20260425T144355687739Z-c2-lite-glyph-layout-clean-reflow-c92-v11-naturalist-plate-target60-mid20-seed4-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1258.295ms	ocr=0.4082
+[2026-04-25T14:55:54+00:00] eval 20260425T144957331465Z-c2-lite-glyph-layout-clean-reflow-c92-v12-deep-sea-lab-target60-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	788.945ms	ocr=0.6341
+[2026-04-25T14:55:54+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
