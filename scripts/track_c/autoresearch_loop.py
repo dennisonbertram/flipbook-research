@@ -92,6 +92,8 @@ def general_visual_motion_args(
     layout_target_sampling: int | None = None,
     layout_target_weighting: int | None = None,
     layout_target_sampling_ratio: float | None = None,
+    layout_target_mid_sampling_ratio: float | None = None,
+    layout_target_mid_time_width: float | None = None,
     layout_target_pair_ratio: float | None = None,
     layout_target_pair_weight: float | None = None,
     layout_mid_time_ratio: float | None = None,
@@ -217,6 +219,10 @@ def general_visual_motion_args(
         args.extend(["--layout-target-weighting", str(layout_target_weighting)])
     if layout_target_sampling_ratio is not None:
         args.extend(["--layout-target-sampling-ratio", f"{layout_target_sampling_ratio:g}"])
+    if layout_target_mid_sampling_ratio is not None:
+        args.extend(["--layout-target-mid-sampling-ratio", f"{layout_target_mid_sampling_ratio:g}"])
+    if layout_target_mid_time_width is not None:
+        args.extend(["--layout-target-mid-time-width", f"{layout_target_mid_time_width:g}"])
     if layout_target_pair_ratio is not None:
         args.extend(["--layout-target-pair-ratio", f"{layout_target_pair_ratio:g}"])
     if layout_target_pair_weight is not None:
@@ -569,6 +575,8 @@ def learned_layout_reflow_experiment(
     layout_target_sampling: int | None = None,
     layout_target_weighting: int | None = None,
     layout_target_sampling_ratio: float | None = None,
+    layout_target_mid_sampling_ratio: float | None = None,
+    layout_target_mid_time_width: float | None = None,
     layout_target_pair_ratio: float | None = None,
     layout_target_pair_weight: float | None = None,
     layout_mid_time_ratio: float | None = None,
@@ -610,6 +618,10 @@ def learned_layout_reflow_experiment(
     target_note = ", target-side reflow sampling" if layout_target_sampling or layout_target_weighting else ""
     if layout_target_sampling and layout_target_sampling_ratio is not None and layout_target_sampling_ratio < 1.0:
         target_note += f" ratio {layout_target_sampling_ratio:g}"
+    if layout_target_mid_sampling_ratio:
+        target_note += f", direct target-mid sampling ratio {layout_target_mid_sampling_ratio:g}"
+        if layout_target_mid_time_width is not None:
+            target_note += f" width {layout_target_mid_time_width:g}"
     if layout_target_pair_ratio:
         target_note += f", paired target loss ratio {layout_target_pair_ratio:g}"
         if layout_target_pair_weight is not None:
@@ -671,6 +683,8 @@ def learned_layout_reflow_experiment(
             layout_target_sampling=layout_target_sampling,
             layout_target_weighting=layout_target_weighting,
             layout_target_sampling_ratio=layout_target_sampling_ratio,
+            layout_target_mid_sampling_ratio=layout_target_mid_sampling_ratio,
+            layout_target_mid_time_width=layout_target_mid_time_width,
             layout_target_pair_ratio=layout_target_pair_ratio,
             layout_target_pair_weight=layout_target_pair_weight,
             layout_mid_time_ratio=layout_mid_time_ratio,
@@ -689,7 +703,50 @@ def learned_layout_reflow_experiment(
     )
 
 
+C70_TARGET_MID_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        context_channels=context_channels,
+        context_scale=context_scale,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=target_ratio,
+        layout_target_mid_sampling_ratio=mid_ratio,
+        layout_target_mid_time_width=mid_width,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        text_box_sample_ratio=text_sample,
+        text_box_loss_weight=text_weight,
+        text_box_padding=4,
+        min_ocr=0.55,
+        min_motion=0.045,
+    )
+    for label, seed, mid_ratio, mid_width, context_channels, context_scale, target_ratio, text_sample, text_weight in [
+        ("c70-mid10-c8s025-seed4-s14000", 4, 0.10, 0.24, 8, 0.25, 0.60, 0.0, 0.0),
+        ("c70-mid20-c8s025-seed4-s14000", 4, 0.20, 0.24, 8, 0.25, 0.60, 0.0, 0.0),
+        ("c70-mid35-c8s025-seed4-s14000", 4, 0.35, 0.24, 8, 0.25, 0.60, 0.0, 0.0),
+        ("c70-mid20w012-c8s025-seed4-s14000", 4, 0.20, 0.12, 8, 0.25, 0.60, 0.0, 0.0),
+        ("c70-mid20-c8s025-seed5-s14000", 5, 0.20, 0.24, 8, 0.25, 0.60, 0.0, 0.0),
+        ("c70-mid20-c8s025-seed2-s14000", 2, 0.20, 0.24, 8, 0.25, 0.60, 0.0, 0.0),
+        ("c70-mid20-c4s025-seed2-s14000", 2, 0.20, 0.24, 4, 0.25, 0.60, 0.0, 0.0),
+        ("c70-mid20-c4s025-seed3-s14000", 3, 0.20, 0.24, 4, 0.25, 0.60, 0.0, 0.0),
+        ("c70-mid20-c8s025-target45-seed4-s14000", 4, 0.20, 0.24, 8, 0.25, 0.45, 0.0, 0.0),
+        ("c70-mid20-c8s025-text65-seed4-s14000", 4, 0.20, 0.24, 8, 0.25, 0.60, 0.65, 8.0),
+    ]
+]
+
+
 EXPERIMENTS = [
+    *C70_TARGET_MID_EXPERIMENTS,
     learned_layout_reflow_experiment(
         "c69-context8s025-cross1-target60-c32h160-seed2-s14000",
         amount=1.0,

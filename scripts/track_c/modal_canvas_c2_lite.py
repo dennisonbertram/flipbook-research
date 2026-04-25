@@ -664,6 +664,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     layout_target_sampling = bool(int(config.get("layout_target_sampling", 0)))
     layout_target_weighting = bool(int(config.get("layout_target_weighting", 0)))
     layout_target_sampling_ratio = float(config.get("layout_target_sampling_ratio", 1.0))
+    layout_target_mid_sampling_ratio = float(config.get("layout_target_mid_sampling_ratio", 0.0))
+    layout_target_mid_time_width = float(config.get("layout_target_mid_time_width", config.get("layout_mid_time_width", 0.24)))
     layout_target_pair_ratio = float(config.get("layout_target_pair_ratio", 0.0))
     layout_target_pair_weight = float(config.get("layout_target_pair_weight", 1.0))
     layout_mid_time_ratio = float(config.get("layout_mid_time_ratio", 0.0))
@@ -892,6 +894,21 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             content_alpha = alpha + content_alpha * (1.0 - alpha)
         return source_coords.clamp(0.0, 1.0), content_alpha.clamp(0.0, 1.0)
 
+    layout_target_mid_prob: torch.Tensor | None = None
+    if motion_mode in layout_reflow_motion_modes and layout_target_mid_sampling_ratio > 0.0:
+        with torch.no_grad():
+            grid_y, grid_x = torch.meshgrid(
+                torch.linspace(0.0, 1.0, train_h, device=device),
+                torch.linspace(0.0, 1.0, train_w, device=device),
+                indexing="ij",
+            )
+            mid_coords = torch.stack([grid_x.flatten(), grid_y.flatten()], dim=-1)
+            mid_t = torch.full((mid_coords.shape[0], 1), 0.5, device=device)
+            mid_glyph = sample_layout_reflow_from(glyph_weight_chw, mid_coords, mid_t, motion_strength, 0.0).squeeze(-1)
+            mid_text = sample_layout_reflow_from(text_weight_chw, mid_coords, mid_t, motion_strength, 0.0).squeeze(-1)
+            mid_score = (mid_glyph + 1.75 * mid_text).clamp_min(1e-6)
+            layout_target_mid_prob = mid_score / mid_score.sum().clamp_min(1e-6)
+
     model = TimeCanvas(
         width=train_w,
         height=train_h,
@@ -996,6 +1013,26 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             if layout_target_sampling_ratio < 1.0:
                 focus = focus & (torch.rand((batch_size,), device=device) < layout_target_sampling_ratio)
             coords = torch.where(focus.unsqueeze(-1), moved_coords, coords)
+        if (
+            motion_mode in layout_reflow_motion_modes
+            and layout_target_mid_prob is not None
+            and layout_target_mid_sampling_ratio > 0.0
+        ):
+            mid_count = max(0, min(batch_size, int(batch_size * layout_target_mid_sampling_ratio)))
+            if mid_count:
+                mid_slot_idx = torch.randperm(batch_size, device=device)[:mid_count]
+                mid_pixel_idx = torch.multinomial(layout_target_mid_prob, mid_count, replacement=True)
+                mid_ys = torch.div(mid_pixel_idx, train_w, rounding_mode="floor")
+                mid_xs = mid_pixel_idx - mid_ys * train_w
+                coords[mid_slot_idx] = torch.stack(
+                    [
+                        mid_xs.float() / max(1, train_w - 1),
+                        mid_ys.float() / max(1, train_h - 1),
+                    ],
+                    dim=-1,
+                )
+                mid_time = 0.5 + (torch.rand((mid_count, 1), device=device) - 0.5) * layout_target_mid_time_width
+                t[mid_slot_idx] = mid_time.clamp(0.0, 1.0)
         truth, target_coords = truth_for_coords(coords, t, step_motion_strength)
         if motion_mode in layout_reflow_motion_modes and layout_oracle_flow:
             oracle_source_coords, _oracle_alpha = inverse_layout_reflow_coords(coords, t, step_motion_strength)
@@ -1460,6 +1497,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "layout_target_sampling": int(layout_target_sampling),
         "layout_target_weighting": int(layout_target_weighting),
         "layout_target_sampling_ratio": layout_target_sampling_ratio,
+        "layout_target_mid_sampling_ratio": layout_target_mid_sampling_ratio,
+        "layout_target_mid_time_width": layout_target_mid_time_width,
         "layout_target_pair_ratio": layout_target_pair_ratio,
         "layout_target_pair_weight": layout_target_pair_weight,
         "layout_mid_time_ratio": layout_mid_time_ratio,
@@ -1528,6 +1567,11 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             f" Decoder also samples a coarse context latent canvas with {context_channels} channels "
             f"at scale {context_scale:g}."
         )
+    if layout_target_mid_sampling_ratio > 0.0:
+        metrics["description"] += (
+            f" Training directly samples {layout_target_mid_sampling_ratio:g} of points from "
+            f"the reflowed midpoint glyph/text distribution."
+        )
     return {"artifacts": artifacts, "metrics": metrics}
 
 
@@ -1583,6 +1627,8 @@ def main(
     layout_target_sampling: int = 0,
     layout_target_weighting: int = 0,
     layout_target_sampling_ratio: float = 1.0,
+    layout_target_mid_sampling_ratio: float = 0.0,
+    layout_target_mid_time_width: float = 0.24,
     layout_target_pair_ratio: float = 0.0,
     layout_target_pair_weight: float = 1.0,
     layout_mid_time_ratio: float = 0.0,
@@ -1659,6 +1705,8 @@ def main(
         "layout_target_sampling": layout_target_sampling,
         "layout_target_weighting": layout_target_weighting,
         "layout_target_sampling_ratio": layout_target_sampling_ratio,
+        "layout_target_mid_sampling_ratio": layout_target_mid_sampling_ratio,
+        "layout_target_mid_time_width": layout_target_mid_time_width,
         "layout_target_pair_ratio": layout_target_pair_ratio,
         "layout_target_pair_weight": layout_target_pair_weight,
         "layout_mid_time_ratio": layout_mid_time_ratio,
