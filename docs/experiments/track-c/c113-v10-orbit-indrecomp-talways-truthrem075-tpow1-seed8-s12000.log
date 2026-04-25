@@ -1,0 +1,243 @@
+✓ Initialized. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-Si36nFOJiFIbBVnYHRHb0g
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/dennisonbertram/Develop/flipbook-research/scripts/track_c/modal_canva
+│   s_c2_lite.py
+└── 🔨 Created function train_and_render_motion.
+START 20260425T233700001849Z-c2-lite-glyph-layout-clean-independent-recompose-c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000-1536x864-s12000 config={"batch_size": 131072, "channels": 32, "clean_target_variant": "orbit-topic", "context_channels": 0, "context_init_scale": 0.02, "context_sample_mode": "source", "context_scale": 0.25, "decoder_mode": "single", "detail_channels": 0, "detail_hidden": 160, "detail_init_scale": 0.01, "detail_scale": 0.0, "edge_loss_weight": 0.9, "edge_sample_ratio": 0.09, "element_anchor_mode": "line", "element_anchor_padding": 3, "element_mask_mode": "rectangle", "element_render_mode": "sequential", "element_scale_ratio": 0.25, "experiment_label": "c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000", "flow_scale": 0.1, "fps": 24, "frames": 33, "freq_bands": 10, "grad_clip": 0.5, "gradient_loss_offset_px": 1.0, "gradient_loss_ratio": 0.125, "gradient_loss_weight": 0.0, "hidden": 160, "l1_loss_weight": 0.0, "latent_neighborhood_mode": "cross", "latent_neighborhood_radius_px": 1.0, "latent_sample_mode": "source", "layout_endpoint_ratio": 0.14, "layout_endpoint_target_ratio": 0.55, "layout_flow_loss_weight": 0.0, "layout_mid_time_ratio": 0.68, "layout_mid_time_width": 0.24, "layout_motion_curriculum_ratio": 0.0, "layout_motion_curriculum_start": 0.0, "layout_oracle_flow": 0, "layout_supersample": 1.0, "layout_target_mid_sampling_ratio": 0.35, "layout_target_mid_time_width": 0.22, "layout_target_pair_ratio": 0.0, "layout_target_pair_weight": 1.0, "layout_target_sampling": 1, "layout_target_sampling_ratio": 0.65, "layout_target_weighting": 1, "layout_transform_pan": 0.0, "layout_transform_strength": 0.0, "lr": 0.01, "lr_schedule": "constant", "min_lr_ratio": 0.1, "min_motion_delta": 0.05, "min_ocr_similarity": 0.35, "motion_mode": "layout-clean-independent-recompose", "motion_strength": 1.0, "rgb_skip_base_scale": 1.0, "rgb_skip_gate_init": 0.5, "rgb_skip_gate_mode": "none", "rgb_skip_mode": "source", "rgb_skip_scale": 0.0, "seed": 8, "source_coord_features": 1, "source_remnant_change_floor": 0.04, "source_remnant_direct_loss_weight": 0.0, "source_remnant_direct_region": "change", "source_remnant_loss_weight": 0.75, "source_remnant_margin": 0.025, "source_remnant_reference": "truth", "source_remnant_sample_ratio": 0.0, "source_remnant_sample_time_width": 0.18, "source_remnant_time_power": 1.0, "source_resolution": [1280, 736], "steps": 12000, "target_branch_hidden": 160, "target_branch_scale": 0.0, "target_canvas_init_scale": 0.02, "target_canvas_mode": "always", "text_box_loss_weight": 0.0, "text_box_min_conf": 55.0, "text_box_padding": 0, "text_box_sample_ratio": 0.0, "text_boxes": "0 boxes", "time_bands": 4, "train_resolution": "1536x864", "video_layout_mode": "none", "video_viewport_mode": "static", "viewport_pan": 0.0, "viewport_zoom": 0.0}
+{
+  "canvas_type": "time-conditioned-latent-feature-grid-learned-flow-mlp-glyph-weighted-source-coord-latent-cross-neighborhood-target-canvas-always-clean-page-reflow",
+  "train_resolution": "1536x864",
+  "steps": 12000,
+  "batch_size": 131072,
+  "channels": 32,
+  "hidden": 160,
+  "detail_channels": 0,
+  "detail_hidden": 160,
+  "detail_scale": 0.0,
+  "detail_init_scale": 0.01,
+  "source_coord_features": 1,
+  "latent_neighborhood_mode": "cross",
+  "latent_neighborhood_radius_px": 1.0,
+  "latent_neighborhood_taps": 5,
+  "latent_sample_mode": "source",
+  "context_channels": 0,
+  "context_scale": 0.25,
+  "context_init_scale": 0.02,
+  "context_sample_mode": "source",
+  "context_resolution": [
+    0,
+    0
+  ],
+  "decoder_mode": "single",
+  "target_branch_scale": 0.0,
+  "target_branch_hidden": 160,
+  "target_canvas_mode": "always",
+  "target_canvas_init_scale": 0.02,
+  "rgb_skip_scale": 0.0,
+  "rgb_skip_mode": "source",
+  "rgb_skip_base_scale": 1.0,
+  "rgb_skip_gate_mode": "none",
+  "rgb_skip_gate_init": 0.5,
+  "freq_bands": 10,
+  "time_bands": 4,
+  "lr": 0.01,
+  "lr_schedule": "constant",
+  "min_lr_ratio": 0.1,
+  "grad_clip": 0.5,
+  "l1_loss_weight": 0.0,
+  "gradient_loss_weight": 0.0,
+  "gradient_loss_ratio": 0.125,
+  "gradient_loss_offset_px": 1.0,
+  "source_remnant_loss_weight": 0.75,
+  "source_remnant_margin": 0.025,
+  "source_remnant_change_floor": 0.04,
+  "source_remnant_reference": "truth",
+  "source_remnant_time_power": 1.0,
+  "source_remnant_sample_ratio": 0.0,
+  "source_remnant_sample_time_width": 0.18,
+  "source_remnant_direct_loss_weight": 0.0,
+  "source_remnant_direct_region": "change",
+  "seed": 8,
+  "experiment_label": "c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000",
+  "flow_scale": 0.1,
+  "motion_mode": "layout-clean-independent-recompose",
+  "motion_strength": 1.0,
+  "clean_target_variant": "orbit-topic",
+  "video_viewport_mode": "static",
+  "viewport_zoom": 0.0,
+  "viewport_pan": 0.0,
+  "video_layout_mode": "none",
+  "layout_transform_strength": 0.0,
+  "layout_transform_pan": 0.0,
+  "layout_supersample": 1.0,
+  "layout_region_count": 0,
+  "element_scale_ratio": 0.25,
+  "element_anchor_padding": 3,
+  "element_mask_mode": "rectangle",
+  "element_anchor_mode": "line",
+  "element_render_mode": "sequential",
+  "element_line_count": 0,
+  "min_ocr_similarity": 0.35,
+  "min_motion_delta": 0.05,
+  "edge_sample_ratio": 0.09,
+  "edge_loss_weight": 0.9,
+  "text_box_sample_ratio": 0.0,
+  "text_box_loss_weight": 0.0,
+  "text_box_padding": 0,
+  "layout_target_sampling": 1,
+  "layout_target_weighting": 1,
+  "layout_target_sampling_ratio": 0.65,
+  "layout_target_mid_sampling_ratio": 0.35,
+  "layout_target_mid_time_width": 0.22,
+  "layout_target_pair_ratio": 0.0,
+  "layout_target_pair_weight": 1.0,
+  "layout_mid_time_ratio": 0.68,
+  "layout_mid_time_width": 0.24,
+  "layout_flow_loss_weight": 0.0,
+  "layout_oracle_flow": 0,
+  "layout_motion_curriculum_ratio": 0.0,
+  "layout_motion_curriculum_start": 0.0,
+  "layout_endpoint_ratio": 0.14,
+  "layout_endpoint_target_ratio": 0.55,
+  "text_box_count": 0,
+  "text_mask_coverage": 0.0,
+  "element_alpha_coverage": 0.0,
+  "compile_ms": 471692.341815,
+  "final_mse": 0.003039554925635457,
+  "losses": [
+    {
+      "step": 0,
+      "mse": 0.2875947058200836
+    },
+    {
+      "step": 600,
+      "mse": 0.005028817802667618
+    },
+    {
+      "step": 1200,
+      "mse": 0.004123111255466938
+    },
+    {
+      "step": 1800,
+      "mse": 0.003874151036143303
+    },
+    {
+      "step": 2400,
+      "mse": 0.0036630555987358093
+    },
+    {
+      "step": 3000,
+      "mse": 0.0034043765626847744
+    },
+    {
+      "step": 3600,
+      "mse": 0.0034364070743322372
+    },
+    {
+      "step": 4200,
+      "mse": 0.003343966556712985
+    },
+    {
+      "step": 4800,
+      "mse": 0.0032854543533176184
+    },
+    {
+      "step": 5400,
+      "mse": 0.0032411415595561266
+    },
+    {
+      "step": 6000,
+      "mse": 0.0032254871912300587
+    },
+    {
+      "step": 6600,
+      "mse": 0.0031776560936123133
+    },
+    {
+      "step": 7200,
+      "mse": 0.003125714138150215
+    },
+    {
+      "step": 7800,
+      "mse": 0.003127247793599963
+    },
+    {
+      "step": 8400,
+      "mse": 0.0030886689200997353
+    },
+    {
+      "step": 9000,
+      "mse": 0.0031169471330940723
+    },
+    {
+      "step": 9600,
+      "mse": 0.00309830904006958
+    },
+    {
+      "step": 10200,
+      "mse": 0.003036418929696083
+    },
+    {
+      "step": 10800,
+      "mse": 0.003067644778639078
+    },
+    {
+      "step": 11400,
+      "mse": 0.0030346736311912537
+    },
+    {
+      "step": 11999,
+      "mse": 0.003039554925635457
+    }
+  ],
+  "render_times": {
+    "render-960.png": 20.95906400001013,
+    "render-mid.png": 21.035248000032425,
+    "render-last.png": 20.97807899997406,
+    "render-512.png": 6.428400999993755,
+    "crop-2x.png": 20.64060499998277
+  },
+  "render_960_ms": 20.95906400001013,
+  "render_33_wall_ms": 674.3835760000252,
+  "encode_ms": 285.39264599999115,
+  "resize_consistency": 0.9999574022758745,
+  "temporal_consistency": 0.9983780639013276,
+  "motion_delta_model": 0.07265544682741165,
+  "loop_error_model": 0.0016219360986724496,
+  "description": "C8.6 neural canvas: learned clean two-state page reflow from x,y,t Learned warped/source coordinate features are included in the renderer MLP. Clean target fixture variant: orbit-topic. Decoder samples a cross latent neighborhood with 1px radius for local glyph/detail context in source mode. Decoder also receives a separate always-visible target-state latent canvas initialized at scale 0.02. Training directly samples 0.35 of points from the reflowed midpoint glyph/text distribution. A contrastive source-remnant loss (0.75) penalizes midpoint pixels that are closer to the source page than the synthetic transition target by margin 0.025.",
+  "run_id": "20260425T233700001849Z-c2-lite-glyph-layout-clean-independent-recompose-c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000-1536x864-s12000",
+  "commit": "37445fe",
+  "track": "C",
+  "width": 960,
+  "height": 544,
+  "frames": 33,
+  "fps": 24,
+  "artifacts": {
+    "input": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T233700001849Z-c2-lite-glyph-layout-clean-independent-recompose-c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000-1536x864-s12000/input.png",
+    "render_960": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T233700001849Z-c2-lite-glyph-layout-clean-independent-recompose-c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000-1536x864-s12000/render-960.png",
+    "render_mid": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T233700001849Z-c2-lite-glyph-layout-clean-independent-recompose-c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000-1536x864-s12000/render-mid.png",
+    "render_last": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T233700001849Z-c2-lite-glyph-layout-clean-independent-recompose-c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000-1536x864-s12000/render-last.png",
+    "render_512": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T233700001849Z-c2-lite-glyph-layout-clean-independent-recompose-c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000-1536x864-s12000/render-512.png",
+    "crop_2x": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T233700001849Z-c2-lite-glyph-layout-clean-independent-recompose-c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000-1536x864-s12000/crop-2x.png",
+    "text_mask": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T233700001849Z-c2-lite-glyph-layout-clean-independent-recompose-c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000-1536x864-s12000/text-mask.png",
+    "element_alpha_mask": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T233700001849Z-c2-lite-glyph-layout-clean-independent-recompose-c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000-1536x864-s12000/element-alpha-mask.png",
+    "target_mid": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T233700001849Z-c2-lite-glyph-layout-clean-independent-recompose-c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000-1536x864-s12000/target-mid.png",
+    "target_crop_2x": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T233700001849Z-c2-lite-glyph-layout-clean-independent-recompose-c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000-1536x864-s12000/target-crop-2x.png",
+    "target_mid_crop_2x": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T233700001849Z-c2-lite-glyph-layout-clean-independent-recompose-c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000-1536x864-s12000/target-mid-crop-2x.png",
+    "text_boxes": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T233700001849Z-c2-lite-glyph-layout-clean-independent-recompose-c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000-1536x864-s12000/text-boxes.json",
+    "output": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T233700001849Z-c2-lite-glyph-layout-clean-independent-recompose-c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000-1536x864-s12000/output.mp4",
+    "metrics": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T233700001849Z-c2-lite-glyph-layout-clean-independent-recompose-c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000-1536x864-s12000/metrics.json",
+    "quality": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T233700001849Z-c2-lite-glyph-layout-clean-independent-recompose-c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000-1536x864-s12000/quality.json"
+  },
+  "ocr_similarity": 1.0,
+  "layout_similarity": 0.9999574022758745,
+  "motion_delta": 0.061461735516786575,
+  "loop_error": 0.0010150009766221046,
+  "status": "pass"
+}
+DONE 20260425T233700001849Z-c2-lite-glyph-layout-clean-independent-recompose-c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000-1536x864-s12000 quality=1.0000 motion=0.0615
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-Si36nFOJiFIbBVnYHRHb0g

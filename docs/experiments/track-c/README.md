@@ -240,20 +240,22 @@ C11.1 is complete and makes target-canvas `always` the next candidate. Against s
 
 C11.2 is complete. Target-canvas `always` is useful but target-dependent: it rescues naturalist OCR (`0.4878` pass vs blend `0.3366` fail), improves deep-sea OCR/residual (`0.8276` / `-0.0042` vs `0.8000` / `0.0023`), and improves timeline residual while keeping OCR high (`0.9032` / `0.0508` vs `0.9677` / `0.0749`). Orbit prefers blend for residual (`0.0447` vs `0.0607`) while both pass at OCR `1.0000`. State-split/direct fails on the fresh naturalist seed, so C11.3 compares target-canvas modes rather than carrying direct loss forward.
 
+C11.3 is complete. It keeps the work useful but warns against overfitting to a single mode. Naturalist `gated` has the best OCR (`0.4667`) but misses latency and worsens residual (`0.1527`), while `always` and `blend` both pass with similar residual (`0.1258` and `0.1278`). Orbit rejects gated and keeps blend/always as the viable pair (`1.0000` OCR with `0.0416`/`0.0440` residual). Timeline favors always over gated (`0.9677` OCR / `0.0453` residual vs `0.8750` / `0.0703`), while deep-sea favors gated on this seed (`0.8966` / `0.0081` vs `0.8125` / `0.0176`). C11.4 validates a target-specific policy on fresh seeds instead of tuning another scalar.
+
 Next experiments:
 
 ```text
-C113 target-canvas mode comparison:
-c113-v11-naturalist-indrecomp-blend-truthrem075-tpow025-seed9-s12000
-c113-v11-naturalist-indrecomp-tgated-truthrem075-tpow025-seed9-s12000
-c113-v11-naturalist-indrecomp-talways-truthrem075-tpow025-seed9-s12000
-c113-v10-orbit-indrecomp-blend-truthrem075-tpow1-seed8-s12000
-c113-v10-orbit-indrecomp-tgated-truthrem075-tpow1-seed8-s12000
-c113-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed8-s12000
-c113-v07-timeline-indrecomp-tgated-truthrem075-tpow1-seed6-s12000
-c113-v07-timeline-indrecomp-talways-truthrem075-tpow1-seed6-s12000
-c113-v12-deep-sea-indrecomp-tgated-truthrem075-tpow1-seed8-s12000
-c113-v12-deep-sea-indrecomp-talways-truthrem075-tpow1-seed8-s12000
+C114 mode-policy validation:
+c114-v11-naturalist-indrecomp-blend-truthrem075-tpow025-seed10-s12000
+c114-v11-naturalist-indrecomp-talways-truthrem075-tpow025-seed10-s12000
+c114-v10-orbit-indrecomp-blend-truthrem075-tpow1-seed9-s12000
+c114-v10-orbit-indrecomp-talways-truthrem075-tpow1-seed9-s12000
+c114-v12-deep-sea-indrecomp-talways-truthrem075-tpow1-seed9-s12000
+c114-v12-deep-sea-indrecomp-tgated-truthrem075-tpow1-seed9-s12000
+c114-v07-timeline-indrecomp-blend-truthrem075-tpow1-seed7-s12000
+c114-v07-timeline-indrecomp-talways-truthrem075-tpow1-seed7-s12000
+c114-v09-reef-indrecomp-talways-truthrem075-tpow1-seed7-s12000
+c114-v08-transit-indrecomp-talways-truthrem075-tpow1-seed3-s12000
 ```
 
 Suggested `results.tsv` header:
