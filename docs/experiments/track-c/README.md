@@ -168,6 +168,8 @@ C7.9 is a clean negative. The RGB texture made the renderer fast (`~909-1111ms`)
 
 C8.0 is a partial recovery. Attenuating the RGB base restores motion and improves quality over C79. The best run is `c80-rgbbase025-res200-nocontext-seed2-s14000` at OCR `0.5967`, segment `757.305ms`, and motion `0.0416`, just below the `0.045` motion gate. Context hurts this branch: the same base/residual with c8 context falls to OCR `0.4941`. C8.1 therefore focuses on no-context variants around base `0.20-0.30`, residual `2.0-3.0`, and slightly stronger layout amount to see whether the near-miss can clear motion without losing text.
 
+C8.1 produces the first attenuated-RGB-skip pass: `c81-nctx-b025-r250-a110-seed2-s14000` reaches OCR `0.5556`, segment `963.710ms`, and motion `0.0460`. It is still visibly ghosted, but it proves the RGB texture can be used as a detail prior without a render-time overlay, while still meeting the learned layout-reflow gates. C8.2 consolidates that basin across seeds and adjacent amount/residual settings before treating it as a new base architecture.
+
 Suggested `results.tsv` header:
 
 ```text

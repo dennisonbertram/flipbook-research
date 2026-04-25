@@ -2209,3 +2209,45 @@ C81 hypothesis:
 - The best C80 point needs a small motion push, not a new mechanism.
 - No-context RGB texture runs should be tested around the base `0.25` / residual `2.0` basin with residual `2.5-3.0`, base `0.20-0.30`, and layout amount `1.10`.
 - If the near-miss does not turn into a pass across seeds, RGB texture should be treated as a diagnostic branch rather than the main architecture path.
+
+Completed C81 results:
+
+```text
+c81-nctx-b025-r250-a110-seed2-s14000: OCR 0.5556, segment 963.710ms, motion_delta 0.0460, pass
+c81-nctx-b025-r200-a110-seed2-s14000: OCR 0.5870, segment 902.571ms, motion_delta 0.0418, quality_fail
+c81-nctx-b025-r300-a100-seed2-s14000: OCR 0.5780, segment 930.290ms, motion_delta 0.0441, quality_fail
+c81-nctx-b025-r250-a100-seed4-s14000: OCR 0.5647, segment 923.077ms, motion_delta 0.0412, quality_fail
+c81-nctx-b025-r250-a110-seed4-s14000: OCR 0.5444, segment 911.905ms, motion_delta 0.0451, quality_fail
+c81-nctx-b025-r250-a100-seed1-s14000: OCR 0.5083, segment 919.523ms, motion_delta 0.0426, quality_fail
+c81-nctx-b020-r250-a100-seed2-s14000: OCR 0.5031, segment 928.246ms, motion_delta 0.0422, quality_fail
+c81-nctx-b050-r400-a100-seed2-s14000: OCR 0.4750, segment 923.858ms, motion_delta 0.0477, quality_fail
+c81-nctx-b030-r250-a100-seed2-s14000: OCR 0.4684, segment 940.731ms, motion_delta 0.0440, quality_fail
+c81-nctx-b025-r250-a100-seed2-s14000: OCR 0.3834, segment 922.591ms, motion_delta 0.0416, quality_fail
+```
+
+Interpretation:
+
+- C81 gives the first pass for the attenuated RGB neural-texture branch. The winning recipe is no-context, base `0.25`, residual `2.5`, amount `1.10`, seed2.
+- The pass is narrow. Several neighbors are one gate away: residual `2.0` at amount `1.10` has higher OCR but too little motion; residual `3.0` at amount `1.0` is also close on motion.
+- Human review shows visible ghosting remains. This branch is viable but not mature.
+
+Next experiments:
+
+```text
+c82-nctx-b025-r250-a110-seed0-s14000
+c82-nctx-b025-r250-a110-seed1-s14000
+c82-nctx-b025-r250-a110-seed3-s14000
+c82-nctx-b025-r250-a110-seed5-s14000
+c82-nctx-b025-r200-a120-seed2-s14000
+c82-nctx-b025-r225-a115-seed2-s14000
+c82-nctx-b025-r300-a105-seed2-s14000
+c82-nctx-b025-r300-a110-seed2-s14000
+c82-nctx-b025-r225-a115-seed4-s14000
+c82-nctx-b025-r275-a110-seed4-s14000
+```
+
+C82 hypothesis:
+
+- If the C81 pass is a real basin, the base `0.25` / residual `2.5` / amount `1.10` recipe should repeat on at least one additional seed.
+- The high-OCR/low-motion neighbors may become stronger passes by nudging amount upward (`r2.0/a1.20`, `r2.25/a1.15`, `r3.0/a1.05-1.10`).
+- If C82 only reproduces seed2, the branch is still seed-sensitive and should be combined with a separate stabilization mechanism rather than promoted directly.
