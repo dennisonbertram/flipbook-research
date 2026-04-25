@@ -565,8 +565,11 @@ TSV_FIELDS = [
 
 def write_tsv(path: Path, eval_docs: list[dict[str, Any]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
+    def fmt_optional(value: Any, digits: int = 4) -> str:
+        return "" if value is None else f"{float(value):.{digits}f}"
+
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=TSV_FIELDS, delimiter="\t")
+        writer = csv.DictWriter(handle, fieldnames=TSV_FIELDS, delimiter="\t", lineterminator="\n")
         writer.writeheader()
         for doc in eval_docs:
             scenario = doc["scenarios"][0]
@@ -583,8 +586,8 @@ def write_tsv(path: Path, eval_docs: list[dict[str, Any]]) -> None:
                 "effective_generated_fps": f'{metrics["effective_generated_fps"]:.3f}' if metrics["effective_generated_fps"] is not None else "",
                 "ocr_token_f1_min": f'{metrics["ocr_token_f1_min"]:.4f}',
                 "ocr_token_f1_mean": f'{metrics["ocr_token_f1_mean"]:.4f}',
-                "source_frame_ocr_f1": f'{float(metrics["source_frame_ocr_f1"] or 0.0):.4f}',
-                "last_frame_ocr_f1": f'{float(metrics["last_frame_ocr_f1"] or 0.0):.4f}',
+                "source_frame_ocr_f1": fmt_optional(metrics["source_frame_ocr_f1"]),
+                "last_frame_ocr_f1": fmt_optional(metrics["last_frame_ocr_f1"]),
                 "layout_similarity": f'{float(metrics["layout_similarity"] or 0.0):.4f}',
                 "resize_consistency": f'{float(metrics["resize_consistency"] or 0.0):.4f}',
                 "temporal_consistency": f'{float(metrics["temporal_consistency"] or 0.0):.4f}',
@@ -615,7 +618,7 @@ def write_tsv(path: Path, eval_docs: list[dict[str, Any]]) -> None:
                 "source_only_edge_source_delta": f'{float(metrics["source_only_edge_source_delta"] or 0.0):.4f}',
                 "source_only_edge_bias": f'{float(metrics["source_only_edge_bias"] or 0.0):.4f}',
                 "pixel_source_class": doc["pixel_source_class"],
-                "failed_gates": ",".join(scenario["failed_gates"]),
+                "failed_gates": ",".join(scenario["failed_gates"]) or "-",
             }
             writer.writerow(row)
 
