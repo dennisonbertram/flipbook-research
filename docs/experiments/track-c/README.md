@@ -164,6 +164,8 @@ C7.7 is a negative basin map. No C77 run passes; the best new seed reaches OCR `
 
 C7.8 is also negative. Fusing source and target features into the residual branch raises cost and does not stabilize the basin: the best-quality C78 run reaches OCR `0.6038` but misses latency at `1499.870ms`, while the best fast run stays below the OCR gate. The lesson is that more coordinate/feature concatenation is not enough. C7.9 pivots to a learned RGB neural texture skip: initialize a model parameter with the page RGB logits, sample it through the same source/target coordinate path, and ask the MLP to learn bounded residual corrections. This remains pixel-native model output, not an overlay, and directly tests whether high-frequency strokes need a more spatial base representation than latent-feature reconstruction alone.
 
+C7.9 is a clean negative. The RGB texture made the renderer fast (`~909-1111ms`) but too rigid: the best OCR run is `c79-rgbskip-s100-c8-seed2-s14000` at OCR `0.4952`, with motion only `0.0228`. Lower residual scales often collapse motion to zero. Visual review shows ghosted/smeared source texture rather than a clean new layout. C8.0 keeps the useful idea but attenuates the RGB base logits and increases residual capacity, testing whether the texture can become a detail prior instead of an uneraseable copy of the source page.
+
 Suggested `results.tsv` header:
 
 ```text

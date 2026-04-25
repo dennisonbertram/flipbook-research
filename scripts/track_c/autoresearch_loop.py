@@ -80,6 +80,7 @@ def general_visual_motion_args(
     target_branch_hidden: int | None = None,
     rgb_skip_scale: float | None = None,
     rgb_skip_mode: str | None = None,
+    rgb_skip_base_scale: float | None = None,
     freq_bands: int | None = None,
     time_bands: int | None = None,
     lr: float | None = None,
@@ -212,6 +213,8 @@ def general_visual_motion_args(
         args.extend(["--rgb-skip-scale", f"{rgb_skip_scale:g}"])
     if rgb_skip_mode is not None:
         args.extend(["--rgb-skip-mode", rgb_skip_mode])
+    if rgb_skip_base_scale is not None:
+        args.extend(["--rgb-skip-base-scale", f"{rgb_skip_base_scale:g}"])
     if batch_size is not None:
         args.extend(["--batch-size", str(batch_size)])
     if freq_bands is not None:
@@ -585,6 +588,7 @@ def learned_layout_reflow_experiment(
     target_branch_hidden: int | None = None,
     rgb_skip_scale: float | None = None,
     rgb_skip_mode: str | None = None,
+    rgb_skip_base_scale: float | None = None,
     freq_bands: int = 10,
     time_bands: int | None = None,
     lr: float | None = None,
@@ -650,7 +654,8 @@ def learned_layout_reflow_experiment(
         else ""
     )
     rgb_skip_note = (
-        f", rgb neural texture skip {rgb_skip_scale:g} {rgb_skip_mode or 'source'}"
+        f", rgb neural texture skip base {rgb_skip_base_scale if rgb_skip_base_scale is not None else 1:g}"
+        f" residual {rgb_skip_scale:g} {rgb_skip_mode or 'source'}"
         if rgb_skip_scale
         else ""
     )
@@ -711,6 +716,7 @@ def learned_layout_reflow_experiment(
             target_branch_hidden=target_branch_hidden,
             rgb_skip_scale=rgb_skip_scale,
             rgb_skip_mode=rgb_skip_mode,
+            rgb_skip_base_scale=rgb_skip_base_scale,
             freq_bands=freq_bands,
             time_bands=time_bands,
             lr=lr,
@@ -748,6 +754,46 @@ def learned_layout_reflow_experiment(
             min_motion=min_motion,
         ),
     )
+
+
+C80_ATTENUATED_RGB_SKIP_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        context_channels=context_channels,
+        context_scale=0.25,
+        rgb_skip_scale=rgb_skip_scale,
+        rgb_skip_mode="source",
+        rgb_skip_base_scale=rgb_skip_base_scale,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    )
+    for label, seed, context_channels, rgb_skip_base_scale, rgb_skip_scale in [
+        ("c80-rgbbase025-res100-c8-seed2-s14000", 2, 8, 0.25, 1.0),
+        ("c80-rgbbase025-res200-c8-seed2-s14000", 2, 8, 0.25, 2.0),
+        ("c80-rgbbase025-res400-c8-seed2-s14000", 2, 8, 0.25, 4.0),
+        ("c80-rgbbase050-res200-c8-seed2-s14000", 2, 8, 0.50, 2.0),
+        ("c80-rgbbase050-res400-c8-seed2-s14000", 2, 8, 0.50, 4.0),
+        ("c80-rgbbase075-res200-c8-seed2-s14000", 2, 8, 0.75, 2.0),
+        ("c80-rgbbase025-res200-c8-seed4-s14000", 4, 8, 0.25, 2.0),
+        ("c80-rgbbase050-res400-c8-seed4-s14000", 4, 8, 0.50, 4.0),
+        ("c80-rgbbase050-res400-c8-seed1-s14000", 1, 8, 0.50, 4.0),
+        ("c80-rgbbase025-res200-nocontext-seed2-s14000", 2, 0, 0.25, 2.0),
+    ]
+]
 
 
 C79_RGB_SKIP_EXPERIMENTS = [
@@ -1148,6 +1194,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C80_ATTENUATED_RGB_SKIP_EXPERIMENTS,
     *C79_RGB_SKIP_EXPERIMENTS,
     *C78_FUSED_RESIDUAL_DECODER_EXPERIMENTS,
     *C77_DUAL_RESIDUAL_BASIN_MAP_EXPERIMENTS,

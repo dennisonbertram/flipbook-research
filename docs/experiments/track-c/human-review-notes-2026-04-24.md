@@ -2125,3 +2125,45 @@ C79 hypothesis:
 - A learned RGB neural texture initialized from the page can carry high-frequency strokes as model parameters, while the MLP learns bounded corrections for layout reflow.
 - Source-mode RGB sampling should behave like neural texture transport rather than an overlay: the output is still produced through the neural renderer and evaluated under reflow/resize.
 - If text blur is caused by reconstructing glyphs from a compressed latent feature grid, C79 should improve OCR without needing rectangular masks, OCR replacement, or a DOM/layout layer.
+
+Completed C79 results:
+
+```text
+c79-rgbskip-s100-c8-seed2-s14000: OCR 0.4952, segment 990.376ms, motion_delta 0.0228, quality_fail
+c79-rgbskip-s050-c8-seed2-s14000: OCR 0.3495, segment 984.223ms, motion_delta 0.0126, quality_fail
+c79-rgbskip-s050-c8-seed4-s14000: OCR 0.3396, segment 962.059ms, motion_delta 0.0132, quality_fail
+c79-rgbskip-s050-nocontext-seed2-s14000: OCR 0.3188, segment 908.605ms, motion_delta 0.0122, quality_fail
+c79-rgbskip-s050-c8-seed1-s14000: OCR 0.2949, segment 970.575ms, motion_delta 0.0134, quality_fail
+c79-rgbskip-s050-nocontext-seed1-s14000: OCR 0.2574, segment 1110.597ms, motion_delta 0.0125, quality_fail
+c79-rgbskip-s025-c8-seed4-s14000: OCR 0.1905, segment 972.520ms, motion_delta 0.0000, quality_fail
+c79-rgbskip-s025-c8-seed1-s14000: OCR 0.1281, segment 978.889ms, motion_delta 0.0068, quality_fail
+c79-rgbskip-s025-c8-seed2-s14000: OCR 0.0421, segment 1020.991ms, motion_delta 0.0000, quality_fail
+c79-rgbskip-s100-c8-seed5-s14000: OCR 0.0247, segment 951.048ms, motion_delta 0.0029, quality_fail
+```
+
+Interpretation:
+
+- C79 is a negative result but it is informative: the source RGB neural texture became too rigid. It preserved/corrupted source detail instead of cleanly reflowing it.
+- The best OCR run uses the largest residual scale and still misses both OCR and motion gates. That says the issue is not speed; it is inability to erase/repaint around the transported texture.
+- Visual review of the best run shows ghosting and red/cyan smear around text/diagram lines, consistent with source texture dominance.
+
+Next experiments:
+
+```text
+c80-rgbbase025-res100-c8-seed2-s14000
+c80-rgbbase025-res200-c8-seed2-s14000
+c80-rgbbase025-res400-c8-seed2-s14000
+c80-rgbbase050-res200-c8-seed2-s14000
+c80-rgbbase050-res400-c8-seed2-s14000
+c80-rgbbase075-res200-c8-seed2-s14000
+c80-rgbbase025-res200-c8-seed4-s14000
+c80-rgbbase050-res400-c8-seed4-s14000
+c80-rgbbase050-res400-c8-seed1-s14000
+c80-rgbbase025-res200-nocontext-seed2-s14000
+```
+
+C80 hypothesis:
+
+- The RGB texture can still be useful if it is a detail prior rather than an uneraseable source copy.
+- Attenuating base logits (`0.25-0.75`) and increasing bounded residual scale (`1-4`) should let the renderer erase/repaint while keeping a spatial hint for strokes.
+- If C80 remains below C75/C62, the project should stop pursuing direct RGB skips and return to structured transport/decoder architectures.
