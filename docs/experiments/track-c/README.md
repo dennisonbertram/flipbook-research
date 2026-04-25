@@ -184,6 +184,8 @@ C8.6 moves to a clean two-state page stress. The renderer now has `layout-clean-
 
 C8.6 is the strongest evidence so far for the pure neural-canvas path. Eight of ten runs pass the clean page-state gate, with median OCR `0.6979` and median segment wall time `923.214ms`. The best run, `c86-clean-c32h160-target60-mid20-seed1-s12000`, reaches OCR `0.7527`, motion `0.0600`, and segment `752.003ms`. Visual review shows the midpoint closely matches the separately rendered target page rather than leaving the old page visibly stretched underneath. The caveat is important: the target is still a deterministic fixture, not a generated open-world page, so C8.7 should stress multiple clean target layouts before claiming generality.
 
+C8.7 starts that generality check. It keeps the C86 winning recipe (`C32/H160`, no context, source-coordinate features, cross latent neighborhood, target ratio `0.60`, target-mid ratio `0.20`) and swaps in two new clean target variants: `right-diagram` and `stacked`. The question is whether the success survives materially different page geometry, not whether another capacity trick can overfit the original target.
+
 Suggested `results.tsv` header:
 
 ```text

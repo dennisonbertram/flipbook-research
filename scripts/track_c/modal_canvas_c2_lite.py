@@ -190,7 +190,13 @@ def wrap_text(draw: ImageDraw.ImageDraw, text: str, font: ImageFont.ImageFont, m
     return "\n".join(lines)
 
 
-def create_clean_reflow_target(width: int, height: int) -> Image.Image:
+def create_clean_reflow_target(width: int, height: int, variant: str = "diagram-left") -> Image.Image:
+    variant_key = str(variant or "diagram-left").lower().replace("_", "-")
+    if variant_key in {"right-diagram", "cards-left", "variant1", "v1"}:
+        return create_clean_reflow_target_right_diagram(width, height)
+    if variant_key in {"stacked", "poster-grid", "variant2", "v2"}:
+        return create_clean_reflow_target_stacked(width, height)
+
     img = Image.new("RGB", (width, height), "#f6f4ef")
     draw = ImageDraw.Draw(img)
 
@@ -305,6 +311,173 @@ def create_clean_reflow_target(width: int, height: int) -> Image.Image:
             spacing=3,
         )
 
+    return img
+
+
+def create_clean_reflow_target_right_diagram(width: int, height: int) -> Image.Image:
+    img = Image.new("RGB", (width, height), "#f4f6f8")
+    draw = ImageDraw.Draw(img)
+    margin = int(width * 0.055)
+    top = int(height * 0.055)
+    ink = "#15191d"
+    muted = "#59636f"
+    line = "#bdc7cf"
+    accent = "#0e7490"
+    green = "#567c4f"
+
+    draw.rounded_rectangle(
+        [margin, top, width - margin, height - top],
+        radius=max(10, width // 110),
+        fill="#ffffff",
+        outline=line,
+        width=2,
+    )
+    title_font = fixture_font(max(28, width // 32), bold=True)
+    sub_font = fixture_font(max(14, width // 82))
+    h_font = fixture_font(max(17, width // 66), bold=True)
+    body_font = fixture_font(max(13, width // 88))
+    tiny_font = fixture_font(max(10, width // 116))
+
+    x0 = margin + int(width * 0.032)
+    y0 = top + int(height * 0.035)
+    draw.text((x0, y0), "Sketchapedia: Roman Colosseum", fill=ink, font=title_font)
+    draw.text((x0, y0 + int(height * 0.058)), "Clean target variant: cards shift left, diagram moves right.", fill=muted, font=sub_font)
+
+    content_top = top + int(height * 0.145)
+    content_bottom = height - top - int(height * 0.075)
+    gap = int(width * 0.028)
+    cards_x = x0
+    cards_w = int(width * 0.39)
+    diagram_x = cards_x + cards_w + gap
+    diagram_w = width - margin - int(width * 0.032) - diagram_x
+
+    sections = [
+        ("Arena Floor", "Trapdoors, lifts, and service passages created sudden reveals during public spectacles."),
+        ("Velarium", "A retractable awning system shaded spectators and required coordinated rope handling."),
+        ("Seating", "Social order was encoded into the architecture through tiered, separated seating bands."),
+        ("Materials", "Travertine, tuff, brick, and concrete carried both structure and ornament."),
+    ]
+    card_gap = int(height * 0.022)
+    card_h = (content_bottom - content_top - 3 * card_gap) // 4
+    for index, (heading, body) in enumerate(sections):
+        y = content_top + index * (card_h + card_gap)
+        draw.rounded_rectangle(
+            [cards_x, y, cards_x + cards_w, y + card_h],
+            radius=max(7, width // 180),
+            fill="#fffaf2",
+            outline="#ded3c5",
+            width=1,
+        )
+        draw.text((cards_x + 18, y + 12), heading, fill=ink, font=h_font)
+        draw.line((cards_x + 18, y + 40, cards_x + cards_w - 18, y + 40), fill="#d5c8b8", width=1)
+        draw.multiline_text((cards_x + 18, y + 52), wrap_text(draw, body, body_font, cards_w - 36), fill="#252525", font=body_font, spacing=4)
+
+    draw.rounded_rectangle(
+        [diagram_x, content_top, diagram_x + diagram_w, content_bottom],
+        radius=max(8, width // 140),
+        fill="#eef7f4",
+        outline="#a8c7bf",
+        width=2,
+    )
+    draw.text((diagram_x + 24, content_top + 22), "Annotated Section Diagram", fill=ink, font=h_font)
+    cx = diagram_x + int(diagram_w * 0.50)
+    cy = content_top + int((content_bottom - content_top) * 0.54)
+    rx = int(diagram_w * 0.36)
+    ry = int((content_bottom - content_top) * 0.18)
+    for offset, color in [(0, accent), (18, "#66a8bd"), (36, green), (54, "#937d50")]:
+        draw.ellipse([cx - rx + offset, cy - ry + offset // 3, cx + rx - offset, cy + ry - offset // 3], outline=color, width=3)
+    draw.rectangle([cx - 16, cy - 58, cx + 16, cy + 58], fill="#fffdf8", outline="#cabfae")
+    for text, lx, ly in [
+        ("upper seating", cx + rx - 4, cy - ry - 22),
+        ("awnings", cx - rx - 78, cy - ry + 34),
+        ("arena floor", cx + rx + 12, cy + 6),
+        ("service level", cx - rx - 96, cy + ry - 28),
+    ]:
+        draw.text((lx, ly), text, fill=ink, font=tiny_font)
+        draw.line((lx - 8, ly + 8, cx, cy), fill="#8aa4a1", width=1)
+
+    note_y = content_bottom + int(height * 0.025)
+    notes = ["Text remains readable.", "Diagram stays stable.", "Loop boundary stays quiet."]
+    note_w = (width - 2 * x0) // 3
+    for idx, note in enumerate(notes):
+        draw.text((x0 + idx * note_w, note_y), f"{idx + 1}. {note}", fill="#263238", font=tiny_font)
+    return img
+
+
+def create_clean_reflow_target_stacked(width: int, height: int) -> Image.Image:
+    img = Image.new("RGB", (width, height), "#f7f3ed")
+    draw = ImageDraw.Draw(img)
+    margin = int(width * 0.055)
+    top = int(height * 0.055)
+    ink = "#171717"
+    muted = "#5d5f66"
+    line = "#c9c0b2"
+    accent = "#146c94"
+    green = "#557a46"
+
+    draw.rounded_rectangle(
+        [margin, top, width - margin, height - top],
+        radius=max(10, width // 110),
+        fill="#fffefa",
+        outline=line,
+        width=2,
+    )
+    title_font = fixture_font(max(28, width // 32), bold=True)
+    sub_font = fixture_font(max(14, width // 82))
+    h_font = fixture_font(max(17, width // 66), bold=True)
+    body_font = fixture_font(max(12, width // 92))
+    tiny_font = fixture_font(max(10, width // 116))
+
+    x0 = margin + int(width * 0.032)
+    y0 = top + int(height * 0.032)
+    draw.text((x0, y0), "Sketchapedia: Roman Colosseum", fill=ink, font=title_font)
+    draw.text((x0, y0 + int(height * 0.058)), "Clean target variant: wide diagram above four compact study cards.", fill=muted, font=sub_font)
+
+    diagram_top = top + int(height * 0.14)
+    diagram_h = int(height * 0.42)
+    diagram_x = x0
+    diagram_w = width - 2 * x0
+    draw.rounded_rectangle(
+        [diagram_x, diagram_top, diagram_x + diagram_w, diagram_top + diagram_h],
+        radius=max(8, width // 140),
+        fill="#eef6f8",
+        outline="#a9c4ce",
+        width=2,
+    )
+    draw.text((diagram_x + 24, diagram_top + 20), "Annotated Section Diagram", fill=ink, font=h_font)
+    cx = diagram_x + int(diagram_w * 0.50)
+    cy = diagram_top + int(diagram_h * 0.58)
+    rx = int(diagram_w * 0.28)
+    ry = int(diagram_h * 0.22)
+    for offset, color in [(0, accent), (18, "#6aa6b8"), (36, green), (54, "#8d7a4f")]:
+        draw.ellipse([cx - rx + offset, cy - ry + offset // 3, cx + rx - offset, cy + ry - offset // 3], outline=color, width=3)
+    draw.rectangle([cx - 18, cy - 56, cx + 18, cy + 56], fill="#fffdf8", outline=line)
+    labels = [
+        ("upper seating", cx + rx + 18, cy - ry - 8),
+        ("awnings", cx - rx - 92, cy - ry + 18),
+        ("arena floor", cx + rx + 24, cy + 10),
+        ("service level", cx - rx - 112, cy + ry - 24),
+    ]
+    for text, lx, ly in labels:
+        draw.text((lx, ly), text, fill=ink, font=tiny_font)
+        draw.line((lx - 8, ly + 8, cx, cy), fill="#8aa4a1", width=1)
+
+    sections = [
+        ("Arena Floor", "Trapdoors, lifts, and service passages created sudden reveals during public spectacles."),
+        ("Velarium", "A retractable awning system shaded spectators and required coordinated rope handling."),
+        ("Seating", "Social order was encoded into the architecture through tiered, separated seating bands."),
+        ("Materials", "Travertine, tuff, brick, and concrete carried both structure and ornament."),
+    ]
+    cards_top = diagram_top + diagram_h + int(height * 0.035)
+    card_gap = int(width * 0.018)
+    card_w = (diagram_w - 3 * card_gap) // 4
+    card_h = height - top - int(height * 0.06) - cards_top
+    for index, (heading, body) in enumerate(sections):
+        x = diagram_x + index * (card_w + card_gap)
+        draw.rounded_rectangle([x, cards_top, x + card_w, cards_top + card_h], radius=max(7, width // 180), fill="#fff9ef", outline="#ddd1bf", width=1)
+        draw.text((x + 14, cards_top + 12), heading, fill=ink, font=h_font)
+        draw.line((x + 14, cards_top + 40, x + card_w - 14, cards_top + 40), fill="#d5c8b8", width=1)
+        draw.multiline_text((x + 14, cards_top + 52), wrap_text(draw, body, body_font, card_w - 28), fill="#2b2b2b", font=body_font, spacing=4)
     return img
 
 
@@ -963,6 +1136,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     gradient_loss_offset_px = float(config.get("gradient_loss_offset_px", 1.0))
     motion_mode = str(config.get("motion_mode", "jiggle"))
     motion_strength = float(config.get("motion_strength", flow_scale))
+    clean_target_variant = str(config.get("clean_target_variant", "diagram-left"))
     video_viewport_mode = str(config.get("video_viewport_mode", "static"))
     viewport_zoom = float(config.get("viewport_zoom", 0.0))
     viewport_pan = float(config.get("viewport_pan", 0.0))
@@ -1048,7 +1222,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     clean_glyph_prob = None
     clean_glyph_weight_chw = None
     if motion_mode in clean_layout_motion_modes:
-        clean_image = create_clean_reflow_target(train_w, train_h)
+        clean_image = create_clean_reflow_target(train_w, train_h, clean_target_variant)
         clean_target = torch.from_numpy(np.asarray(clean_image, dtype=np.float32) / 255.0).to(device)
         clean_target_chw = clean_target.permute(2, 0, 1).unsqueeze(0)
 
@@ -1899,6 +2073,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "flow_scale": flow_scale,
         "motion_mode": motion_mode,
         "motion_strength": motion_strength,
+        "clean_target_variant": clean_target_variant,
         "video_viewport_mode": video_viewport_mode,
         "viewport_zoom": viewport_zoom,
         "viewport_pan": viewport_pan,
@@ -1985,6 +2160,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         metrics["description"] += " Residual detail canvas/head enabled for high-frequency pixel correction."
     if source_coord_features:
         metrics["description"] += " Learned warped/source coordinate features are included in the renderer MLP."
+    if motion_mode in clean_layout_motion_modes:
+        metrics["description"] += f" Clean target fixture variant: {clean_target_variant}."
     if layout_flow_loss_weight > 0.0:
         metrics["description"] += " Learned flow is supervised toward the known inverse layout-reflow map."
     if layout_oracle_flow:
@@ -2072,6 +2249,7 @@ def main(
     flow_scale: float = 0.006,
     motion_mode: str = "jiggle",
     motion_strength: float = -1.0,
+    clean_target_variant: str = "diagram-left",
     video_viewport_mode: str = "static",
     viewport_zoom: float = 0.0,
     viewport_pan: float = 0.0,
@@ -2158,6 +2336,7 @@ def main(
         "flow_scale": flow_scale,
         "motion_mode": motion_mode,
         "motion_strength": motion_strength,
+        "clean_target_variant": clean_target_variant,
         "video_viewport_mode": video_viewport_mode,
         "viewport_zoom": viewport_zoom,
         "viewport_pan": viewport_pan,

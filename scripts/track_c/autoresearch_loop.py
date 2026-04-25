@@ -115,6 +115,7 @@ def general_visual_motion_args(
     layout_endpoint_ratio: float | None = None,
     layout_endpoint_target_ratio: float | None = None,
     motion_mode: str = "jiggle",
+    clean_target_variant: str | None = None,
     motion_strength: float | None = None,
     video_viewport_mode: str = "static",
     viewport_zoom: float = 0.0,
@@ -153,6 +154,8 @@ def general_visual_motion_args(
         "--min-motion-delta",
         f"{min_motion:g}",
     ]
+    if clean_target_variant is not None:
+        args.extend(["--clean-target-variant", clean_target_variant])
     if video_viewport_mode != "static":
         args.extend(
             [
@@ -628,6 +631,7 @@ def learned_layout_reflow_experiment(
     layout_endpoint_ratio: float | None = None,
     layout_endpoint_target_ratio: float | None = None,
     motion_mode: str = "layout-reflow",
+    clean_target_variant: str | None = None,
     min_ocr: float = 0.35,
     min_motion: float = 0.035,
 ) -> Experiment:
@@ -701,11 +705,12 @@ def learned_layout_reflow_experiment(
         if layout_endpoint_ratio
         else ""
     )
+    clean_variant_note = f", clean target {clean_target_variant}" if clean_mode and clean_target_variant else ""
     return Experiment(
         label=label,
         notes=(
             f"{proof_name}: {proof_detail}; output remains direct neural-canvas pixels. "
-            f"amount {amount:g}, flow scale {flow_scale:g}, {steps} steps, freq{freq_bands}{clip_note}{l1_note}{grad_note}{seed_note}{detail_note}{source_coord_note}{neighborhood_note}{context_note}{decoder_note}{rgb_skip_note}{text_note}{target_note}{mid_note}{flow_loss_note}{oracle_note}{curriculum_note}{endpoint_note}."
+            f"amount {amount:g}, flow scale {flow_scale:g}, {steps} steps, freq{freq_bands}{clip_note}{l1_note}{grad_note}{seed_note}{detail_note}{source_coord_note}{neighborhood_note}{context_note}{decoder_note}{rgb_skip_note}{text_note}{target_note}{mid_note}{flow_loss_note}{oracle_note}{curriculum_note}{endpoint_note}{clean_variant_note}."
         ),
         args=general_visual_motion_args(
             label,
@@ -767,11 +772,51 @@ def learned_layout_reflow_experiment(
             layout_endpoint_ratio=layout_endpoint_ratio,
             layout_endpoint_target_ratio=layout_endpoint_target_ratio,
             motion_mode=motion_mode,
+            clean_target_variant=clean_target_variant,
             motion_strength=amount,
             min_ocr=min_ocr,
             min_motion=min_motion,
         ),
     )
+
+
+C87_CLEAN_TARGET_VARIANT_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=12000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_target_mid_sampling_ratio=mid_target_ratio,
+        layout_target_mid_time_width=mid_target_width,
+        layout_mid_time_ratio=0.65,
+        layout_mid_time_width=0.20,
+        motion_mode="layout-clean-reflow",
+        clean_target_variant=variant,
+        min_ocr=0.35,
+        min_motion=0.05,
+    )
+    for label, variant, seed, mid_target_ratio, mid_target_width in [
+        ("c87-v1-c32h160-target60-mid20-seed0-s12000", "right-diagram", 0, 0.20, 0.18),
+        ("c87-v1-c32h160-target60-mid20-seed1-s12000", "right-diagram", 1, 0.20, 0.18),
+        ("c87-v1-c32h160-target60-mid20-seed2-s12000", "right-diagram", 2, 0.20, 0.18),
+        ("c87-v1-c32h160-target60-mid20-seed4-s12000", "right-diagram", 4, 0.20, 0.18),
+        ("c87-v2-c32h160-target60-mid20-seed0-s12000", "stacked", 0, 0.20, 0.18),
+        ("c87-v2-c32h160-target60-mid20-seed1-s12000", "stacked", 1, 0.20, 0.18),
+        ("c87-v2-c32h160-target60-mid20-seed2-s12000", "stacked", 2, 0.20, 0.18),
+        ("c87-v2-c32h160-target60-mid20-seed4-s12000", "stacked", 4, 0.20, 0.18),
+        ("c87-v1-c32h160-target60-mid35-seed0-s12000", "right-diagram", 0, 0.35, 0.22),
+        ("c87-v2-c32h160-target60-mid35-seed0-s12000", "stacked", 0, 0.35, 0.22),
+    ]
+]
 
 
 C86_CLEAN_PAGE_STATE_EXPERIMENTS = [
@@ -1474,6 +1519,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C87_CLEAN_TARGET_VARIANT_EXPERIMENTS,
     *C86_CLEAN_PAGE_STATE_EXPERIMENTS,
     *C85_LEARNED_GATE_CONSOLIDATION_EXPERIMENTS,
     *C84_RGB_SKIP_GATE_EXPERIMENTS,

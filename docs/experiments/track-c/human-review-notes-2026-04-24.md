@@ -2446,5 +2446,20 @@ Interpretation:
 Next experiments:
 
 ```text
-C87: clean target variant/generalization sweep around c32/h160, target60, mid20, no context.
+c87-v1-c32h160-target60-mid20-seed0-s12000
+c87-v1-c32h160-target60-mid20-seed1-s12000
+c87-v1-c32h160-target60-mid20-seed2-s12000
+c87-v1-c32h160-target60-mid20-seed4-s12000
+c87-v2-c32h160-target60-mid20-seed0-s12000
+c87-v2-c32h160-target60-mid20-seed1-s12000
+c87-v2-c32h160-target60-mid20-seed2-s12000
+c87-v2-c32h160-target60-mid20-seed4-s12000
+c87-v1-c32h160-target60-mid35-seed0-s12000
+c87-v2-c32h160-target60-mid35-seed0-s12000
 ```
+
+C87 hypothesis:
+
+- If C86 is not just target-fixture overfit, the same C32/H160 recipe should pass on both `right-diagram` and `stacked` clean target variants.
+- Failure on one variant would point to target distribution sensitivity rather than renderer speed/capacity.
+- Passing both variants would justify moving from single-pair neural canvas to multi-state or generated-target tests.
