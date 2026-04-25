@@ -87,6 +87,7 @@ Initial hosted-video results:
 | `20260425T135104Z-fal-kling-canal-city-illustration-960x540` | Kling 2.5 Turbo | 121 frames, 1280x720 | `59.151s` | pass with text gate skipped | Stronger visual fidelity than LTX on illustration; useful bridge-model candidate. |
 | `20260425T135104Z-fal-ltx-canal-city-illustration-960x540` | fal LTX 13B distilled | 33 frames, 832x480 | `78.475s` | pass with text gate skipped | Lower resolution and visibly softer than Kling. |
 | `20260425T144658Z-fal-kling-fal-kling-naturalist-etching-960x540-960x540` | Kling 2.5 Turbo | 121 frames, 1280x720 | `47.176s` | pass with text gate skipped | Best human-picked hosted result so far; preserves the 1800s naturalist-plate style and linework. |
+| `20260425T160020Z-fal-kling-fal-kling-naturalist-etching-living-v2-960x540-960x540` | Kling 2.5 Turbo | 121 frames, 1280x720 | `49.403s` | pass with text gate skipped | Stable naturalist-plate follow-up; prompt adds little extra visible motion versus the favorite. |
 
 Interpretation:
 
@@ -97,3 +98,5 @@ Kling looks useful for rich imagery where exact text is not the target. It is no
 The naturalist etching fixture was generated with OpenAI `gpt-image-2` in `36.6s`, then animated with Kling in `47.176s` plus `0.914s` download time. The MP4 is `5.041667s`, so the hosted animation request is about `9.5x` slower than realtime, or about `16.8x` slower end-to-end including source image generation.
 
 This is the strongest Track V quality reference so far, not a realtime proof. It suggests a useful bridge path for beautiful generated imagery, while Track C remains the path for "every pixel is rendered live by the model."
+
+The `living-v2` follow-up used a slightly stronger animation prompt on the same plate. It remains visually stable, but the contact sheet shows only subtle motion. It is therefore a good preservation reference, not evidence that prompt-only Kling settings solve more dynamic page motion.
