@@ -204,6 +204,10 @@ def create_clean_reflow_target(width: int, height: int, variant: str = "diagram-
         return create_clean_reflow_target_unboxed_columns(width, height, changed=True)
     if variant_key in {"changed-callout", "new-copy-callout", "variant6", "v6"}:
         return create_clean_reflow_target_callout_map(width, height, changed=True)
+    if variant_key in {"timeline-illustration", "new-illustration-timeline", "variant7", "v7"}:
+        return create_clean_reflow_target_timeline_illustration(width, height)
+    if variant_key in {"transit-illustration", "new-illustration-transit", "variant8", "v8"}:
+        return create_clean_reflow_target_transit_illustration(width, height)
 
     img = Image.new("RGB", (width, height), "#f6f4ef")
     draw = ImageDraw.Draw(img)
@@ -682,6 +686,209 @@ def create_clean_reflow_target_callout_map(width: int, height: int, changed: boo
         else "No card boxes. Text, labels, and diagram must resolve as one generated page state."
     )
     draw.text((x0, content_bottom - int(height * 0.02)), footer, fill=muted, font=tiny_font)
+    return img
+
+
+def create_clean_reflow_target_timeline_illustration(width: int, height: int) -> Image.Image:
+    img = Image.new("RGB", (width, height), "#f4f7f7")
+    draw = ImageDraw.Draw(img)
+    margin = int(width * 0.055)
+    top = int(height * 0.055)
+    ink = "#151719"
+    muted = "#59646a"
+    line = "#b9c7c9"
+    accent = "#0e7490"
+    ochre = "#9a6b2f"
+    green = "#567c4f"
+
+    draw.rounded_rectangle(
+        [margin, top, width - margin, height - top],
+        radius=max(10, width // 110),
+        fill="#fffef8",
+        outline=line,
+        width=2,
+    )
+    title_font = fixture_font(max(28, width // 32), bold=True)
+    sub_font = fixture_font(max(14, width // 82))
+    h_font = fixture_font(max(17, width // 66), bold=True)
+    body_font = fixture_font(max(13, width // 92))
+    tiny_font = fixture_font(max(10, width // 116))
+
+    x0 = margin + int(width * 0.032)
+    y0 = top + int(height * 0.032)
+    draw.text((x0, y0), "Sketchapedia: Roman Colosseum", fill=ink, font=title_font)
+    draw.text(
+        (x0, y0 + int(height * 0.058)),
+        "Clean target variant: new timeline illustration and changed copy.",
+        fill=muted,
+        font=sub_font,
+    )
+
+    content_top = top + int(height * 0.15)
+    content_bottom = height - top - int(height * 0.06)
+    left_x = x0
+    left_w = int(width * 0.56)
+    right_x = left_x + left_w + int(width * 0.05)
+    right_w = width - margin - int(width * 0.035) - right_x
+
+    draw.text((left_x, content_top), "Construction Timeline Map", fill=ink, font=h_font)
+    rail_y = content_top + int(height * 0.25)
+    rail_x0 = left_x + int(width * 0.025)
+    rail_x1 = left_x + left_w - int(width * 0.025)
+    draw.line((rail_x0, rail_y, rail_x1, rail_y), fill="#aab9bd", width=5)
+    milestones = [
+        ("70", "site", rail_x0, "#6aa6b8"),
+        ("72", "stone", rail_x0 + int((rail_x1 - rail_x0) * 0.28), ochre),
+        ("76", "vaults", rail_x0 + int((rail_x1 - rail_x0) * 0.58), green),
+        ("80", "opening", rail_x1, accent),
+    ]
+    for year, label, x, color in milestones:
+        draw.ellipse([x - 28, rail_y - 28, x + 28, rail_y + 28], fill="#fffdf8", outline=color, width=4)
+        draw.text((x - 15, rail_y - 13), year, fill=ink, font=tiny_font)
+        draw.text((x - 28, rail_y + 38), label, fill=ink, font=tiny_font)
+
+    lower_top = rail_y + int(height * 0.13)
+    band_h = int(height * 0.055)
+    bands = [
+        ("quarries", "#d8b56a", 0.14, 0.55),
+        ("arches", "#8bb5c2", 0.30, 0.78),
+        ("seating", "#9fb98a", 0.44, 0.92),
+    ]
+    for idx, (label, color, start, end) in enumerate(bands):
+        y = lower_top + idx * int(height * 0.085)
+        x_start = rail_x0 + int((rail_x1 - rail_x0) * start)
+        x_end = rail_x0 + int((rail_x1 - rail_x0) * end)
+        draw.rounded_rectangle([x_start, y, x_end, y + band_h], radius=10, fill=color, outline="#ffffff", width=2)
+        draw.text((x_start + 12, y + 12), label, fill="#1c2325", font=tiny_font)
+        draw.line((x_start, y + band_h + 10, x_start, rail_y + 28), fill="#b7c2c2", width=1)
+        draw.line((x_end, y + band_h + 10, x_end, rail_y + 28), fill="#b7c2c2", width=1)
+
+    sections = [
+        ("Planning", "Surveyors aligned the amphitheater with roads, gates, and service access."),
+        ("Materials", "Travertine blocks, brick cores, and concrete vaults arrived in waves."),
+        ("Assembly", "Repeating arches let crews build upward while corridors stayed organized."),
+        ("Opening", "The completed arena presented movement, shade, and spectacle as one system."),
+    ]
+    row_h = int((content_bottom - content_top - int(height * 0.08)) / 4)
+    for index, (heading, body) in enumerate(sections):
+        y = content_top + index * (row_h + int(height * 0.025))
+        draw.text((right_x, y), heading, fill=ink, font=h_font)
+        draw.line((right_x, y + int(height * 0.038), right_x + right_w, y + int(height * 0.038)), fill="#cfc8bb", width=1)
+        draw.multiline_text((right_x, y + int(height * 0.055)), wrap_text(draw, body, body_font, right_w), fill="#2b3032", font=body_font, spacing=4)
+
+    draw.text(
+        (left_x, content_bottom - int(height * 0.02)),
+        "Target redraws a timeline graphic, not the old oval section diagram.",
+        fill=muted,
+        font=tiny_font,
+    )
+    return img
+
+
+def create_clean_reflow_target_transit_illustration(width: int, height: int) -> Image.Image:
+    img = Image.new("RGB", (width, height), "#f6f4ef")
+    draw = ImageDraw.Draw(img)
+    margin = int(width * 0.055)
+    top = int(height * 0.055)
+    ink = "#171717"
+    muted = "#5d6268"
+    line = "#c8c0b5"
+    blue = "#0e7490"
+    rust = "#a45f35"
+    green = "#567c4f"
+    gold = "#b89445"
+
+    draw.rounded_rectangle(
+        [margin, top, width - margin, height - top],
+        radius=max(10, width // 110),
+        fill="#fffdf8",
+        outline=line,
+        width=2,
+    )
+    title_font = fixture_font(max(28, width // 32), bold=True)
+    sub_font = fixture_font(max(14, width // 82))
+    h_font = fixture_font(max(17, width // 68), bold=True)
+    body_font = fixture_font(max(13, width // 92))
+    tiny_font = fixture_font(max(10, width // 116))
+
+    x0 = margin + int(width * 0.032)
+    y0 = top + int(height * 0.032)
+    draw.text((x0, y0), "Sketchapedia: Roman Colosseum", fill=ink, font=title_font)
+    draw.text(
+        (x0, y0 + int(height * 0.058)),
+        "Clean target variant: new crowd-flow route illustration and changed copy.",
+        fill=muted,
+        font=sub_font,
+    )
+
+    content_top = top + int(height * 0.15)
+    content_bottom = height - top - int(height * 0.06)
+    map_x = x0
+    map_w = int(width * 0.52)
+    text_x = map_x + map_w + int(width * 0.055)
+    text_w = width - margin - int(width * 0.035) - text_x
+
+    draw.text((map_x, content_top), "Crowd Flow Route Map", fill=ink, font=h_font)
+    grid_top = content_top + int(height * 0.065)
+    grid_bottom = content_bottom - int(height * 0.055)
+    grid_left = map_x + int(width * 0.02)
+    grid_right = map_x + map_w - int(width * 0.02)
+    for i in range(6):
+        x = grid_left + int((grid_right - grid_left) * i / 5)
+        draw.line((x, grid_top, x, grid_bottom), fill="#e1ddd4", width=1)
+    for j in range(5):
+        y = grid_top + int((grid_bottom - grid_top) * j / 4)
+        draw.line((grid_left, y, grid_right, y), fill="#e1ddd4", width=1)
+
+    routes = [
+        (blue, [(0.08, 0.74), (0.22, 0.56), (0.44, 0.50), (0.70, 0.34), (0.90, 0.24)], "upper gates"),
+        (rust, [(0.08, 0.30), (0.28, 0.40), (0.48, 0.62), (0.68, 0.70), (0.88, 0.78)], "service path"),
+        (green, [(0.18, 0.86), (0.36, 0.72), (0.54, 0.54), (0.72, 0.48)], "public ramps"),
+    ]
+    for color, points, label in routes:
+        pixel_points = [
+            (
+                grid_left + int((grid_right - grid_left) * px),
+                grid_top + int((grid_bottom - grid_top) * py),
+            )
+            for px, py in points
+        ]
+        draw.line(pixel_points, fill=color, width=5, joint="curve")
+        for x, y in pixel_points:
+            draw.ellipse([x - 9, y - 9, x + 9, y + 9], fill="#fffdf8", outline=color, width=3)
+        lx, ly = pixel_points[-1]
+        draw.text((lx - 42, ly - 32), label, fill=ink, font=tiny_font)
+
+    arena_cx = grid_left + int((grid_right - grid_left) * 0.51)
+    arena_cy = grid_top + int((grid_bottom - grid_top) * 0.52)
+    draw.ellipse([arena_cx - 70, arena_cy - 35, arena_cx + 70, arena_cy + 35], outline=gold, width=4)
+    draw.ellipse([arena_cx - 42, arena_cy - 20, arena_cx + 42, arena_cy + 20], outline=gold, width=3)
+    draw.text((arena_cx - 30, arena_cy - 8), "arena", fill=ink, font=tiny_font)
+
+    sections = [
+        ("Entrances", "Numbered gates split visitors into clear streams before they reached stairs."),
+        ("Ramps", "Sloped passages converted street-level crowds into tiered seating access."),
+        ("Service", "Back-of-house paths carried performers, supplies, and machinery below view."),
+        ("Capacity", "The plan managed density by separating public, elite, and support circulation."),
+    ]
+    col_gap = int(width * 0.025)
+    col_w = (text_w - col_gap) // 2
+    row_h = int((content_bottom - content_top - int(height * 0.07)) / 2)
+    for index, (heading, body) in enumerate(sections):
+        col = index % 2
+        row = index // 2
+        x = text_x + col * (col_w + col_gap)
+        y = content_top + row * (row_h + int(height * 0.07))
+        draw.text((x, y), heading, fill=ink, font=h_font)
+        draw.line((x, y + int(height * 0.038), x + col_w, y + int(height * 0.038)), fill="#d4c8b9", width=1)
+        draw.multiline_text((x, y + int(height * 0.055)), wrap_text(draw, body, body_font, col_w), fill="#2d2d2d", font=body_font, spacing=4)
+
+    draw.text(
+        (map_x, content_bottom - int(height * 0.02)),
+        "Target redraws route lines and labels as one neural page state.",
+        fill=muted,
+        font=tiny_font,
+    )
     return img
 
 

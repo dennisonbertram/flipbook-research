@@ -86,3 +86,5 @@ The remaining visual concern is faint old-source text in some broad diagram regi
 C88 also passed all ten runs. The strongest `unboxed-columns` run reached OCR `0.9302`, and the harder `callout-map` target still reached OCR `0.7826`. Human review shows the open-column layout is a real improvement over card-box dependence, while callout text is still fragile.
 
 C89 should now change the target copy itself. That matters because Flipbook's claim is not only that existing text can move; the generated page should be able to contain newly rendered words as pixels. The next target variants, `changed-unboxed` and `changed-callout`, keep the layout family but replace section headings/body text with new copy at the target midpoint.
+
+C90 is queued as the next stress if C89 holds up. It changes the illustration grammar itself: `timeline-illustration` redraws the target as a construction timeline, and `transit-illustration` redraws it as a route map. This matters because a Flipbook-like neural canvas cannot only preserve a known diagram while text moves around it. It has to repaint different visual explanations as page pixels.
