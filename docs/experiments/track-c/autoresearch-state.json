@@ -1,16 +1,92 @@
 {
-  "updated_utc": "2026-04-25T02:38:00+00:00",
+  "updated_utc": "2026-04-25T02:42:59+00:00",
   "active_sessions": [
     "clawtest",
-    "pr1224-checks",
-    "pr1447-checks",
     "pr1467-monitor",
     "track-c-autoresearch",
-    "track-c-c66-neighbor-cross1-target60-c32h160-seed1-s14000",
-    "track-c-c66-neighbor-cross1-target75-c32h160-seed1-s14000",
+    "track-c-c67-neighbor-cross05-target60-c32h160-seed1-s14000",
+    "track-c-c67-neighbor-cross1-target55-c32h160-seed1-s14000",
+    "track-c-c67-neighbor-cross1-target60-b196-c32h160-seed1-s10000",
+    "track-c-c67-neighbor-cross1-target60-c32h160-seed2-s14000",
+    "track-c-c67-neighbor-cross1-target60-c32h160-seed3-s14000",
+    "track-c-c67-neighbor-cross1-target60-c32h160-seed4-s14000",
+    "track-c-c67-neighbor-cross1-target60-c40h192-seed1-s12000",
+    "track-c-c67-neighbor-cross1-target65-c32h160-seed1-s14000",
+    "track-c-c67-neighbor-cross15-target60-c32h160-seed1-s14000",
+    "track-c-c67-neighbor-grid1-target60-c32h160-seed1-s14000",
     "track-c-github-sync"
   ],
   "experiments": [
+    {
+      "label": "c67-neighbor-cross1-target60-c32h160-seed2-s14000",
+      "session": "track-c-c67-neighbor-cross1-target60-c32h160-seed2-s14000",
+      "log": "docs/experiments/track-c/c67-neighbor-cross1-target60-c32h160-seed2-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 2, source-coord features, latent cross neighborhood r1px, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c67-neighbor-cross1-target60-c32h160-seed3-s14000",
+      "session": "track-c-c67-neighbor-cross1-target60-c32h160-seed3-s14000",
+      "log": "docs/experiments/track-c/c67-neighbor-cross1-target60-c32h160-seed3-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 3, source-coord features, latent cross neighborhood r1px, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c67-neighbor-cross1-target60-c32h160-seed4-s14000",
+      "session": "track-c-c67-neighbor-cross1-target60-c32h160-seed4-s14000",
+      "log": "docs/experiments/track-c/c67-neighbor-cross1-target60-c32h160-seed4-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 4, source-coord features, latent cross neighborhood r1px, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c67-neighbor-cross1-target55-c32h160-seed1-s14000",
+      "session": "track-c-c67-neighbor-cross1-target55-c32h160-seed1-s14000",
+      "log": "docs/experiments/track-c/c67-neighbor-cross1-target55-c32h160-seed1-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 1, source-coord features, latent cross neighborhood r1px, target-side reflow sampling ratio 0.55, mid-time 0.6."
+    },
+    {
+      "label": "c67-neighbor-cross1-target65-c32h160-seed1-s14000",
+      "session": "track-c-c67-neighbor-cross1-target65-c32h160-seed1-s14000",
+      "log": "docs/experiments/track-c/c67-neighbor-cross1-target65-c32h160-seed1-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 1, source-coord features, latent cross neighborhood r1px, target-side reflow sampling ratio 0.65, mid-time 0.6."
+    },
+    {
+      "label": "c67-neighbor-cross05-target60-c32h160-seed1-s14000",
+      "session": "track-c-c67-neighbor-cross05-target60-c32h160-seed1-s14000",
+      "log": "docs/experiments/track-c/c67-neighbor-cross05-target60-c32h160-seed1-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 1, source-coord features, latent cross neighborhood r0.5px, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c67-neighbor-cross15-target60-c32h160-seed1-s14000",
+      "session": "track-c-c67-neighbor-cross15-target60-c32h160-seed1-s14000",
+      "log": "docs/experiments/track-c/c67-neighbor-cross15-target60-c32h160-seed1-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 1, source-coord features, latent cross neighborhood r1.5px, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c67-neighbor-grid1-target60-c32h160-seed1-s14000",
+      "session": "track-c-c67-neighbor-grid1-target60-c32h160-seed1-s14000",
+      "log": "docs/experiments/track-c/c67-neighbor-grid1-target60-c32h160-seed1-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 1, source-coord features, latent grid neighborhood r1px, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c67-neighbor-cross1-target60-b196-c32h160-seed1-s10000",
+      "session": "track-c-c67-neighbor-cross1-target60-b196-c32h160-seed1-s10000",
+      "log": "docs/experiments/track-c/c67-neighbor-cross1-target60-b196-c32h160-seed1-s10000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq10, grad clip 0.5, seed 1, source-coord features, latent cross neighborhood r1px, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c67-neighbor-cross1-target60-c40h192-seed1-s12000",
+      "session": "track-c-c67-neighbor-cross1-target60-c40h192-seed1-s12000",
+      "log": "docs/experiments/track-c/c67-neighbor-cross1-target60-c40h192-seed1-s12000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, seed 1, source-coord features, latent cross neighborhood r1px, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
     {
       "label": "c66-neighbor-cross1-target60-c24h128-seed2-s12000",
       "session": "track-c-c66-neighbor-cross1-target60-c24h128-seed2-s12000",
@@ -71,14 +147,14 @@
       "label": "c66-neighbor-cross1-target75-c32h160-seed1-s14000",
       "session": "track-c-c66-neighbor-cross1-target75-c32h160-seed1-s14000",
       "log": "docs/experiments/track-c/c66-neighbor-cross1-target75-c32h160-seed1-s14000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 1, source-coord features, latent cross neighborhood r1px, target-side reflow sampling ratio 0.75, mid-time 0.6."
     },
     {
       "label": "c66-neighbor-cross1-target60-c32h160-seed1-s14000",
       "session": "track-c-c66-neighbor-cross1-target60-c32h160-seed1-s14000",
       "log": "docs/experiments/track-c/c66-neighbor-cross1-target60-c32h160-seed1-s14000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 1, source-coord features, latent cross neighborhood r1px, target-side reflow sampling ratio 0.6, mid-time 0.6."
     },
     {
