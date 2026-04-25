@@ -140,6 +140,8 @@ C6.6 adds latent-neighborhood decoding. Instead of giving the renderer MLP one b
 
 C6.7 shows latent-neighborhood decoding is useful but still not robust. The best C67 run is `c67-neighbor-cross05-target60-c32h160-seed1-s14000` at OCR `0.5957`, motion `0.0538`, and segment `1265.377ms`; C40/H192 passes at OCR `0.5521`. But the target60 C32/H160 seed repeats collapse to OCR `0.4267-0.5146`, so the C66 `0.6178` result is not yet a stable recipe. C6.8 therefore adds a coarse latent context canvas alongside the local latent neighborhood, giving the decoder both local glyph detail and broader page/layout context while still generating every pixel directly.
 
+C6.8 gives a strong positive signal for light coarse context. `c68-context8s025-cross1-target60-c32h160-seed1-s14000` reaches OCR `0.6269`, motion `0.0525`, and segment `998.129ms`, while `c68-context16s050-cross1-target60-c32h160-seed1-s14000` reaches OCR `0.6214`. Heavy context regresses (`c32/scale0.25` falls to OCR `0.4250`), so the likely useful region is small context capacity, not simply more latent features. C6.9 tests whether the c8/scale0.25 and c16/scale0.5 wins are robust across seeds.
+
 Suggested `results.tsv` header:
 
 ```text

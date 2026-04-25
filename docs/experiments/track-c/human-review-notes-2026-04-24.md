@@ -1659,3 +1659,47 @@ c68-context16s025-cross1-target60-c32h160-seed4-s14000
 c68-context16s025-cross1-target60-c24h128-seed2-s12000
 c68-context16s025-grid1-target60-c24h128-seed2-s12000
 ```
+
+Completed C68 results:
+
+```text
+c68-context8s025-cross1-target60-c32h160-seed1-s14000: OCR 0.6269, segment 998.129ms, motion_delta 0.0525, pass
+c68-context16s050-cross1-target60-c32h160-seed1-s14000: OCR 0.6214, segment 988.723ms, motion_delta 0.0495, pass
+c68-context16s025-cross1-target60-c32h160-seed4-s14000: OCR 0.5701, segment 972.935ms, motion_delta 0.0497, pass
+c68-context16s025-grid1-target60-c24h128-seed2-s12000: OCR 0.5302, segment 978.481ms, motion_delta 0.0495, quality_fail
+c68-context16s025-cross1-target60-c32h160-seed1-s14000: OCR 0.5000, segment 980.266ms, motion_delta 0.0501, quality_fail
+c68-context16s025-cross05-target60-c32h160-seed1-s14000: OCR 0.4750, segment 833.710ms, motion_delta 0.0519, quality_fail
+c68-context16s025-cross1-target60-c32h160-seed2-s14000: OCR 0.4596, segment 822.816ms, motion_delta 0.0474, quality_fail
+c68-context32s025-cross1-target60-c32h160-seed1-s14000: OCR 0.4250, segment 1159.785ms, motion_delta 0.0501, quality_fail
+c68-context16s025-cross1-target60-c24h128-seed2-s12000: OCR 0.4172, segment 732.374ms, motion_delta 0.0551, quality_fail
+c68-context16s025-cross1-target60-c32h160-seed3-s14000: OCR 0.3959, segment 975.005ms, motion_delta 0.0529, quality_fail
+```
+
+Interpretation:
+
+- C68 is the strongest architecture signal since source-coordinate conditioning. Light coarse context helps: `c8/scale0.25` reaches OCR `0.6269`, above C66 and C64, close to C62's one-off high.
+- `c16/scale0.5` also works at OCR `0.6214`, suggesting useful context can come from either fewer coarse channels or a less-compressed context grid.
+- Heavy context is harmful: `c32/scale0.25` collapses to OCR `0.4250`, and `c16/scale0.25` is unstable across seeds.
+- The best C68 runs remain under the 1.3s segment budget, around `~999ms`.
+- The right next question is robustness, not another mechanism.
+
+Next experiments:
+
+```text
+c69-context8s025-cross1-target60-c32h160-seed2-s14000
+c69-context8s025-cross1-target60-c32h160-seed3-s14000
+c69-context8s025-cross1-target60-c32h160-seed4-s14000
+c69-context8s025-cross1-target60-c32h160-seed5-s14000
+c69-context16s050-cross1-target60-c32h160-seed2-s14000
+c69-context16s050-cross1-target60-c32h160-seed3-s14000
+c69-context16s050-cross1-target60-c32h160-seed4-s14000
+c69-context8s050-cross1-target60-c32h160-seed1-s14000
+c69-context4s025-cross1-target60-c32h160-seed1-s14000
+c69-context12s025-cross1-target60-c32h160-seed1-s14000
+```
+
+C69 hypothesis:
+
+- If light context is the stabilizer, c8/scale0.25 and c16/scale0.5 should produce multiple pass-quality seed repeats.
+- c4/c8/c12 and scale0.25/0.50 test whether there is a narrow context-capacity sweet spot.
+- If the seed repeats collapse again, the bottleneck is not just coarse context; it is probably the training distribution or objective.
