@@ -573,3 +573,12 @@
 [2026-04-25T17:52:45+00:00] eval 20260425T173658792544Z-c2-lite-glyph-layout-clean-independent-recompose-c99-v11-naturalist-indrecomp-base-rem025-mid50-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	quality_fail	910.482ms	ocr=0.3636
 [2026-04-25T17:52:45+00:00] eval 20260425T173700105906Z-c2-lite-glyph-layout-clean-independent-recompose-c99-v11-naturalist-indrecomp-statesplit-init02-rem025-mid50-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1158.505ms	ocr=0.3967
 [2026-04-25T17:52:45+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-25T17:52:48+00:00] published Track C docs update: 2026-04-25 17:52 UTC
+[2026-04-25T18:04:15+00:00] eval 20260425T172400065539Z-c2-lite-glyph-layout-clean-move-reveal-c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	939.032ms	ocr=0.8966
+[2026-04-25T18:04:15+00:00] eval 20260425T173658404712Z-c2-lite-glyph-layout-clean-independent-recompose-c99-v11-naturalist-indrecomp-tblend-init02-rem025-mid50-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1127.398ms	ocr=0.4590
+[2026-04-25T18:04:15+00:00] eval 20260425T173658532718Z-c2-lite-glyph-layout-clean-independent-recompose-c99-v12-deep-sea-indrecomp-tblend-init02-rem050-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1121.871ms	ocr=0.8667
+[2026-04-25T18:04:15+00:00] eval 20260425T173658633475Z-c2-lite-glyph-layout-clean-independent-recompose-c99-v12-deep-sea-indrecomp-base-rem050-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	936.786ms	ocr=0.8276
+[2026-04-25T18:04:15+00:00] eval 20260425T173658715602Z-c2-lite-glyph-layout-clean-independent-recompose-c99-v12-deep-sea-indrecomp-statesplit-init02-rem050-mid35-seed1-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1264.919ms	ocr=0.7027
+[2026-04-25T18:04:15+00:00] eval 20260425T173658792544Z-c2-lite-glyph-layout-clean-independent-recompose-c99-v11-naturalist-indrecomp-base-rem025-mid50-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	quality_fail	910.482ms	ocr=0.3636
+[2026-04-25T18:04:15+00:00] eval 20260425T173700105906Z-c2-lite-glyph-layout-clean-independent-recompose-c99-v11-naturalist-indrecomp-statesplit-init02-rem025-mid50-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1158.505ms	ocr=0.3967
+[2026-04-25T18:04:15+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv

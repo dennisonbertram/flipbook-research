@@ -1,11 +1,12 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-25T17:51:14+00:00`
+Updated UTC: `2026-04-25T18:02:16+00:00`
 
 ## Active Sessions
 
 - `clawtest`
 - `pr-1419-checks`
+- `pr-1509-check`
 - `pr1337-gh-checks`
 - `pr1419-checks-monitor`
 - `pr1467-monitor`
@@ -13,6 +14,14 @@ Updated UTC: `2026-04-25T17:51:14+00:00`
 - `pubv3`
 - `pubv31`
 - `track-c-autoresearch`
+- `track-c-c100-v07-timeline-indrecomp-tblend-mid35-seed0-s12000`
+- `track-c-c100-v08-transit-indrecomp-tblend-mid35-seed0-s12000`
+- `track-c-c100-v09-reef-indrecomp-tblend-mid35-seed0-s12000`
+- `track-c-c100-v10-orbit-indrecomp-tblend-mid35-seed0-s12000`
+- `track-c-c100-v11-naturalist-indrecomp-statesplit-mid60-seed1-s12000`
+- `track-c-c100-v11-naturalist-indrecomp-tblend-mid60-seed1-s12000`
+- `track-c-c100-v12-deep-sea-indrecomp-statesplit-mid25-seed2-s12000`
+- `track-c-c100-v12-deep-sea-indrecomp-tblend-mid25-seed1-s12000`
 - `track-c-github-sync`
 - `track-c-output-browser-8765`
 - `track-v-output-browser-8766`
@@ -22,6 +31,14 @@ Updated UTC: `2026-04-25T17:51:14+00:00`
 
 ## Queue
 
+- `c100-v07-timeline-indrecomp-tblend-mid35-seed0-s12000`: pending/running - Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.35, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.68, endpoint anchors 0.14/0.55, clean target timeline-illustration.
+- `c100-v08-transit-indrecomp-tblend-mid35-seed0-s12000`: pending/running - Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.35, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.68, endpoint anchors 0.14/0.55, clean target transit-illustration.
+- `c100-v09-reef-indrecomp-tblend-mid35-seed0-s12000`: pending/running - Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.35, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.68, endpoint anchors 0.14/0.55, clean target reef-topic.
+- `c100-v10-orbit-indrecomp-tblend-mid35-seed0-s12000`: pending/running - Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.35, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.68, endpoint anchors 0.14/0.55, clean target orbit-topic.
+- `c100-v11-naturalist-indrecomp-tblend-mid60-seed1-s12000`: pending/running - Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, seed 1, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.6 width 0.24, mid-time 0.68, endpoint anchors 0.14/0.55, clean target naturalist-plate.
+- `c100-v11-naturalist-indrecomp-statesplit-mid60-seed1-s12000`: pending/running - Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, seed 1, latent cross neighborhood r1px source, decoder state-split target-scale 0 target-h160, target-state canvas always init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.6 width 0.24, mid-time 0.68, endpoint anchors 0.14/0.55, clean target naturalist-plate.
+- `c100-v12-deep-sea-indrecomp-tblend-mid25-seed1-s12000`: pending/running - Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.5, seed 1, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.25 width 0.18, mid-time 0.68, endpoint anchors 0.14/0.55, clean target deep-sea-lab.
+- `c100-v12-deep-sea-indrecomp-statesplit-mid25-seed2-s12000`: pending/running - Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.5, seed 2, source-coord features, latent cross neighborhood r1px source, decoder state-split target-scale 0 target-h160, target-state canvas always init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.25 width 0.18, mid-time 0.68, endpoint anchors 0.14/0.55, clean target deep-sea-lab.
 - `c99-v11-naturalist-indrecomp-base-rem025-mid50-seed0-s12000`: done - Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, source-coord features, latent cross neighborhood r1px source, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.5 width 0.24, mid-time 0.68, endpoint anchors 0.14/0.55, clean target naturalist-plate.
 - `c99-v11-naturalist-indrecomp-tblend-init02-rem025-mid50-seed0-s12000`: done - Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.5 width 0.24, mid-time 0.68, endpoint anchors 0.14/0.55, clean target naturalist-plate.
 - `c99-v11-naturalist-indrecomp-statesplit-init02-rem025-mid50-seed0-s12000`: done - Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, latent cross neighborhood r1px source, decoder state-split target-scale 0 target-h160, target-state canvas always init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.5 width 0.24, mid-time 0.68, endpoint anchors 0.14/0.55, clean target naturalist-plate.
