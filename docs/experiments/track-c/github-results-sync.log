@@ -15,3 +15,12 @@
 [2026-04-25T06:27:38+00:00] eval 20260425T061306217773Z-c2-lite-glyph-layout-reflow-c82-nctx-b025-r275-a110-seed4-s14000-1536x864-s14000	layout-reflow-learned	pass	923.432ms	ocr=0.7087
 [2026-04-25T06:27:38+00:00] eval 20260425T061306406209Z-c2-lite-glyph-layout-reflow-c82-nctx-b025-r225-a115-seed4-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	942.244ms	ocr=0.4790
 [2026-04-25T06:27:38+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-25T06:27:41+00:00] published Track C docs update: 2026-04-25 06:27 UTC
+[2026-04-25T06:38:17+00:00] eval 20260425T062552757111Z-c2-lite-glyph-layout-reflow-c83-nctx-b025-r275-a100-seed4-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	946.530ms	ocr=0.4654
+[2026-04-25T06:38:17+00:00] eval 20260425T062552773054Z-c2-lite-glyph-layout-reflow-c83-nctx-b030-r275-a110-seed4-s14000-1536x864-s14000	layout-reflow-learned	pass	769.325ms	ocr=0.5930
+[2026-04-25T06:38:17+00:00] eval 20260425T062552776364Z-c2-lite-glyph-layout-reflow-c83-nctx-b025-r325-a110-seed4-s14000-1536x864-s14000	layout-reflow-learned	pass	926.264ms	ocr=0.6269
+[2026-04-25T06:38:17+00:00] eval 20260425T062552779699Z-c2-lite-glyph-layout-reflow-c83-nctx-b025-r275-a110-seed1-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	766.226ms	ocr=0.5349
+[2026-04-25T06:38:17+00:00] eval 20260425T062552782692Z-c2-lite-glyph-layout-reflow-c83-nctx-b025-r275-a110-seed2-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	1182.094ms	ocr=0.3875
+[2026-04-25T06:38:17+00:00] eval 20260425T062552791069Z-c2-lite-glyph-layout-reflow-c83-nctx-b025-r275-a115-seed4-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	916.550ms	ocr=0.4359
+[2026-04-25T06:38:17+00:00] eval 20260425T062552857099Z-c2-lite-glyph-layout-reflow-c83-nctx-b020-r275-a110-seed4-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	922.511ms	ocr=0.5263
+[2026-04-25T06:38:17+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv

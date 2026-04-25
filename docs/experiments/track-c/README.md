@@ -172,6 +172,8 @@ C8.1 produces the first attenuated-RGB-skip pass: `c81-nctx-b025-r250-a110-seed2
 
 C8.2 is the strongest Track C layout-reflow signal so far. The same no-context base `0.25`, residual `2.5`, amount `1.10` recipe passes on several new seeds, and the best adjacent setting, `c82-nctx-b025-r275-a110-seed4-s14000`, reaches OCR `0.7087`, motion `0.0457`, and segment `923.432ms`. This is still visibly ghosted, so C8.3 refines around residual `2.75`, base `0.20-0.30`, and amount `1.00-1.15` before promoting the recipe.
 
+C8.3 confirms residual `2.75` is viable but not strictly better than the C82 frontier. Passes include `c83-nctx-b025-r275-a110-seed5-s14000` at OCR `0.6458`, `c83-nctx-b025-r325-a110-seed4-s14000` at OCR `0.6269`, and `c83-nctx-b030-r275-a110-seed4-s14000` at OCR `0.5930`, all under `1.0s`. The remaining failure mode is visible source ghosting, so C8.4 adds a learned RGB-skip gate canvas initialized either from source edges or a constant gate.
+
 Suggested `results.tsv` header:
 
 ```text

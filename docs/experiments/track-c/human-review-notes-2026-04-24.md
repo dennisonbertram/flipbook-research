@@ -2293,3 +2293,45 @@ C83 hypothesis:
 - Residual `2.75` may be the cleaner point between the OCR/motion tradeoff, so it should be seed-mapped like the C82 residual `2.5` recipe.
 - Base `0.20` may reduce ghosting, while base `0.30` may preserve text; the seed4 best gives a useful bracket.
 - Amount `1.00/1.15` around the seed4 winner tests whether motion can be reduced/increased without creating more source remnants.
+
+Completed C83 results:
+
+```text
+c83-nctx-b025-r275-a110-seed5-s14000: OCR 0.6458, segment 915.505ms, motion_delta 0.0472, pass
+c83-nctx-b025-r325-a110-seed4-s14000: OCR 0.6269, segment 926.264ms, motion_delta 0.0502, pass
+c83-nctx-b030-r275-a110-seed4-s14000: OCR 0.5930, segment 769.325ms, motion_delta 0.0474, pass
+c83-nctx-b025-r275-a110-seed3-s14000: OCR 0.5525, segment 756.287ms, motion_delta 0.0453, pass
+c83-nctx-b025-r275-a110-seed1-s14000: OCR 0.5349, segment 766.226ms, motion_delta 0.0471, quality_fail
+c83-nctx-b020-r275-a110-seed4-s14000: OCR 0.5263, segment 922.511ms, motion_delta 0.0473, quality_fail
+c83-nctx-b025-r275-a110-seed0-s14000: OCR 0.4970, segment 793.527ms, motion_delta 0.0453, quality_fail
+c83-nctx-b025-r275-a100-seed4-s14000: OCR 0.4654, segment 946.530ms, motion_delta 0.0435, quality_fail
+c83-nctx-b025-r275-a115-seed4-s14000: OCR 0.4359, segment 916.550ms, motion_delta 0.0475, quality_fail
+c83-nctx-b025-r275-a110-seed2-s14000: OCR 0.3875, segment 1182.094ms, motion_delta 0.0493, quality_fail
+```
+
+Interpretation:
+
+- C83 confirms the branch is real, but residual `2.75` is not a monotonic improvement over C82. The best C82 run remains the peak at OCR `0.7087`.
+- Base `0.30` helps seed4 pass, while base `0.20` misses quality. Stronger residual `3.25` also passes on seed4.
+- Visual review still shows source ghosts. The next model change should modulate where the RGB texture is trusted rather than only changing scalar base/residual strength.
+
+Next experiments:
+
+```text
+c84-gateedge-b025-r275-a110-seed0-s14000
+c84-gateedge-b025-r275-a110-seed1-s14000
+c84-gateedge-b025-r275-a110-seed4-s14000
+c84-gateedge-b025-r275-a110-seed5-s14000
+c84-gateedge-b025-r325-a110-seed4-s14000
+c84-gateedge-b030-r275-a110-seed4-s14000
+c84-gatelearn035-b025-r275-a110-seed4-s14000
+c84-gatelearn050-b025-r275-a110-seed4-s14000
+c84-gatelearn035-b025-r325-a110-seed4-s14000
+c84-gateedge-b020-r275-a110-seed4-s14000
+```
+
+C84 hypothesis:
+
+- A learned gate canvas can reduce background/source ghosting by letting the model suppress the RGB texture outside useful stroke/detail regions.
+- Edge-initialized gates should preserve high-frequency text/diagram strokes while fading low-detail page areas.
+- Constant learned gates test whether the benefit is the gate capacity itself or specifically the edge initialization.
