@@ -1746,3 +1746,46 @@ C70 hypothesis:
 - C69 may still undersample the actual reflowed target-layout glyph positions, especially on weak seeds.
 - Add direct target-midpoint glyph/text sampling during training: some samples are drawn from the synthetic reflowed midpoint's glyph/text distribution with time near `t=0.5`.
 - This is not a render-time text mask or overlay; it is only a training distribution change. If it helps seed4/5, the bottleneck is target-layout data coverage. If it regresses, C69's variance is more likely an architectural representation issue.
+
+Completed C70 results:
+
+```text
+c70-mid10-c8s025-seed4-s14000: OCR 0.5822, segment 1006.430ms, motion_delta 0.0460, pass
+c70-mid20-c4s025-seed3-s14000: OCR 0.5792, segment 1230.247ms, motion_delta 0.0472, pass
+c70-mid35-c8s025-seed4-s14000: OCR 0.5497, segment 1072.882ms, motion_delta 0.0474, quality_fail
+c70-mid20-c4s025-seed2-s14000: OCR 0.5444, segment 1161.753ms, motion_delta 0.0481, quality_fail
+c70-mid20-c8s025-seed5-s14000: OCR 0.4906, segment 992.803ms, motion_delta 0.0509, quality_fail
+c70-mid20-c8s025-seed2-s14000: OCR 0.4875, segment 988.047ms, motion_delta 0.0514, quality_fail
+c70-mid20-c8s025-text65-seed4-s14000: OCR 0.4780, segment 982.695ms, motion_delta 0.0471, quality_fail
+c70-mid20w012-c8s025-seed4-s14000: OCR 0.4780, segment 1182.926ms, motion_delta 0.0501, quality_fail
+c70-mid20-c8s025-seed4-s14000: OCR 0.4750, segment 1003.310ms, motion_delta 0.0493, quality_fail
+c70-mid20-c8s025-target45-seed4-s14000: OCR 0.4691, segment 1173.680ms, motion_delta 0.0474, quality_fail
+```
+
+Interpretation:
+
+- Direct target-mid sampling has a narrow positive signal. `mid10/c8/seed4` rescues the exact C69 weak seed4 from OCR `0.5031` to `0.5822` and passes.
+- Too much target-mid sampling is harmful for c8: `mid20` regresses seed2/4/5, and lowering target-side reflow sampling to `0.45` does not help.
+- c4 context remains interesting: `mid20/c4/seed3` passes and `mid20/c4/seed2` lands just below the gate, though both are slower.
+- Explicit OCR text-box training does not rescue the seed4 case. The `text65` ablation lands at OCR `0.4780`, which supports staying with general glyph/layout sampling rather than leaning on text-box supervision.
+
+Next experiments:
+
+```text
+c71-mid05-c8s025-seed4-s14000
+c71-mid075-c8s025-seed4-s14000
+c71-mid15-c8s025-seed4-s14000
+c71-mid05-c8s025-seed5-s14000
+c71-mid10-c8s025-seed5-s14000
+c71-mid10-c8s025-seed2-s14000
+c71-mid10-c4s025-seed2-s14000
+c71-mid10-c4s025-seed3-s14000
+c71-mid10-c4s025-seed4-s14000
+c71-mid15-c4s025-seed2-s14000
+```
+
+C71 hypothesis:
+
+- The useful C70 region is a low direct target-mid sampling dose, not the heavier `0.20-0.35` range.
+- C71 tests whether `0.05/0.075/0.10/0.15` can make weak c8 seeds more stable and whether c4 context is a better compact-context basin.
+- A strong outcome would be multiple c8/c4 weak-seed passes without enabling OCR-box text supervision.

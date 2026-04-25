@@ -144,6 +144,8 @@ C6.8 gives a strong positive signal for light coarse context. `c68-context8s025-
 
 C6.9 partially validates light context but does not solve robustness. The c8/scale0.25 family gets two more passes: seed3 reaches OCR `0.6019`, seed2 reaches `0.5525`, while seed4/5 land at `0.5031/0.5318`. Counting C68 seed1, that is three passes and two near-misses across seed1-5. The c16/scale0.5 repeats do not hold (`0.4400-0.5476`), while c4/scale0.25 passes at OCR `0.5746`. C7.0 keeps the compact-context architecture and changes the training distribution: direct target-midpoint glyph/text sampling should tell us whether weak seeds are failing because target-layout text positions are underrepresented during training.
 
+C7.0 shows direct target-midpoint sampling can help, but only in a small dose. `c70-mid10-c8s025-seed4-s14000` rescues the C69 weak seed4 from OCR `0.5031` to `0.5822` and passes. Heavier `mid20` generally regresses c8 seeds, `mid35` lands just below the gate at OCR `0.5497`, and the OCR text-box ablation does not help (`0.4780`). c4 context remains promising: `c70-mid20-c4s025-seed3-s14000` passes at OCR `0.5792`, with seed2 near the gate at `0.5444`. C7.1 consolidates low target-mid sampling (`0.05-0.15`) across c8 and c4 weak seeds without text-box supervision.
+
 Suggested `results.tsv` header:
 
 ```text
