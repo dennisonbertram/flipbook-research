@@ -622,6 +622,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     layout_oracle_flow = bool(int(config.get("layout_oracle_flow", 0)))
     layout_motion_curriculum_ratio = float(config.get("layout_motion_curriculum_ratio", 0.0))
     layout_motion_curriculum_start = float(config.get("layout_motion_curriculum_start", 0.0))
+    layout_endpoint_ratio = float(config.get("layout_endpoint_ratio", 0.0))
+    layout_endpoint_target_ratio = float(config.get("layout_endpoint_target_ratio", 0.5))
     detail_channels = int(config.get("detail_channels", 0))
     detail_hidden = int(config.get("detail_hidden", config["hidden"]))
     detail_scale = float(config.get("detail_scale", 0.0))
@@ -917,6 +919,15 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 mid_idx = torch.randperm(batch_size, device=device)[:mid_count]
                 mid_t = 0.5 + (torch.rand((mid_count, 1), device=device) - 0.5) * layout_mid_time_width
                 t[mid_idx] = mid_t.clamp(0.0, 1.0)
+        if motion_mode in layout_reflow_motion_modes and layout_endpoint_ratio > 0.0:
+            endpoint_count = max(0, min(batch_size, int(batch_size * layout_endpoint_ratio)))
+            if endpoint_count:
+                endpoint_idx = torch.randperm(batch_size, device=device)[:endpoint_count]
+                target_count = max(0, min(endpoint_count, int(endpoint_count * layout_endpoint_target_ratio)))
+                if target_count:
+                    t[endpoint_idx[:target_count]] = 0.5
+                if target_count < endpoint_count:
+                    t[endpoint_idx[target_count:]] = 0.0
         source_coords_for_pairs = coords
         source_focus_for_pairs = source_focus
         if motion_mode in layout_reflow_motion_modes and layout_target_sampling:
@@ -1386,6 +1397,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "layout_oracle_flow": int(layout_oracle_flow),
         "layout_motion_curriculum_ratio": layout_motion_curriculum_ratio,
         "layout_motion_curriculum_start": layout_motion_curriculum_start,
+        "layout_endpoint_ratio": layout_endpoint_ratio,
+        "layout_endpoint_target_ratio": layout_endpoint_target_ratio,
         "text_box_count": len(config.get("text_boxes", [])),
         "text_mask_coverage": float(text_mask.mean().detach().cpu()),
         "element_alpha_coverage": float((element_alpha > 0.05).float().mean().detach().cpu()),
@@ -1492,6 +1505,8 @@ def main(
     layout_oracle_flow: int = 0,
     layout_motion_curriculum_ratio: float = 0.0,
     layout_motion_curriculum_start: float = 0.0,
+    layout_endpoint_ratio: float = 0.0,
+    layout_endpoint_target_ratio: float = 0.5,
     min_ocr_similarity: float = 0.5,
     min_motion_delta: float = 0.001,
     seed: int = 0,
@@ -1561,6 +1576,8 @@ def main(
         "layout_oracle_flow": layout_oracle_flow,
         "layout_motion_curriculum_ratio": layout_motion_curriculum_ratio,
         "layout_motion_curriculum_start": layout_motion_curriculum_start,
+        "layout_endpoint_ratio": layout_endpoint_ratio,
+        "layout_endpoint_target_ratio": layout_endpoint_target_ratio,
         "text_boxes": text_boxes,
         "source_resolution": source_resolution,
         "frames": frames,
