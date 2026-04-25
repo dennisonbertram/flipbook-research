@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-04-25T14:51:03+00:00",
+  "updated_utc": "2026-04-25T15:03:18+00:00",
   "active_sessions": [
     "clawtest",
     "pr-1419-checks",
@@ -7,7 +7,6 @@
     "pr1419-checks-monitor",
     "pr1467-monitor",
     "track-c-autoresearch",
-    "track-c-c92-v12-deep-sea-lab-target60-mid35-seed0-s12000",
     "track-c-github-sync",
     "track-c-output-browser-8765",
     "track-v-output-browser-8766"
@@ -80,7 +79,7 @@
       "label": "c92-v12-deep-sea-lab-target60-mid35-seed0-s12000",
       "session": "track-c-c92-v12-deep-sea-lab-target60-mid35-seed0-s12000",
       "log": "docs/experiments/track-c/c92-v12-deep-sea-lab-target60-mid35-seed0-s12000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-coord features, latent cross neighborhood r1px source, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.65, clean target deep-sea-lab."
     },
     {
