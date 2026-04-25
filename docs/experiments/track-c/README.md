@@ -230,16 +230,18 @@ C10.6 is complete. Direct transition-target L1 across all changed regions is too
 
 C10.7 is complete. Restricting direct loss to source-only remnants is more promising but over-weighted at `0.50`: timeline returns near the C10.2 residual (`0.0641`), orbit improves to `0.0467`, and naturalist `time_power=0.25` reaches `0.1163`, but both naturalist variants fail OCR (`0.3200` and `0.2982`). C10.8 should keep the source-only region and lower direct weight to `0.25`.
 
+C10.8 is complete. Source-only direct `0.25` gives the best orbit residual in the branch (`0.0384`) and naturalist residual improves to `0.1081-0.1096`, but naturalist OCR remains just under the gate (`0.3396-0.3434`). Timeline and reef do not benefit enough (`0.0728`, `0.0528`). C10.9 should focus on naturalist source-only direct weights `0.15-0.18`, with one orbit robustness repeat.
+
 Next experiments:
 
 ```text
-C108 light source-only direct remnant loss:
-c108-v07-timeline-indrecomp-truthrem075-tpow1-directsrc025-seed4-s12000
-c108-v10-orbit-indrecomp-truthrem075-tpow1-directsrc025-seed4-s12000
-c108-v09-reef-indrecomp-truthrem075-tpow1-directsrc025-seed4-s12000
-c108-v12-deep-sea-indrecomp-truthrem075-tpow1-directsrc025-seed6-s12000
-c108-v11-naturalist-indrecomp-truthrem075-tpow05-directsrc025-seed5-s12000
-c108-v11-naturalist-indrecomp-truthrem075-tpow025-directsrc025-seed5-s12000
+C109 naturalist source-only direct calibration:
+c109-v11-naturalist-indrecomp-truthrem075-tpow025-directsrc015-seed5-s12000
+c109-v11-naturalist-indrecomp-truthrem075-tpow025-directsrc018-seed5-s12000
+c109-v11-naturalist-indrecomp-truthrem075-tpow05-directsrc015-seed5-s12000
+c109-v11-naturalist-indrecomp-truthrem075-tpow05-directsrc018-seed5-s12000
+c109-v10-orbit-indrecomp-truthrem075-tpow1-directsrc025-seed5-s12000
+c109-v12-deep-sea-indrecomp-truthrem075-tpow1-directsrc015-seed6-s12000
 ```
 
 Suggested `results.tsv` header:

@@ -61,4 +61,6 @@ C106 is complete. Direct remnant L1 over all changed regions is not the cleanup 
 
 C107 is complete. Source-only direct remnant loss is better targeted but too strong at `0.50`: timeline (`0.0641`) and orbit (`0.0467`) move back toward the best residual band, but reef/deep-sea do not, and naturalist `time_power=0.25` trades improved residual (`0.1163`) for an OCR fail (`0.3200`). C108 should reduce source-only direct weight to `0.25`.
 
+C108 is complete. The lighter source-only direct term gives the best orbit residual so far (`0.0384`) and improves naturalist residual (`0.1081-0.1096`), but naturalist remains just under the OCR gate (`0.3396-0.3434`). Timeline regresses to `0.0728`; reef is `0.0528`; deep-sea is `0.0114`. C109 should tune naturalist at direct weights `0.15-0.18` and repeat orbit at `0.25` with a new seed.
+
 The evaluator now reports endpoint OCR, source-residual gain/cosine, source-only edge bias, and transition-crop equivalents. These metrics should be read separately for endpoint frames, target-midpoint frames, and transition frames; transition-frame residuals are the most relevant metrics for the source-persistence problem.
