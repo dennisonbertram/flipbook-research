@@ -96,3 +96,12 @@
 [2026-04-25T08:05:42+00:00] eval 20260425T075150422642Z-c2-lite-glyph-layout-clean-reflow-c88-v3-unboxed-target60-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	942.074ms	ocr=0.8889
 [2026-04-25T08:05:42+00:00] eval 20260425T075150574051Z-c2-lite-glyph-layout-clean-reflow-c88-v3-unboxed-target60-mid20-seed1-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	927.622ms	ocr=0.9302
 [2026-04-25T08:05:42+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-25T08:05:44+00:00] published Track C docs update: 2026-04-25 08:05 UTC
+[2026-04-25T08:16:44+00:00] eval 20260425T080627547882Z-c2-lite-glyph-layout-clean-reflow-c89-v5-changed-unboxed-target60-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	922.477ms	ocr=0.5238
+[2026-04-25T08:16:44+00:00] eval 20260425T080627666565Z-c2-lite-glyph-layout-clean-reflow-c89-v6-changed-callout-target60-mid20-seed1-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	913.033ms	ocr=0.5789
+[2026-04-25T08:16:44+00:00] eval 20260425T080627913593Z-c2-lite-glyph-layout-clean-reflow-c89-v5-changed-unboxed-target60-mid20-seed2-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1107.383ms	ocr=0.5366
+[2026-04-25T08:16:44+00:00] eval 20260425T080628087284Z-c2-lite-glyph-layout-clean-reflow-c89-v5-changed-unboxed-target60-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	910.007ms	ocr=0.5000
+[2026-04-25T08:16:44+00:00] eval 20260425T080628087298Z-c2-lite-glyph-layout-clean-reflow-c89-v6-changed-callout-target60-mid20-seed2-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1196.854ms	ocr=0.8846
+[2026-04-25T08:16:44+00:00] eval 20260425T080628162664Z-c2-lite-glyph-layout-clean-reflow-c89-v6-changed-callout-target60-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	743.559ms	ocr=0.7407
+[2026-04-25T08:16:44+00:00] eval 20260425T080628208038Z-c2-lite-glyph-layout-clean-reflow-c89-v5-changed-unboxed-target60-mid20-seed4-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	756.906ms	ocr=0.6111
+[2026-04-25T08:16:44+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
