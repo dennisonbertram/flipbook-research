@@ -278,6 +278,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             source_coord_features: bool = False,
             latent_neighborhood_mode: str = "none",
             latent_neighborhood_radius_px: float = 0.0,
+            latent_sample_mode: str = "source",
             context_channels: int = 0,
             context_scale: float = 0.25,
             context_init_scale: float = 0.02,
@@ -311,6 +312,12 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             mode = latent_neighborhood_mode.lower()
             if mode not in {"none", "center", "cross", "grid"}:
                 mode = "none"
+            latent_sample_mode = latent_sample_mode.lower()
+            if latent_sample_mode in {"target", "dest", "destination", "output"}:
+                latent_sample_mode = "target"
+            elif latent_sample_mode != "both":
+                latent_sample_mode = "source"
+            self.latent_sample_mode = latent_sample_mode
             radius_px = max(0.0, float(latent_neighborhood_radius_px))
             offsets = [(0.0, 0.0)]
             if radius_px > 0.0 and mode == "cross":
@@ -326,7 +333,11 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             time_dim = 1 + 2 * time_bands
             condition_dim = coord_dim + time_dim + (coord_dim if source_coord_features else 0)
             context_taps = 2 if context_channels > 0 and self.context_sample_mode == "both" else 1
-            latent_dim = channels * len(offsets) + (context_channels * context_taps if context_channels > 0 else 0)
+            latent_taps = 2 if self.latent_sample_mode == "both" else 1
+            latent_dim = (
+                channels * len(offsets) * latent_taps
+                + (context_channels * context_taps if context_channels > 0 else 0)
+            )
             self.flow = nn.Sequential(
                 nn.Linear(coord_dim + time_dim, hidden),
                 nn.SiLU(),
@@ -356,9 +367,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 self.detail_canvas = None
                 self.detail_mlp = None
 
-        def sample_canvas_features(self, sample_coords: torch.Tensor) -> torch.Tensor:
-            offsets = self.latent_offsets.to(device=sample_coords.device, dtype=sample_coords.dtype)
-            expanded = (sample_coords.unsqueeze(1) + offsets.unsqueeze(0)).clamp(0.0, 1.0)
+        def sample_one_canvas_features(self, coords: torch.Tensor) -> torch.Tensor:
+            offsets = self.latent_offsets.to(device=coords.device, dtype=coords.dtype)
+            expanded = (coords.unsqueeze(1) + offsets.unsqueeze(0)).clamp(0.0, 1.0)
             grid = expanded.mul(2.0).sub(1.0).reshape(1, -1, 1, 2)
             sampled = F.grid_sample(
                 self.canvas,
@@ -367,7 +378,17 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 padding_mode="border",
                 align_corners=True,
             ).squeeze(0).squeeze(-1).transpose(0, 1)
-            return sampled.reshape(sample_coords.shape[0], offsets.shape[0], -1).reshape(sample_coords.shape[0], -1)
+            return sampled.reshape(coords.shape[0], offsets.shape[0], -1).reshape(coords.shape[0], -1)
+
+        def sample_canvas_features(self, coords01: torch.Tensor, sample_coords: torch.Tensor) -> torch.Tensor:
+            if self.latent_sample_mode == "target":
+                return self.sample_one_canvas_features(coords01)
+            if self.latent_sample_mode == "both":
+                return torch.cat(
+                    [self.sample_one_canvas_features(sample_coords), self.sample_one_canvas_features(coords01)],
+                    dim=-1,
+                )
+            return self.sample_one_canvas_features(sample_coords)
 
         def sample_one_context(self, coords: torch.Tensor) -> torch.Tensor:
             grid = coords.clamp(0.0, 1.0).mul(2.0).sub(1.0).view(1, -1, 1, 2)
@@ -422,7 +443,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             condition_parts.append(time_enc)
             condition = torch.cat(condition_parts, dim=-1)
             grid = sample_coords.mul(2.0).sub(1.0).view(1, -1, 1, 2)
-            sampled = self.sample_canvas_features(sample_coords)
+            sampled = self.sample_canvas_features(coords01, sample_coords)
             context_sampled = self.sample_context_features(coords01, sample_coords)
             if context_sampled is not None:
                 sampled = torch.cat([sampled, context_sampled], dim=-1)
@@ -699,6 +720,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     source_coord_features = bool(int(config.get("source_coord_features", 0)))
     latent_neighborhood_mode = str(config.get("latent_neighborhood_mode", "none"))
     latent_neighborhood_radius_px = float(config.get("latent_neighborhood_radius_px", 0.0))
+    latent_sample_mode = str(config.get("latent_sample_mode", "source"))
     context_channels = int(config.get("context_channels", 0))
     context_scale = float(config.get("context_scale", 0.25))
     context_init_scale = float(config.get("context_init_scale", 0.02))
@@ -941,6 +963,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         source_coord_features=source_coord_features,
         latent_neighborhood_mode=latent_neighborhood_mode,
         latent_neighborhood_radius_px=latent_neighborhood_radius_px,
+        latent_sample_mode=latent_sample_mode,
         context_channels=context_channels,
         context_scale=context_scale,
         context_init_scale=context_init_scale,
@@ -1468,6 +1491,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "latent_neighborhood_mode": latent_neighborhood_mode,
         "latent_neighborhood_radius_px": latent_neighborhood_radius_px,
         "latent_neighborhood_taps": int(model.latent_offsets.shape[0]),
+        "latent_sample_mode": latent_sample_mode,
         "context_channels": context_channels,
         "context_scale": context_scale,
         "context_init_scale": context_init_scale,
@@ -1579,7 +1603,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     if latent_neighborhood_radius_px > 0.0 and latent_neighborhood_mode not in {"none", "center"}:
         metrics["description"] += (
             f" Decoder samples a {latent_neighborhood_mode} latent neighborhood "
-            f"with {latent_neighborhood_radius_px:g}px radius for local glyph/detail context."
+            f"with {latent_neighborhood_radius_px:g}px radius for local glyph/detail context "
+            f"in {latent_sample_mode} mode."
         )
     if context_channels > 0:
         metrics["description"] += (
@@ -1608,6 +1633,7 @@ def main(
     source_coord_features: int = 0,
     latent_neighborhood_mode: str = "none",
     latent_neighborhood_radius_px: float = 0.0,
+    latent_sample_mode: str = "source",
     context_channels: int = 0,
     context_scale: float = 0.25,
     context_init_scale: float = 0.02,
@@ -1684,6 +1710,7 @@ def main(
         "source_coord_features": source_coord_features,
         "latent_neighborhood_mode": latent_neighborhood_mode,
         "latent_neighborhood_radius_px": latent_neighborhood_radius_px,
+        "latent_sample_mode": latent_sample_mode,
         "context_channels": context_channels,
         "context_scale": context_scale,
         "context_init_scale": context_init_scale,

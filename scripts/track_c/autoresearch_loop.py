@@ -70,6 +70,7 @@ def general_visual_motion_args(
     source_coord_features: int | None = None,
     latent_neighborhood_mode: str | None = None,
     latent_neighborhood_radius_px: float | None = None,
+    latent_sample_mode: str | None = None,
     context_channels: int | None = None,
     context_scale: float | None = None,
     context_init_scale: float | None = None,
@@ -186,6 +187,8 @@ def general_visual_motion_args(
         args.extend(["--latent-neighborhood-mode", latent_neighborhood_mode])
     if latent_neighborhood_radius_px is not None:
         args.extend(["--latent-neighborhood-radius-px", f"{latent_neighborhood_radius_px:g}"])
+    if latent_sample_mode is not None:
+        args.extend(["--latent-sample-mode", latent_sample_mode])
     if context_channels is not None:
         args.extend(["--context-channels", str(context_channels)])
     if context_scale is not None:
@@ -557,6 +560,7 @@ def learned_layout_reflow_experiment(
     source_coord_features: int | None = None,
     latent_neighborhood_mode: str | None = None,
     latent_neighborhood_radius_px: float | None = None,
+    latent_sample_mode: str | None = None,
     context_channels: int | None = None,
     context_scale: float | None = None,
     context_init_scale: float | None = None,
@@ -609,7 +613,7 @@ def learned_layout_reflow_experiment(
     )
     source_coord_note = ", source-coord features" if source_coord_features else ""
     neighborhood_note = (
-        f", latent {latent_neighborhood_mode} neighborhood r{latent_neighborhood_radius_px:g}px"
+        f", latent {latent_neighborhood_mode} neighborhood r{latent_neighborhood_radius_px:g}px {latent_sample_mode or 'source'}"
         if latent_neighborhood_mode and latent_neighborhood_radius_px
         else ""
     )
@@ -666,6 +670,7 @@ def learned_layout_reflow_experiment(
             source_coord_features=source_coord_features,
             latent_neighborhood_mode=latent_neighborhood_mode,
             latent_neighborhood_radius_px=latent_neighborhood_radius_px,
+            latent_sample_mode=latent_sample_mode,
             context_channels=context_channels,
             context_scale=context_scale,
             context_init_scale=context_init_scale,
@@ -707,6 +712,44 @@ def learned_layout_reflow_experiment(
             min_motion=min_motion,
         ),
     )
+
+
+C74_DUAL_LATENT_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=14000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        latent_sample_mode=latent_mode,
+        context_channels=context_channels,
+        context_scale=0.25,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    )
+    for label, seed, latent_mode, context_channels in [
+        ("c74-latentboth-c8-seed1-s14000", 1, "both", 8),
+        ("c74-latentboth-c8-seed2-s14000", 2, "both", 8),
+        ("c74-latentboth-c8-seed4-s14000", 4, "both", 8),
+        ("c74-latenttarget-c8-seed1-s14000", 1, "target", 8),
+        ("c74-latenttarget-c8-seed2-s14000", 2, "target", 8),
+        ("c74-latentboth-c4-seed1-s14000", 1, "both", 4),
+        ("c74-latentboth-c4-seed2-s14000", 2, "both", 4),
+        ("c74-latentboth-c4-seed4-s14000", 4, "both", 4),
+        ("c74-latentboth-nocontext-seed1-s14000", 1, "both", 0),
+        ("c74-latentboth-nocontext-seed2-s14000", 2, "both", 0),
+    ]
+]
 
 
 C73_CONTEXT_MODE_EXPERIMENTS = [
@@ -868,6 +911,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C74_DUAL_LATENT_EXPERIMENTS,
     *C73_CONTEXT_MODE_EXPERIMENTS,
     *C72_ROBUSTNESS_MAP_EXPERIMENTS,
     *C71_LOW_TARGET_MID_EXPERIMENTS,
