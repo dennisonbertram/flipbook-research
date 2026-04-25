@@ -214,18 +214,18 @@ C9.8 is a useful positive once the OCR reference is corrected to `target-mid.png
 
 C9.9 is real progress, but not a final proof. Independent recomposition forces source and target page regions to move/arrive separately, so it is a harder test than global wiggle or a single move/reveal transition. Five of six runs pass after adding endpoint OCR gates. Deep-sea is strong: the target-blend run reaches midpoint OCR `0.8667`, source-frame OCR `0.8054`, last-frame OCR `0.8326`, and segment `1121.871ms`; the faster base run reaches midpoint OCR `0.8276` at `936.786ms`. Naturalist is weaker but informative: target-blend and state-split preserve endpoints, while the base run is now correctly marked `quality_fail` because it destroys the clean source/final frames. The next queue is C10.0: apply independent recomposition to timeline, transit, reef, and orbit pages, while repeating naturalist/deep-sea on the endpoint-preserving variants to check that this is not just a two-fixture overfit.
 
+C10.0 is a strong generalization result. All eight runs pass endpoint-aware gates. Timeline reaches midpoint OCR `0.9375`, orbit `0.8235`, transit `0.7179`, reef `0.5116`, deep-sea `0.8000-0.8276`, and naturalist remains weak but above gate at `0.3968-0.4138`. All runs stay under the `1.3s` segment budget. Visual review says the target midpoints are genuinely different pages, not stretched source layouts. The remaining problem is transition cleanliness: transition source-residual gain stays positive for timeline/transit/reef/orbit/naturalist and only goes negative for deep-sea. C10.1 should therefore target transition-frame source persistence directly rather than tuning endpoints again.
+
 Next experiments:
 
 ```text
-C100 independent recomposition generalization:
-c100-v07-timeline-indrecomp-tblend-mid35-seed0-s12000
-c100-v08-transit-indrecomp-tblend-mid35-seed0-s12000
-c100-v09-reef-indrecomp-tblend-mid35-seed0-s12000
-c100-v10-orbit-indrecomp-tblend-mid35-seed0-s12000
-c100-v11-naturalist-indrecomp-tblend-mid60-seed1-s12000
-c100-v11-naturalist-indrecomp-statesplit-mid60-seed1-s12000
-c100-v12-deep-sea-indrecomp-tblend-mid25-seed1-s12000
-c100-v12-deep-sea-indrecomp-statesplit-mid25-seed2-s12000
+C101 transition-target remnant pressure:
+c101-v07-timeline-indrecomp-truthrem075-seed1-s12000
+c101-v10-orbit-indrecomp-truthrem075-seed1-s12000
+c101-v09-reef-indrecomp-truthrem075-seed1-s12000
+c101-v11-naturalist-indrecomp-truthrem075-seed2-s12000
+c101-v12-deep-sea-indrecomp-truthrem075-seed3-s12000
+c101-v11-naturalist-indrecomp-statesplit-truthrem075-seed2-s12000
 ```
 
 Suggested `results.tsv` header:

@@ -43,6 +43,8 @@ As of this assessment update, C99 is complete. It is a stronger transition/recom
 
 C99's lesson is that independent recomposition is viable but still not robust across visual styles. Naturalist target-blend and state-split preserve endpoints, but midpoint text is weak (`0.4590` and `0.3967` OCR) and transition source-residual gain remains positive. The naturalist base run is now correctly marked `quality_fail`: midpoint OCR alone looked borderline, but source-frame OCR fell to `0.1379` and last-frame OCR fell to `0.1677`.
 
-The next step is C100: independent recomposition generalization. It applies the same mechanism to timeline, transit, reef, and orbit target pages, then repeats naturalist/deep-sea on the endpoint-preserving variants. This is meant to check whether the current direction generalizes beyond the two source-remnant stress fixtures.
+C100 is now complete and upgrades independent recomposition from promising to viable. All eight runs pass endpoint-aware gates across timeline, transit, reef, orbit, naturalist, and deep-sea. Timeline reaches midpoint OCR `0.9375`, orbit `0.8235`, transit `0.7179`, reef `0.5116`, deep-sea `0.8000-0.8276`, and naturalist remains the weak style at `0.3968-0.4138`.
+
+The next step is C101: transition-target source-remnant pressure. The endpoint/midpoint result now generalizes; the remaining visible failure is transition source haze. C101 should compare the current clean-target remnant loss with a transition-target remnant loss that penalizes pixels which remain closer to the source page than the synthetic transition target.
 
 The evaluator now reports endpoint OCR, source-residual gain/cosine, source-only edge bias, and transition-crop equivalents. These metrics should be read separately for endpoint frames, target-midpoint frames, and transition frames; transition-frame residuals are the most relevant metrics for the source-persistence problem.
