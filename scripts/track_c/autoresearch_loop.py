@@ -1414,6 +1414,61 @@ C102_REMNANT_TIMING_EXPERIMENTS = [
 ]
 
 
+C103_REMNANT_TIMING_CONSOLIDATION_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=12000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=source_coord_features,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        latent_sample_mode="source",
+        target_canvas_mode="blend",
+        target_canvas_init_scale=0.02,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.65,
+        layout_target_mid_sampling_ratio=mid_target_ratio,
+        layout_target_mid_time_width=mid_target_width,
+        layout_mid_time_ratio=0.68,
+        layout_mid_time_width=0.24,
+        layout_endpoint_ratio=0.14,
+        layout_endpoint_target_ratio=0.55,
+        source_remnant_loss_weight=remnant_weight,
+        source_remnant_margin=0.025,
+        source_remnant_change_floor=0.04,
+        source_remnant_reference="truth",
+        source_remnant_time_power=time_power,
+        motion_mode="layout-clean-independent-recompose",
+        clean_target_variant=variant,
+        min_ocr=0.35,
+        min_motion=0.05,
+    )
+    for (
+        label,
+        variant,
+        seed,
+        source_coord_features,
+        mid_target_ratio,
+        mid_target_width,
+        remnant_weight,
+        time_power,
+    ) in [
+        ("c103-v07-timeline-indrecomp-truthrem075-tpow05-seed3-s12000", "timeline-illustration", 3, 1, 0.35, 0.22, 0.75, 0.5),
+        ("c103-v10-orbit-indrecomp-truthrem075-tpow05-seed3-s12000", "orbit-topic", 3, 1, 0.35, 0.22, 0.75, 0.5),
+        ("c103-v09-reef-indrecomp-truthrem075-tpow05-seed3-s12000", "reef-topic", 3, 1, 0.35, 0.22, 0.75, 0.5),
+        ("c103-v12-deep-sea-indrecomp-truthrem075-tpow05-seed5-s12000", "deep-sea-lab", 5, 1, 0.25, 0.18, 0.75, 0.5),
+        ("c103-v11-naturalist-indrecomp-truthrem075-tpow05-seed4-s12000", "naturalist-plate", 4, 1, 0.60, 0.24, 0.75, 0.5),
+        ("c103-v11-naturalist-indrecomp-truthrem075-tpow025-seed4-s12000", "naturalist-plate", 4, 1, 0.60, 0.24, 0.75, 0.25),
+        ("c103-v11-naturalist-indrecomp-truthrem100-tpow05-seed4-s12000", "naturalist-plate", 4, 1, 0.60, 0.24, 1.00, 0.5),
+    ]
+]
+
+
 C98_TRANSITION_AWARE_EXPERIMENTS = [
     learned_layout_reflow_experiment(
         label,
@@ -2311,6 +2366,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C103_REMNANT_TIMING_CONSOLIDATION_EXPERIMENTS,
     *C102_REMNANT_TIMING_EXPERIMENTS,
     *C101_TRANSITION_REMNANT_EXPERIMENTS,
     *C100_INDEPENDENT_GENERALITY_EXPERIMENTS,

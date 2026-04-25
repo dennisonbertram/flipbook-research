@@ -1,17 +1,17 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-25T20:57:44+00:00`
+Updated UTC: `2026-04-25T21:04:21+00:00`
 
 ## Active Sessions
 
 - `agent-browser-chrome`
-- `agent-browser-chrome-2`
 - `clawtest`
 - `open-agents-web`
 - `pr-1419-checks`
 - `pr1337-gh-checks`
 - `pr1419-checks-monitor`
 - `pr1467-monitor`
+- `pr1516-checks-monitor`
 - `pubv2`
 - `pubv3`
 - `pubv31`
