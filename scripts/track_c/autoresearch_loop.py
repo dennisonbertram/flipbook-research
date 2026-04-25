@@ -1730,6 +1730,60 @@ C107_SOURCE_ONLY_DIRECT_REMNANT_EXPERIMENTS = [
 ]
 
 
+C108_SOURCE_ONLY_DIRECT_LIGHT_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=12000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        latent_sample_mode="source",
+        target_canvas_mode="blend",
+        target_canvas_init_scale=0.02,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.65,
+        layout_target_mid_sampling_ratio=mid_target_ratio,
+        layout_target_mid_time_width=mid_target_width,
+        layout_mid_time_ratio=0.68,
+        layout_mid_time_width=0.24,
+        layout_endpoint_ratio=0.14,
+        layout_endpoint_target_ratio=0.55,
+        source_remnant_loss_weight=0.75,
+        source_remnant_margin=0.025,
+        source_remnant_change_floor=0.04,
+        source_remnant_reference="truth",
+        source_remnant_time_power=time_power,
+        source_remnant_direct_loss_weight=0.25,
+        source_remnant_direct_region="source-only",
+        motion_mode="layout-clean-independent-recompose",
+        clean_target_variant=variant,
+        min_ocr=0.35,
+        min_motion=0.05,
+    )
+    for (
+        label,
+        variant,
+        seed,
+        mid_target_ratio,
+        mid_target_width,
+        time_power,
+    ) in [
+        ("c108-v07-timeline-indrecomp-truthrem075-tpow1-directsrc025-seed4-s12000", "timeline-illustration", 4, 0.35, 0.22, 1.0),
+        ("c108-v10-orbit-indrecomp-truthrem075-tpow1-directsrc025-seed4-s12000", "orbit-topic", 4, 0.35, 0.22, 1.0),
+        ("c108-v09-reef-indrecomp-truthrem075-tpow1-directsrc025-seed4-s12000", "reef-topic", 4, 0.35, 0.22, 1.0),
+        ("c108-v12-deep-sea-indrecomp-truthrem075-tpow1-directsrc025-seed6-s12000", "deep-sea-lab", 6, 0.25, 0.18, 1.0),
+        ("c108-v11-naturalist-indrecomp-truthrem075-tpow05-directsrc025-seed5-s12000", "naturalist-plate", 5, 0.60, 0.24, 0.5),
+        ("c108-v11-naturalist-indrecomp-truthrem075-tpow025-directsrc025-seed5-s12000", "naturalist-plate", 5, 0.60, 0.24, 0.25),
+    ]
+]
+
+
 C98_TRANSITION_AWARE_EXPERIMENTS = [
     learned_layout_reflow_experiment(
         label,
@@ -2627,6 +2681,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C108_SOURCE_ONLY_DIRECT_LIGHT_EXPERIMENTS,
     *C107_SOURCE_ONLY_DIRECT_REMNANT_EXPERIMENTS,
     *C106_DIRECT_TRANSITION_REMNANT_EXPERIMENTS,
     *C105_SOURCE_REMNANT_EDGE_LOW_RATIO_EXPERIMENTS,
