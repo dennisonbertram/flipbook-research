@@ -501,3 +501,12 @@
 [2026-04-25T16:25:20+00:00] eval 20260425T155829066852Z-c2-lite-glyph-layout-clean-reflow-c94-v11-naturalist-dualres-s100-rem025-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1046.768ms	ocr=0.4355
 [2026-04-25T16:25:20+00:00] eval 20260425T155944465032Z-c2-lite-glyph-layout-clean-reflow-c94-v12-deep-sea-latentboth-rem050-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	922.816ms	ocr=0.8000
 [2026-04-25T16:25:20+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-25T16:25:23+00:00] published Track C docs update: 2026-04-25 16:25 UTC
+[2026-04-25T16:36:32+00:00] eval 20260425T162226670461Z-c2-lite-glyph-layout-clean-reflow-c95-v11-naturalist-tcanvas-gated-init02-rem050-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1157.821ms	ocr=0.4000
+[2026-04-25T16:36:32+00:00] eval 20260425T162226677988Z-c2-lite-glyph-layout-clean-reflow-c95-v12-deep-sea-tcanvas-gated-init02-rem050-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	948.805ms	ocr=0.7222
+[2026-04-25T16:36:32+00:00] eval 20260425T162226792040Z-c2-lite-glyph-layout-clean-reflow-c95-v11-naturalist-tcanvas-gated-init02-rem025-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1147.522ms	ocr=0.5546
+[2026-04-25T16:36:32+00:00] eval 20260425T162226892317Z-c2-lite-glyph-layout-clean-reflow-c95-v12-deep-sea-tcanvas-always-init02-rem050-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1129.219ms	ocr=0.8000
+[2026-04-25T16:36:32+00:00] eval 20260425T162226893209Z-c2-lite-glyph-layout-clean-reflow-c95-v11-naturalist-tcanvas-always-init02-rem025-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	913.200ms	ocr=0.5098
+[2026-04-25T16:36:32+00:00] eval 20260425T162226990512Z-c2-lite-glyph-layout-clean-reflow-c95-v12-deep-sea-tcanvas-gated-init05-rem050-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1147.669ms	ocr=0.7500
+[2026-04-25T16:36:32+00:00] eval 20260425T162227184037Z-c2-lite-glyph-layout-clean-reflow-c95-v12-deep-sea-tcanvas-gated-init02-rem050-seed1-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1171.833ms	ocr=0.6486
+[2026-04-25T16:36:32+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
