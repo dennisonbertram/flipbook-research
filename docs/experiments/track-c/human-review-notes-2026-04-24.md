@@ -2553,3 +2553,20 @@ Human read:
 - Best `changed-unboxed` is visually more readable than the OCR number suggests; dense small text likely hurts token-F1.
 - The old-source ghost problem remains visible as faint left-side remnants in open whitespace. It is subtle, but it matters because Flipbook's claim is a clean generated page surface.
 - C90 should therefore be treated as a hard generalization test: changed illustration structure plus changed text. Passing C90 would be stronger evidence than further text/layout variants around the same oval diagram.
+
+Completed C90 visual review:
+
+```text
+c90-v7-timeline-illustration-target60-mid20-seed0-s12000: OCR 0.9091, segment 929.222ms, pass
+c90-v7-timeline-illustration-target60-mid35-seed0-s12000: OCR 0.8421, segment 741.483ms, pass
+c90-v8-transit-illustration-target60-mid20-seed0-s12000: OCR 0.7805, segment 912.081ms, pass
+c90-v8-transit-illustration-target60-mid20-seed1-s12000: OCR 0.7368, segment 922.412ms, pass
+```
+
+Human read:
+
+- C90 is a real generality jump. The model redraws timeline bars, year markers, route lines, map grid, route labels, and new section text.
+- The best timeline render looks close to the target and no longer resembles the old oval diagram.
+- The best transit render preserves the route-map geometry, including crossing colored routes and the small arena label.
+- Faint old-source haze is still visible near the far right edge/open whitespace. This is not blocking, but it remains the clearest quality gap.
+- C91 should change topic entirely, not only the representation style, to test whether this is becoming a page-state renderer rather than a Colosseum-specific renderer.

@@ -192,19 +192,21 @@ C8.8 passes the unboxed stress. All ten runs pass: `unboxed-columns` reaches OCR
 
 C8.9 is a real positive on changed copy. All ten runs pass the current gates. The strongest `changed-callout` run reaches OCR `0.9259` at `1057.956ms`, another reaches OCR `0.8846` at `1196.854ms`, and the fastest `changed-callout` pass reaches OCR `0.7407` at `743.559ms`. The `changed-unboxed` family is visually readable but lower by OCR (`0.5000-0.6111`), likely because the dense right-column body text is a harder small-text target. Human review shows the new headings and body copy are genuinely present as pixels, while faint source remnants remain in open whitespace. C9.0 therefore changes the illustration grammar itself with `timeline-illustration` and `transit-illustration` targets.
 
+C9.0 is a stronger positive because the target is no longer the same oval diagram. All ten changed-illustration runs pass. `timeline-illustration` reaches OCR `0.9091` at `929.222ms` and OCR `0.8421` at `741.483ms`; `transit-illustration` reaches OCR `0.7805` at `912.081ms` with repeated transit passes at OCR `0.7368`. Visual review shows the timeline bars, year markers, route lines, grid, and new labels are genuinely redrawn as the target page state. The remaining caveat is the same: faint source haze can still appear in open whitespace. C9.1 should move to unrelated new-topic target pages so the target title, body, and illustration all change together.
+
 Next experiments:
 
 ```text
-c90-v7-timeline-illustration-target60-mid20-seed0-s12000
-c90-v7-timeline-illustration-target60-mid20-seed1-s12000
-c90-v7-timeline-illustration-target60-mid20-seed2-s12000
-c90-v7-timeline-illustration-target60-mid20-seed4-s12000
-c90-v8-transit-illustration-target60-mid20-seed0-s12000
-c90-v8-transit-illustration-target60-mid20-seed1-s12000
-c90-v8-transit-illustration-target60-mid20-seed2-s12000
-c90-v8-transit-illustration-target60-mid20-seed4-s12000
-c90-v7-timeline-illustration-target60-mid35-seed0-s12000
-c90-v8-transit-illustration-target60-mid35-seed0-s12000
+c91-v9-reef-topic-target60-mid20-seed0-s12000
+c91-v9-reef-topic-target60-mid20-seed1-s12000
+c91-v9-reef-topic-target60-mid20-seed2-s12000
+c91-v9-reef-topic-target60-mid20-seed4-s12000
+c91-v10-orbit-topic-target60-mid20-seed0-s12000
+c91-v10-orbit-topic-target60-mid20-seed1-s12000
+c91-v10-orbit-topic-target60-mid20-seed2-s12000
+c91-v10-orbit-topic-target60-mid20-seed4-s12000
+c91-v9-reef-topic-target60-mid35-seed0-s12000
+c91-v10-orbit-topic-target60-mid35-seed0-s12000
 ```
 
 Suggested `results.tsv` header:
