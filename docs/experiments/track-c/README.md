@@ -236,20 +236,22 @@ C10.9 is complete and should be read as a useful but overfit-sensitive result. N
 
 C11.0 is complete. The naturalist `time_power=0.25/directsrc=0.18` pair is a real same-seed win: OCR `0.4808` vs `0.4571`, segment `1108.582ms` vs `1108.945ms`, residual gain `0.1129` vs `0.1274`. That does not make source-only direct loss a default. Naturalist `time_power=0.5/directsrc=0.18` fails, reef directsrc `0.18` hurts OCR while only slightly improving residual, transit directsrc `0.18` improves OCR but worsens residual, and orbit directsrc `0.25` improves residual while cutting OCR from `1.0000` to `0.7368`. C11.1 moves back to target-state structure instead of direct-weight tuning.
 
+C11.1 is complete and makes target-canvas `always` the next candidate. Against same-seed blend controls, `always` improves naturalist (`0.4954` OCR / `0.1158` residual vs `0.4771` / `0.1448`), reef (`0.7500` / `0.0380` vs `0.4783` / `0.0474`), and transit (`0.7000` / `0.0421` vs `0.6500` / `0.0513`). Directsrc `0.18` still fails in single-decoder naturalist variants, but state-split + direct passes with OCR `0.4348` and the best naturalist residual in the wave (`0.0988`). C11.2 validates `target_canvas=always` across more targets before making it the default.
+
 Next experiments:
 
 ```text
-C111 target-state structure:
-c111-v11-naturalist-indrecomp-blend-truthrem075-tpow025-control-seed7-s12000
-c111-v11-naturalist-indrecomp-blend-truthrem075-tpow025-directsrc018-seed7-s12000
-c111-v11-naturalist-indrecomp-talways-truthrem075-tpow025-control-seed7-s12000
-c111-v11-naturalist-indrecomp-talways-truthrem075-tpow025-directsrc018-seed7-s12000
-c111-v11-naturalist-indrecomp-statesplit-truthrem075-tpow025-control-seed7-s12000
-c111-v11-naturalist-indrecomp-statesplit-truthrem075-tpow025-directsrc018-seed7-s12000
-c111-v08-transit-indrecomp-blend-truthrem075-tpow1-control-seed2-s12000
-c111-v08-transit-indrecomp-talways-truthrem075-tpow1-control-seed2-s12000
-c111-v09-reef-indrecomp-blend-truthrem075-tpow1-control-seed6-s12000
-c111-v09-reef-indrecomp-talways-truthrem075-tpow1-control-seed6-s12000
+C112 target-canvas always validation:
+c112-v11-naturalist-indrecomp-blend-truthrem075-tpow025-control-seed8-s12000
+c112-v11-naturalist-indrecomp-talways-truthrem075-tpow025-control-seed8-s12000
+c112-v11-naturalist-indrecomp-statesplit-truthrem075-tpow025-control-seed8-s12000
+c112-v11-naturalist-indrecomp-statesplit-truthrem075-tpow025-directsrc018-seed8-s12000
+c112-v07-timeline-indrecomp-blend-truthrem075-tpow1-control-seed5-s12000
+c112-v07-timeline-indrecomp-talways-truthrem075-tpow1-control-seed5-s12000
+c112-v10-orbit-indrecomp-blend-truthrem075-tpow1-control-seed7-s12000
+c112-v10-orbit-indrecomp-talways-truthrem075-tpow1-control-seed7-s12000
+c112-v12-deep-sea-indrecomp-blend-truthrem075-tpow1-control-seed7-s12000
+c112-v12-deep-sea-indrecomp-talways-truthrem075-tpow1-control-seed7-s12000
 ```
 
 Suggested `results.tsv` header:
