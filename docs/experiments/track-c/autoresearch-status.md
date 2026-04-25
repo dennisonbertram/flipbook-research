@@ -1,11 +1,10 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-25T03:54:24+00:00`
+Updated UTC: `2026-04-25T03:59:53+00:00`
 
 ## Active Sessions
 
 - `clawtest`
-- `pr1445-checks`
 - `pr1467-monitor`
 - `track-c-autoresearch`
 - `track-c-c73-c4both-seed1-s14000`
@@ -13,7 +12,6 @@ Updated UTC: `2026-04-25T03:54:24+00:00`
 - `track-c-c73-c4target-seed1-s14000`
 - `track-c-c73-c4target-seed2-s14000`
 - `track-c-c73-c8both-seed1-s14000`
-- `track-c-c73-c8both-seed2-s14000`
 - `track-c-c73-c8both-seed4-s14000`
 - `track-c-c73-c8target-seed1-s14000`
 - `track-c-c73-c8target-seed2-s14000`
@@ -26,7 +24,7 @@ Updated UTC: `2026-04-25T03:54:24+00:00`
 - `c73-c8target-seed2-s14000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 2, source-coord features, latent cross neighborhood r1px, context c8 scale 0.25 target, target-side reflow sampling ratio 0.6, mid-time 0.6.
 - `c73-c8target-seed4-s14000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 4, source-coord features, latent cross neighborhood r1px, context c8 scale 0.25 target, target-side reflow sampling ratio 0.6, mid-time 0.6.
 - `c73-c8both-seed1-s14000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 1, source-coord features, latent cross neighborhood r1px, context c8 scale 0.25 both, target-side reflow sampling ratio 0.6, mid-time 0.6.
-- `c73-c8both-seed2-s14000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 2, source-coord features, latent cross neighborhood r1px, context c8 scale 0.25 both, target-side reflow sampling ratio 0.6, mid-time 0.6.
+- `c73-c8both-seed2-s14000`: done - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 2, source-coord features, latent cross neighborhood r1px, context c8 scale 0.25 both, target-side reflow sampling ratio 0.6, mid-time 0.6.
 - `c73-c8both-seed4-s14000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 4, source-coord features, latent cross neighborhood r1px, context c8 scale 0.25 both, target-side reflow sampling ratio 0.6, mid-time 0.6.
 - `c73-c4target-seed1-s14000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 1, source-coord features, latent cross neighborhood r1px, context c4 scale 0.25 target, target-side reflow sampling ratio 0.6, mid-time 0.6.
 - `c73-c4target-seed2-s14000`: pending/running - Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 2, source-coord features, latent cross neighborhood r1px, context c4 scale 0.25 target, target-side reflow sampling ratio 0.6, mid-time 0.6.
