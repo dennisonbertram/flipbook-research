@@ -42,3 +42,12 @@
 [2026-04-25T06:59:51+00:00] eval 20260425T063904286083Z-c2-lite-glyph-layout-reflow-c84-gateedge-b025-r275-a110-seed5-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	1073.714ms	ocr=0.4651
 [2026-04-25T06:59:51+00:00] eval 20260425T063904374568Z-c2-lite-glyph-layout-reflow-c84-gateedge-b025-r325-a110-seed4-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	1062.213ms	ocr=0.5176
 [2026-04-25T06:59:51+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-25T06:59:53+00:00] published Track C docs update: 2026-04-25 06:59 UTC
+[2026-04-25T07:10:47+00:00] eval 20260425T065735353760Z-c2-lite-glyph-layout-reflow-c85-gatelearn045-b025-r275-a110-seed4-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	925.386ms	ocr=0.5497
+[2026-04-25T07:10:47+00:00] eval 20260425T065735355630Z-c2-lite-glyph-layout-reflow-c85-gatelearn040-b025-r275-a110-seed4-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	932.207ms	ocr=0.5029
+[2026-04-25T07:10:47+00:00] eval 20260425T065735359787Z-c2-lite-glyph-layout-reflow-c85-gatelearn030-b025-r275-a110-seed4-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	1079.571ms	ocr=0.5714
+[2026-04-25T07:10:47+00:00] eval 20260425T065735372094Z-c2-lite-glyph-layout-reflow-c85-gatelearn035-b025-r275-a110-seed2-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	937.884ms	ocr=0.5275
+[2026-04-25T07:10:47+00:00] eval 20260425T065735376151Z-c2-lite-glyph-layout-reflow-c85-gatelearn035-b025-r275-a110-seed5-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	767.399ms	ocr=0.4780
+[2026-04-25T07:10:47+00:00] eval 20260425T065735425099Z-c2-lite-glyph-layout-reflow-c85-gatelearn035-b025-r300-a110-seed4-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	929.031ms	ocr=0.5434
+[2026-04-25T07:10:47+00:00] eval 20260425T065735462089Z-c2-lite-glyph-layout-reflow-c85-gatelearn025-b025-r275-a110-seed4-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	919.638ms	ocr=0.4780
+[2026-04-25T07:10:47+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
