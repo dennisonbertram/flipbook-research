@@ -555,3 +555,12 @@
 [2026-04-25T17:33:29+00:00] eval 20260425T172359691143Z-c2-lite-glyph-layout-clean-move-reveal-c98-v12-deep-sea-movereveal-base-rem050-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	917.112ms	ocr=0.8571
 [2026-04-25T17:33:29+00:00] eval 20260425T172400065539Z-c2-lite-glyph-layout-clean-move-reveal-c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	939.032ms	ocr=0.8966
 [2026-04-25T17:33:29+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-25T17:33:32+00:00] published Track C docs update: 2026-04-25 17:33 UTC
+[2026-04-25T17:41:16+00:00] eval 20260425T172359440504Z-c2-lite-glyph-layout-clean-move-reveal-c98-v11-naturalist-movereveal-statesplit-init02-rem025-mid50-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	quality_fail	1134.158ms	ocr=0.0702
+[2026-04-25T17:41:16+00:00] eval 20260425T172359630504Z-c2-lite-glyph-layout-clean-move-reveal-c98-v11-naturalist-movereveal-base-rem025-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1074.523ms	ocr=0.4839
+[2026-04-25T17:41:16+00:00] eval 20260425T172359651115Z-c2-lite-glyph-layout-clean-move-reveal-c98-v11-naturalist-movereveal-tblend-init02-rem025-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1099.476ms	ocr=0.4330
+[2026-04-25T17:41:16+00:00] eval 20260425T172359691143Z-c2-lite-glyph-layout-clean-move-reveal-c98-v12-deep-sea-movereveal-base-rem050-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	917.112ms	ocr=0.8571
+[2026-04-25T17:41:16+00:00] eval 20260425T172359744158Z-c2-lite-glyph-layout-clean-move-reveal-c98-v11-naturalist-movereveal-tblend-init02-rem025-mid50-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	quality_fail	1135.674ms	ocr=0.2857
+[2026-04-25T17:41:16+00:00] eval 20260425T172359759519Z-c2-lite-glyph-layout-clean-move-reveal-c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed1-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1097.338ms	ocr=0.7222
+[2026-04-25T17:41:16+00:00] eval 20260425T172400065539Z-c2-lite-glyph-layout-clean-move-reveal-c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	939.032ms	ocr=0.8966
+[2026-04-25T17:41:16+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv

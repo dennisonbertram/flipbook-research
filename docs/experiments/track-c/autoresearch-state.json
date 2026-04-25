@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-04-25T17:31:48+00:00",
+  "updated_utc": "2026-04-25T17:38:22+00:00",
   "active_sessions": [
     "clawtest",
     "pr-1419-checks",
@@ -10,12 +10,12 @@
     "pubv3",
     "pubv31",
     "track-c-autoresearch",
-    "track-c-c98-v11-naturalist-movereveal-statesplit-init02-rem025-mid50-seed0-s12000",
-    "track-c-c98-v11-naturalist-movereveal-tblend-init02-rem025-mid35-seed0-s12000",
-    "track-c-c98-v11-naturalist-movereveal-tblend-init02-rem025-mid50-seed0-s12000",
-    "track-c-c98-v12-deep-sea-movereveal-statesplit-init02-rem050-mid20-seed1-s12000",
-    "track-c-c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed0-s12000",
-    "track-c-c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed1-s12000",
+    "track-c-c99-v11-naturalist-indrecomp-base-rem025-mid50-seed0-s12000",
+    "track-c-c99-v11-naturalist-indrecomp-statesplit-init02-rem025-mid50-seed0-s12000",
+    "track-c-c99-v11-naturalist-indrecomp-tblend-init02-rem025-mid50-seed0-s12000",
+    "track-c-c99-v12-deep-sea-indrecomp-base-rem050-mid35-seed0-s12000",
+    "track-c-c99-v12-deep-sea-indrecomp-statesplit-init02-rem050-mid35-seed1-s12000",
+    "track-c-c99-v12-deep-sea-indrecomp-tblend-init02-rem050-mid35-seed0-s12000",
     "track-c-github-sync",
     "track-c-output-browser-8765",
     "track-v-output-browser-8766",
@@ -25,60 +25,102 @@
   ],
   "experiments": [
     {
+      "label": "c99-v11-naturalist-indrecomp-base-rem025-mid50-seed0-s12000",
+      "session": "track-c-c99-v11-naturalist-indrecomp-base-rem025-mid50-seed0-s12000",
+      "log": "docs/experiments/track-c/c99-v11-naturalist-indrecomp-base-rem025-mid50-seed0-s12000.log",
+      "done": false,
+      "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, source-coord features, latent cross neighborhood r1px source, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.5 width 0.24, mid-time 0.68, endpoint anchors 0.14/0.55, clean target naturalist-plate."
+    },
+    {
+      "label": "c99-v11-naturalist-indrecomp-tblend-init02-rem025-mid50-seed0-s12000",
+      "session": "track-c-c99-v11-naturalist-indrecomp-tblend-init02-rem025-mid50-seed0-s12000",
+      "log": "docs/experiments/track-c/c99-v11-naturalist-indrecomp-tblend-init02-rem025-mid50-seed0-s12000.log",
+      "done": false,
+      "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.5 width 0.24, mid-time 0.68, endpoint anchors 0.14/0.55, clean target naturalist-plate."
+    },
+    {
+      "label": "c99-v11-naturalist-indrecomp-statesplit-init02-rem025-mid50-seed0-s12000",
+      "session": "track-c-c99-v11-naturalist-indrecomp-statesplit-init02-rem025-mid50-seed0-s12000",
+      "log": "docs/experiments/track-c/c99-v11-naturalist-indrecomp-statesplit-init02-rem025-mid50-seed0-s12000.log",
+      "done": false,
+      "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, latent cross neighborhood r1px source, decoder state-split target-scale 0 target-h160, target-state canvas always init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.5 width 0.24, mid-time 0.68, endpoint anchors 0.14/0.55, clean target naturalist-plate."
+    },
+    {
+      "label": "c99-v12-deep-sea-indrecomp-base-rem050-mid35-seed0-s12000",
+      "session": "track-c-c99-v12-deep-sea-indrecomp-base-rem050-mid35-seed0-s12000",
+      "log": "docs/experiments/track-c/c99-v12-deep-sea-indrecomp-base-rem050-mid35-seed0-s12000.log",
+      "done": false,
+      "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.5, source-coord features, latent cross neighborhood r1px source, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.68, endpoint anchors 0.14/0.55, clean target deep-sea-lab."
+    },
+    {
+      "label": "c99-v12-deep-sea-indrecomp-tblend-init02-rem050-mid35-seed0-s12000",
+      "session": "track-c-c99-v12-deep-sea-indrecomp-tblend-init02-rem050-mid35-seed0-s12000",
+      "log": "docs/experiments/track-c/c99-v12-deep-sea-indrecomp-tblend-init02-rem050-mid35-seed0-s12000.log",
+      "done": false,
+      "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.5, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.68, endpoint anchors 0.14/0.55, clean target deep-sea-lab."
+    },
+    {
+      "label": "c99-v12-deep-sea-indrecomp-statesplit-init02-rem050-mid35-seed1-s12000",
+      "session": "track-c-c99-v12-deep-sea-indrecomp-statesplit-init02-rem050-mid35-seed1-s12000",
+      "log": "docs/experiments/track-c/c99-v12-deep-sea-indrecomp-statesplit-init02-rem050-mid35-seed1-s12000.log",
+      "done": false,
+      "notes": "Learned clean page-state proof: the training target independently recomposes source and target page regions before resolving to a separate clean page state at the midpoint; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.5, seed 1, source-coord features, latent cross neighborhood r1px source, decoder state-split target-scale 0 target-h160, target-state canvas always init 0.02, target-side reflow sampling ratio 0.65, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.68, endpoint anchors 0.14/0.55, clean target deep-sea-lab."
+    },
+    {
       "label": "c98-v11-naturalist-movereveal-base-rem025-mid35-seed0-s12000",
       "session": "track-c-c98-v11-naturalist-movereveal-base-rem025-mid35-seed0-s12000",
       "log": "docs/experiments/track-c/c98-v11-naturalist-movereveal-base-rem025-mid35-seed0-s12000.log",
       "done": true,
-      "notes": "Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, source-coord features, latent cross neighborhood r1px source, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.65, endpoint anchors 0.12/0.5, clean target naturalist-plate."
+      "notes": "Learned clean page-state proof: the training target moves the source layer while the separate clean target page eases into place; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, source-coord features, latent cross neighborhood r1px source, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.65, endpoint anchors 0.12/0.5, clean target naturalist-plate."
     },
     {
       "label": "c98-v11-naturalist-movereveal-tblend-init02-rem025-mid35-seed0-s12000",
       "session": "track-c-c98-v11-naturalist-movereveal-tblend-init02-rem025-mid35-seed0-s12000",
       "log": "docs/experiments/track-c/c98-v11-naturalist-movereveal-tblend-init02-rem025-mid35-seed0-s12000.log",
-      "done": false,
-      "notes": "Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.65, endpoint anchors 0.12/0.5, clean target naturalist-plate."
+      "done": true,
+      "notes": "Learned clean page-state proof: the training target moves the source layer while the separate clean target page eases into place; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.35 width 0.22, mid-time 0.65, endpoint anchors 0.12/0.5, clean target naturalist-plate."
     },
     {
       "label": "c98-v11-naturalist-movereveal-tblend-init02-rem025-mid50-seed0-s12000",
       "session": "track-c-c98-v11-naturalist-movereveal-tblend-init02-rem025-mid50-seed0-s12000",
       "log": "docs/experiments/track-c/c98-v11-naturalist-movereveal-tblend-init02-rem025-mid50-seed0-s12000.log",
-      "done": false,
-      "notes": "Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.5 width 0.24, mid-time 0.65, endpoint anchors 0.12/0.5, clean target naturalist-plate."
+      "done": true,
+      "notes": "Learned clean page-state proof: the training target moves the source layer while the separate clean target page eases into place; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.5 width 0.24, mid-time 0.65, endpoint anchors 0.12/0.5, clean target naturalist-plate."
     },
     {
       "label": "c98-v11-naturalist-movereveal-statesplit-init02-rem025-mid50-seed0-s12000",
       "session": "track-c-c98-v11-naturalist-movereveal-statesplit-init02-rem025-mid50-seed0-s12000",
       "log": "docs/experiments/track-c/c98-v11-naturalist-movereveal-statesplit-init02-rem025-mid50-seed0-s12000.log",
-      "done": false,
-      "notes": "Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, latent cross neighborhood r1px source, decoder state-split target-scale 0 target-h160, target-state canvas always init 0.02, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.5 width 0.24, mid-time 0.65, endpoint anchors 0.12/0.5, clean target naturalist-plate."
+      "done": true,
+      "notes": "Learned clean page-state proof: the training target moves the source layer while the separate clean target page eases into place; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.25, latent cross neighborhood r1px source, decoder state-split target-scale 0 target-h160, target-state canvas always init 0.02, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.5 width 0.24, mid-time 0.65, endpoint anchors 0.12/0.5, clean target naturalist-plate."
     },
     {
       "label": "c98-v12-deep-sea-movereveal-base-rem050-mid20-seed0-s12000",
       "session": "track-c-c98-v12-deep-sea-movereveal-base-rem050-mid20-seed0-s12000",
       "log": "docs/experiments/track-c/c98-v12-deep-sea-movereveal-base-rem050-mid20-seed0-s12000.log",
       "done": true,
-      "notes": "Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.5, source-coord features, latent cross neighborhood r1px source, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.2 width 0.18, mid-time 0.65, endpoint anchors 0.12/0.5, clean target deep-sea-lab."
+      "notes": "Learned clean page-state proof: the training target moves the source layer while the separate clean target page eases into place; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.5, source-coord features, latent cross neighborhood r1px source, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.2 width 0.18, mid-time 0.65, endpoint anchors 0.12/0.5, clean target deep-sea-lab."
     },
     {
       "label": "c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed0-s12000",
       "session": "track-c-c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed0-s12000",
       "log": "docs/experiments/track-c/c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed0-s12000.log",
-      "done": false,
-      "notes": "Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.5, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.2 width 0.18, mid-time 0.65, endpoint anchors 0.12/0.5, clean target deep-sea-lab."
+      "done": true,
+      "notes": "Learned clean page-state proof: the training target moves the source layer while the separate clean target page eases into place; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.5, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.2 width 0.18, mid-time 0.65, endpoint anchors 0.12/0.5, clean target deep-sea-lab."
     },
     {
       "label": "c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed1-s12000",
       "session": "track-c-c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed1-s12000",
       "log": "docs/experiments/track-c/c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed1-s12000.log",
-      "done": false,
-      "notes": "Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.5, seed 1, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.2 width 0.18, mid-time 0.65, endpoint anchors 0.12/0.5, clean target deep-sea-lab."
+      "done": true,
+      "notes": "Learned clean page-state proof: the training target moves the source layer while the separate clean target page eases into place; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.5, seed 1, source-coord features, latent cross neighborhood r1px source, target-state canvas blend init 0.02, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.2 width 0.18, mid-time 0.65, endpoint anchors 0.12/0.5, clean target deep-sea-lab."
     },
     {
       "label": "c98-v12-deep-sea-movereveal-statesplit-init02-rem050-mid20-seed1-s12000",
       "session": "track-c-c98-v12-deep-sea-movereveal-statesplit-init02-rem050-mid20-seed1-s12000",
       "log": "docs/experiments/track-c/c98-v12-deep-sea-movereveal-statesplit-init02-rem050-mid20-seed1-s12000.log",
-      "done": false,
-      "notes": "Learned clean page-state proof: the training target is a separate clean page state at the midpoint, then loops back to the source; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.5, seed 1, source-coord features, latent cross neighborhood r1px source, decoder state-split target-scale 0 target-h160, target-state canvas always init 0.02, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.2 width 0.18, mid-time 0.65, endpoint anchors 0.12/0.5, clean target deep-sea-lab."
+      "done": true,
+      "notes": "Learned clean page-state proof: the training target moves the source layer while the separate clean target page eases into place; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 12000 steps, freq10, grad clip 0.5, source-remnant contrast 0.5, seed 1, source-coord features, latent cross neighborhood r1px source, decoder state-split target-scale 0 target-h160, target-state canvas always init 0.02, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.2 width 0.18, mid-time 0.65, endpoint anchors 0.12/0.5, clean target deep-sea-lab."
     },
     {
       "label": "c97-v11-naturalist-statesplit-init02-rem025-mid35-seed0-s12000",
