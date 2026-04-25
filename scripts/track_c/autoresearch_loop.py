@@ -81,6 +81,8 @@ def general_visual_motion_args(
     rgb_skip_scale: float | None = None,
     rgb_skip_mode: str | None = None,
     rgb_skip_base_scale: float | None = None,
+    rgb_skip_gate_mode: str | None = None,
+    rgb_skip_gate_init: float | None = None,
     freq_bands: int | None = None,
     time_bands: int | None = None,
     lr: float | None = None,
@@ -215,6 +217,10 @@ def general_visual_motion_args(
         args.extend(["--rgb-skip-mode", rgb_skip_mode])
     if rgb_skip_base_scale is not None:
         args.extend(["--rgb-skip-base-scale", f"{rgb_skip_base_scale:g}"])
+    if rgb_skip_gate_mode is not None:
+        args.extend(["--rgb-skip-gate-mode", rgb_skip_gate_mode])
+    if rgb_skip_gate_init is not None:
+        args.extend(["--rgb-skip-gate-init", f"{rgb_skip_gate_init:g}"])
     if batch_size is not None:
         args.extend(["--batch-size", str(batch_size)])
     if freq_bands is not None:
@@ -589,6 +595,8 @@ def learned_layout_reflow_experiment(
     rgb_skip_scale: float | None = None,
     rgb_skip_mode: str | None = None,
     rgb_skip_base_scale: float | None = None,
+    rgb_skip_gate_mode: str | None = None,
+    rgb_skip_gate_init: float | None = None,
     freq_bands: int = 10,
     time_bands: int | None = None,
     lr: float | None = None,
@@ -656,6 +664,7 @@ def learned_layout_reflow_experiment(
     rgb_skip_note = (
         f", rgb neural texture skip base {rgb_skip_base_scale if rgb_skip_base_scale is not None else 1:g}"
         f" residual {rgb_skip_scale:g} {rgb_skip_mode or 'source'}"
+        f"{' gate ' + rgb_skip_gate_mode if rgb_skip_gate_mode else ''}"
         if rgb_skip_scale
         else ""
     )
@@ -717,6 +726,8 @@ def learned_layout_reflow_experiment(
             rgb_skip_scale=rgb_skip_scale,
             rgb_skip_mode=rgb_skip_mode,
             rgb_skip_base_scale=rgb_skip_base_scale,
+            rgb_skip_gate_mode=rgb_skip_gate_mode,
+            rgb_skip_gate_init=rgb_skip_gate_init,
             freq_bands=freq_bands,
             time_bands=time_bands,
             lr=lr,
@@ -754,6 +765,48 @@ def learned_layout_reflow_experiment(
             min_motion=min_motion,
         ),
     )
+
+
+C84_RGB_SKIP_GATE_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=amount,
+        flow_scale=0.10,
+        steps=14000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        context_channels=0,
+        context_scale=0.25,
+        rgb_skip_scale=rgb_skip_scale,
+        rgb_skip_mode="source",
+        rgb_skip_base_scale=rgb_skip_base_scale,
+        rgb_skip_gate_mode=gate_mode,
+        rgb_skip_gate_init=gate_init,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_mid_time_ratio=0.60,
+        layout_mid_time_width=0.28,
+        min_ocr=0.55,
+        min_motion=0.045,
+    )
+    for label, seed, amount, rgb_skip_base_scale, rgb_skip_scale, gate_mode, gate_init in [
+        ("c84-gateedge-b025-r275-a110-seed0-s14000", 0, 1.10, 0.25, 2.75, "edge", 0.5),
+        ("c84-gateedge-b025-r275-a110-seed1-s14000", 1, 1.10, 0.25, 2.75, "edge", 0.5),
+        ("c84-gateedge-b025-r275-a110-seed4-s14000", 4, 1.10, 0.25, 2.75, "edge", 0.5),
+        ("c84-gateedge-b025-r275-a110-seed5-s14000", 5, 1.10, 0.25, 2.75, "edge", 0.5),
+        ("c84-gateedge-b025-r325-a110-seed4-s14000", 4, 1.10, 0.25, 3.25, "edge", 0.5),
+        ("c84-gateedge-b030-r275-a110-seed4-s14000", 4, 1.10, 0.30, 2.75, "edge", 0.5),
+        ("c84-gatelearn035-b025-r275-a110-seed4-s14000", 4, 1.10, 0.25, 2.75, "learned", 0.35),
+        ("c84-gatelearn050-b025-r275-a110-seed4-s14000", 4, 1.10, 0.25, 2.75, "learned", 0.50),
+        ("c84-gatelearn035-b025-r325-a110-seed4-s14000", 4, 1.10, 0.25, 3.25, "learned", 0.35),
+        ("c84-gateedge-b020-r275-a110-seed4-s14000", 4, 1.10, 0.20, 2.75, "edge", 0.5),
+    ]
+]
 
 
 C83_RGB_SKIP_REFINEMENT_EXPERIMENTS = [
@@ -1314,6 +1367,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C84_RGB_SKIP_GATE_EXPERIMENTS,
     *C83_RGB_SKIP_REFINEMENT_EXPERIMENTS,
     *C82_NO_CONTEXT_RGB_SKIP_CONSOLIDATION_EXPERIMENTS,
     *C81_NO_CONTEXT_RGB_SKIP_EXPERIMENTS,

@@ -289,6 +289,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             rgb_skip_scale: float = 0.0,
             rgb_skip_mode: str = "source",
             rgb_skip_base_scale: float = 1.0,
+            rgb_skip_gate_mode: str = "none",
+            rgb_skip_gate_init: float = 0.5,
         ):
             super().__init__()
             self.width = width
@@ -319,10 +321,20 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             self.rgb_skip_scale = float(rgb_skip_scale)
             self.rgb_skip_mode = rgb_skip_mode
             self.rgb_skip_base_scale = float(rgb_skip_base_scale)
+            rgb_skip_gate_mode = rgb_skip_gate_mode.lower().replace("_", "-")
+            if rgb_skip_gate_mode not in {"none", "learned", "edge"}:
+                rgb_skip_gate_mode = "none"
+            self.rgb_skip_gate_mode = rgb_skip_gate_mode
+            gate_init = min(0.98, max(0.02, float(rgb_skip_gate_init)))
             self.canvas = nn.Parameter(torch.randn(1, channels, height, width) * 0.02)
             self.rgb_canvas = (
                 nn.Parameter(torch.zeros(1, 3, height, width))
                 if self.rgb_skip_scale > 0.0
+                else None
+            )
+            self.rgb_gate_canvas = (
+                nn.Parameter(torch.full((1, 1, height, width), float(np.log(gate_init / (1.0 - gate_init)))))
+                if self.rgb_skip_scale > 0.0 and self.rgb_skip_gate_mode != "none"
                 else None
             )
             if context_channels > 0:
@@ -556,7 +568,19 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                     padding_mode="border",
                     align_corners=True,
                 ).squeeze(0).squeeze(-1).transpose(0, 1)
-                logits = self.rgb_skip_base_scale * base_logits + self.rgb_skip_scale * torch.tanh(logits)
+                if self.rgb_gate_canvas is not None:
+                    gate = torch.sigmoid(
+                        F.grid_sample(
+                            self.rgb_gate_canvas,
+                            rgb_grid,
+                            mode="bilinear",
+                            padding_mode="border",
+                            align_corners=True,
+                        ).squeeze(0).squeeze(-1).transpose(0, 1)
+                    )
+                else:
+                    gate = 1.0
+                logits = gate * self.rgb_skip_base_scale * base_logits + self.rgb_skip_scale * torch.tanh(logits)
             return torch.sigmoid(logits)
 
         def forward_with_warp(self, coords01: torch.Tensor, t: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
@@ -830,6 +854,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     rgb_skip_scale = float(config.get("rgb_skip_scale", 0.0))
     rgb_skip_mode = str(config.get("rgb_skip_mode", "source"))
     rgb_skip_base_scale = float(config.get("rgb_skip_base_scale", 1.0))
+    rgb_skip_gate_mode = str(config.get("rgb_skip_gate_mode", "none"))
+    rgb_skip_gate_init = float(config.get("rgb_skip_gate_init", 0.5))
 
     source = Image.open(io.BytesIO(input_png)).convert("RGB").resize((train_w, train_h), Image.Resampling.LANCZOS)
     target = torch.from_numpy(np.asarray(source, dtype=np.float32) / 255.0).to(device)
@@ -1079,10 +1105,16 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         rgb_skip_scale=rgb_skip_scale,
         rgb_skip_mode=rgb_skip_mode,
         rgb_skip_base_scale=rgb_skip_base_scale,
+        rgb_skip_gate_mode=rgb_skip_gate_mode,
+        rgb_skip_gate_init=rgb_skip_gate_init,
     ).to(device)
     if model.rgb_canvas is not None:
         with torch.no_grad():
             model.rgb_canvas.copy_(torch.logit(target_chw.clamp(1e-4, 1.0 - 1e-4)))
+    if model.rgb_gate_canvas is not None and model.rgb_skip_gate_mode == "edge":
+        with torch.no_grad():
+            edge_gate = (0.08 + 0.82 * glyph_weight_chw / glyph_weight_chw.max().clamp_min(1e-6)).clamp(0.02, 0.98)
+            model.rgb_gate_canvas.copy_(torch.logit(edge_gate))
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=base_lr, weight_decay=0.0)
     compile_start = perf_counter()
@@ -1621,6 +1653,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "rgb_skip_scale": rgb_skip_scale,
         "rgb_skip_mode": model.rgb_skip_mode,
         "rgb_skip_base_scale": model.rgb_skip_base_scale,
+        "rgb_skip_gate_mode": model.rgb_skip_gate_mode,
+        "rgb_skip_gate_init": rgb_skip_gate_init,
         "freq_bands": int(config["freq_bands"]),
         "time_bands": int(config["time_bands"]),
         "lr": base_lr,
@@ -1755,6 +1789,10 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             f" Renderer uses a learned RGB neural texture skip sampled in {model.rgb_skip_mode} mode, "
             f"with base scale {model.rgb_skip_base_scale:g} and bounded residual scale {rgb_skip_scale:g}."
         )
+        if model.rgb_gate_canvas is not None:
+            metrics["description"] += (
+                f" RGB skip is modulated by a learned {model.rgb_skip_gate_mode} gate canvas."
+            )
     if layout_target_mid_sampling_ratio > 0.0:
         metrics["description"] += (
             f" Training directly samples {layout_target_mid_sampling_ratio:g} of points from "
@@ -1788,6 +1826,8 @@ def main(
     rgb_skip_scale: float = 0.0,
     rgb_skip_mode: str = "source",
     rgb_skip_base_scale: float = 1.0,
+    rgb_skip_gate_mode: str = "none",
+    rgb_skip_gate_init: float = 0.5,
     freq_bands: int = 8,
     time_bands: int = 4,
     lr: float = 0.01,
@@ -1871,6 +1911,8 @@ def main(
         "rgb_skip_scale": rgb_skip_scale,
         "rgb_skip_mode": rgb_skip_mode,
         "rgb_skip_base_scale": rgb_skip_base_scale,
+        "rgb_skip_gate_mode": rgb_skip_gate_mode,
+        "rgb_skip_gate_init": rgb_skip_gate_init,
         "freq_bands": freq_bands,
         "time_bands": time_bands,
         "lr": lr,
