@@ -2500,3 +2500,40 @@ c88-v4-callout-target60-mid20-seed4-s12000
 c88-v3-unboxed-target60-mid35-seed0-s12000
 c88-v4-callout-target60-mid35-seed0-s12000
 ```
+
+Completed C88 results:
+
+```text
+c88-v3-unboxed-target60-mid20-seed1-s12000: OCR 0.9302, segment 927.622ms, motion_delta 0.0641, pass
+c88-v3-unboxed-target60-mid20-seed0-s12000: OCR 0.9091, segment 765.567ms, motion_delta 0.0637, pass
+c88-v3-unboxed-target60-mid20-seed2-s12000: OCR 0.9091, segment 921.649ms, motion_delta 0.0640, pass
+c88-v3-unboxed-target60-mid20-seed4-s12000: OCR 0.9091, segment 920.433ms, motion_delta 0.0639, pass
+c88-v3-unboxed-target60-mid35-seed0-s12000: OCR 0.8889, segment 942.074ms, motion_delta 0.0645, pass
+c88-v4-callout-target60-mid35-seed0-s12000: OCR 0.7826, segment 772.390ms, motion_delta 0.0557, pass
+c88-v4-callout-target60-mid20-seed0-s12000: OCR 0.7347, segment 914.757ms, motion_delta 0.0561, pass
+c88-v4-callout-target60-mid20-seed2-s12000: OCR 0.7083, segment 907.009ms, motion_delta 0.0565, pass
+c88-v4-callout-target60-mid20-seed1-s12000: OCR 0.6939, segment 919.974ms, motion_delta 0.0566, pass
+c88-v4-callout-target60-mid20-seed4-s12000: OCR 0.6939, segment 902.172ms, motion_delta 0.0562, pass
+```
+
+Interpretation:
+
+- C88 is another strong positive: removing neat card boxes did not break the clean page-state renderer.
+- `unboxed-columns` is visually the strongest target so far. The midpoint keeps open text columns readable and does not depend on card-shaped text containers.
+- `callout-map` is a useful harder case. It passes quantitatively, but human review shows smaller text and leader-line areas remain weaker and show faint source remnants.
+- The next stress should change the target wording, not just the layout. A Flipbook-like renderer must be able to repaint new visible text pixels, not only move the same semantic copy.
+
+Next experiments:
+
+```text
+c89-v5-changed-unboxed-target60-mid20-seed0-s12000
+c89-v5-changed-unboxed-target60-mid20-seed1-s12000
+c89-v5-changed-unboxed-target60-mid20-seed2-s12000
+c89-v5-changed-unboxed-target60-mid20-seed4-s12000
+c89-v6-changed-callout-target60-mid20-seed0-s12000
+c89-v6-changed-callout-target60-mid20-seed1-s12000
+c89-v6-changed-callout-target60-mid20-seed2-s12000
+c89-v6-changed-callout-target60-mid20-seed4-s12000
+c89-v5-changed-unboxed-target60-mid35-seed0-s12000
+c89-v6-changed-callout-target60-mid35-seed0-s12000
+```

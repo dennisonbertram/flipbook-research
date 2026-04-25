@@ -188,6 +188,8 @@ C8.7 starts that generality check. It keeps the C86 winning recipe (`C32/H160`, 
 
 C8.7 is a strong positive. All ten clean target-variant runs pass. `right-diagram` reaches OCR `0.9000` at `920.211ms`, and `stacked` reaches OCR `1.0000` at `925-942ms`; the fastest strong stacked run reaches OCR `0.8800` at `756.538ms`. Human review confirms real relayout into the target state, but faint source remnants are still visible in some large diagram bands. C8.8 therefore keeps the same recipe and changes the target distribution again toward unboxed text layouts and floating callouts, where text is not protected by neat card backgrounds.
 
+C8.8 passes the unboxed stress. All ten runs pass: `unboxed-columns` reaches OCR `0.9302` at `927.622ms` and a fast OCR `0.9091` at `765.567ms`; `callout-map` is harder but still reaches OCR `0.7826` at `772.390ms`. Visual review shows the unboxed target is clean and the callout target is usable, though small callout text remains the weaker surface. C8.9 should now change the target copy itself, so the model has to repaint new words rather than only move existing semantic text.
+
 Suggested `results.tsv` header:
 
 ```text

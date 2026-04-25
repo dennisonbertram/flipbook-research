@@ -200,6 +200,10 @@ def create_clean_reflow_target(width: int, height: int, variant: str = "diagram-
         return create_clean_reflow_target_unboxed_columns(width, height)
     if variant_key in {"callout-map", "diagram-callouts", "variant4", "v4"}:
         return create_clean_reflow_target_callout_map(width, height)
+    if variant_key in {"changed-unboxed", "new-copy-unboxed", "variant5", "v5"}:
+        return create_clean_reflow_target_unboxed_columns(width, height, changed=True)
+    if variant_key in {"changed-callout", "new-copy-callout", "variant6", "v6"}:
+        return create_clean_reflow_target_callout_map(width, height, changed=True)
 
     img = Image.new("RGB", (width, height), "#f6f4ef")
     draw = ImageDraw.Draw(img)
@@ -485,7 +489,7 @@ def create_clean_reflow_target_stacked(width: int, height: int) -> Image.Image:
     return img
 
 
-def create_clean_reflow_target_unboxed_columns(width: int, height: int) -> Image.Image:
+def create_clean_reflow_target_unboxed_columns(width: int, height: int, changed: bool = False) -> Image.Image:
     img = Image.new("RGB", (width, height), "#f3f6f2")
     draw = ImageDraw.Draw(img)
     margin = int(width * 0.055)
@@ -512,7 +516,12 @@ def create_clean_reflow_target_unboxed_columns(width: int, height: int) -> Image
     x0 = margin + int(width * 0.032)
     y0 = top + int(height * 0.032)
     draw.text((x0, y0), "Sketchapedia: Roman Colosseum", fill=ink, font=title_font)
-    draw.text((x0, y0 + int(height * 0.058)), "Clean target variant: open columns without card boxes.", fill=muted, font=sub_font)
+    subtitle = (
+        "Clean target variant: changed copy in open columns."
+        if changed
+        else "Clean target variant: open columns without card boxes."
+    )
+    draw.text((x0, y0 + int(height * 0.058)), subtitle, fill=muted, font=sub_font)
 
     content_top = top + int(height * 0.145)
     content_bottom = height - top - int(height * 0.055)
@@ -541,22 +550,39 @@ def create_clean_reflow_target_unboxed_columns(width: int, height: int) -> Image
 
     summary_y = cy + int(height * 0.16)
     draw.text((left_x, summary_y), "Reading Checks", fill=ink, font=h_font)
-    checks = [
-        "Text remains crisp after layout changes.",
-        "The diagram moves without becoming a pasted remnant.",
-        "Loop endpoints return quietly to the first page state.",
-    ]
+    checks = (
+        [
+            "Changed copy must be painted cleanly.",
+            "Old wording should not ghost into the target.",
+            "Loop endpoints return quietly to the first page state.",
+        ]
+        if changed
+        else [
+            "Text remains crisp after layout changes.",
+            "The diagram moves without becoming a pasted remnant.",
+            "Loop endpoints return quietly to the first page state.",
+        ]
+    )
     for index, check in enumerate(checks):
         y = summary_y + int(height * 0.052) + index * int(height * 0.055)
         draw.text((left_x, y), f"{index + 1}.", fill=accent, font=h_font)
         draw.multiline_text((left_x + 38, y + 2), wrap_text(draw, check, body_font, left_w - 48), fill="#273035", font=body_font, spacing=4)
 
-    sections = [
-        ("Arena Floor", "Trapdoors, lifts, and service passages created sudden reveals during public spectacles."),
-        ("Velarium", "A retractable awning system shaded spectators and required coordinated rope handling."),
-        ("Seating", "Social order was encoded into the architecture through tiered, separated seating bands."),
-        ("Materials", "Travertine, tuff, brick, and concrete carried both structure and ornament."),
-    ]
+    sections = (
+        [
+            ("Construction", "Arches spread heavy loads across stacked corridors and vaults."),
+            ("Crowd Flow", "Ramps, numbered gates, and passages moved thousands of visitors quickly."),
+            ("Sunshade", "Canvas sails filtered glare while crews adjusted ropes above the stands."),
+            ("Stonework", "Cut blocks, brick cores, and concrete vaults formed a resilient shell."),
+        ]
+        if changed
+        else [
+            ("Arena Floor", "Trapdoors, lifts, and service passages created sudden reveals during public spectacles."),
+            ("Velarium", "A retractable awning system shaded spectators and required coordinated rope handling."),
+            ("Seating", "Social order was encoded into the architecture through tiered, separated seating bands."),
+            ("Materials", "Travertine, tuff, brick, and concrete carried both structure and ornament."),
+        ]
+    )
     col_gap = int(width * 0.025)
     col_w = (right_w - col_gap) // 2
     row_h = int((content_bottom - content_top - int(height * 0.07)) / 2)
@@ -571,7 +597,7 @@ def create_clean_reflow_target_unboxed_columns(width: int, height: int) -> Image
     return img
 
 
-def create_clean_reflow_target_callout_map(width: int, height: int) -> Image.Image:
+def create_clean_reflow_target_callout_map(width: int, height: int, changed: bool = False) -> Image.Image:
     img = Image.new("RGB", (width, height), "#f7f4ef")
     draw = ImageDraw.Draw(img)
     margin = int(width * 0.055)
@@ -598,7 +624,12 @@ def create_clean_reflow_target_callout_map(width: int, height: int) -> Image.Ima
     x0 = margin + int(width * 0.032)
     y0 = top + int(height * 0.032)
     draw.text((x0, y0), "Sketchapedia: Roman Colosseum", fill=ink, font=title_font)
-    draw.text((x0, y0 + int(height * 0.058)), "Clean target variant: callout text floats around the diagram.", fill=muted, font=sub_font)
+    subtitle = (
+        "Clean target variant: changed callout copy floats around the diagram."
+        if changed
+        else "Clean target variant: callout text floats around the diagram."
+    )
+    draw.text((x0, y0 + int(height * 0.058)), subtitle, fill=muted, font=sub_font)
 
     content_top = top + int(height * 0.155)
     content_bottom = height - top - int(height * 0.055)
@@ -611,12 +642,21 @@ def create_clean_reflow_target_callout_map(width: int, height: int) -> Image.Ima
         draw.ellipse([center_x - rx + offset, center_y - ry + offset // 3, center_x + rx - offset, center_y + ry - offset // 3], outline=color, width=3)
     draw.rectangle([center_x - 18, center_y - 60, center_x + 18, center_y + 60], fill="#fffdf8", outline=line)
 
-    callouts = [
-        ("Arena Floor", "Trapdoors and lifts created sudden reveals.", x0, content_top + int(height * 0.05), center_x - int(rx * 0.35), center_y),
-        ("Velarium", "A retractable awning shaded spectators.", width - x0 - int(width * 0.29), content_top + int(height * 0.05), center_x + int(rx * 0.25), center_y - int(ry * 0.55)),
-        ("Seating", "Tiered bands encoded social order.", x0 + int(width * 0.02), content_bottom - int(height * 0.18), center_x - int(rx * 0.6), center_y + int(ry * 0.5)),
-        ("Materials", "Travertine, tuff, brick, and concrete carried the structure.", width - x0 - int(width * 0.31), content_bottom - int(height * 0.18), center_x + int(rx * 0.7), center_y + int(ry * 0.2)),
-    ]
+    callouts = (
+        [
+            ("Construction", "Arches spread heavy loads across corridors.", x0, content_top + int(height * 0.05), center_x - int(rx * 0.35), center_y),
+            ("Crowd Flow", "Numbered gates moved visitors quickly.", width - x0 - int(width * 0.29), content_top + int(height * 0.05), center_x + int(rx * 0.25), center_y - int(ry * 0.55)),
+            ("Sunshade", "Canvas sails filtered glare above the stands.", x0 + int(width * 0.02), content_bottom - int(height * 0.18), center_x - int(rx * 0.6), center_y + int(ry * 0.5)),
+            ("Stonework", "Cut blocks and concrete vaults formed the shell.", width - x0 - int(width * 0.31), content_bottom - int(height * 0.18), center_x + int(rx * 0.7), center_y + int(ry * 0.2)),
+        ]
+        if changed
+        else [
+            ("Arena Floor", "Trapdoors and lifts created sudden reveals.", x0, content_top + int(height * 0.05), center_x - int(rx * 0.35), center_y),
+            ("Velarium", "A retractable awning shaded spectators.", width - x0 - int(width * 0.29), content_top + int(height * 0.05), center_x + int(rx * 0.25), center_y - int(ry * 0.55)),
+            ("Seating", "Tiered bands encoded social order.", x0 + int(width * 0.02), content_bottom - int(height * 0.18), center_x - int(rx * 0.6), center_y + int(ry * 0.5)),
+            ("Materials", "Travertine, tuff, brick, and concrete carried the structure.", width - x0 - int(width * 0.31), content_bottom - int(height * 0.18), center_x + int(rx * 0.7), center_y + int(ry * 0.2)),
+        ]
+    )
     for heading, body, x, y, ax, ay in callouts:
         w = int(width * 0.27)
         draw.text((x, y), heading, fill=ink, font=h_font)
@@ -636,7 +676,11 @@ def create_clean_reflow_target_callout_map(width: int, height: int) -> Image.Ima
         draw.text((lx, ly), text, fill=ink, font=tiny_font)
         draw.line((lx - 8, ly + 8, center_x, center_y), fill="#8aa4a1", width=1)
 
-    footer = "No card boxes. Text, labels, and diagram must resolve as one generated page state."
+    footer = (
+        "Changed copy, labels, and diagram must resolve as one generated page state."
+        if changed
+        else "No card boxes. Text, labels, and diagram must resolve as one generated page state."
+    )
     draw.text((x0, content_bottom - int(height * 0.02)), footer, fill=muted, font=tiny_font)
     return img
 

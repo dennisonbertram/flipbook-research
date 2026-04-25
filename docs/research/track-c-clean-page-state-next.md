@@ -82,3 +82,7 @@ C87 therefore keeps the C86 winning recipe and changes only the clean target lay
 C87 passed all ten runs. The strongest `right-diagram` run reached OCR `0.9000` at `920.211ms`, while the strongest `stacked` runs reached OCR `1.0000` at `925-942ms`. This is the best evidence so far that the clean page-state result is not just one target fixture.
 
 The remaining visual concern is faint old-source text in some broad diagram regions. C88 therefore removes the easy card-box structure from the target: `unboxed-columns` uses open text columns, and `callout-map` places floating callout text around the diagram. This keeps the Flipbook-aligned target strict: the output is still one generated pixel surface, but the page state is less protected by rectangular text containers.
+
+C88 also passed all ten runs. The strongest `unboxed-columns` run reached OCR `0.9302`, and the harder `callout-map` target still reached OCR `0.7826`. Human review shows the open-column layout is a real improvement over card-box dependence, while callout text is still fragile.
+
+C89 should now change the target copy itself. That matters because Flipbook's claim is not only that existing text can move; the generated page should be able to contain newly rendered words as pixels. The next target variants, `changed-unboxed` and `changed-callout`, keep the layout family but replace section headings/body text with new copy at the target midpoint.
