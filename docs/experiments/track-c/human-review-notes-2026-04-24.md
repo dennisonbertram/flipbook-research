@@ -1352,3 +1352,48 @@ C61 hypothesis:
 - Lower learned-flow cap may preserve text without losing the required reflow motion.
 - C24/H128 may be a better speed/regularization point than larger capacity for this overfit renderer.
 - Optimizer variants test whether the C60 winner is optimization-limited before adding a new architecture branch.
+
+Completed C61 results:
+
+```text
+c61-sourcecoord-target60-b196-s10000: OCR 0.6077, segment 712.728ms, motion_delta 0.0509, pass
+c61-sourcecoord-target60-c24h128-s12000: OCR 0.5972, segment 669.808ms, motion_delta 0.0492, pass
+c61-sourcecoord-target60-flow08-c32h160-s14000: OCR 0.5465, segment 1049.906ms, motion_delta 0.0503, quality_fail
+c61-sourcecoord-target60-seed2-c32h160-s14000: OCR 0.5429, segment 817.617ms, motion_delta 0.0486, quality_fail
+c61-sourcecoord-target60-cosine-c32h160-s16000: OCR 0.5029, segment 858.282ms, motion_delta 0.0501, quality_fail
+c61-sourcecoord-target55-c24h128-s12000: OCR 0.4780, segment 893.704ms, motion_delta 0.0504, quality_fail
+c61-sourcecoord-target55-c32h160-s14000: OCR 0.4750, segment 824.051ms, motion_delta 0.0465, quality_fail
+c61-sourcecoord-target60-seed1-c32h160-s14000: OCR 0.4561, segment 805.678ms, motion_delta 0.0498, quality_fail
+c61-sourcecoord-target65-c32h160-s14000: OCR 0.4528, segment 946.467ms, motion_delta 0.0480, quality_fail
+c61-sourcecoord-target60-lr007-c32h160-s16000: OCR 0.4500, segment 817.397ms, motion_delta 0.0507, quality_fail
+```
+
+Interpretation:
+
+- C61 does not beat the C57 peak, but it finds the best faster candidate: B196 with target ratio `0.60`.
+- The B196 run reaches OCR `0.6077` at `712.728ms`, much closer to the C57 peak than C60 while staying faster.
+- The C24/H128 run is also strong at OCR `0.5972` and `669.808ms`, supporting the idea that smaller capacity can regularize this overfit renderer.
+- Plain C32 target60 remains seed-sensitive: seed `1` and seed `2` land below the pass gate.
+- Lower flow, cosine schedule, and lower LR are not useful enough to keep pursuing immediately.
+
+Next experiments:
+
+```text
+c62-sourcecoord-target60-b196-s12000
+c62-sourcecoord-target60-b196-s14000
+c62-sourcecoord-target60-b196-seed1-s10000
+c62-sourcecoord-target60-b196-seed2-s10000
+c62-sourcecoord-target60-b196-seed3-s10000
+c62-sourcecoord-target60-b196-edge06-s10000
+c62-sourcecoord-target60-b196-edge12-s10000
+c62-sourcecoord-target60-c24h128-seed1-s12000
+c62-sourcecoord-target60-c24h128-seed2-s12000
+c62-sourcecoord-target60-c24h128-b196-s10000
+```
+
+C62 hypothesis:
+
+- If the C61 B196 result is robust, seed repeats should stay near the pass gate and at least one should approach the C57 peak.
+- Longer B196 optimization may improve text without spending as much latency as larger render capacity.
+- Edge-weight variants test whether the B196 win needs less or more high-frequency pressure.
+- C24/H128 seed and B196 variants test whether the small-model regularization signal is stable enough to become the fast baseline.

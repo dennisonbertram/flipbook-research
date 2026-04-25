@@ -126,6 +126,8 @@ C6.0 consolidates the C57 source-coordinate family instead of adding another mec
 
 C6.0 does not beat the C57 frontier, but it narrows the source-coordinate recipe. The best C60 run is `c60-sourcecoord-target60-c32h160-s14000` at OCR `0.5933`, motion `0.0450`, and segment `1061.855ms`; the best smaller model is `c60-sourcecoord-target75-c24h128-s12000` at OCR `0.5837`, motion `0.0492`, and segment `1013.454ms`. Ratios above `0.70`, C40/H192, and B196 all regress. C6.1 therefore treats C57's `0.75` win as seed-sensitive and tests the lower `0.55-0.65` target-ratio region, seed repeats at `0.60`, a lower flow cap, C24/H128 variants, and two optimizer variants around the C60 winner.
 
+C6.1 makes the fast B196 path look more promising than ordinary C32 target-ratio tuning. `c61-sourcecoord-target60-b196-s10000` reaches OCR `0.6077`, motion `0.0509`, and segment `712.728ms`, making it the best post-C57 result and faster than the C57 peak. `c61-sourcecoord-target60-c24h128-s12000` is close at OCR `0.5972`, motion `0.0492`, and segment `669.808ms`. The wider target-ratio sweep, lower flow cap, and optimizer variants do not help. C6.2 now tests whether the B196 and C24/H128 winners are robust across seeds, longer optimization, and light/heavy edge weighting.
+
 Suggested `results.tsv` header:
 
 ```text
