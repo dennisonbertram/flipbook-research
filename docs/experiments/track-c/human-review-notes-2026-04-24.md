@@ -2378,3 +2378,45 @@ C85 hypothesis:
 - If learned constant gating is real, init `0.35` should reproduce on at least two of the C85 seed repeats.
 - Lower gate init (`0.25-0.30`) may reduce source remnants at the cost of OCR; higher init (`0.40-0.45`) may preserve text but increase ghosting.
 - A post-hoc change-region/source-remnant proxy should be tracked alongside OCR so the loop does not optimize toward readable but visually stale frames.
+
+Completed C85 results:
+
+```text
+c85-gatelearn030-b025-r275-a110-seed4-s14000: OCR 0.5714, segment 1079.571ms, motion_delta 0.0444, quality_fail
+c85-gatelearn045-b025-r275-a110-seed4-s14000: OCR 0.5497, segment 925.386ms, motion_delta 0.0455, quality_fail
+c85-gatelearn035-b025-r300-a110-seed4-s14000: OCR 0.5434, segment 929.031ms, motion_delta 0.0436, quality_fail
+c85-gatelearn035-b025-r275-a110-seed1-s14000: OCR 0.5294, segment 1101.215ms, motion_delta 0.0455, quality_fail
+c85-gatelearn035-b025-r275-a110-seed2-s14000: OCR 0.5275, segment 937.884ms, motion_delta 0.0462, quality_fail
+c85-gatelearn035-b025-r275-a110-seed3-s14000: OCR 0.5233, segment 944.503ms, motion_delta 0.0462, quality_fail
+c85-gatelearn040-b025-r275-a110-seed4-s14000: OCR 0.5029, segment 932.207ms, motion_delta 0.0460, quality_fail
+c85-gatelearn035-b025-r275-a110-seed0-s14000: OCR 0.4970, segment 931.150ms, motion_delta 0.0435, quality_fail
+c85-gatelearn025-b025-r275-a110-seed4-s14000: OCR 0.4780, segment 919.638ms, motion_delta 0.0423, quality_fail
+c85-gatelearn035-b025-r275-a110-seed5-s14000: OCR 0.4780, segment 767.399ms, motion_delta 0.0449, quality_fail
+```
+
+Interpretation:
+
+- C85 is a stop sign for learned gate scalar tuning. It does not beat C82/C84 and does not visibly remove source remnants.
+- The new change-region proxy is useful but not sufficient; the next benchmark must use a cleaner target state so OCR cannot hide old-layout ghosts.
+- The 2026-04-25 Flipbook re-check reinforces this: the target is model-rendered page pixels, including text, not protected text boxes or runtime overlays.
+
+Next experiments:
+
+```text
+c86-clean-c32h160-target60-mid20-seed0-s12000
+c86-clean-c32h160-target60-mid20-seed1-s12000
+c86-clean-c32h160-target60-mid20-seed2-s12000
+c86-clean-c32h160-target60-mid20-seed4-s12000
+c86-clean-c32h160-target80-mid20-seed0-s12000
+c86-clean-c32h160-target60-mid35-seed0-s12000
+c86-clean-c24h128-target60-mid20-seed0-s12000
+c86-clean-c40h192-target60-mid20-seed0-s12000
+c86-clean-c32h160-context8-target60-mid20-seed0-s12000
+c86-clean-c32h160-dualres-target60-mid20-seed0-s12000
+```
+
+C86 hypothesis:
+
+- If the Track C path is viable, at least one compact renderer should learn `source -> clean target page -> source` without using a warped target image as a crutch.
+- OCR should now be scored against the clean target midpoint, while human review should focus on whether source-page ghosts disappear.
+- Capacity/context variants matter less than the qualitative question: can the model paint a different page state cleanly and still stay near the 33-frame realtime budget?

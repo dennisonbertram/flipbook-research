@@ -627,9 +627,17 @@ def learned_layout_reflow_experiment(
     layout_motion_curriculum_start: float | None = None,
     layout_endpoint_ratio: float | None = None,
     layout_endpoint_target_ratio: float | None = None,
+    motion_mode: str = "layout-reflow",
     min_ocr: float = 0.35,
     min_motion: float = 0.035,
 ) -> Experiment:
+    clean_mode = motion_mode in {"layout-clean-reflow", "clean-layout-reflow"}
+    proof_name = "Learned clean page-state proof" if clean_mode else "Learned layout-reflow proof"
+    proof_detail = (
+        "the training target is a separate clean page state at the midpoint, then loops back to the source"
+        if clean_mode
+        else "the training target moves text/content blocks and resizes/repositions the illustration into a new page layout"
+    )
     clip_note = f", grad clip {grad_clip:g}" if grad_clip is not None else ""
     l1_note = f", L1 {l1_loss_weight:g}" if l1_loss_weight else ""
     grad_note = (
@@ -696,8 +704,7 @@ def learned_layout_reflow_experiment(
     return Experiment(
         label=label,
         notes=(
-            "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions "
-            "the illustration into a new page layout; output remains direct neural-canvas pixels. "
+            f"{proof_name}: {proof_detail}; output remains direct neural-canvas pixels. "
             f"amount {amount:g}, flow scale {flow_scale:g}, {steps} steps, freq{freq_bands}{clip_note}{l1_note}{grad_note}{seed_note}{detail_note}{source_coord_note}{neighborhood_note}{context_note}{decoder_note}{rgb_skip_note}{text_note}{target_note}{mid_note}{flow_loss_note}{oracle_note}{curriculum_note}{endpoint_note}."
         ),
         args=general_visual_motion_args(
@@ -759,12 +766,70 @@ def learned_layout_reflow_experiment(
             layout_motion_curriculum_start=layout_motion_curriculum_start,
             layout_endpoint_ratio=layout_endpoint_ratio,
             layout_endpoint_target_ratio=layout_endpoint_target_ratio,
-            motion_mode="layout-reflow",
+            motion_mode=motion_mode,
             motion_strength=amount,
             min_ocr=min_ocr,
             min_motion=min_motion,
         ),
     )
+
+
+C86_CLEAN_PAGE_STATE_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=steps,
+        seed=seed,
+        channels=channels,
+        hidden=hidden,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        context_channels=context_channels,
+        context_scale=0.25 if context_channels else 0.25,
+        decoder_mode=decoder_mode,
+        target_branch_scale=target_branch_scale,
+        target_branch_hidden=target_branch_hidden,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=target_ratio,
+        layout_target_mid_sampling_ratio=mid_target_ratio,
+        layout_target_mid_time_width=mid_target_width,
+        layout_mid_time_ratio=mid_time_ratio,
+        layout_mid_time_width=mid_time_width,
+        motion_mode="layout-clean-reflow",
+        min_ocr=0.35,
+        min_motion=0.05,
+    )
+    for (
+        label,
+        seed,
+        steps,
+        channels,
+        hidden,
+        target_ratio,
+        mid_target_ratio,
+        mid_target_width,
+        mid_time_ratio,
+        mid_time_width,
+        context_channels,
+        decoder_mode,
+        target_branch_scale,
+        target_branch_hidden,
+    ) in [
+        ("c86-clean-c32h160-target60-mid20-seed0-s12000", 0, 12000, 32, 160, 0.60, 0.20, 0.18, 0.65, 0.20, 0, None, None, None),
+        ("c86-clean-c32h160-target60-mid20-seed1-s12000", 1, 12000, 32, 160, 0.60, 0.20, 0.18, 0.65, 0.20, 0, None, None, None),
+        ("c86-clean-c32h160-target60-mid20-seed2-s12000", 2, 12000, 32, 160, 0.60, 0.20, 0.18, 0.65, 0.20, 0, None, None, None),
+        ("c86-clean-c32h160-target60-mid20-seed4-s12000", 4, 12000, 32, 160, 0.60, 0.20, 0.18, 0.65, 0.20, 0, None, None, None),
+        ("c86-clean-c32h160-target80-mid20-seed0-s12000", 0, 12000, 32, 160, 0.80, 0.20, 0.18, 0.65, 0.20, 0, None, None, None),
+        ("c86-clean-c32h160-target60-mid35-seed0-s12000", 0, 12000, 32, 160, 0.60, 0.35, 0.22, 0.65, 0.20, 0, None, None, None),
+        ("c86-clean-c24h128-target60-mid20-seed0-s12000", 0, 12000, 24, 128, 0.60, 0.20, 0.18, 0.65, 0.20, 0, None, None, None),
+        ("c86-clean-c40h192-target60-mid20-seed0-s12000", 0, 12000, 40, 192, 0.60, 0.20, 0.18, 0.65, 0.20, 0, None, None, None),
+        ("c86-clean-c32h160-context8-target60-mid20-seed0-s12000", 0, 12000, 32, 160, 0.60, 0.20, 0.18, 0.65, 0.20, 8, None, None, None),
+        ("c86-clean-c32h160-dualres-target60-mid20-seed0-s12000", 0, 12000, 32, 160, 0.60, 0.20, 0.18, 0.65, 0.20, 8, "dual-residual", 0.25, 80),
+    ]
+]
 
 
 C85_LEARNED_GATE_CONSOLIDATION_EXPERIMENTS = [
@@ -1409,6 +1474,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C86_CLEAN_PAGE_STATE_EXPERIMENTS,
     *C85_LEARNED_GATE_CONSOLIDATION_EXPERIMENTS,
     *C84_RGB_SKIP_GATE_EXPERIMENTS,
     *C83_RGB_SKIP_REFINEMENT_EXPERIMENTS,

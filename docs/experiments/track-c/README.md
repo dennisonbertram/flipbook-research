@@ -178,6 +178,10 @@ C8.4 shows the gate idea is only partially useful. The constant learned gate at 
 
 C8.5 follows the Flipbook grounding review: the public claim is still that every page, including text, is model-rendered pixels with no overlays. The next queue consolidates only constant learned gates (`0.25-0.45` init and `0.35` seed repeats) and adds a change-region/source-remnant proxy to the eval TSV. OCR remains necessary, but no longer sufficient: a candidate that reads well while leaving old source layout traces should be treated as unfinished.
 
+C8.5 is a negative consolidation result. All ten learned-gate runs miss the pass gate. The closest quality run is `c85-gatelearn030-b025-r275-a110-seed4-s14000` at OCR `0.5714`, segment `1079.571ms`, and motion `0.0444`, failing motion only; the closest gate-threshold run is `c85-gatelearn045-b025-r275-a110-seed4-s14000` at OCR `0.5497`. Change-region target deltas stay clustered around `0.028-0.032`, and the visual failure remains old-layout source remnants under the new layout. The gating branch should not receive more scalar tuning until the benchmark itself is cleaner.
+
+C8.6 moves to a clean two-state page stress. The renderer now has `layout-clean-reflow`, where `t=0` and `t=1` are the original page and `t=0.5` is a separately rendered clean target page with the same semantic content but a genuinely different layout. The target frame is not a warped/composited transitional image, and C8.6 OCR scoring uses `target-mid.png` as the reference. The initial queue runs ten no-overlay neural-canvas variants around source-coordinate decoding, cross-neighborhood latent sampling, light context, and one dual-residual decoder check.
+
 Suggested `results.tsv` header:
 
 ```text

@@ -16,7 +16,7 @@ from time import perf_counter
 
 import modal
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 
 
 def _repo_root() -> Path:
@@ -158,6 +158,156 @@ def detect_text_boxes(path: Path, min_conf: float, min_chars: int = 1) -> list[d
     return boxes
 
 
+def fixture_font(size: int, bold: bool = False) -> ImageFont.ImageFont:
+    candidates = [
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" if bold else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        "/System/Library/Fonts/Supplemental/Arial Bold.ttf" if bold else "/System/Library/Fonts/Supplemental/Arial.ttf",
+        "/System/Library/Fonts/Supplemental/Helvetica Bold.ttf" if bold else "/System/Library/Fonts/Supplemental/Helvetica.ttf",
+        "/Library/Fonts/Arial Bold.ttf" if bold else "/Library/Fonts/Arial.ttf",
+    ]
+    for candidate in candidates:
+        try:
+            return ImageFont.truetype(candidate, size=size)
+        except OSError:
+            pass
+    return ImageFont.load_default()
+
+
+def wrap_text(draw: ImageDraw.ImageDraw, text: str, font: ImageFont.ImageFont, max_width: int) -> str:
+    words = text.split()
+    lines: list[str] = []
+    current: list[str] = []
+    for word in words:
+        candidate = " ".join([*current, word])
+        bbox = draw.textbbox((0, 0), candidate, font=font)
+        if current and bbox[2] - bbox[0] > max_width:
+            lines.append(" ".join(current))
+            current = [word]
+        else:
+            current.append(word)
+    if current:
+        lines.append(" ".join(current))
+    return "\n".join(lines)
+
+
+def create_clean_reflow_target(width: int, height: int) -> Image.Image:
+    img = Image.new("RGB", (width, height), "#f6f4ef")
+    draw = ImageDraw.Draw(img)
+
+    margin = int(width * 0.055)
+    top = int(height * 0.055)
+    ink = "#171717"
+    muted = "#5f6368"
+    line = "#c8c1b4"
+    accent = "#146c94"
+    green = "#557a46"
+
+    draw.rounded_rectangle(
+        [margin, top, width - margin, height - top],
+        radius=max(10, width // 110),
+        fill="#fffdf8",
+        outline=line,
+        width=2,
+    )
+
+    title_font = fixture_font(max(28, width // 31), bold=True)
+    sub_font = fixture_font(max(14, width // 78))
+    h_font = fixture_font(max(17, width // 64), bold=True)
+    body_font = fixture_font(max(13, width // 84))
+    tiny_font = fixture_font(max(10, width // 112))
+
+    x0 = margin + int(width * 0.033)
+    y0 = top + int(height * 0.035)
+    draw.text((x0, y0), "Sketchapedia: Roman Colosseum", fill=ink, font=title_font)
+    draw.text(
+        (x0, y0 + int(height * 0.062)),
+        "A structured visual page with labels, diagrams, and dense text for stability checks.",
+        fill=muted,
+        font=sub_font,
+    )
+
+    content_top = top + int(height * 0.155)
+    content_bottom = height - top - int(height * 0.055)
+    left_x = x0
+    left_w = int(width * 0.54)
+    right_x = x0 + left_w + int(width * 0.035)
+    right_w = width - margin - int(width * 0.035) - right_x
+
+    diagram_top = content_top
+    diagram_bottom = content_bottom - int(height * 0.115)
+    draw.rounded_rectangle(
+        [left_x, diagram_top, left_x + left_w, diagram_bottom],
+        radius=max(8, width // 140),
+        fill="#f1f7f6",
+        outline="#b7cdc8",
+        width=2,
+    )
+    draw.text((left_x + 24, diagram_top + 22), "Annotated Section Diagram", fill=ink, font=h_font)
+
+    cx = left_x + int(left_w * 0.50)
+    cy = diagram_top + int((diagram_bottom - diagram_top) * 0.56)
+    rx = int(left_w * 0.34)
+    ry = int((diagram_bottom - diagram_top) * 0.19)
+    for offset, color in [(0, accent), (18, "#6aa6b8"), (36, green), (54, "#8d7a4f")]:
+        draw.ellipse([cx - rx + offset, cy - ry + offset // 3, cx + rx - offset, cy + ry - offset // 3], outline=color, width=3)
+    draw.rectangle([cx - 18, cy - 58, cx + 18, cy + 58], fill="#fffdf8", outline=line)
+    for text, lx, ly in [
+        ("upper seating", cx + rx - 10, cy - ry - 20),
+        ("awnings", cx - rx - 74, cy - ry + 38),
+        ("arena floor", cx + rx + 12, cy + 6),
+        ("service level", cx - rx - 98, cy + ry - 28),
+    ]:
+        draw.text((lx, ly), text, fill=ink, font=tiny_font)
+        draw.line((lx - 8, ly + 8, cx, cy), fill="#8aa4a1", width=1)
+
+    sections = [
+        ("Arena Floor", "Trapdoors, lifts, and service passages created sudden reveals during public spectacles."),
+        ("Velarium", "A retractable awning system shaded spectators and required coordinated rope handling."),
+        ("Seating", "Social order was encoded into the architecture through tiered, separated seating bands."),
+        ("Materials", "Travertine, tuff, brick, and concrete carried both structure and ornament."),
+    ]
+    card_gap = int(height * 0.025)
+    card_h = (diagram_bottom - diagram_top - card_gap * 3) // 4
+    for index, (heading, body) in enumerate(sections):
+        y = diagram_top + index * (card_h + card_gap)
+        draw.rounded_rectangle(
+            [right_x, y, right_x + right_w, y + card_h],
+            radius=max(7, width // 180),
+            fill="#fffaf0",
+            outline="#ddd5c7",
+            width=1,
+        )
+        draw.text((right_x + 18, y + 14), heading, fill=ink, font=h_font)
+        draw.line((right_x + 18, y + 42, right_x + right_w - 18, y + 42), fill=line, width=1)
+        wrapped = wrap_text(draw, body, body_font, right_w - 36)
+        draw.multiline_text((right_x + 18, y + 54), wrapped, fill="#2d2d2d", font=body_font, spacing=4)
+
+    notes_y = diagram_bottom + int(height * 0.025)
+    notes = [
+        "1. Text remains readable across frames.",
+        "2. Diagram geometry stays stable.",
+        "3. Motion can affect light and atmosphere.",
+        "4. Page layout is the canonical frame.",
+        "5. Loop boundary stays visually quiet.",
+    ]
+    note_gap = int(width * 0.022)
+    note_col_w = (width - 2 * x0 - 2 * note_gap) // 3
+    for idx, note in enumerate(notes):
+        col = idx % 3
+        row = idx // 3
+        nx = x0 + col * (note_col_w + note_gap)
+        ny = notes_y + row * int(height * 0.045)
+        draw.multiline_text(
+            (nx, ny),
+            wrap_text(draw, note, tiny_font, note_col_w),
+            fill="#263238",
+            font=tiny_font,
+            spacing=3,
+        )
+
+    return img
+
+
 def image_similarity(a_path: Path, b_path: Path, size: tuple[int, int] = (192, 108)) -> float:
     with Image.open(a_path) as a_img, Image.open(b_path) as b_img:
         a = np.asarray(a_img.convert("L").resize(size, Image.Resampling.BILINEAR), dtype=np.float32)
@@ -230,11 +380,17 @@ def write_quality(run_dir: Path, metrics: dict) -> dict:
     if not render_mid.exists():
         render_mid = run_dir / "render-mid.png"
     render_last = run_dir / "render-last.png"
+    target_mid = run_dir / "target-mid.png"
+    clean_reference_modes = {"layout-clean-reflow", "clean-layout-reflow"}
 
     input_ocr = ocr(input_path)
     render_ocr = ocr(render_mid)
-    char_similarity = SequenceMatcher(None, normalize_text(input_ocr), normalize_text(render_ocr)).ratio()
-    token_similarity = token_f1(input_ocr, render_ocr)
+    target_mid_ocr = ocr(target_mid) if target_mid.exists() else ""
+    use_target_reference = str(metrics.get("motion_mode", "")) in clean_reference_modes and bool(target_mid_ocr)
+    reference_ocr = target_mid_ocr if use_target_reference else input_ocr
+    reference_kind = "target-mid" if use_target_reference else "input"
+    char_similarity = SequenceMatcher(None, normalize_text(reference_ocr), normalize_text(render_ocr)).ratio()
+    token_similarity = token_f1(reference_ocr, render_ocr)
     layout_score = image_similarity(input_path, render_960)
     motion_delta = frame_diff(render_960, render_mid)
     loop_error = frame_diff(render_960, render_last)
@@ -242,13 +398,15 @@ def write_quality(run_dir: Path, metrics: dict) -> dict:
     quality = {
         "run_id": metrics["run_id"],
         "input_ocr": input_ocr,
+        "target_mid_ocr": target_mid_ocr,
+        "ocr_reference": reference_kind,
         "render_mid_ocr": render_ocr,
         "ocr_similarity": token_similarity,
         "ocr_char_similarity": char_similarity,
         "layout_similarity": layout_score,
         "motion_delta": motion_delta,
         "loop_error": loop_error,
-        "note": "C2-lite quality proxy: OCR token-F1 on mid-frame, layout similarity on first frame, and low-res frame-diff motion/loop metrics.",
+        "note": "C2-lite quality proxy: OCR token-F1 on mid-frame against the active reference, layout similarity on first frame, and low-res frame-diff motion/loop metrics.",
     }
     (run_dir / "quality.json").write_text(json.dumps(quality, indent=2) + "\n", encoding="utf-8")
     return quality
@@ -636,7 +794,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     independent_field_layout_modes = {"independent-field", "region-field"} | independent_translate_layout_modes
     independent_layout_modes = independent_hard_layout_modes | independent_field_layout_modes
     independent_sprite_motion_modes = {"independent-sprite-translate", "region-sprite-translate"}
-    layout_reflow_motion_modes = {"layout-reflow", "sprite-layout-reflow"}
+    clean_layout_motion_modes = {"layout-clean-reflow", "clean-layout-reflow"}
+    layout_reflow_motion_modes = {"layout-reflow", "sprite-layout-reflow"} | clean_layout_motion_modes
 
     def apply_independent_region_field(
         coords: torch.Tensor,
@@ -857,11 +1016,6 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     rgb_skip_gate_mode = str(config.get("rgb_skip_gate_mode", "none"))
     rgb_skip_gate_init = float(config.get("rgb_skip_gate_init", 0.5))
 
-    source = Image.open(io.BytesIO(input_png)).convert("RGB").resize((train_w, train_h), Image.Resampling.LANCZOS)
-    target = torch.from_numpy(np.asarray(source, dtype=np.float32) / 255.0).to(device)
-    target_chw = target.permute(2, 0, 1).unsqueeze(0)
-    luminance = target.mean(dim=-1)
-    gray = luminance.unsqueeze(0).unsqueeze(0)
     sobel_x = torch.tensor(
         [[-1.0, 0.0, 1.0], [-2.0, 0.0, 2.0], [-1.0, 0.0, 1.0]],
         device=device,
@@ -870,14 +1024,37 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         [[-1.0, -2.0, -1.0], [0.0, 0.0, 0.0], [1.0, 2.0, 1.0]],
         device=device,
     ).view(1, 1, 3, 3)
-    edge = torch.sqrt(F.conv2d(gray, sobel_x, padding=1).square() + F.conv2d(gray, sobel_y, padding=1).square())
-    edge = edge.squeeze(0).squeeze(0)
-    edge = edge / edge.max().clamp_min(1e-6)
-    dark = (1.0 - luminance).clamp(0.0, 1.0)
-    glyph_score = (0.10 + edge + 0.75 * edge * dark + 0.25 * dark).clamp_min(1e-6)
-    glyph_prob = glyph_score.flatten()
-    glyph_prob = glyph_prob / glyph_prob.sum().clamp_min(1e-6)
-    glyph_weight_chw = (glyph_score / glyph_score.max().clamp_min(1e-6)).unsqueeze(0).unsqueeze(0)
+
+    def glyph_features(image_hwc: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+        luminance_local = image_hwc.mean(dim=-1)
+        gray_local = luminance_local.unsqueeze(0).unsqueeze(0)
+        edge_local = torch.sqrt(
+            F.conv2d(gray_local, sobel_x, padding=1).square() + F.conv2d(gray_local, sobel_y, padding=1).square()
+        )
+        edge_local = edge_local.squeeze(0).squeeze(0)
+        edge_local = edge_local / edge_local.max().clamp_min(1e-6)
+        dark_local = (1.0 - luminance_local).clamp(0.0, 1.0)
+        glyph_score_local = (0.10 + edge_local + 0.75 * edge_local * dark_local + 0.25 * dark_local).clamp_min(1e-6)
+        glyph_prob_local = glyph_score_local.flatten()
+        glyph_prob_local = glyph_prob_local / glyph_prob_local.sum().clamp_min(1e-6)
+        glyph_weight_local = (glyph_score_local / glyph_score_local.max().clamp_min(1e-6)).unsqueeze(0).unsqueeze(0)
+        return luminance_local, edge_local, dark_local, glyph_prob_local, glyph_weight_local
+
+    source = Image.open(io.BytesIO(input_png)).convert("RGB").resize((train_w, train_h), Image.Resampling.LANCZOS)
+    target = torch.from_numpy(np.asarray(source, dtype=np.float32) / 255.0).to(device)
+    target_chw = target.permute(2, 0, 1).unsqueeze(0)
+    clean_target = None
+    clean_target_chw = None
+    clean_glyph_prob = None
+    clean_glyph_weight_chw = None
+    if motion_mode in clean_layout_motion_modes:
+        clean_image = create_clean_reflow_target(train_w, train_h)
+        clean_target = torch.from_numpy(np.asarray(clean_image, dtype=np.float32) / 255.0).to(device)
+        clean_target_chw = clean_target.permute(2, 0, 1).unsqueeze(0)
+
+    luminance, edge, dark, glyph_prob, glyph_weight_chw = glyph_features(target)
+    if clean_target is not None:
+        _clean_luminance, _clean_edge, _clean_dark, clean_glyph_prob, clean_glyph_weight_chw = glyph_features(clean_target)
     text_mask = torch.zeros((train_h, train_w), device=device)
     source_w, source_h = config.get("source_resolution", [train_w, train_h])
     scale_x = train_w / max(1, int(source_w))
@@ -1036,6 +1213,26 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     def sample_layout_reflow(coords01: torch.Tensor, t_col: torch.Tensor, amount: float) -> torch.Tensor:
         return sample_layout_reflow_from(target_chw, coords01, t_col, amount, 1.0)
 
+    def clean_progress(t_col: torch.Tensor, amount: float) -> torch.Tensor:
+        return (torch.sin(t_col * torch.pi).square().clamp(0.0, 1.0) * amount).clamp(0.0, 1.0)
+
+    def sample_clean_layout_reflow_from(
+        source_chw: torch.Tensor,
+        target_clean_chw: torch.Tensor,
+        coords01: torch.Tensor,
+        t_col: torch.Tensor,
+        amount: float,
+    ) -> torch.Tensor:
+        progress = clean_progress(t_col, amount)
+        source_sample = sample_target(source_chw, coords01)
+        target_sample = sample_target(target_clean_chw, coords01)
+        return source_sample * (1.0 - progress) + target_sample * progress
+
+    def sample_clean_layout_reflow(coords01: torch.Tensor, t_col: torch.Tensor, amount: float) -> torch.Tensor:
+        if clean_target_chw is None:
+            return sample_layout_reflow(coords01, t_col, amount)
+        return sample_clean_layout_reflow_from(target_chw, clean_target_chw, coords01, t_col, amount)
+
     def inverse_layout_reflow_coords(coords01: torch.Tensor, t_col: torch.Tensor, amount: float) -> tuple[torch.Tensor, torch.Tensor]:
         source_coords = coords01.clone()
         content_alpha = torch.zeros((coords01.shape[0], 1), device=coords01.device)
@@ -1066,18 +1263,21 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
 
     layout_target_mid_prob: torch.Tensor | None = None
     if motion_mode in layout_reflow_motion_modes and layout_target_mid_sampling_ratio > 0.0:
-        with torch.no_grad():
-            grid_y, grid_x = torch.meshgrid(
-                torch.linspace(0.0, 1.0, train_h, device=device),
-                torch.linspace(0.0, 1.0, train_w, device=device),
-                indexing="ij",
-            )
-            mid_coords = torch.stack([grid_x.flatten(), grid_y.flatten()], dim=-1)
-            mid_t = torch.full((mid_coords.shape[0], 1), 0.5, device=device)
-            mid_glyph = sample_layout_reflow_from(glyph_weight_chw, mid_coords, mid_t, motion_strength, 0.0).squeeze(-1)
-            mid_text = sample_layout_reflow_from(text_weight_chw, mid_coords, mid_t, motion_strength, 0.0).squeeze(-1)
-            mid_score = (mid_glyph + 1.75 * mid_text).clamp_min(1e-6)
-            layout_target_mid_prob = mid_score / mid_score.sum().clamp_min(1e-6)
+        if motion_mode in clean_layout_motion_modes and clean_glyph_prob is not None:
+            layout_target_mid_prob = clean_glyph_prob
+        else:
+            with torch.no_grad():
+                grid_y, grid_x = torch.meshgrid(
+                    torch.linspace(0.0, 1.0, train_h, device=device),
+                    torch.linspace(0.0, 1.0, train_w, device=device),
+                    indexing="ij",
+                )
+                mid_coords = torch.stack([grid_x.flatten(), grid_y.flatten()], dim=-1)
+                mid_t = torch.full((mid_coords.shape[0], 1), 0.5, device=device)
+                mid_glyph = sample_layout_reflow_from(glyph_weight_chw, mid_coords, mid_t, motion_strength, 0.0).squeeze(-1)
+                mid_text = sample_layout_reflow_from(text_weight_chw, mid_coords, mid_t, motion_strength, 0.0).squeeze(-1)
+                mid_score = (mid_glyph + 1.75 * mid_text).clamp_min(1e-6)
+                layout_target_mid_prob = mid_score / mid_score.sum().clamp_min(1e-6)
 
     model = TimeCanvas(
         width=train_w,
@@ -1137,6 +1337,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         sample_target_coords = target_coords_for_motion(sample_coords, sample_t, amount, motion_mode)
         if motion_mode in independent_sprite_motion_modes:
             sample_truth = sample_independent_sprite_translation(sample_coords, sample_t, amount)
+        elif motion_mode in clean_layout_motion_modes:
+            sample_truth = sample_clean_layout_reflow(sample_coords, sample_t, amount)
         elif motion_mode in layout_reflow_motion_modes:
             sample_truth = sample_layout_reflow(sample_coords, sample_t, amount)
         else:
@@ -1195,11 +1397,25 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         source_coords_for_pairs = coords
         source_focus_for_pairs = source_focus
         if motion_mode in layout_reflow_motion_modes and layout_target_sampling:
-            moved_coords = forward_layout_reflow_coords(coords, t, step_motion_strength)
             focus = source_focus
             if layout_target_sampling_ratio < 1.0:
                 focus = focus & (torch.rand((batch_size,), device=device) < layout_target_sampling_ratio)
-            coords = torch.where(focus.unsqueeze(-1), moved_coords, coords)
+            if motion_mode in clean_layout_motion_modes and clean_glyph_prob is not None:
+                focus_idx = torch.nonzero(focus, as_tuple=False).squeeze(-1)
+                if focus_idx.numel():
+                    target_pixel_idx = torch.multinomial(clean_glyph_prob, int(focus_idx.numel()), replacement=True)
+                    target_ys = torch.div(target_pixel_idx, train_w, rounding_mode="floor")
+                    target_xs = target_pixel_idx - target_ys * train_w
+                    coords[focus_idx] = torch.stack(
+                        [
+                            target_xs.float() / max(1, train_w - 1),
+                            target_ys.float() / max(1, train_h - 1),
+                        ],
+                        dim=-1,
+                    )
+            else:
+                moved_coords = forward_layout_reflow_coords(coords, t, step_motion_strength)
+                coords = torch.where(focus.unsqueeze(-1), moved_coords, coords)
         if (
             motion_mode in layout_reflow_motion_modes
             and layout_target_mid_prob is not None
@@ -1235,7 +1451,16 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         if l1_loss_weight > 0.0:
             loss_per_sample = loss_per_sample + l1_loss_weight * error.abs().mean(dim=-1)
         if edge_loss_weight > 0 or text_box_loss_weight > 0:
-            if motion_mode in layout_reflow_motion_modes and layout_target_weighting:
+            if (
+                motion_mode in clean_layout_motion_modes
+                and layout_target_weighting
+                and clean_glyph_weight_chw is not None
+            ):
+                glyph_weights = sample_clean_layout_reflow_from(
+                    glyph_weight_chw, clean_glyph_weight_chw, coords, t, step_motion_strength
+                ).squeeze(-1)
+                text_weights = torch.zeros_like(glyph_weights)
+            elif motion_mode in layout_reflow_motion_modes and layout_target_weighting:
                 glyph_weights = sample_layout_reflow_from(glyph_weight_chw, coords, t, step_motion_strength, 0.0).squeeze(-1)
                 text_weights = sample_layout_reflow_from(text_weight_chw, coords, t, step_motion_strength, 0.0).squeeze(-1)
             else:
@@ -1544,6 +1769,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         yy, xx = torch.meshgrid(ys, xs, indexing="ij")
         coords = torch.stack([xx.reshape(-1), yy.reshape(-1)], dim=-1)
         t = torch.full((coords.shape[0], 1), t_value, device=device)
+        if motion_mode in clean_layout_motion_modes:
+            return sample_clean_layout_reflow(coords, t, motion_strength).view(height, width, 3)
         if motion_mode in layout_reflow_motion_modes:
             return sample_layout_reflow(coords, t, motion_strength).view(height, width, 3)
         if motion_mode in independent_sprite_motion_modes:
@@ -1626,6 +1853,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         canvas_type += f"-{decoder_mode.lower().replace('_', '-')}"
     if rgb_skip_scale > 0.0:
         canvas_type += f"-rgb-skip-{model.rgb_skip_mode}"
+    if motion_mode in clean_layout_motion_modes:
+        canvas_type += "-clean-page-reflow"
     metrics = {
         "canvas_type": canvas_type,
         "train_resolution": config["train_resolution"],
@@ -1735,6 +1964,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             if text_enabled and video_layout_mode == "element-frame-scale"
             else f"C2.3 neural canvas: stable content with {video_layout_mode} layout transform"
             if video_layout_mode != "none"
+            else "C8.6 neural canvas: learned clean two-state page reflow from x,y,t"
+            if motion_mode in clean_layout_motion_modes
             else "C4.7 neural canvas: learned full page layout reflow from x,y,t"
             if motion_mode in layout_reflow_motion_modes
             else "C4.7 neural canvas: learned independent sprite translation from x,y,t"

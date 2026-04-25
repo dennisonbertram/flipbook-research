@@ -66,3 +66,7 @@ Then train:
 If C85 finds a new high-OCR pass with no visual improvement over C82, move directly to C86.
 
 If C85 improves both OCR and change-region target delta, keep one more gate sweep, but still run C86 next. Flipbook's claim is a clean neural page surface, so the next proof needs a cleaner target page either way.
+
+## Implementation Note
+
+C85 did not improve the branch, so C86 is now implemented as `layout-clean-reflow` in `scripts/track_c/modal_canvas_c2_lite.py`. The target midpoint is a separate deterministic page renderer, OCR uses `target-mid.png` as the active reference for clean runs, and `scripts/track_c/autoresearch_loop.py` now queues ten C86 variants ahead of older C85/C84 experiments.

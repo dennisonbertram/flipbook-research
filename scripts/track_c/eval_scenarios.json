@@ -98,6 +98,13 @@
       "min_ocr_similarity": 0.35,
       "min_motion_delta": 0.035,
       "max_loop_error": 0.02
+    },
+    {
+      "scenario_id": "layout-clean-reflow-learned",
+      "description": "The model learns a clean two-state page reflow: source page at endpoints, separate target page at midpoint, no render-time compositing.",
+      "min_ocr_similarity": 0.35,
+      "min_motion_delta": 0.05,
+      "max_loop_error": 0.02
     }
   ]
 }

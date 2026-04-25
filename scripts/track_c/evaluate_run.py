@@ -53,6 +53,8 @@ def infer_scenario_id(metrics: dict[str, Any]) -> str:
 
     if motion_mode == "responsive-squeeze":
         return "responsive-squeeze"
+    if motion_mode in {"layout-clean-reflow", "clean-layout-reflow"}:
+        return "layout-clean-reflow-learned"
     if motion_mode in {"layout-reflow", "sprite-layout-reflow"}:
         return "layout-reflow-learned"
     if motion_mode in {"independent-sprite-translate", "region-sprite-translate"}:
