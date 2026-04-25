@@ -33,10 +33,10 @@ That pattern suggests the current single source-biased latent/decoder is not cle
 
 Track C should keep running only if the next experiments are architecture tests, not more scalar sweeps around the same representation.
 
-C94 is therefore the right next wave: target-state residual, fused residual, dual-gate, and latent-both controls on the naturalist/deep-sea source-remnant stress cases.
+C94 was therefore the right next wave: target-state residual, fused residual, dual-gate, and latent-both controls on the naturalist/deep-sea source-remnant stress cases.
 
-If C94 still shows the source layer in crops, C95 should pivot harder to a dual-state representation: separate source and target latent canvases or a time-indexed latent volume, with eval requiring crop-level absence of source remnants.
+C94 did still show the source layer in crops. The next viable Track C step is C95: a dual-state representation with a separate target latent canvas or time-indexed latent volume, with eval requiring crop-level absence of source remnants.
 
 ## Current Status
 
-As of this assessment, C93 is complete and C94 is queued in code/docs but needs the runner restarted. Track C is scientifically useful, but it is not yet a product proof.
+As of this assessment update, C94 is complete and is a partial/negative architecture result. Deep-sea full frames pass strongly by OCR, but crops still reveal source remnants; naturalist remains harder. C95 is implemented as a separate learned target-state latent canvas, optionally midpoint-gated, and should run next. Track C is scientifically useful, but it is not yet a product proof.

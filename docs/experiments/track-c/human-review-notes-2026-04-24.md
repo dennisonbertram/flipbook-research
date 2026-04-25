@@ -2617,3 +2617,20 @@ Human read:
 - The contrastive source-remnant loss improves some OCR scores, especially naturalist from the C92 `0.49` band to `0.5424`, but close crops still show old source text/diagram structure under the new target page.
 - Stronger midpoint/remnant pressure can hurt naturalist readability instead of erasing the old source layer.
 - This points to a representational failure: the single source-biased latent/decoder path is still carrying high-frequency source structure. C94 should test target-state decoder paths before spending more compute on scalar loss tuning.
+
+Completed C94 visual review:
+
+```text
+c94-v12-deep-sea-dualres-s050-rem050-seed0-s12000: OCR 0.8667, segment 1265.816ms, pass
+c94-v12-deep-sea-dualgate-s100-rem050-seed0-s12000: OCR 0.8667, segment 1266.359ms, pass
+c94-v12-deep-sea-latentboth-rem050-seed0-s12000: OCR 0.8000, segment 922.816ms, pass
+c94-v11-naturalist-latentboth-rem025-seed0-s12000: OCR 0.5000, segment 1123.414ms, pass
+```
+
+Human read:
+
+- C94 full-frame midpoint renders are compelling, especially deep-sea.
+- The crop review still shows the old `Velarium`/`Materials`/diagram source layer strongly underneath the new target page.
+- The high deep-sea OCR score should not be overread as clean repainting; the dark target page and labels score well while old source traces remain visible in crops.
+- Dual-residual, fused-residual, dual-gate, and latent-both controls did not solve source ghosts.
+- C95 should move to a separate target-state latent canvas/time-indexed state rather than more decoder-branch scalar tuning.

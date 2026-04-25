@@ -78,6 +78,8 @@ def general_visual_motion_args(
     decoder_mode: str | None = None,
     target_branch_scale: float | None = None,
     target_branch_hidden: int | None = None,
+    target_canvas_mode: str | None = None,
+    target_canvas_init_scale: float | None = None,
     rgb_skip_scale: float | None = None,
     rgb_skip_mode: str | None = None,
     rgb_skip_base_scale: float | None = None,
@@ -217,6 +219,10 @@ def general_visual_motion_args(
         args.extend(["--target-branch-scale", f"{target_branch_scale:g}"])
     if target_branch_hidden is not None:
         args.extend(["--target-branch-hidden", str(target_branch_hidden)])
+    if target_canvas_mode is not None:
+        args.extend(["--target-canvas-mode", target_canvas_mode])
+    if target_canvas_init_scale is not None:
+        args.extend(["--target-canvas-init-scale", f"{target_canvas_init_scale:g}"])
     if rgb_skip_scale is not None:
         args.extend(["--rgb-skip-scale", f"{rgb_skip_scale:g}"])
     if rgb_skip_mode is not None:
@@ -612,6 +618,8 @@ def learned_layout_reflow_experiment(
     decoder_mode: str | None = None,
     target_branch_scale: float | None = None,
     target_branch_hidden: int | None = None,
+    target_canvas_mode: str | None = None,
+    target_canvas_init_scale: float | None = None,
     rgb_skip_scale: float | None = None,
     rgb_skip_mode: str | None = None,
     rgb_skip_base_scale: float | None = None,
@@ -698,6 +706,11 @@ def learned_layout_reflow_experiment(
         if decoder_mode
         else ""
     )
+    target_canvas_note = (
+        f", target-state canvas {target_canvas_mode} init {target_canvas_init_scale if target_canvas_init_scale is not None else 0.02:g}"
+        if target_canvas_mode
+        else ""
+    )
     rgb_skip_note = (
         f", rgb neural texture skip base {rgb_skip_base_scale if rgb_skip_base_scale is not None else 1:g}"
         f" residual {rgb_skip_scale:g} {rgb_skip_mode or 'source'}"
@@ -735,7 +748,7 @@ def learned_layout_reflow_experiment(
         label=label,
         notes=(
             f"{proof_name}: {proof_detail}; output remains direct neural-canvas pixels. "
-            f"amount {amount:g}, flow scale {flow_scale:g}, {steps} steps, freq{freq_bands}{clip_note}{l1_note}{grad_note}{remnant_note}{seed_note}{detail_note}{source_coord_note}{neighborhood_note}{context_note}{decoder_note}{rgb_skip_note}{text_note}{target_note}{mid_note}{flow_loss_note}{oracle_note}{curriculum_note}{endpoint_note}{clean_variant_note}."
+            f"amount {amount:g}, flow scale {flow_scale:g}, {steps} steps, freq{freq_bands}{clip_note}{l1_note}{grad_note}{remnant_note}{seed_note}{detail_note}{source_coord_note}{neighborhood_note}{context_note}{decoder_note}{target_canvas_note}{rgb_skip_note}{text_note}{target_note}{mid_note}{flow_loss_note}{oracle_note}{curriculum_note}{endpoint_note}{clean_variant_note}."
         ),
         args=general_visual_motion_args(
             label,
@@ -760,6 +773,8 @@ def learned_layout_reflow_experiment(
             decoder_mode=decoder_mode,
             target_branch_scale=target_branch_scale,
             target_branch_hidden=target_branch_hidden,
+            target_canvas_mode=target_canvas_mode,
+            target_canvas_init_scale=target_canvas_init_scale,
             rgb_skip_scale=rgb_skip_scale,
             rgb_skip_mode=rgb_skip_mode,
             rgb_skip_base_scale=rgb_skip_base_scale,
@@ -1126,6 +1141,51 @@ C94_TARGET_BRANCH_DECODER_EXPERIMENTS = [
         ("c94-v12-deep-sea-dualfused-s050-rem050-seed0-s12000", "deep-sea-lab", 0.20, 0.18, 0.50, "dual-residual-fused", 0.50, "source"),
         ("c94-v12-deep-sea-dualgate-s100-rem050-seed0-s12000", "deep-sea-lab", 0.20, 0.18, 0.50, "dual-gate", 1.00, "source"),
         ("c94-v12-deep-sea-latentboth-rem050-seed0-s12000", "deep-sea-lab", 0.20, 0.18, 0.50, "single", 0.00, "both"),
+    ]
+]
+
+
+C95_TARGET_STATE_CANVAS_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=12000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        latent_sample_mode="source",
+        target_canvas_mode=target_canvas_mode,
+        target_canvas_init_scale=target_canvas_init_scale,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_target_mid_sampling_ratio=mid_target_ratio,
+        layout_target_mid_time_width=mid_target_width,
+        layout_mid_time_ratio=0.65,
+        layout_mid_time_width=0.20,
+        source_remnant_loss_weight=remnant_weight,
+        source_remnant_margin=0.025,
+        source_remnant_change_floor=0.04,
+        motion_mode="layout-clean-reflow",
+        clean_target_variant=variant,
+        min_ocr=0.35,
+        min_motion=0.05,
+    )
+    for label, variant, seed, mid_target_ratio, mid_target_width, remnant_weight, target_canvas_mode, target_canvas_init_scale in [
+        ("c95-v11-naturalist-tcanvas-gated-init02-rem025-seed0-s12000", "naturalist-plate", 0, 0.35, 0.22, 0.25, "gated", 0.02),
+        ("c95-v11-naturalist-tcanvas-gated-init05-rem025-seed0-s12000", "naturalist-plate", 0, 0.35, 0.22, 0.25, "gated", 0.05),
+        ("c95-v11-naturalist-tcanvas-gated-init02-rem025-seed1-s12000", "naturalist-plate", 1, 0.35, 0.22, 0.25, "gated", 0.02),
+        ("c95-v11-naturalist-tcanvas-always-init02-rem025-seed0-s12000", "naturalist-plate", 0, 0.35, 0.22, 0.25, "always", 0.02),
+        ("c95-v11-naturalist-tcanvas-gated-init02-rem050-seed0-s12000", "naturalist-plate", 0, 0.35, 0.22, 0.50, "gated", 0.02),
+        ("c95-v12-deep-sea-tcanvas-gated-init02-rem050-seed0-s12000", "deep-sea-lab", 0, 0.20, 0.18, 0.50, "gated", 0.02),
+        ("c95-v12-deep-sea-tcanvas-gated-init05-rem050-seed0-s12000", "deep-sea-lab", 0, 0.20, 0.18, 0.50, "gated", 0.05),
+        ("c95-v12-deep-sea-tcanvas-gated-init02-rem050-seed1-s12000", "deep-sea-lab", 1, 0.20, 0.18, 0.50, "gated", 0.02),
+        ("c95-v12-deep-sea-tcanvas-always-init02-rem050-seed0-s12000", "deep-sea-lab", 0, 0.20, 0.18, 0.50, "always", 0.02),
+        ("c95-v12-deep-sea-tcanvas-gated-init02-rem000-seed0-s12000", "deep-sea-lab", 0, 0.20, 0.18, 0.00, "gated", 0.02),
     ]
 ]
 
@@ -1830,6 +1890,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C95_TARGET_STATE_CANVAS_EXPERIMENTS,
     *C94_TARGET_BRANCH_DECODER_EXPERIMENTS,
     *C93_SOURCE_REMNANT_CONTRAST_EXPERIMENTS,
     *C92_SOURCE_REMNANT_STRESS_EXPERIMENTS,

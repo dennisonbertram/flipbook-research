@@ -200,21 +200,23 @@ C9.2 is queued as the source-remnant stress wave. It keeps the C91 recipe and in
 
 C9.2 passed all ten initial stress runs, but it also proved the current gate is too lenient. Full-frame midpoint renders look like the new target pages; close crops still show old Colosseum text and diagram remnants. `deep-sea-lab` is quantitatively strong (`0.6190-0.8966` OCR), while `naturalist-plate` is harder (`0.4082-0.4964` OCR) because thin etched linework and small labels are more demanding. C9.3 adds a contrastive source-remnant loss at clean-reflow midpoints so the model is explicitly penalized when changed pixels are still closer to the source page than the clean target.
 
-C9.3 is a useful partial result, not a solution. The best naturalist run improves to OCR `0.5424`, and the best deep-sea contrast run still reaches OCR `0.8276`, but crop review shows the same source layer underneath. The failure appears representational: the single source-biased latent/decoder keeps carrying old high-frequency structure. C9.4 therefore tests target-state decoder paths: dual residual, fused residual, dual-gate, and latent-both controls.
+C9.3 is a useful partial result, not a solution. The best naturalist run improves to OCR `0.5424`, and the best deep-sea contrast run still reaches OCR `0.8276`, but crop review shows the same source layer underneath. The failure appears representational: the single source-biased latent/decoder keeps carrying old high-frequency structure.
+
+C9.4 confirms that target-side decoder paths are not enough by themselves. Deep-sea full frames score well (`0.8667` OCR for both dual-residual and dual-gate, with `1265-1266ms` segment times), and the fastest latent-both deep-sea control reaches OCR `0.8000` at `922.816ms`. Naturalist remains much weaker (`0.5000` best OCR). Human crop review is the deciding result: the full frames look compelling, but `2x` crops still expose the old `Velarium`/`Materials`/diagram source layer. C9.5 therefore moves from decoder branching to a separate learned target-state latent canvas, gated around the midpoint, so the model has an explicit target page state rather than only a source-biased latent field.
 
 Next experiments:
 
 ```text
-c94-v11-naturalist-dualres-s050-rem025-seed0-s12000
-c94-v11-naturalist-dualres-s100-rem025-seed0-s12000
-c94-v11-naturalist-dualfused-s050-rem025-seed0-s12000
-c94-v11-naturalist-dualgate-s100-rem025-seed0-s12000
-c94-v11-naturalist-latentboth-rem025-seed0-s12000
-c94-v12-deep-sea-dualres-s050-rem050-seed0-s12000
-c94-v12-deep-sea-dualres-s100-rem050-seed0-s12000
-c94-v12-deep-sea-dualfused-s050-rem050-seed0-s12000
-c94-v12-deep-sea-dualgate-s100-rem050-seed0-s12000
-c94-v12-deep-sea-latentboth-rem050-seed0-s12000
+c95-v11-naturalist-tcanvas-gated-init02-rem025-seed0-s12000
+c95-v11-naturalist-tcanvas-gated-init05-rem025-seed0-s12000
+c95-v11-naturalist-tcanvas-gated-init02-rem025-seed1-s12000
+c95-v11-naturalist-tcanvas-always-init02-rem025-seed0-s12000
+c95-v11-naturalist-tcanvas-gated-init02-rem050-seed0-s12000
+c95-v12-deep-sea-tcanvas-gated-init02-rem050-seed0-s12000
+c95-v12-deep-sea-tcanvas-gated-init05-rem050-seed0-s12000
+c95-v12-deep-sea-tcanvas-gated-init02-rem050-seed1-s12000
+c95-v12-deep-sea-tcanvas-always-init02-rem050-seed0-s12000
+c95-v12-deep-sea-tcanvas-gated-init02-rem000-seed0-s12000
 ```
 
 Suggested `results.tsv` header:

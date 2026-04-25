@@ -1441,6 +1441,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             decoder_mode: str = "single",
             target_branch_scale: float = 0.0,
             target_branch_hidden: int | None = None,
+            target_canvas_mode: str = "none",
+            target_canvas_init_scale: float = 0.02,
             rgb_skip_scale: float = 0.0,
             rgb_skip_mode: str = "source",
             rgb_skip_base_scale: float = 1.0,
@@ -1468,6 +1470,14 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             self.decoder_mode = decoder_mode
             self.target_branch_scale = float(target_branch_scale)
             self.target_branch_hidden = hidden if target_branch_hidden is None else max(8, int(target_branch_hidden))
+            target_canvas_mode = target_canvas_mode.lower().replace("_", "-")
+            if target_canvas_mode in {"mid", "midpoint", "gated", "target-gated"}:
+                target_canvas_mode = "gated"
+            elif target_canvas_mode in {"always", "target", "target-only"}:
+                target_canvas_mode = "always"
+            else:
+                target_canvas_mode = "none"
+            self.target_canvas_mode = target_canvas_mode
             rgb_skip_mode = rgb_skip_mode.lower()
             if rgb_skip_mode in {"target", "dest", "destination", "output"}:
                 rgb_skip_mode = "target"
@@ -1490,6 +1500,11 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             self.rgb_gate_canvas = (
                 nn.Parameter(torch.full((1, 1, height, width), float(np.log(gate_init / (1.0 - gate_init)))))
                 if self.rgb_skip_scale > 0.0 and self.rgb_skip_gate_mode != "none"
+                else None
+            )
+            self.target_canvas = (
+                nn.Parameter(torch.randn(1, channels, height, width) * float(target_canvas_init_scale))
+                if self.target_canvas_mode != "none"
                 else None
             )
             if context_channels > 0:
@@ -1532,8 +1547,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             condition_dim = coord_dim + time_dim + (coord_dim if source_coord_features else 0)
             context_taps = 2 if context_channels > 0 and self.context_sample_mode == "both" else 1
             latent_taps = 2 if self.latent_sample_mode == "both" else 1
+            target_canvas_taps = 1 if self.target_canvas is not None else 0
             latent_dim = (
-                channels * len(offsets) * latent_taps
+                channels * len(offsets) * (latent_taps + target_canvas_taps)
                 + (context_channels * context_taps if context_channels > 0 else 0)
             )
             branch_latent_dim = channels * len(offsets) + (context_channels if context_channels > 0 else 0)
@@ -1597,12 +1613,14 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 self.detail_canvas = None
                 self.detail_mlp = None
 
-        def sample_one_canvas_features(self, coords: torch.Tensor) -> torch.Tensor:
+        def sample_one_canvas_features(self, coords: torch.Tensor, canvas: torch.Tensor | None = None) -> torch.Tensor:
+            if canvas is None:
+                canvas = self.canvas
             offsets = self.latent_offsets.to(device=coords.device, dtype=coords.dtype)
             expanded = (coords.unsqueeze(1) + offsets.unsqueeze(0)).clamp(0.0, 1.0)
             grid = expanded.mul(2.0).sub(1.0).reshape(1, -1, 1, 2)
             sampled = F.grid_sample(
-                self.canvas,
+                canvas,
                 grid,
                 mode="bilinear",
                 padding_mode="border",
@@ -1610,15 +1628,23 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             ).squeeze(0).squeeze(-1).transpose(0, 1)
             return sampled.reshape(coords.shape[0], offsets.shape[0], -1).reshape(coords.shape[0], -1)
 
-        def sample_canvas_features(self, coords01: torch.Tensor, sample_coords: torch.Tensor) -> torch.Tensor:
+        def sample_canvas_features(self, coords01: torch.Tensor, sample_coords: torch.Tensor, t: torch.Tensor) -> torch.Tensor:
             if self.latent_sample_mode == "target":
-                return self.sample_one_canvas_features(coords01)
-            if self.latent_sample_mode == "both":
-                return torch.cat(
+                sampled = self.sample_one_canvas_features(coords01)
+            elif self.latent_sample_mode == "both":
+                sampled = torch.cat(
                     [self.sample_one_canvas_features(sample_coords), self.sample_one_canvas_features(coords01)],
                     dim=-1,
                 )
-            return self.sample_one_canvas_features(sample_coords)
+            else:
+                sampled = self.sample_one_canvas_features(sample_coords)
+            if self.target_canvas is not None:
+                target_sampled = self.sample_one_canvas_features(coords01, self.target_canvas)
+                if self.target_canvas_mode == "gated":
+                    target_weight = torch.sin(t * torch.pi).square().clamp(0.0, 1.0)
+                    target_sampled = target_sampled * target_weight
+                sampled = torch.cat([sampled, target_sampled], dim=-1)
+            return sampled
 
         def sample_one_context(self, coords: torch.Tensor) -> torch.Tensor:
             grid = coords.clamp(0.0, 1.0).mul(2.0).sub(1.0).view(1, -1, 1, 2)
@@ -1680,7 +1706,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             condition = torch.cat(condition_parts, dim=-1)
             grid = sample_coords.mul(2.0).sub(1.0).view(1, -1, 1, 2)
             if self.decoder_mode == "single":
-                sampled = self.sample_canvas_features(coords01, sample_coords)
+                sampled = self.sample_canvas_features(coords01, sample_coords, t)
                 context_sampled = self.sample_context_features(coords01, sample_coords)
                 if context_sampled is not None:
                     sampled = torch.cat([sampled, context_sampled], dim=-1)
@@ -2011,6 +2037,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     decoder_mode = str(config.get("decoder_mode", "single"))
     target_branch_scale = float(config.get("target_branch_scale", 0.0))
     target_branch_hidden = int(config.get("target_branch_hidden", config["hidden"]))
+    target_canvas_mode = str(config.get("target_canvas_mode", "none"))
+    target_canvas_init_scale = float(config.get("target_canvas_init_scale", 0.02))
     rgb_skip_scale = float(config.get("rgb_skip_scale", 0.0))
     rgb_skip_mode = str(config.get("rgb_skip_mode", "source"))
     rgb_skip_base_scale = float(config.get("rgb_skip_base_scale", 1.0))
@@ -2303,6 +2331,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         decoder_mode=decoder_mode,
         target_branch_scale=target_branch_scale,
         target_branch_hidden=target_branch_hidden,
+        target_canvas_mode=target_canvas_mode,
+        target_canvas_init_scale=target_canvas_init_scale,
         rgb_skip_scale=rgb_skip_scale,
         rgb_skip_mode=rgb_skip_mode,
         rgb_skip_base_scale=rgb_skip_base_scale,
@@ -2868,6 +2898,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         canvas_type += "-coarse-context"
     if decoder_mode.lower().replace("_", "-") != "single":
         canvas_type += f"-{decoder_mode.lower().replace('_', '-')}"
+    if model.target_canvas_mode != "none":
+        canvas_type += f"-target-canvas-{model.target_canvas_mode}"
     if rgb_skip_scale > 0.0:
         canvas_type += f"-rgb-skip-{model.rgb_skip_mode}"
     if motion_mode in clean_layout_motion_modes:
@@ -2896,6 +2928,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "decoder_mode": model.decoder_mode,
         "target_branch_scale": target_branch_scale,
         "target_branch_hidden": target_branch_hidden,
+        "target_canvas_mode": model.target_canvas_mode,
+        "target_canvas_init_scale": target_canvas_init_scale,
         "rgb_skip_scale": rgb_skip_scale,
         "rgb_skip_mode": model.rgb_skip_mode,
         "rgb_skip_base_scale": model.rgb_skip_base_scale,
@@ -3038,6 +3072,12 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             f" Decoder uses separately gated source and target-position branches "
             f"(target hidden {target_branch_hidden})."
         )
+    if model.target_canvas_mode != "none":
+        target_canvas_note = "midpoint-gated" if model.target_canvas_mode == "gated" else "always-visible"
+        metrics["description"] += (
+            f" Decoder also receives a separate {target_canvas_note} target-state latent canvas "
+            f"initialized at scale {target_canvas_init_scale:g}."
+        )
     if rgb_skip_scale > 0.0:
         metrics["description"] += (
             f" Renderer uses a learned RGB neural texture skip sampled in {model.rgb_skip_mode} mode, "
@@ -3082,6 +3122,8 @@ def main(
     decoder_mode: str = "single",
     target_branch_scale: float = 0.0,
     target_branch_hidden: int = 0,
+    target_canvas_mode: str = "none",
+    target_canvas_init_scale: float = 0.02,
     rgb_skip_scale: float = 0.0,
     rgb_skip_mode: str = "source",
     rgb_skip_base_scale: float = 1.0,
@@ -3171,6 +3213,8 @@ def main(
         "decoder_mode": decoder_mode,
         "target_branch_scale": target_branch_scale,
         "target_branch_hidden": target_branch_hidden if target_branch_hidden > 0 else hidden,
+        "target_canvas_mode": target_canvas_mode,
+        "target_canvas_init_scale": target_canvas_init_scale,
         "rgb_skip_scale": rgb_skip_scale,
         "rgb_skip_mode": rgb_skip_mode,
         "rgb_skip_base_scale": rgb_skip_base_scale,
