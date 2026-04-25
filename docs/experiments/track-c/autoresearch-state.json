@@ -1,8 +1,9 @@
 {
-  "updated_utc": "2026-04-25T08:47:24+00:00",
+  "updated_utc": "2026-04-25T08:59:30+00:00",
   "active_sessions": [
     "clawtest",
     "pr-1419-checks",
+    "pr1419-checks-monitor",
     "pr1467-monitor",
     "track-c-autoresearch",
     "track-c-github-sync"
