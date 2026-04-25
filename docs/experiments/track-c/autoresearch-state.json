@@ -1,11 +1,91 @@
 {
-  "updated_utc": "2026-04-25T01:33:19+00:00",
+  "updated_utc": "2026-04-25T01:38:06+00:00",
   "active_sessions": [
     "clawtest",
     "track-c-autoresearch",
+    "track-c-c61-sourcecoord-target55-c24h128-s12000",
+    "track-c-c61-sourcecoord-target55-c32h160-s14000",
+    "track-c-c61-sourcecoord-target60-b196-s10000",
+    "track-c-c61-sourcecoord-target60-c24h128-s12000",
+    "track-c-c61-sourcecoord-target60-cosine-c32h160-s16000",
+    "track-c-c61-sourcecoord-target60-flow08-c32h160-s14000",
+    "track-c-c61-sourcecoord-target60-lr007-c32h160-s16000",
+    "track-c-c61-sourcecoord-target60-seed1-c32h160-s14000",
+    "track-c-c61-sourcecoord-target60-seed2-c32h160-s14000",
+    "track-c-c61-sourcecoord-target65-c32h160-s14000",
     "track-c-github-sync"
   ],
   "experiments": [
+    {
+      "label": "c61-sourcecoord-target55-c32h160-s14000",
+      "session": "track-c-c61-sourcecoord-target55-c32h160-s14000",
+      "log": "docs/experiments/track-c/c61-sourcecoord-target55-c32h160-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.55, mid-time 0.6."
+    },
+    {
+      "label": "c61-sourcecoord-target65-c32h160-s14000",
+      "session": "track-c-c61-sourcecoord-target65-c32h160-s14000",
+      "log": "docs/experiments/track-c/c61-sourcecoord-target65-c32h160-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.65, mid-time 0.6."
+    },
+    {
+      "label": "c61-sourcecoord-target60-seed1-c32h160-s14000",
+      "session": "track-c-c61-sourcecoord-target60-seed1-c32h160-s14000",
+      "log": "docs/experiments/track-c/c61-sourcecoord-target60-seed1-c32h160-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 1, source-coord features, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c61-sourcecoord-target60-seed2-c32h160-s14000",
+      "session": "track-c-c61-sourcecoord-target60-seed2-c32h160-s14000",
+      "log": "docs/experiments/track-c/c61-sourcecoord-target60-seed2-c32h160-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 2, source-coord features, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c61-sourcecoord-target60-flow08-c32h160-s14000",
+      "session": "track-c-c61-sourcecoord-target60-flow08-c32h160-s14000",
+      "log": "docs/experiments/track-c/c61-sourcecoord-target60-flow08-c32h160-s14000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 14000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c61-sourcecoord-target60-b196-s10000",
+      "session": "track-c-c61-sourcecoord-target60-b196-s10000",
+      "log": "docs/experiments/track-c/c61-sourcecoord-target60-b196-s10000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 10000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c61-sourcecoord-target55-c24h128-s12000",
+      "session": "track-c-c61-sourcecoord-target55-c24h128-s12000",
+      "log": "docs/experiments/track-c/c61-sourcecoord-target55-c24h128-s12000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 12000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.55, mid-time 0.6."
+    },
+    {
+      "label": "c61-sourcecoord-target60-c24h128-s12000",
+      "session": "track-c-c61-sourcecoord-target60-c24h128-s12000",
+      "log": "docs/experiments/track-c/c61-sourcecoord-target60-c24h128-s12000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.08, 12000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c61-sourcecoord-target60-cosine-c32h160-s16000",
+      "session": "track-c-c61-sourcecoord-target60-cosine-c32h160-s16000",
+      "log": "docs/experiments/track-c/c61-sourcecoord-target60-cosine-c32h160-s16000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 16000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
+    {
+      "label": "c61-sourcecoord-target60-lr007-c32h160-s16000",
+      "session": "track-c-c61-sourcecoord-target60-lr007-c32h160-s16000",
+      "log": "docs/experiments/track-c/c61-sourcecoord-target60-lr007-c32h160-s16000.log",
+      "done": false,
+      "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1, flow scale 0.1, 16000 steps, freq10, grad clip 0.5, source-coord features, target-side reflow sampling ratio 0.6, mid-time 0.6."
+    },
     {
       "label": "c60-sourcecoord-target60-c32h160-s14000",
       "session": "track-c-c60-sourcecoord-target60-c32h160-s14000",
