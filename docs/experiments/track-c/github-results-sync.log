@@ -546,3 +546,12 @@
 [2026-04-25T17:22:01+00:00] eval 20260425T170202747809Z-c2-lite-glyph-layout-clean-reflow-c97-v11-naturalist-statesplit-init02-rem050-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1006.120ms	ocr=0.3656
 [2026-04-25T17:22:01+00:00] eval 20260425T170203216056Z-c2-lite-glyph-layout-clean-reflow-c97-v12-deep-sea-statesplit-init02-rem050-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1262.824ms	ocr=0.8000
 [2026-04-25T17:22:01+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-25T17:22:05+00:00] published Track C docs update: 2026-04-25 17:22 UTC
+[2026-04-25T17:33:29+00:00] eval 20260425T170202556498Z-c2-lite-glyph-layout-clean-reflow-c97-v12-deep-sea-statesplit-init02-rem100-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1258.729ms	ocr=0.7500
+[2026-04-25T17:33:29+00:00] eval 20260425T170202712977Z-c2-lite-glyph-layout-clean-reflow-c97-v12-deep-sea-statesplit-init05-rem050-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1244.800ms	ocr=0.8276
+[2026-04-25T17:33:29+00:00] eval 20260425T170202747809Z-c2-lite-glyph-layout-clean-reflow-c97-v11-naturalist-statesplit-init02-rem050-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1006.120ms	ocr=0.3656
+[2026-04-25T17:33:29+00:00] eval 20260425T170203216056Z-c2-lite-glyph-layout-clean-reflow-c97-v12-deep-sea-statesplit-init02-rem050-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1262.824ms	ocr=0.8000
+[2026-04-25T17:33:29+00:00] eval 20260425T172359630504Z-c2-lite-glyph-layout-clean-move-reveal-c98-v11-naturalist-movereveal-base-rem025-mid35-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1074.523ms	ocr=0.4839
+[2026-04-25T17:33:29+00:00] eval 20260425T172359691143Z-c2-lite-glyph-layout-clean-move-reveal-c98-v12-deep-sea-movereveal-base-rem050-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	917.112ms	ocr=0.8571
+[2026-04-25T17:33:29+00:00] eval 20260425T172400065539Z-c2-lite-glyph-layout-clean-move-reveal-c98-v12-deep-sea-movereveal-tblend-init02-rem050-mid20-seed0-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	939.032ms	ocr=0.8966
+[2026-04-25T17:33:29+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
