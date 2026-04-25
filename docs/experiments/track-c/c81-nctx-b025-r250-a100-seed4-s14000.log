@@ -1,0 +1,227 @@
+✓ Initialized. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-b7fcgF1iRNNva2wktIaWkp
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/dennisonbertram/Develop/flipbook-research/scripts/track_c/modal_canva
+│   s_c2_lite.py
+└── 🔨 Created function train_and_render_motion.
+START 20260425T055250946334Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a100-seed4-s14000-1536x864-s14000 config={"batch_size": 131072, "channels": 32, "context_channels": 0, "context_init_scale": 0.02, "context_sample_mode": "source", "context_scale": 0.25, "decoder_mode": "single", "detail_channels": 0, "detail_hidden": 160, "detail_init_scale": 0.01, "detail_scale": 0.0, "edge_loss_weight": 0.9, "edge_sample_ratio": 0.09, "element_anchor_mode": "line", "element_anchor_padding": 3, "element_mask_mode": "rectangle", "element_render_mode": "sequential", "element_scale_ratio": 0.25, "experiment_label": "c81-nctx-b025-r250-a100-seed4-s14000", "flow_scale": 0.1, "fps": 24, "frames": 33, "freq_bands": 10, "grad_clip": 0.5, "gradient_loss_offset_px": 1.0, "gradient_loss_ratio": 0.125, "gradient_loss_weight": 0.0, "hidden": 160, "l1_loss_weight": 0.0, "latent_neighborhood_mode": "cross", "latent_neighborhood_radius_px": 1.0, "latent_sample_mode": "source", "layout_endpoint_ratio": 0.0, "layout_endpoint_target_ratio": 0.5, "layout_flow_loss_weight": 0.0, "layout_mid_time_ratio": 0.6, "layout_mid_time_width": 0.28, "layout_motion_curriculum_ratio": 0.0, "layout_motion_curriculum_start": 0.0, "layout_oracle_flow": 0, "layout_supersample": 1.0, "layout_target_mid_sampling_ratio": 0.0, "layout_target_mid_time_width": 0.24, "layout_target_pair_ratio": 0.0, "layout_target_pair_weight": 1.0, "layout_target_sampling": 1, "layout_target_sampling_ratio": 0.6, "layout_target_weighting": 1, "layout_transform_pan": 0.0, "layout_transform_strength": 0.0, "lr": 0.01, "lr_schedule": "constant", "min_lr_ratio": 0.1, "min_motion_delta": 0.045, "min_ocr_similarity": 0.55, "motion_mode": "layout-reflow", "motion_strength": 1.0, "rgb_skip_base_scale": 0.25, "rgb_skip_mode": "source", "rgb_skip_scale": 2.5, "seed": 4, "source_coord_features": 1, "source_resolution": [1280, 736], "steps": 14000, "target_branch_hidden": 160, "target_branch_scale": 0.0, "text_box_loss_weight": 0.0, "text_box_min_conf": 55.0, "text_box_padding": 0, "text_box_sample_ratio": 0.0, "text_boxes": "0 boxes", "time_bands": 4, "train_resolution": "1536x864", "video_layout_mode": "none", "video_viewport_mode": "static", "viewport_pan": 0.0, "viewport_zoom": 0.0}
+{
+  "canvas_type": "time-conditioned-latent-feature-grid-learned-flow-mlp-glyph-weighted-source-coord-latent-cross-neighborhood-rgb-skip-source",
+  "train_resolution": "1536x864",
+  "steps": 14000,
+  "batch_size": 131072,
+  "channels": 32,
+  "hidden": 160,
+  "detail_channels": 0,
+  "detail_hidden": 160,
+  "detail_scale": 0.0,
+  "detail_init_scale": 0.01,
+  "source_coord_features": 1,
+  "latent_neighborhood_mode": "cross",
+  "latent_neighborhood_radius_px": 1.0,
+  "latent_neighborhood_taps": 5,
+  "latent_sample_mode": "source",
+  "context_channels": 0,
+  "context_scale": 0.25,
+  "context_init_scale": 0.02,
+  "context_sample_mode": "source",
+  "context_resolution": [
+    0,
+    0
+  ],
+  "decoder_mode": "single",
+  "target_branch_scale": 0.0,
+  "target_branch_hidden": 160,
+  "rgb_skip_scale": 2.5,
+  "rgb_skip_mode": "source",
+  "rgb_skip_base_scale": 0.25,
+  "freq_bands": 10,
+  "time_bands": 4,
+  "lr": 0.01,
+  "lr_schedule": "constant",
+  "min_lr_ratio": 0.1,
+  "grad_clip": 0.5,
+  "l1_loss_weight": 0.0,
+  "gradient_loss_weight": 0.0,
+  "gradient_loss_ratio": 0.125,
+  "gradient_loss_offset_px": 1.0,
+  "seed": 4,
+  "experiment_label": "c81-nctx-b025-r250-a100-seed4-s14000",
+  "flow_scale": 0.1,
+  "motion_mode": "layout-reflow",
+  "motion_strength": 1.0,
+  "video_viewport_mode": "static",
+  "viewport_zoom": 0.0,
+  "viewport_pan": 0.0,
+  "video_layout_mode": "none",
+  "layout_transform_strength": 0.0,
+  "layout_transform_pan": 0.0,
+  "layout_supersample": 1.0,
+  "layout_region_count": 0,
+  "element_scale_ratio": 0.25,
+  "element_anchor_padding": 3,
+  "element_mask_mode": "rectangle",
+  "element_anchor_mode": "line",
+  "element_render_mode": "sequential",
+  "element_line_count": 0,
+  "min_ocr_similarity": 0.55,
+  "min_motion_delta": 0.045,
+  "edge_sample_ratio": 0.09,
+  "edge_loss_weight": 0.9,
+  "text_box_sample_ratio": 0.0,
+  "text_box_loss_weight": 0.0,
+  "text_box_padding": 0,
+  "layout_target_sampling": 1,
+  "layout_target_weighting": 1,
+  "layout_target_sampling_ratio": 0.6,
+  "layout_target_mid_sampling_ratio": 0.0,
+  "layout_target_mid_time_width": 0.24,
+  "layout_target_pair_ratio": 0.0,
+  "layout_target_pair_weight": 1.0,
+  "layout_mid_time_ratio": 0.6,
+  "layout_mid_time_width": 0.28,
+  "layout_flow_loss_weight": 0.0,
+  "layout_oracle_flow": 0,
+  "layout_motion_curriculum_ratio": 0.0,
+  "layout_motion_curriculum_start": 0.0,
+  "layout_endpoint_ratio": 0.0,
+  "layout_endpoint_target_ratio": 0.5,
+  "text_box_count": 0,
+  "text_mask_coverage": 0.0,
+  "element_alpha_coverage": 0.0,
+  "compile_ms": 376905.491388,
+  "final_mse": 0.0017429147846996784,
+  "losses": [
+    {
+      "step": 0,
+      "mse": 0.08560686558485031
+    },
+    {
+      "step": 700,
+      "mse": 0.006313384510576725
+    },
+    {
+      "step": 1400,
+      "mse": 0.004349338822066784
+    },
+    {
+      "step": 2100,
+      "mse": 0.0036833002232015133
+    },
+    {
+      "step": 2800,
+      "mse": 0.003219755832105875
+    },
+    {
+      "step": 3500,
+      "mse": 0.0028911945410072803
+    },
+    {
+      "step": 4200,
+      "mse": 0.0025824271142482758
+    },
+    {
+      "step": 4900,
+      "mse": 0.002567048417404294
+    },
+    {
+      "step": 5600,
+      "mse": 0.0023756655864417553
+    },
+    {
+      "step": 6300,
+      "mse": 0.00231413496658206
+    },
+    {
+      "step": 7000,
+      "mse": 0.002233447739854455
+    },
+    {
+      "step": 7700,
+      "mse": 0.0021032029762864113
+    },
+    {
+      "step": 8400,
+      "mse": 0.00209467438980937
+    },
+    {
+      "step": 9100,
+      "mse": 0.0019485705997794867
+    },
+    {
+      "step": 9800,
+      "mse": 0.00196762103587389
+    },
+    {
+      "step": 10500,
+      "mse": 0.0019049962284043431
+    },
+    {
+      "step": 11200,
+      "mse": 0.0018840755801647902
+    },
+    {
+      "step": 11900,
+      "mse": 0.0017794605810195208
+    },
+    {
+      "step": 12600,
+      "mse": 0.0018366215517744422
+    },
+    {
+      "step": 13300,
+      "mse": 0.0017253668047487736
+    },
+    {
+      "step": 13999,
+      "mse": 0.0017429147846996784
+    }
+  ],
+  "render_times": {
+    "render-960.png": 20.731783999963227,
+    "render-mid.png": 20.631749000017408,
+    "render-last.png": 20.616955999969377,
+    "render-512.png": 5.63884500002132,
+    "crop-2x.png": 20.404886999983773
+  },
+  "render_960_ms": 20.731783999963227,
+  "render_33_wall_ms": 672.5830880000103,
+  "encode_ms": 250.49400199998217,
+  "resize_consistency": 0.9995043661960131,
+  "temporal_consistency": 0.9994223142857663,
+  "motion_delta_model": 0.05267777293920517,
+  "loop_error_model": 0.0005776857142336667,
+  "description": "C4.7 neural canvas: learned full page layout reflow from x,y,t Learned warped/source coordinate features are included in the renderer MLP. Decoder samples a cross latent neighborhood with 1px radius for local glyph/detail context in source mode. Renderer uses a learned RGB neural texture skip sampled in source mode, with base scale 0.25 and bounded residual scale 2.5.",
+  "run_id": "20260425T055250946334Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a100-seed4-s14000-1536x864-s14000",
+  "commit": "a140a74",
+  "track": "C",
+  "width": 960,
+  "height": 544,
+  "frames": 33,
+  "fps": 24,
+  "artifacts": {
+    "input": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T055250946334Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a100-seed4-s14000-1536x864-s14000/input.png",
+    "render_960": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T055250946334Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a100-seed4-s14000-1536x864-s14000/render-960.png",
+    "render_mid": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T055250946334Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a100-seed4-s14000-1536x864-s14000/render-mid.png",
+    "render_last": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T055250946334Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a100-seed4-s14000-1536x864-s14000/render-last.png",
+    "render_512": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T055250946334Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a100-seed4-s14000-1536x864-s14000/render-512.png",
+    "crop_2x": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T055250946334Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a100-seed4-s14000-1536x864-s14000/crop-2x.png",
+    "text_mask": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T055250946334Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a100-seed4-s14000-1536x864-s14000/text-mask.png",
+    "element_alpha_mask": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T055250946334Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a100-seed4-s14000-1536x864-s14000/element-alpha-mask.png",
+    "target_mid": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T055250946334Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a100-seed4-s14000-1536x864-s14000/target-mid.png",
+    "text_boxes": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T055250946334Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a100-seed4-s14000-1536x864-s14000/text-boxes.json",
+    "output": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T055250946334Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a100-seed4-s14000-1536x864-s14000/output.mp4",
+    "metrics": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T055250946334Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a100-seed4-s14000-1536x864-s14000/metrics.json",
+    "quality": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260425T055250946334Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a100-seed4-s14000-1536x864-s14000/quality.json"
+  },
+  "ocr_similarity": 0.5647058823529412,
+  "layout_similarity": 0.9995043661960131,
+  "motion_delta": 0.04123358801007271,
+  "loop_error": 0.00033852277556434274,
+  "status": "near_miss"
+}
+DONE 20260425T055250946334Z-c2-lite-glyph-layout-reflow-c81-nctx-b025-r250-a100-seed4-s14000-1536x864-s14000 quality=0.5647 motion=0.0412
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-b7fcgF1iRNNva2wktIaWkp
