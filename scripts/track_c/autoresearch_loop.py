@@ -9088,6 +9088,14 @@ def tmux_sessions() -> set[str]:
     return {line.strip() for line in result.stdout.splitlines() if line.strip()}
 
 
+def is_owned_worker_session(name: str) -> bool:
+    return (
+        name.startswith("track-c-")
+        and name not in {"track-c-autoresearch", "track-c-github-sync"}
+        and not name.startswith("track-c-output-browser")
+    )
+
+
 def log_done(path: Path) -> bool:
     if not path.exists():
         return False
@@ -9172,7 +9180,7 @@ def main() -> None:
         active_owned = {
             name
             for name in sessions
-            if name.startswith("track-c-") and name not in {"track-c-autoresearch", "track-c-github-sync"}
+            if is_owned_worker_session(name)
         }
         for exp in EXPERIMENTS:
             if len(active_owned) >= MAX_PARALLEL:
