@@ -2586,6 +2586,56 @@ C122_GENERATED_HOLDOUT_SEED_REPEAT_EXPERIMENTS = [
 ]
 
 
+C123_GEOMETRIC_RELAYOUT_DIAGNOSTIC_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.10,
+        flow_scale=0.10,
+        steps=14000,
+        seed=20,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        context_channels=0,
+        context_scale=0.25,
+        rgb_skip_scale=2.75,
+        rgb_skip_mode="source",
+        rgb_skip_base_scale=0.25,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_target_mid_sampling_ratio=target_mid_ratio,
+        layout_target_mid_time_width=target_mid_width,
+        layout_target_pair_ratio=target_pair_ratio,
+        layout_target_pair_weight=target_pair_weight,
+        layout_mid_time_ratio=0.68 if target_mid_ratio else 0.60,
+        layout_mid_time_width=0.24 if target_mid_ratio else 0.28,
+        layout_endpoint_ratio=0.12 if target_mid_ratio else None,
+        layout_endpoint_target_ratio=0.50 if target_mid_ratio else None,
+        layout_flow_loss_weight=flow_loss_weight,
+        layout_oracle_flow=oracle_flow,
+        min_ocr=0.55,
+        min_motion=0.045,
+    )
+    for (
+        label,
+        target_mid_ratio,
+        target_mid_width,
+        target_pair_ratio,
+        target_pair_weight,
+        flow_loss_weight,
+        oracle_flow,
+    ) in [
+        ("c123-geom-rgbskip-scoord-seed20-s14000", 0.0, None, None, None, None, None),
+        ("c123-geom-midforced-rgbskip-scoord-seed20-s14000", 0.35, 0.20, 0.20, 1.0, None, None),
+        ("c123-geom-flowloss-rgbskip-scoord-seed20-s14000", 0.35, 0.20, 0.20, 1.0, 1.0, None),
+        ("c123-geom-oracle-rgbskip-scoord-seed20-s14000", 0.35, 0.20, 0.20, 1.0, None, 1),
+    ]
+]
+
+
 C98_TRANSITION_AWARE_EXPERIMENTS = [
     learned_layout_reflow_experiment(
         label,
@@ -3483,6 +3533,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C123_GEOMETRIC_RELAYOUT_DIAGNOSTIC_EXPERIMENTS,
     *C122_GENERATED_HOLDOUT_SEED_REPEAT_EXPERIMENTS,
     *C121_GENERATED_HOLDOUT_FAMILY_EXPERIMENTS,
     *C120_POLICY_FREEZE_VALIDATION_EXPERIMENTS,
