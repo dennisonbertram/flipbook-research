@@ -1,0 +1,246 @@
+✓ Initialized. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-qwFwvXAiz2bPtVAGbyqrOW
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/dennisonbertram/Develop/flipbook-research/scripts/track_c/modal_canva
+│   s_c2_lite.py
+└── 🔨 Created function train_and_render_motion.
+START 20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000 config={"batch_size": 131072, "channels": 32, "clean_target_variant": "diagram-left", "context_channels": 0, "context_init_scale": 0.02, "context_sample_mode": "source", "context_scale": 0.25, "decoder_mode": "single", "detail_channels": 0, "detail_hidden": 160, "detail_init_scale": 0.01, "detail_scale": 0.0, "edge_loss_weight": 0.9, "edge_sample_ratio": 0.09, "element_anchor_mode": "line", "element_anchor_padding": 3, "element_mask_mode": "rectangle", "element_render_mode": "sequential", "element_scale_ratio": 0.25, "experiment_label": "c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000", "flow_scale": 0.1, "fps": 24, "frames": 33, "freq_bands": 10, "grad_clip": 0.5, "gradient_loss_offset_px": 1.0, "gradient_loss_ratio": 0.125, "gradient_loss_weight": 0.0, "hidden": 160, "l1_loss_weight": 0.0, "latent_neighborhood_mode": "cross", "latent_neighborhood_radius_px": 1.0, "latent_sample_mode": "source", "layout_endpoint_ratio": 0.12, "layout_endpoint_target_ratio": 0.5, "layout_flow_loss_weight": 0.0, "layout_mid_time_ratio": 0.68, "layout_mid_time_width": 0.24, "layout_motion_curriculum_ratio": 0.0, "layout_motion_curriculum_start": 0.0, "layout_oracle_flow": 0, "layout_supersample": 1.0, "layout_target_mid_sampling_ratio": 0.35, "layout_target_mid_time_width": 0.2, "layout_target_pair_ratio": 0.2, "layout_target_pair_weight": 1.0, "layout_target_sampling": 1, "layout_target_sampling_ratio": 0.6, "layout_target_weighting": 1, "layout_transform_pan": 0.0, "layout_transform_strength": 0.0, "lr": 0.01, "lr_schedule": "constant", "min_lr_ratio": 0.1, "min_motion_delta": 0.045, "min_ocr_similarity": 0.45, "motion_mode": "layout-reflow", "motion_strength": 1.1, "rgb_skip_base_scale": 0.25, "rgb_skip_gate_init": 0.5, "rgb_skip_gate_mode": "none", "rgb_skip_mode": "source", "rgb_skip_scale": 2.75, "seed": 23, "source_coord_features": 1, "source_coord_mid_scale": 1.0, "source_fixture_asset_path": "fixtures/track-c/generated-holdouts/mycology-field-guide.png", "source_fixture_variant": "mycology-field-guide", "source_remnant_change_floor": 0.04, "source_remnant_direct_loss_weight": 0.0, "source_remnant_direct_region": "change", "source_remnant_loss_weight": 0.0, "source_remnant_margin": 0.025, "source_remnant_reference": "clean", "source_remnant_sample_ratio": 0.0, "source_remnant_sample_time_width": 0.18, "source_remnant_time_power": 2.0, "source_resolution": [1280, 736], "steps": 12000, "target_branch_hidden": 160, "target_branch_scale": 0.0, "target_canvas_init_scale": 0.02, "target_canvas_mode": "none", "text_box_loss_weight": 0.0, "text_box_min_conf": 55.0, "text_box_padding": 0, "text_box_sample_ratio": 0.0, "text_boxes": "0 boxes", "time_bands": 4, "train_resolution": "1536x864", "video_layout_mode": "none", "video_viewport_mode": "static", "viewport_pan": 0.0, "viewport_zoom": 0.0}
+{
+  "canvas_type": "time-conditioned-latent-feature-grid-learned-flow-mlp-glyph-weighted-source-coord-latent-cross-neighborhood-rgb-skip-source",
+  "train_resolution": "1536x864",
+  "steps": 12000,
+  "batch_size": 131072,
+  "channels": 32,
+  "hidden": 160,
+  "detail_channels": 0,
+  "detail_hidden": 160,
+  "detail_scale": 0.0,
+  "detail_init_scale": 0.01,
+  "source_coord_features": 1,
+  "latent_neighborhood_mode": "cross",
+  "latent_neighborhood_radius_px": 1.0,
+  "latent_neighborhood_taps": 5,
+  "latent_sample_mode": "source",
+  "context_channels": 0,
+  "context_scale": 0.25,
+  "context_init_scale": 0.02,
+  "context_sample_mode": "source",
+  "context_resolution": [
+    0,
+    0
+  ],
+  "decoder_mode": "single",
+  "target_branch_scale": 0.0,
+  "target_branch_hidden": 160,
+  "target_canvas_mode": "none",
+  "target_canvas_init_scale": 0.02,
+  "rgb_skip_scale": 2.75,
+  "rgb_skip_mode": "source",
+  "rgb_skip_base_scale": 0.25,
+  "rgb_skip_gate_mode": "none",
+  "rgb_skip_gate_init": 0.5,
+  "freq_bands": 10,
+  "time_bands": 4,
+  "lr": 0.01,
+  "lr_schedule": "constant",
+  "min_lr_ratio": 0.1,
+  "grad_clip": 0.5,
+  "l1_loss_weight": 0.0,
+  "gradient_loss_weight": 0.0,
+  "gradient_loss_ratio": 0.125,
+  "gradient_loss_offset_px": 1.0,
+  "source_remnant_loss_weight": 0.0,
+  "source_remnant_margin": 0.025,
+  "source_remnant_change_floor": 0.04,
+  "source_remnant_reference": "clean",
+  "source_remnant_time_power": 2.0,
+  "source_remnant_sample_ratio": 0.0,
+  "source_remnant_sample_time_width": 0.18,
+  "source_remnant_direct_loss_weight": 0.0,
+  "source_remnant_direct_region": "change",
+  "seed": 23,
+  "experiment_label": "c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000",
+  "flow_scale": 0.1,
+  "motion_mode": "layout-reflow",
+  "motion_strength": 1.1,
+  "source_fixture_variant": "mycology-field-guide",
+  "source_fixture_asset_path": "fixtures/track-c/generated-holdouts/mycology-field-guide.png",
+  "clean_target_variant": "diagram-left",
+  "clean_target_asset_path": "",
+  "video_viewport_mode": "static",
+  "viewport_zoom": 0.0,
+  "viewport_pan": 0.0,
+  "video_layout_mode": "none",
+  "layout_transform_strength": 0.0,
+  "layout_transform_pan": 0.0,
+  "layout_supersample": 1.0,
+  "layout_region_count": 0,
+  "element_scale_ratio": 0.25,
+  "element_anchor_padding": 3,
+  "element_mask_mode": "rectangle",
+  "element_anchor_mode": "line",
+  "element_render_mode": "sequential",
+  "element_line_count": 0,
+  "min_ocr_similarity": 0.45,
+  "min_motion_delta": 0.045,
+  "edge_sample_ratio": 0.09,
+  "edge_loss_weight": 0.9,
+  "text_box_sample_ratio": 0.0,
+  "text_box_loss_weight": 0.0,
+  "text_box_padding": 0,
+  "layout_target_sampling": 1,
+  "layout_target_weighting": 1,
+  "layout_target_sampling_ratio": 0.6,
+  "layout_target_mid_sampling_ratio": 0.35,
+  "layout_target_mid_time_width": 0.2,
+  "layout_target_pair_ratio": 0.2,
+  "layout_target_pair_weight": 1.0,
+  "layout_mid_time_ratio": 0.68,
+  "layout_mid_time_width": 0.24,
+  "layout_flow_loss_weight": 0.0,
+  "layout_oracle_flow": 0,
+  "layout_motion_curriculum_ratio": 0.0,
+  "layout_motion_curriculum_start": 0.0,
+  "layout_endpoint_ratio": 0.12,
+  "layout_endpoint_target_ratio": 0.5,
+  "text_box_count": 0,
+  "text_mask_coverage": 0.0,
+  "element_alpha_coverage": 0.0,
+  "compile_ms": 492054.410729,
+  "final_mse": 0.006862059235572815,
+  "losses": [
+    {
+      "step": 0,
+      "mse": 0.20493146777153015
+    },
+    {
+      "step": 600,
+      "mse": 0.023150332272052765
+    },
+    {
+      "step": 1200,
+      "mse": 0.01457253098487854
+    },
+    {
+      "step": 1800,
+      "mse": 0.012332205660641193
+    },
+    {
+      "step": 2400,
+      "mse": 0.010262280702590942
+    },
+    {
+      "step": 3000,
+      "mse": 0.009798124432563782
+    },
+    {
+      "step": 3600,
+      "mse": 0.00903808232396841
+    },
+    {
+      "step": 4200,
+      "mse": 0.008478060364723206
+    },
+    {
+      "step": 4800,
+      "mse": 0.008343487046658993
+    },
+    {
+      "step": 5400,
+      "mse": 0.00799447763711214
+    },
+    {
+      "step": 6000,
+      "mse": 0.007298908196389675
+    },
+    {
+      "step": 6600,
+      "mse": 0.006843407638370991
+    },
+    {
+      "step": 7200,
+      "mse": 0.007237316574901342
+    },
+    {
+      "step": 7800,
+      "mse": 0.00751491216942668
+    },
+    {
+      "step": 8400,
+      "mse": 0.006926774512976408
+    },
+    {
+      "step": 9000,
+      "mse": 0.0065591465681791306
+    },
+    {
+      "step": 9600,
+      "mse": 0.006411462090909481
+    },
+    {
+      "step": 10200,
+      "mse": 0.006547198165208101
+    },
+    {
+      "step": 10800,
+      "mse": 0.006560775451362133
+    },
+    {
+      "step": 11400,
+      "mse": 0.0059775118716061115
+    },
+    {
+      "step": 11999,
+      "mse": 0.006862059235572815
+    }
+  ],
+  "render_times": {
+    "render-960.png": 44.63886299998876,
+    "render-mid.png": 21.21647199999188,
+    "render-last.png": 21.16669299999785,
+    "render-512.png": 5.84158099997012,
+    "crop-2x.png": 20.989186999997855
+  },
+  "render_960_ms": 44.63886299998876,
+  "render_33_wall_ms": 688.6256139999887,
+  "encode_ms": 415.57764599997427,
+  "resize_consistency": 0.999204996967719,
+  "temporal_consistency": 0.9981812894111499,
+  "motion_delta_model": 0.10753581672906876,
+  "loop_error_model": 0.001818710588850081,
+  "description": "C4.7 neural canvas: learned full page layout reflow from x,y,t Learned warped/source coordinate features are included in the renderer MLP. Source fixture variant: mycology-field-guide. Generated source asset: fixtures/track-c/generated-holdouts/mycology-field-guide.png. Decoder samples a cross latent neighborhood with 1px radius for local glyph/detail context in source mode. Renderer uses a learned RGB neural texture skip sampled in source mode, with base scale 0.25 and bounded residual scale 2.75. Training directly samples 0.35 of points from the reflowed midpoint glyph/text distribution.",
+  "run_id": "20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000",
+  "commit": "dirty",
+  "track": "C",
+  "width": 960,
+  "height": 544,
+  "frames": 33,
+  "fps": 24,
+  "artifacts": {
+    "input": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000/input.png",
+    "render_960": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000/render-960.png",
+    "render_mid": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000/render-mid.png",
+    "render_last": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000/render-last.png",
+    "render_512": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000/render-512.png",
+    "crop_2x": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000/crop-2x.png",
+    "text_mask": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000/text-mask.png",
+    "element_alpha_mask": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000/element-alpha-mask.png",
+    "target_mid": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000/target-mid.png",
+    "target_crop_2x": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000/target-crop-2x.png",
+    "target_mid_crop_2x": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000/target-mid-crop-2x.png",
+    "text_boxes": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000/text-boxes.json",
+    "output": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000/output.mp4",
+    "metrics": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000/metrics.json",
+    "quality": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000/quality.json"
+  },
+  "ocr_similarity": 0.20987654320987656,
+  "layout_similarity": 0.999204996967719,
+  "motion_delta": 0.0938112735748291,
+  "loop_error": 0.0011498426320031285,
+  "status": "near_miss"
+}
+DONE 20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000 quality=0.2099 motion=0.0938
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-qwFwvXAiz2bPtVAGbyqrOW

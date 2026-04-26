@@ -1,0 +1,7 @@
+20260426T173748874077Z-c2-lite-glyph-layout-reflow-c124-v13-glacier-geom-midforced-rgbskip-scoord-seed21-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	920.263ms	ocr=0.1857
+20260426T173748889298Z-c2-lite-glyph-layout-reflow-c124-v14-microchip-geom-midforced-rgbskip-scoord-seed22-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	939.557ms	ocr=0.2794
+20260426T173748979000Z-c2-lite-glyph-layout-reflow-c124-v13-glacier-geom-oracle-rgbskip-scoord-seed21-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	798.222ms	ocr=0.2675
+20260426T173749030751Z-c2-lite-glyph-layout-reflow-c124-v14-microchip-geom-oracle-rgbskip-scoord-seed22-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	792.544ms	ocr=0.3111
+20260426T174830740031Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-oracle-rgbskip-scoord-seed23-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	787.795ms	ocr=0.1988
+20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	1104.203ms	ocr=0.2099
+WROTE docs/experiments/track-c/eval-results-c124.tsv

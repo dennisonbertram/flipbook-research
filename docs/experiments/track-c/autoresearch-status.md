@@ -1,6 +1,6 @@
 # Track C Autoresearch Status
 
-Updated UTC: `2026-04-26T17:48:06+00:00`
+Updated UTC: `2026-04-26T17:51:54+00:00`
 
 ## Active Sessions
 
@@ -26,6 +26,8 @@ Updated UTC: `2026-04-26T17:48:06+00:00`
 - `pubv31`
 - `sexual-wellness-dev`
 - `track-c-autoresearch`
+- `track-c-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000`
+- `track-c-c124-v15-mycology-geom-oracle-rgbskip-scoord-seed23-s12000`
 - `track-c-github-sync`
 - `track-c-output-browser-8765`
 - `track-v-output-browser-8766`
