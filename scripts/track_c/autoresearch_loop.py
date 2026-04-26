@@ -68,6 +68,7 @@ def general_visual_motion_args(
     detail_scale: float | None = None,
     detail_init_scale: float | None = None,
     source_coord_features: int | None = None,
+    source_coord_mid_scale: float | None = None,
     latent_neighborhood_mode: str | None = None,
     latent_neighborhood_radius_px: float | None = None,
     latent_sample_mode: str | None = None,
@@ -205,6 +206,8 @@ def general_visual_motion_args(
         args.extend(["--detail-init-scale", f"{detail_init_scale:g}"])
     if source_coord_features is not None:
         args.extend(["--source-coord-features", str(source_coord_features)])
+    if source_coord_mid_scale is not None:
+        args.extend(["--source-coord-mid-scale", f"{source_coord_mid_scale:g}"])
     if latent_neighborhood_mode is not None:
         args.extend(["--latent-neighborhood-mode", latent_neighborhood_mode])
     if latent_neighborhood_radius_px is not None:
@@ -658,6 +661,7 @@ def learned_layout_reflow_experiment(
     detail_scale: float | None = None,
     detail_init_scale: float | None = None,
     source_coord_features: int | None = None,
+    source_coord_mid_scale: float | None = None,
     latent_neighborhood_mode: str | None = None,
     latent_neighborhood_radius_px: float | None = None,
     latent_sample_mode: str | None = None,
@@ -775,6 +779,8 @@ def learned_layout_reflow_experiment(
         else ""
     )
     source_coord_note = ", source-coord features" if source_coord_features else ""
+    if source_coord_features and source_coord_mid_scale is not None and source_coord_mid_scale < 1.0:
+        source_coord_note += f" midscale {source_coord_mid_scale:g}"
     neighborhood_note = (
         f", latent {latent_neighborhood_mode} neighborhood r{latent_neighborhood_radius_px:g}px {latent_sample_mode or 'source'}"
         if latent_neighborhood_mode and latent_neighborhood_radius_px
@@ -849,6 +855,7 @@ def learned_layout_reflow_experiment(
             detail_scale=detail_scale,
             detail_init_scale=detail_init_scale,
             source_coord_features=source_coord_features,
+            source_coord_mid_scale=source_coord_mid_scale,
             latent_neighborhood_mode=latent_neighborhood_mode,
             latent_neighborhood_radius_px=latent_neighborhood_radius_px,
             latent_sample_mode=latent_sample_mode,

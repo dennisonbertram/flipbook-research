@@ -1448,6 +1448,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             detail_scale: float = 0.0,
             detail_init_scale: float = 0.01,
             source_coord_features: bool = False,
+            source_coord_mid_scale: float = 1.0,
             latent_neighborhood_mode: str = "none",
             latent_neighborhood_radius_px: float = 0.0,
             latent_sample_mode: str = "source",
@@ -1475,6 +1476,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             self.detail_channels = detail_channels
             self.detail_scale = detail_scale
             self.source_coord_features = source_coord_features
+            self.source_coord_mid_scale = min(1.0, max(0.0, float(source_coord_mid_scale)))
             decoder_mode = decoder_mode.lower().replace("_", "-")
             if decoder_mode in {"dual", "dual-target", "dual-residual", "target-residual"}:
                 decoder_mode = "dual-residual"
@@ -1734,7 +1736,12 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
                 time_enc = self.encode_time(t)
             condition_parts = [coord_enc]
             if self.source_coord_features:
-                condition_parts.append(self.encode_coords(sample_coords))
+                source_coord_enc = self.encode_coords(sample_coords)
+                if self.source_coord_mid_scale < 1.0:
+                    midpoint_weight = torch.sin(t * torch.pi).square().clamp(0.0, 1.0)
+                    source_coord_gate = 1.0 - midpoint_weight * (1.0 - self.source_coord_mid_scale)
+                    source_coord_enc = source_coord_enc * source_coord_gate
+                condition_parts.append(source_coord_enc)
             condition_parts.append(time_enc)
             condition = torch.cat(condition_parts, dim=-1)
             grid = sample_coords.mul(2.0).sub(1.0).view(1, -1, 1, 2)
@@ -2122,6 +2129,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     detail_scale = float(config.get("detail_scale", 0.0))
     detail_init_scale = float(config.get("detail_init_scale", 0.01))
     source_coord_features = bool(int(config.get("source_coord_features", 0)))
+    source_coord_mid_scale = float(config.get("source_coord_mid_scale", 1.0))
     latent_neighborhood_mode = str(config.get("latent_neighborhood_mode", "none"))
     latent_neighborhood_radius_px = float(config.get("latent_neighborhood_radius_px", 0.0))
     latent_sample_mode = str(config.get("latent_sample_mode", "source"))
@@ -2485,6 +2493,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         detail_scale=detail_scale,
         detail_init_scale=detail_init_scale,
         source_coord_features=source_coord_features,
+        source_coord_mid_scale=source_coord_mid_scale,
         latent_neighborhood_mode=latent_neighborhood_mode,
         latent_neighborhood_radius_px=latent_neighborhood_radius_px,
         latent_sample_mode=latent_sample_mode,
@@ -3269,6 +3278,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         metrics["description"] += " Residual detail canvas/head enabled for high-frequency pixel correction."
     if source_coord_features:
         metrics["description"] += " Learned warped/source coordinate features are included in the renderer MLP."
+        if source_coord_mid_scale < 1.0:
+            metrics["description"] += f" Source-coordinate features are midpoint-gated to scale {source_coord_mid_scale:g}."
     if motion_mode in clean_layout_motion_modes:
         metrics["description"] += f" Clean target fixture variant: {clean_target_variant}."
     if layout_flow_loss_weight > 0.0:
@@ -3371,6 +3382,7 @@ def main(
     detail_scale: float = 0.0,
     detail_init_scale: float = 0.01,
     source_coord_features: int = 0,
+    source_coord_mid_scale: float = 1.0,
     latent_neighborhood_mode: str = "none",
     latent_neighborhood_radius_px: float = 0.0,
     latent_sample_mode: str = "source",
@@ -3468,6 +3480,7 @@ def main(
         "detail_scale": detail_scale,
         "detail_init_scale": detail_init_scale,
         "source_coord_features": source_coord_features,
+        "source_coord_mid_scale": source_coord_mid_scale,
         "latent_neighborhood_mode": latent_neighborhood_mode,
         "latent_neighborhood_radius_px": latent_neighborhood_radius_px,
         "latent_sample_mode": latent_sample_mode,
