@@ -915,3 +915,12 @@
 [2026-04-26T01:22:14+00:00] eval 20260426T005909596689Z-c2-lite-glyph-layout-clean-independent-recompose-c118-v11-naturalist-indrecomp-talways-scoordmid0-truthrem075-tpow025-seed11-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1141.618ms	ocr=0.4182
 [2026-04-26T01:22:14+00:00] eval 20260426T005909941513Z-c2-lite-glyph-layout-clean-independent-recompose-c118-v12-deep-sea-indrecomp-tgated-scoordmid0-truthrem075-tpow1-seed10-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	985.391ms	ocr=0.8571
 [2026-04-26T01:22:14+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-26T01:22:18+00:00] published Track C docs update: 2026-04-26 01:22 UTC
+[2026-04-26T01:34:23+00:00] eval 20260426T011357756414Z-c2-lite-glyph-layout-clean-independent-recompose-c119-v11-naturalist-indrecomp-talways-noscoord-truthrem075-tpow025-seed12-s12000-1536x864-s12000	layout-clean-reflow-learned	quality_fail	1008.038ms	ocr=0.3400
+[2026-04-26T01:34:23+00:00] eval 20260426T011357761765Z-c2-lite-glyph-layout-clean-independent-recompose-c119-v10-orbit-indrecomp-blend-noscoord-truthrem075-tpow1-seed11-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	998.940ms	ocr=1.0000
+[2026-04-26T01:34:23+00:00] eval 20260426T011357855654Z-c2-lite-glyph-layout-clean-independent-recompose-c119-v12-deep-sea-indrecomp-tgated-scoordmid0-truthrem075-tpow1-seed11-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1169.521ms	ocr=0.8000
+[2026-04-26T01:34:23+00:00] eval 20260426T011357855704Z-c2-lite-glyph-layout-clean-independent-recompose-c119-v09-reef-indrecomp-talways-noscoord-truthrem075-tpow1-seed9-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1030.544ms	ocr=0.5217
+[2026-04-26T01:34:23+00:00] eval 20260426T011357855730Z-c2-lite-glyph-layout-clean-independent-recompose-c119-v08-transit-indrecomp-blend-scoordmid0-truthrem075-tpow1-seed5-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	915.197ms	ocr=0.6829
+[2026-04-26T01:34:23+00:00] eval 20260426T011357855783Z-c2-lite-glyph-layout-clean-independent-recompose-c119-v07-timeline-indrecomp-blend-scoordmid0-truthrem075-tpow1-seed9-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1126.498ms	ocr=0.9375
+[2026-04-26T01:34:23+00:00] eval 20260426T011357855785Z-c2-lite-glyph-layout-clean-independent-recompose-c119-v11-naturalist-indrecomp-talways-scoordmid025-truthrem075-tpow025-seed12-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	942.425ms	ocr=0.4580
+[2026-04-26T01:34:23+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
