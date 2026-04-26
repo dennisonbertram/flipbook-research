@@ -244,14 +244,20 @@ C11.3 is complete. It keeps the work useful but warns against overfitting to a s
 
 C11.4 is complete. It is useful mainly as a stop sign for policy promotion. Naturalist blend fails OCR (`0.3030`) and always only clears OCR while missing latency (`1364.786ms`). Orbit blend passes, but only at OCR `0.8000`; orbit always has better residual and misses latency. Timeline blend beats always on OCR (`0.9677` vs `0.8824`) with essentially the same residual. Deep-sea remains healthy, with both modes passing and always much faster. The reef/transit rows are invalid for target evidence because `reef-poster` and `transit-map` are not registered fixture variants, so C11.5 only corrects that mistake with same-seed holdout controls.
 
+C11.5 is complete and splits the policy. Corrected reef supports `always` (`0.6111` OCR / `0.0320` residual vs blend `0.5714` / `0.0477`), but corrected transit supports blend (`0.7000` / `0.0597` vs always `0.6341` / `0.0620`). The next useful test is not another mode policy sweep; C11.6 ablates source-coordinate conditioning on same-seed controls to test whether source-coordinate detail is anchoring source persistence during the transition.
+
 Next experiments:
 
 ```text
-C115 holdout fixture correction:
-c115-v08-transit-indrecomp-blend-truthrem075-tpow1-seed3-s12000
-c115-v08-transit-indrecomp-talways-truthrem075-tpow1-seed3-s12000
-c115-v09-reef-indrecomp-blend-truthrem075-tpow1-seed7-s12000
-c115-v09-reef-indrecomp-talways-truthrem075-tpow1-seed7-s12000
+C116 source-coordinate ablation:
+c116-v11-naturalist-indrecomp-blend-noscoord-truthrem075-tpow025-seed10-s12000
+c116-v11-naturalist-indrecomp-talways-noscoord-truthrem075-tpow025-seed10-s12000
+c116-v10-orbit-indrecomp-blend-noscoord-truthrem075-tpow1-seed9-s12000
+c116-v07-timeline-indrecomp-blend-noscoord-truthrem075-tpow1-seed7-s12000
+c116-v12-deep-sea-indrecomp-talways-noscoord-truthrem075-tpow1-seed9-s12000
+c116-v12-deep-sea-indrecomp-tgated-noscoord-truthrem075-tpow1-seed9-s12000
+c116-v09-reef-indrecomp-talways-noscoord-truthrem075-tpow1-seed7-s12000
+c116-v08-transit-indrecomp-blend-noscoord-truthrem075-tpow1-seed3-s12000
 ```
 
 Suggested `results.tsv` header:
