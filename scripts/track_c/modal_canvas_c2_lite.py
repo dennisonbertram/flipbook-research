@@ -36,6 +36,17 @@ GENERATED_HOLDOUT_ASSETS = {
     "microchip-teardown": ROOT / "fixtures" / "track-c" / "generated-holdouts" / "microchip-teardown.png",
     "mycology-field-guide": ROOT / "fixtures" / "track-c" / "generated-holdouts" / "mycology-field-guide.png",
 }
+GENERATED_HOLDOUT_ALIASES = {
+    "generated-glacier": "glacier-field-guide",
+    "variant13": "glacier-field-guide",
+    "v13": "glacier-field-guide",
+    "generated-microchip": "microchip-teardown",
+    "variant14": "microchip-teardown",
+    "v14": "microchip-teardown",
+    "generated-mycology": "mycology-field-guide",
+    "variant15": "mycology-field-guide",
+    "v15": "mycology-field-guide",
+}
 
 app = modal.App("flipbook-track-c-canvas-c2-lite")
 
@@ -60,6 +71,12 @@ def ensure_fixture() -> None:
     from fixtures import create_text_heavy_fixture
 
     create_text_heavy_fixture(FIXTURE)
+
+
+def generated_holdout_asset_path(variant: str) -> Path | None:
+    variant_key = str(variant or "").lower().replace("_", "-")
+    variant_key = GENERATED_HOLDOUT_ALIASES.get(variant_key, variant_key)
+    return GENERATED_HOLDOUT_ASSETS.get(variant_key)
 
 
 def git_commit() -> str:
@@ -3463,6 +3480,8 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "flow_scale": flow_scale,
         "motion_mode": motion_mode,
         "motion_strength": motion_strength,
+        "source_fixture_variant": str(config.get("source_fixture_variant", "")),
+        "source_fixture_asset_path": str(config.get("source_fixture_asset_path", "")),
         "clean_target_variant": clean_target_variant,
         "clean_target_asset_path": str(config.get("clean_target_asset_path", "")),
         "video_viewport_mode": video_viewport_mode,
@@ -3553,6 +3572,12 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         metrics["description"] += " Learned warped/source coordinate features are included in the renderer MLP."
         if source_coord_mid_scale < 1.0:
             metrics["description"] += f" Source-coordinate features are midpoint-gated to scale {source_coord_mid_scale:g}."
+    source_fixture_variant = str(config.get("source_fixture_variant", ""))
+    if source_fixture_variant:
+        metrics["description"] += f" Source fixture variant: {source_fixture_variant}."
+        source_fixture_asset_path = str(config.get("source_fixture_asset_path", ""))
+        if source_fixture_asset_path:
+            metrics["description"] += f" Generated source asset: {source_fixture_asset_path}."
     if motion_mode in clean_layout_motion_modes:
         metrics["description"] += f" Clean target fixture variant: {clean_target_variant}."
         clean_target_asset_path = str(config.get("clean_target_asset_path", ""))
@@ -3698,6 +3723,7 @@ def main(
     flow_scale: float = 0.006,
     motion_mode: str = "jiggle",
     motion_strength: float = -1.0,
+    source_fixture_variant: str = "",
     clean_target_variant: str = "diagram-left",
     clean_target_asset: str = "",
     video_viewport_mode: str = "static",
@@ -3741,9 +3767,35 @@ def main(
     fps: int = 24,
 ):
     ensure_fixture()
+    source_bytes = FIXTURE.read_bytes()
+    source_fixture_asset_path = None
+    source_fixture_key = str(source_fixture_variant or "").lower().replace("_", "-")
     with Image.open(FIXTURE) as fixture_image:
         source_resolution = list(fixture_image.size)
-    text_boxes = detect_text_boxes(FIXTURE, text_box_min_conf) if text_box_sample_ratio > 0 or text_box_loss_weight > 0 else []
+    if source_fixture_key and source_fixture_key not in {"default", "fixture", "text-heavy-page"}:
+        source_asset = None
+        source_fixture_asset_path = generated_holdout_asset_path(source_fixture_key)
+        if source_fixture_asset_path is not None:
+            if not source_fixture_asset_path.exists():
+                raise FileNotFoundError(f"source fixture asset not found: {source_fixture_asset_path}")
+            source_asset = Image.open(source_fixture_asset_path).convert("RGB")
+        source_image = create_clean_reflow_target(source_resolution[0], source_resolution[1], source_fixture_key, source_asset)
+        source_buffer = io.BytesIO()
+        source_image.save(source_buffer, format="PNG")
+        source_bytes = source_buffer.getvalue()
+
+    text_boxes = []
+    if text_box_sample_ratio > 0 or text_box_loss_weight > 0:
+        if source_fixture_key and source_fixture_key not in {"default", "fixture", "text-heavy-page"}:
+            with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
+                tmp.write(source_bytes)
+                text_box_source = Path(tmp.name)
+            try:
+                text_boxes = detect_text_boxes(text_box_source, text_box_min_conf)
+            finally:
+                text_box_source.unlink(missing_ok=True)
+        else:
+            text_boxes = detect_text_boxes(FIXTURE, text_box_min_conf)
     if motion_strength < 0:
         motion_strength = flow_scale
     config = {
@@ -3798,6 +3850,7 @@ def main(
         "flow_scale": flow_scale,
         "motion_mode": motion_mode,
         "motion_strength": motion_strength,
+        "source_fixture_variant": source_fixture_variant,
         "clean_target_variant": clean_target_variant,
         "video_viewport_mode": video_viewport_mode,
         "viewport_zoom": viewport_zoom,
@@ -3845,7 +3898,7 @@ def main(
         candidate = Path(clean_target_asset)
         clean_target_asset_path = candidate if candidate.is_absolute() else ROOT / candidate
     else:
-        clean_target_asset_path = GENERATED_HOLDOUT_ASSETS.get(str(clean_target_variant or "").lower().replace("_", "-"))
+        clean_target_asset_path = generated_holdout_asset_path(clean_target_variant)
     if clean_target_asset_path is not None:
         if not clean_target_asset_path.exists():
             raise FileNotFoundError(f"clean target asset not found: {clean_target_asset_path}")
@@ -3856,6 +3909,12 @@ def main(
             clean_target_asset_display = str(clean_target_asset_path)
         config["clean_target_asset_path"] = clean_target_asset_display
         config["clean_target_asset_png_b64"] = base64.b64encode(asset_bytes).decode("ascii")
+    if source_fixture_asset_path is not None:
+        try:
+            source_fixture_asset_display = str(source_fixture_asset_path.relative_to(ROOT))
+        except ValueError:
+            source_fixture_asset_display = str(source_fixture_asset_path)
+        config["source_fixture_asset_path"] = source_fixture_asset_display
 
     motion_suffix = "" if motion_mode == "jiggle" and video_viewport_mode == "static" and video_layout_mode == "none" else f"-{motion_mode}"
     if video_layout_mode != "none":
@@ -3867,14 +3926,14 @@ def main(
     run_dir = OUTPUT_ROOT / run_id
     run_dir.mkdir(parents=True, exist_ok=False)
     input_path = run_dir / "input.png"
-    input_path.write_bytes(FIXTURE.read_bytes())
+    input_path.write_bytes(source_bytes)
     (run_dir / "text-boxes.json").write_text(json.dumps(text_boxes, indent=2) + "\n", encoding="utf-8")
 
     log_config = {**config, "text_boxes": f"{len(text_boxes)} boxes"}
     if "clean_target_asset_png_b64" in log_config:
         log_config["clean_target_asset_png_b64"] = f"{len(config['clean_target_asset_png_b64'])} base64 chars"
     print(f"START {run_id} config={json.dumps(log_config, sort_keys=True)}", flush=True)
-    result = train_and_render_motion.remote(FIXTURE.read_bytes(), config)
+    result = train_and_render_motion.remote(source_bytes, config)
 
     for name, encoded in result["artifacts"].items():
         (run_dir / name).write_bytes(base64.b64decode(encoded))

@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-04-26T17:19:22+00:00",
+  "updated_utc": "2026-04-26T17:35:45+00:00",
   "active_sessions": [
     "agent-browser-chrome",
     "clawtest",
@@ -23,10 +23,6 @@
     "pubv31",
     "sexual-wellness-dev",
     "track-c-autoresearch",
-    "track-c-c123-geom-flowloss-rgbskip-scoord-seed20-s14000",
-    "track-c-c123-geom-midforced-rgbskip-scoord-seed20-s14000",
-    "track-c-c123-geom-oracle-rgbskip-scoord-seed20-s14000",
-    "track-c-c123-geom-rgbskip-scoord-seed20-s14000",
     "track-c-github-sync",
     "track-c-output-browser-8765",
     "track-v-output-browser-8766",
@@ -39,28 +35,28 @@
       "label": "c123-geom-rgbskip-scoord-seed20-s14000",
       "session": "track-c-c123-geom-rgbskip-scoord-seed20-s14000",
       "log": "docs/experiments/track-c/c123-geom-rgbskip-scoord-seed20-s14000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 20, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 2.75 source, target-side reflow sampling ratio 0.6, mid-time 0.6."
     },
     {
       "label": "c123-geom-midforced-rgbskip-scoord-seed20-s14000",
       "session": "track-c-c123-geom-midforced-rgbskip-scoord-seed20-s14000",
       "log": "docs/experiments/track-c/c123-geom-midforced-rgbskip-scoord-seed20-s14000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 20, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 2.75 source, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.35 width 0.2, paired target loss ratio 0.2 weight 1, mid-time 0.68, endpoint anchors 0.12/0.5."
     },
     {
       "label": "c123-geom-flowloss-rgbskip-scoord-seed20-s14000",
       "session": "track-c-c123-geom-flowloss-rgbskip-scoord-seed20-s14000",
       "log": "docs/experiments/track-c/c123-geom-flowloss-rgbskip-scoord-seed20-s14000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 20, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 2.75 source, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.35 width 0.2, paired target loss ratio 0.2 weight 1, mid-time 0.68, flow supervision 1, endpoint anchors 0.12/0.5."
     },
     {
       "label": "c123-geom-oracle-rgbskip-scoord-seed20-s14000",
       "session": "track-c-c123-geom-oracle-rgbskip-scoord-seed20-s14000",
       "log": "docs/experiments/track-c/c123-geom-oracle-rgbskip-scoord-seed20-s14000.log",
-      "done": false,
+      "done": true,
       "notes": "Learned layout-reflow proof: the training target moves text/content blocks and resizes/repositions the illustration into a new page layout; output remains direct neural-canvas pixels. amount 1.1, flow scale 0.1, 14000 steps, freq10, grad clip 0.5, seed 20, source-coord features, latent cross neighborhood r1px source, rgb neural texture skip base 0.25 residual 2.75 source, target-side reflow sampling ratio 0.6, direct target-mid sampling ratio 0.35 width 0.2, paired target loss ratio 0.2 weight 1, mid-time 0.68, oracle layout flow, endpoint anchors 0.12/0.5."
     },
     {

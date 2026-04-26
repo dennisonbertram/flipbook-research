@@ -1,0 +1,5 @@
+20260426T171651568218Z-c2-lite-glyph-layout-reflow-c123-geom-rgbskip-scoord-seed20-s14000-1536x864-s14000	layout-reflow-learned	pass	931.727ms	ocr=0.6354
+20260426T171651650196Z-c2-lite-glyph-layout-reflow-c123-geom-midforced-rgbskip-scoord-seed20-s14000-1536x864-s14000	layout-reflow-learned	pass	958.485ms	ocr=0.6120
+20260426T171651695282Z-c2-lite-glyph-layout-reflow-c123-geom-oracle-rgbskip-scoord-seed20-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	805.410ms	ocr=0.5294
+20260426T171651815282Z-c2-lite-glyph-layout-reflow-c123-geom-flowloss-rgbskip-scoord-seed20-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	942.603ms	ocr=0.5116
+WROTE docs/experiments/track-c/eval-results-c123.tsv

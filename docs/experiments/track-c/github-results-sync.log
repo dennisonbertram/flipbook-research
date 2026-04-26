@@ -1617,3 +1617,12 @@
 [2026-04-26T17:23:58+00:00] eval 20260426T142920518316Z-c2-lite-glyph-layout-clean-independent-recompose-c122-v13-glacier-indrecomp-blend-noscoord-truthrem075-tpow1-seed17-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1119.840ms	ocr=0.5600
 [2026-04-26T17:23:58+00:00] eval 20260426T142920538977Z-c2-lite-glyph-layout-clean-independent-recompose-c122-v14-microchip-indrecomp-talways-scoordfull-truthrem075-tpow1-seed18-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1134.431ms	ocr=0.6786
 [2026-04-26T17:23:58+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-26T17:24:04+00:00] published Track C docs update: 2026-04-26 17:24 UTC
+[2026-04-26T17:36:50+00:00] eval 20260426T142920512096Z-c2-lite-glyph-layout-clean-independent-recompose-c122-v15-mycology-indrecomp-talways-noscoord-truthrem075-tpow025-seed19-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1204.651ms	ocr=0.5854
+[2026-04-26T17:36:50+00:00] eval 20260426T142920518316Z-c2-lite-glyph-layout-clean-independent-recompose-c122-v13-glacier-indrecomp-blend-noscoord-truthrem075-tpow1-seed17-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1119.840ms	ocr=0.5600
+[2026-04-26T17:36:50+00:00] eval 20260426T142920538977Z-c2-lite-glyph-layout-clean-independent-recompose-c122-v14-microchip-indrecomp-talways-scoordfull-truthrem075-tpow1-seed18-s12000-1536x864-s12000	layout-clean-reflow-learned	pass	1134.431ms	ocr=0.6786
+[2026-04-26T17:36:50+00:00] eval 20260426T171651568218Z-c2-lite-glyph-layout-reflow-c123-geom-rgbskip-scoord-seed20-s14000-1536x864-s14000	layout-reflow-learned	pass	931.727ms	ocr=0.6354
+[2026-04-26T17:36:50+00:00] eval 20260426T171651650196Z-c2-lite-glyph-layout-reflow-c123-geom-midforced-rgbskip-scoord-seed20-s14000-1536x864-s14000	layout-reflow-learned	pass	958.485ms	ocr=0.6120
+[2026-04-26T17:36:50+00:00] eval 20260426T171651695282Z-c2-lite-glyph-layout-reflow-c123-geom-oracle-rgbskip-scoord-seed20-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	805.410ms	ocr=0.5294
+[2026-04-26T17:36:50+00:00] eval 20260426T171651815282Z-c2-lite-glyph-layout-reflow-c123-geom-flowloss-rgbskip-scoord-seed20-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	942.603ms	ocr=0.5116
+[2026-04-26T17:36:50+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv

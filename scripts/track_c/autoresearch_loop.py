@@ -127,6 +127,7 @@ def general_visual_motion_args(
     layout_endpoint_ratio: float | None = None,
     layout_endpoint_target_ratio: float | None = None,
     motion_mode: str = "jiggle",
+    source_fixture_variant: str | None = None,
     clean_target_variant: str | None = None,
     motion_strength: float | None = None,
     video_viewport_mode: str = "static",
@@ -168,6 +169,8 @@ def general_visual_motion_args(
     ]
     if clean_target_variant is not None:
         args.extend(["--clean-target-variant", clean_target_variant])
+    if source_fixture_variant is not None:
+        args.extend(["--source-fixture-variant", source_fixture_variant])
     if video_viewport_mode != "static":
         args.extend(
             [
@@ -719,6 +722,7 @@ def learned_layout_reflow_experiment(
     layout_endpoint_ratio: float | None = None,
     layout_endpoint_target_ratio: float | None = None,
     motion_mode: str = "layout-reflow",
+    source_fixture_variant: str | None = None,
     clean_target_variant: str | None = None,
     min_ocr: float = 0.35,
     min_motion: float = 0.035,
@@ -835,12 +839,13 @@ def learned_layout_reflow_experiment(
         if layout_endpoint_ratio
         else ""
     )
+    source_variant_note = f", source fixture {source_fixture_variant}" if source_fixture_variant else ""
     clean_variant_note = f", clean target {clean_target_variant}" if clean_mode and clean_target_variant else ""
     return Experiment(
         label=label,
         notes=(
             f"{proof_name}: {proof_detail}; output remains direct neural-canvas pixels. "
-            f"amount {amount:g}, flow scale {flow_scale:g}, {steps} steps, freq{freq_bands}{clip_note}{l1_note}{grad_note}{remnant_note}{direct_remnant_note}{seed_note}{detail_note}{source_coord_note}{neighborhood_note}{context_note}{decoder_note}{target_canvas_note}{rgb_skip_note}{text_note}{target_note}{mid_note}{flow_loss_note}{oracle_note}{curriculum_note}{endpoint_note}{clean_variant_note}."
+            f"amount {amount:g}, flow scale {flow_scale:g}, {steps} steps, freq{freq_bands}{clip_note}{l1_note}{grad_note}{remnant_note}{direct_remnant_note}{seed_note}{detail_note}{source_coord_note}{neighborhood_note}{context_note}{decoder_note}{target_canvas_note}{rgb_skip_note}{text_note}{target_note}{mid_note}{flow_loss_note}{oracle_note}{curriculum_note}{endpoint_note}{source_variant_note}{clean_variant_note}."
         ),
         args=general_visual_motion_args(
             label,
@@ -914,6 +919,7 @@ def learned_layout_reflow_experiment(
             layout_endpoint_ratio=layout_endpoint_ratio,
             layout_endpoint_target_ratio=layout_endpoint_target_ratio,
             motion_mode=motion_mode,
+            source_fixture_variant=source_fixture_variant,
             clean_target_variant=clean_target_variant,
             motion_strength=amount,
             min_ocr=min_ocr,
