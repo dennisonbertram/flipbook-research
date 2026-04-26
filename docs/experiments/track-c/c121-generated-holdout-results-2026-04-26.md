@@ -1,4 +1,4 @@
-# C121 Generated Holdout Families
+# C121-C122 Generated Holdout Families
 
 Date: 2026-04-26
 
@@ -37,6 +37,19 @@ The clean target page wrappers are deterministic PIL layouts. The generated bitm
 | `c121-v15-mycology-indrecomp-talways-noscoord-truthrem075-tpow025-seed16-s12000` | no source-coordinate | quality_fail | 0.3478 | 0.1064 | 0.0015 | `ocr_token_f1<0.3500` |
 | `c121-v15-mycology-indrecomp-talways-scoordmid025-truthrem075-tpow025-seed16-s12000` | midpoint-gated source-coordinate scale 0.25 | pass | 0.3692 | 0.1065 | 0.0012 | - |
 
+## C122 Seed Repeat
+
+C122 repeats the same generated holdout assets and policy pairs with fresh training seeds. This tests whether the C121 policy preference was stable or just one-seed noise.
+
+| Run | Policy | Status | OCR F1 | Motion | Loop Error | Failed Gates |
+| --- | --- | --- | ---: | ---: | ---: | --- |
+| `c122-v13-glacier-indrecomp-blend-noscoord-truthrem075-tpow1-seed17-s12000` | no source-coordinate | pass | 0.5600 | 0.1010 | 0.0016 | - |
+| `c122-v13-glacier-indrecomp-blend-scoordmid0-truthrem075-tpow1-seed17-s12000` | midpoint-gated source-coordinate scale 0 | pass | 0.4789 | 0.1012 | 0.0013 | - |
+| `c122-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed18-s12000` | no source-coordinate | pass | 0.7857 | 0.1131 | 0.0014 | - |
+| `c122-v14-microchip-indrecomp-talways-scoordfull-truthrem075-tpow1-seed18-s12000` | full source-coordinate | pass | 0.6786 | 0.1100 | 0.0007 | - |
+| `c122-v15-mycology-indrecomp-talways-noscoord-truthrem075-tpow025-seed19-s12000` | no source-coordinate | pass | 0.5854 | 0.1068 | 0.0015 | - |
+| `c122-v15-mycology-indrecomp-talways-scoordmid025-truthrem075-tpow025-seed19-s12000` | midpoint-gated source-coordinate scale 0.25 | pass | 0.4615 | 0.1068 | 0.0011 | - |
+
 ## Interpretation
 
 C121 does not support a single universal policy, but it also does not look like complete overfitting to the original six target families.
@@ -51,6 +64,8 @@ What changed:
 
 - Glacier preferred midpoint-gated source-coordinate on quality, but no-source was the passing policy under the strict latency gate.
 - Microchip did not need full source-coordinate; no-source was slightly better and faster.
-- Mycology reversed the C120 naturalist result: the source-coordinate midpoint gate rescued OCR, while no-source fell just below threshold.
+- Mycology reversed the C120 naturalist result in C121: the source-coordinate midpoint gate rescued OCR, while no-source fell just below threshold.
 
-Conclusion: the mechanism generalizes as a conditional policy family, but the current routing rule is not stable enough yet. The next useful evidence would be a tiny repeat with fresh generated assets or seeds for these same three families. If the policy preference flips again under repeats, the routing is overfit; if the pass/fail pattern is stable, the next step is to learn a family classifier or proxy metric for source-coordinate gating.
+C122 strengthens the mechanism result and weakens the hand-written routing result. Across C121-C122, ten of twelve generated-holdout runs pass, and the two C121 failures were near misses. The C122 seed repeat passes all six runs, with no-source-coordinate taking the best OCR on glacier, microchip, and mycology. But the C121-to-C122 preference movement is real: glacier midpoint-gated source-coordinate moved from quality-better/latency-fail to lower-OCR/pass, and mycology moved from midpoint-gated rescue to no-source winner.
+
+Conclusion: the mechanism generalizes beyond the original deterministic page families. The current hand-written policy router does not generalize cleanly yet. The next useful evidence should use fresh generated assets, not more seed repeats on these exact three images; if no-source-coordinate keeps winning on fresh generated assets, it becomes a good default for generated illustration pages while source-coordinate gating remains a fallback rather than a routed rule.

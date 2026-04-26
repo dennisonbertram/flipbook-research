@@ -258,6 +258,8 @@ C12.0 is complete. It validates the conditional policy as the useful stopping po
 
 C12.1 is complete as a generated-holdout probe, not a new tuning sweep. GPT Image 2 assets for glacier field guide, microchip teardown, and mycology field guide produced four outright passes across six policy runs, with two near misses: glacier midpoint-gated source-coordinate improved OCR but missed latency by `15.1ms`, and mycology no-source missed OCR by `0.0022`. This is not a collapse on unseen page families, but it also weakens the C12.0 routing rule: microchip preferred no-source, glacier split quality-vs-latency, and mycology reversed toward midpoint-gated source coordinates. The mechanism generalizes as a conditional policy family; the exact router needs repeats across fresh assets/seeds before Track D should depend on it.
 
+C12.2 repeats those same generated holdout assets on fresh seeds and makes the result more encouraging: all six runs pass. No-source-coordinate wins OCR on all three generated families in the repeat (`0.5600` glacier, `0.7857` microchip, `0.5854` mycology), while source-coordinate variants also pass but trail on OCR. Across C12.1-C12.2, generated holdouts are ten passes out of twelve with two near misses, so this is not fixture memorization. The remaining caution is routing stability: C12.1 and C12.2 disagree on whether glacier/mycology need source-coordinate gating, so the next true generalization check should be fresh generated assets rather than another seed repeat.
+
 C12.0 frozen policy candidate:
 
 ```text
