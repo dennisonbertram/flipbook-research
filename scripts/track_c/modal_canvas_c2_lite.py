@@ -31,6 +31,11 @@ ROOT = _repo_root()
 FIXTURE = ROOT / "fixtures" / "track-a" / "text-heavy-page.png"
 OUTPUT_ROOT = ROOT / "outputs" / "track-c"
 RESULTS_TSV = ROOT / "docs" / "experiments" / "track-c" / "results.tsv"
+GENERATED_HOLDOUT_ASSETS = {
+    "glacier-field-guide": ROOT / "fixtures" / "track-c" / "generated-holdouts" / "glacier-field-guide.png",
+    "microchip-teardown": ROOT / "fixtures" / "track-c" / "generated-holdouts" / "microchip-teardown.png",
+    "mycology-field-guide": ROOT / "fixtures" / "track-c" / "generated-holdouts" / "mycology-field-guide.png",
+}
 
 app = modal.App("flipbook-track-c-canvas-c2-lite")
 
@@ -190,7 +195,12 @@ def wrap_text(draw: ImageDraw.ImageDraw, text: str, font: ImageFont.ImageFont, m
     return "\n".join(lines)
 
 
-def create_clean_reflow_target(width: int, height: int, variant: str = "diagram-left") -> Image.Image:
+def create_clean_reflow_target(
+    width: int,
+    height: int,
+    variant: str = "diagram-left",
+    asset: Image.Image | None = None,
+) -> Image.Image:
     variant_key = str(variant or "diagram-left").lower().replace("_", "-")
     if variant_key in {"right-diagram", "cards-left", "variant1", "v1"}:
         return create_clean_reflow_target_right_diagram(width, height)
@@ -216,6 +226,12 @@ def create_clean_reflow_target(width: int, height: int, variant: str = "diagram-
         return create_clean_reflow_target_naturalist_plate(width, height)
     if variant_key in {"deep-sea-lab", "dark-lab-topic", "variant12", "v12"}:
         return create_clean_reflow_target_deep_sea_lab_topic(width, height)
+    if variant_key in {"glacier-field-guide", "generated-glacier", "variant13", "v13"}:
+        return create_clean_reflow_target_glacier_field_guide(width, height, asset)
+    if variant_key in {"microchip-teardown", "generated-microchip", "variant14", "v14"}:
+        return create_clean_reflow_target_microchip_teardown(width, height, asset)
+    if variant_key in {"mycology-field-guide", "generated-mycology", "variant15", "v15"}:
+        return create_clean_reflow_target_mycology_field_guide(width, height, asset)
 
     img = Image.new("RGB", (width, height), "#f6f4ef")
     draw = ImageDraw.Draw(img)
@@ -1305,6 +1321,258 @@ def create_clean_reflow_target_deep_sea_lab_topic(width: int, height: int) -> Im
     return img
 
 
+def _paste_generated_asset(
+    img: Image.Image,
+    draw: ImageDraw.ImageDraw,
+    asset: Image.Image | None,
+    box: tuple[int, int, int, int],
+    *,
+    fill: str,
+    outline: str,
+    accent: str,
+) -> None:
+    x0, y0, x1, y1 = box
+    radius = max(10, img.size[0] // 120)
+    draw.rounded_rectangle([x0, y0, x1, y1], radius=radius, fill=fill, outline=outline, width=2)
+    inset = max(10, img.size[0] // 90)
+    px0, py0 = x0 + inset, y0 + inset
+    px1, py1 = x1 - inset, y1 - inset
+    panel_w = max(1, px1 - px0)
+    panel_h = max(1, py1 - py0)
+    if asset is not None:
+        clean_asset = asset.convert("RGB")
+        scale = min(panel_w / clean_asset.width, panel_h / clean_asset.height)
+        new_size = (
+            max(1, int(clean_asset.width * scale)),
+            max(1, int(clean_asset.height * scale)),
+        )
+        resized = clean_asset.resize(new_size, Image.Resampling.LANCZOS)
+        panel = Image.new("RGB", (panel_w, panel_h), fill)
+        panel.paste(resized, ((panel_w - new_size[0]) // 2, (panel_h - new_size[1]) // 2))
+        img.paste(panel, (px0, py0))
+        draw.rounded_rectangle([x0, y0, x1, y1], radius=radius, outline=outline, width=2)
+        return
+
+    draw.rectangle([px0, py0, px1, py1], fill="#f7f7f2", outline=outline)
+    for step in range(7):
+        x = px0 + int(panel_w * (step + 1) / 8)
+        draw.line((x, py0 + 18, x - int(panel_w * 0.16), py1 - 18), fill="#d4d8d0", width=2)
+    center_y = py0 + panel_h // 2
+    draw.line((px0 + 24, center_y, px1 - 24, center_y - int(panel_h * 0.18)), fill=accent, width=5)
+    for frac in (0.18, 0.42, 0.66, 0.84):
+        x = px0 + int(panel_w * frac)
+        y = center_y - int(panel_h * (frac - 0.50) * 0.30)
+        draw.ellipse([x - 14, y - 14, x + 14, y + 14], fill=fill, outline=accent, width=3)
+
+
+def _create_generated_asset_holdout_page(
+    width: int,
+    height: int,
+    *,
+    asset: Image.Image | None,
+    title: str,
+    subtitle: str,
+    figure_heading: str,
+    caption: str,
+    callouts: list[tuple[str, float, float]],
+    sections: list[tuple[str, str]],
+    palette: dict[str, str],
+) -> Image.Image:
+    img = Image.new("RGB", (width, height), palette["bg"])
+    draw = ImageDraw.Draw(img)
+    margin = int(width * 0.055)
+    top = int(height * 0.055)
+    ink = palette["ink"]
+    muted = palette["muted"]
+    line = palette["line"]
+    paper = palette["paper"]
+    accent = palette["accent"]
+
+    draw.rounded_rectangle(
+        [margin, top, width - margin, height - top],
+        radius=max(10, width // 110),
+        fill=paper,
+        outline=line,
+        width=2,
+    )
+    title_font = fixture_font(max(28, width // 32), bold=True)
+    sub_font = fixture_font(max(14, width // 82))
+    h_font = fixture_font(max(17, width // 68), bold=True)
+    body_font = fixture_font(max(13, width // 92))
+    tiny_font = fixture_font(max(10, width // 116))
+
+    x0 = margin + int(width * 0.032)
+    y0 = top + int(height * 0.032)
+    draw.text((x0, y0), title, fill=ink, font=title_font)
+    draw.text((x0, y0 + int(height * 0.058)), subtitle, fill=muted, font=sub_font)
+
+    content_top = top + int(height * 0.15)
+    content_bottom = height - top - int(height * 0.06)
+    figure_x = x0
+    figure_w = int(width * 0.54)
+    text_x = figure_x + figure_w + int(width * 0.055)
+    text_w = width - margin - int(width * 0.035) - text_x
+
+    draw.text((figure_x, content_top), figure_heading, fill=ink, font=h_font)
+    asset_box = (
+        figure_x,
+        content_top + int(height * 0.065),
+        figure_x + figure_w,
+        content_bottom - int(height * 0.075),
+    )
+    _paste_generated_asset(img, draw, asset, asset_box, fill=palette["asset_bg"], outline=line, accent=accent)
+
+    ax0, ay0, ax1, ay1 = asset_box
+    for index, (label, px, py) in enumerate(callouts):
+        label_x = ax0 + int((ax1 - ax0) * min(max(px, 0.0), 1.0))
+        label_y = ay0 + int((ay1 - ay0) * min(max(py, 0.0), 1.0))
+        side = -1 if index % 2 == 0 else 1
+        text_x_pos = max(ax0 + 12, min(ax1 - int(width * 0.14), label_x + side * int(width * 0.055)))
+        text_y_pos = max(ay0 + 12, min(ay1 - 24, label_y - int(height * 0.035)))
+        draw.ellipse([label_x - 5, label_y - 5, label_x + 5, label_y + 5], fill=accent)
+        draw.line((label_x, label_y, text_x_pos + 32, text_y_pos + 14), fill=accent, width=1)
+        draw.text((text_x_pos, text_y_pos), label, fill=ink, font=tiny_font)
+
+    draw.text((figure_x, content_bottom - int(height * 0.045)), caption, fill=muted, font=tiny_font)
+
+    col_gap = int(width * 0.025)
+    col_w = (text_w - col_gap) // 2
+    row_h = int((content_bottom - content_top - int(height * 0.07)) / 2)
+    for index, (heading, body) in enumerate(sections):
+        col = index % 2
+        row = index // 2
+        x = text_x + col * (col_w + col_gap)
+        y = content_top + row * (row_h + int(height * 0.07))
+        draw.text((x, y), heading, fill=ink, font=h_font)
+        draw.line((x, y + int(height * 0.038), x + col_w, y + int(height * 0.038)), fill=line, width=1)
+        draw.multiline_text(
+            (x, y + int(height * 0.055)),
+            wrap_text(draw, body, body_font, col_w),
+            fill=palette["body"],
+            font=body_font,
+            spacing=4,
+        )
+
+    draw.text(
+        (text_x, content_bottom - int(height * 0.02)),
+        "Generated holdout asset: page family was not part of C87-C120 tuning.",
+        fill=muted,
+        font=tiny_font,
+    )
+    return img
+
+
+def create_clean_reflow_target_glacier_field_guide(
+    width: int,
+    height: int,
+    asset: Image.Image | None = None,
+) -> Image.Image:
+    return _create_generated_asset_holdout_page(
+        width,
+        height,
+        asset=asset,
+        title="Field Notes: Glacier Mass Balance",
+        subtitle="Generated holdout target: cryosphere field guide with a bitmap science plate.",
+        figure_heading="Glacier Section Plate",
+        caption="Main plate supplied by GPT Image 2; page text and layout are deterministic.",
+        callouts=[
+            ("firn line", 0.28, 0.32),
+            ("meltwater path", 0.56, 0.55),
+            ("terminal moraine", 0.76, 0.72),
+        ],
+        sections=[
+            ("Accumulation", "Winter snow compacts into firn before joining older blue ice."),
+            ("Ablation", "Summer warmth removes mass through melt, runoff, and calving."),
+            ("Moraines", "Rock debris records where the ice margin paused or retreated."),
+            ("Survey", "Crews compare stakes, drone maps, and stream gauges each season."),
+        ],
+        palette={
+            "bg": "#edf5f6",
+            "paper": "#fffef8",
+            "asset_bg": "#f6fbfc",
+            "ink": "#142226",
+            "muted": "#58676b",
+            "line": "#b9cbd0",
+            "accent": "#0e7490",
+            "body": "#253236",
+        },
+    )
+
+
+def create_clean_reflow_target_microchip_teardown(
+    width: int,
+    height: int,
+    asset: Image.Image | None = None,
+) -> Image.Image:
+    return _create_generated_asset_holdout_page(
+        width,
+        height,
+        asset=asset,
+        title="Lab Brief: Microchip Package",
+        subtitle="Generated holdout target: electronics teardown with exploded component art.",
+        figure_heading="Exploded Package View",
+        caption="The asset is a generated bitmap; labels and measurements are redrawn by PIL.",
+        callouts=[
+            ("silicon die", 0.50, 0.34),
+            ("heat spreader", 0.66, 0.23),
+            ("trace layer", 0.36, 0.68),
+        ],
+        sections=[
+            ("Stack", "The package separates heat, signal routing, and mechanical support."),
+            ("Routing", "Fine copper traces fan out from dense die pads to larger contacts."),
+            ("Thermal", "A spreader and compound layer move heat toward the external sink."),
+            ("Inspection", "Teardown notes compare layer order, defects, and bond integrity."),
+        ],
+        palette={
+            "bg": "#f1f5f2",
+            "paper": "#fbfcf8",
+            "asset_bg": "#f6f8f5",
+            "ink": "#171b1c",
+            "muted": "#5b6262",
+            "line": "#bcc8c1",
+            "accent": "#0f766e",
+            "body": "#2b3030",
+        },
+    )
+
+
+def create_clean_reflow_target_mycology_field_guide(
+    width: int,
+    height: int,
+    asset: Image.Image | None = None,
+) -> Image.Image:
+    return _create_generated_asset_holdout_page(
+        width,
+        height,
+        asset=asset,
+        title="Field Guide: Mycelium Network",
+        subtitle="Generated holdout target: natural-history page with soil cutaway illustration.",
+        figure_heading="Forest Floor Cutaway",
+        caption="GPT Image 2 provides the illustration; deterministic page text tests OCR transfer.",
+        callouts=[
+            ("fruiting body", 0.30, 0.22),
+            ("soil horizon", 0.46, 0.55),
+            ("mycelium web", 0.70, 0.73),
+        ],
+        sections=[
+            ("Fruiting", "Caps release spores when moisture and temperature align."),
+            ("Hyphae", "Threadlike cells branch through litter and bind nutrients."),
+            ("Partners", "Roots exchange sugars for minerals gathered by fungal networks."),
+            ("Survey", "A field note records substrate, canopy, odor, and nearby hosts."),
+        ],
+        palette={
+            "bg": "#f0eee3",
+            "paper": "#fffaf0",
+            "asset_bg": "#fdf8ee",
+            "ink": "#221c15",
+            "muted": "#70624f",
+            "line": "#c7b999",
+            "accent": "#5d7f3e",
+            "body": "#30281f",
+        },
+    )
+
+
 def image_similarity(a_path: Path, b_path: Path, size: tuple[int, int] = (192, 108)) -> float:
     with Image.open(a_path) as a_img, Image.open(b_path) as b_img:
         a = np.asarray(a_img.convert("L").resize(size, Image.Resampling.BILINEAR), dtype=np.float32)
@@ -2180,7 +2448,11 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
     clean_glyph_prob = None
     clean_glyph_weight_chw = None
     if motion_mode in clean_layout_motion_modes:
-        clean_image = create_clean_reflow_target(train_w, train_h, clean_target_variant)
+        clean_target_asset = None
+        clean_target_asset_b64 = config.get("clean_target_asset_png_b64")
+        if clean_target_asset_b64:
+            clean_target_asset = Image.open(io.BytesIO(base64.b64decode(clean_target_asset_b64))).convert("RGB")
+        clean_image = create_clean_reflow_target(train_w, train_h, clean_target_variant, clean_target_asset)
         clean_target = torch.from_numpy(np.asarray(clean_image, dtype=np.float32) / 255.0).to(device)
         clean_target_chw = clean_target.permute(2, 0, 1).unsqueeze(0)
 
@@ -3192,6 +3464,7 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
         "motion_mode": motion_mode,
         "motion_strength": motion_strength,
         "clean_target_variant": clean_target_variant,
+        "clean_target_asset_path": str(config.get("clean_target_asset_path", "")),
         "video_viewport_mode": video_viewport_mode,
         "viewport_zoom": viewport_zoom,
         "viewport_pan": viewport_pan,
@@ -3282,6 +3555,9 @@ def train_and_render_motion(input_png: bytes, config: dict) -> dict:
             metrics["description"] += f" Source-coordinate features are midpoint-gated to scale {source_coord_mid_scale:g}."
     if motion_mode in clean_layout_motion_modes:
         metrics["description"] += f" Clean target fixture variant: {clean_target_variant}."
+        clean_target_asset_path = str(config.get("clean_target_asset_path", ""))
+        if clean_target_asset_path:
+            metrics["description"] += f" Generated clean-target asset: {clean_target_asset_path}."
     if layout_flow_loss_weight > 0.0:
         metrics["description"] += " Learned flow is supervised toward the known inverse layout-reflow map."
     if layout_oracle_flow:
@@ -3423,6 +3699,7 @@ def main(
     motion_mode: str = "jiggle",
     motion_strength: float = -1.0,
     clean_target_variant: str = "diagram-left",
+    clean_target_asset: str = "",
     video_viewport_mode: str = "static",
     viewport_zoom: float = 0.0,
     viewport_pan: float = 0.0,
@@ -3563,6 +3840,23 @@ def main(
         "frames": frames,
         "fps": fps,
     }
+    clean_target_asset_path = None
+    if clean_target_asset:
+        candidate = Path(clean_target_asset)
+        clean_target_asset_path = candidate if candidate.is_absolute() else ROOT / candidate
+    else:
+        clean_target_asset_path = GENERATED_HOLDOUT_ASSETS.get(str(clean_target_variant or "").lower().replace("_", "-"))
+    if clean_target_asset_path is not None:
+        if not clean_target_asset_path.exists():
+            raise FileNotFoundError(f"clean target asset not found: {clean_target_asset_path}")
+        asset_bytes = clean_target_asset_path.read_bytes()
+        try:
+            clean_target_asset_display = str(clean_target_asset_path.relative_to(ROOT))
+        except ValueError:
+            clean_target_asset_display = str(clean_target_asset_path)
+        config["clean_target_asset_path"] = clean_target_asset_display
+        config["clean_target_asset_png_b64"] = base64.b64encode(asset_bytes).decode("ascii")
+
     motion_suffix = "" if motion_mode == "jiggle" and video_viewport_mode == "static" and video_layout_mode == "none" else f"-{motion_mode}"
     if video_layout_mode != "none":
         motion_suffix += f"-layout-{video_layout_mode}"
@@ -3577,6 +3871,8 @@ def main(
     (run_dir / "text-boxes.json").write_text(json.dumps(text_boxes, indent=2) + "\n", encoding="utf-8")
 
     log_config = {**config, "text_boxes": f"{len(text_boxes)} boxes"}
+    if "clean_target_asset_png_b64" in log_config:
+        log_config["clean_target_asset_png_b64"] = f"{len(config['clean_target_asset_png_b64'])} base64 chars"
     print(f"START {run_id} config={json.dumps(log_config, sort_keys=True)}", flush=True)
     result = train_and_render_motion.remote(FIXTURE.read_bytes(), config)
 
