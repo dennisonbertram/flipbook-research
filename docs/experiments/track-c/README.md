@@ -246,18 +246,20 @@ C11.4 is complete. It is useful mainly as a stop sign for policy promotion. Natu
 
 C11.5 is complete and splits the policy. Corrected reef supports `always` (`0.6111` OCR / `0.0320` residual vs blend `0.5714` / `0.0477`), but corrected transit supports blend (`0.7000` / `0.0597` vs always `0.6341` / `0.0620`). The next useful test is not another mode policy sweep; C11.6 ablates source-coordinate conditioning on same-seed controls to test whether source-coordinate detail is anchoring source persistence during the transition.
 
+C11.6 is complete and strongly reopens the branch. No-source-coordinate variants pass on naturalist, orbit, timeline, transit, and deep-sea, with especially strong gains on naturalist OCR, orbit OCR/residual/latency, and deep-sea residual. Reef is mixed: OCR rises, but latency and residual regress. C11.7 validates no-source-coordinate on fresh seeds before making it the next base recipe.
+
 Next experiments:
 
 ```text
-C116 source-coordinate ablation:
-c116-v11-naturalist-indrecomp-blend-noscoord-truthrem075-tpow025-seed10-s12000
-c116-v11-naturalist-indrecomp-talways-noscoord-truthrem075-tpow025-seed10-s12000
-c116-v10-orbit-indrecomp-blend-noscoord-truthrem075-tpow1-seed9-s12000
-c116-v07-timeline-indrecomp-blend-noscoord-truthrem075-tpow1-seed7-s12000
-c116-v12-deep-sea-indrecomp-talways-noscoord-truthrem075-tpow1-seed9-s12000
-c116-v12-deep-sea-indrecomp-tgated-noscoord-truthrem075-tpow1-seed9-s12000
-c116-v09-reef-indrecomp-talways-noscoord-truthrem075-tpow1-seed7-s12000
-c116-v08-transit-indrecomp-blend-noscoord-truthrem075-tpow1-seed3-s12000
+C117 no-source-coordinate validation:
+c117-v11-naturalist-indrecomp-blend-noscoord-truthrem075-tpow025-seed11-s12000
+c117-v11-naturalist-indrecomp-talways-noscoord-truthrem075-tpow025-seed11-s12000
+c117-v10-orbit-indrecomp-blend-noscoord-truthrem075-tpow1-seed10-s12000
+c117-v07-timeline-indrecomp-blend-noscoord-truthrem075-tpow1-seed8-s12000
+c117-v12-deep-sea-indrecomp-talways-noscoord-truthrem075-tpow1-seed10-s12000
+c117-v12-deep-sea-indrecomp-tgated-noscoord-truthrem075-tpow1-seed10-s12000
+c117-v09-reef-indrecomp-talways-noscoord-truthrem075-tpow1-seed8-s12000
+c117-v08-transit-indrecomp-blend-noscoord-truthrem075-tpow1-seed4-s12000
 ```
 
 Suggested `results.tsv` header:
