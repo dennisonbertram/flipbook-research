@@ -252,18 +252,19 @@ C11.7 is complete. No-source-coordinate validates on fresh seeds with seven pass
 
 C11.8 is complete. It is a stronger pass-stability result, not a universal-quality result. All seven midpoint-gated source-coordinate runs pass, with good outcomes for timeline (`0.9677` OCR / `0.0634` residual), transit (`0.7000` / `0.0538`), and deep-sea (`0.8571` / `0.0051`). Orbit and reef are negative for the midpoint gate (`0.8000` OCR on orbit, `0.5116` OCR / `0.0576` residual on reef), and naturalist remains a tradeoff between OCR and residual. C11.9 validates a conditional policy on fresh seeds instead of promoting one source-coordinate setting globally.
 
+C11.9 is complete and gives the current generalization answer. A universal source-coordinate policy does not generalize, but a small conditional policy is plausible. Orbit no-source is strong (`1.0000` OCR / `0.0372` residual), transit midpoint-gated source coordinates repeat (`0.6829` / `0.0539`), and reef full-source coordinates beat reef no-source on OCR (`0.7143` vs `0.5217`) with similar residual. Timeline midpoint-gated source coordinates pass but residual regresses (`0.0707`), deep-sea midpoint-gated source coordinates pass but are not residual-best, and naturalist remains split between no-source residual (`0.1149`, OCR fail at `0.3400`) and midscale `0.25` OCR pass (`0.4580`, residual `0.1538`). C12.0 is a freeze validation, not a new knob sweep.
+
 Next experiments:
 
 ```text
-C119 conditional source-coordinate policy:
-c119-v11-naturalist-indrecomp-talways-noscoord-truthrem075-tpow025-seed12-s12000
-c119-v11-naturalist-indrecomp-talways-scoordmid025-truthrem075-tpow025-seed12-s12000
-c119-v10-orbit-indrecomp-blend-noscoord-truthrem075-tpow1-seed11-s12000
-c119-v07-timeline-indrecomp-blend-scoordmid0-truthrem075-tpow1-seed9-s12000
-c119-v12-deep-sea-indrecomp-tgated-scoordmid0-truthrem075-tpow1-seed11-s12000
-c119-v08-transit-indrecomp-blend-scoordmid0-truthrem075-tpow1-seed5-s12000
-c119-v09-reef-indrecomp-talways-noscoord-truthrem075-tpow1-seed9-s12000
-c119-v09-reef-indrecomp-talways-scoordfull-truthrem075-tpow1-seed9-s12000
+C120 policy-freeze validation:
+c120-v11-naturalist-indrecomp-talways-noscoord-truthrem075-tpow025-seed13-s12000
+c120-v11-naturalist-indrecomp-talways-scoordmid025-truthrem075-tpow025-seed13-s12000
+c120-v10-orbit-indrecomp-blend-noscoord-truthrem075-tpow1-seed12-s12000
+c120-v08-transit-indrecomp-blend-scoordmid0-truthrem075-tpow1-seed6-s12000
+c120-v09-reef-indrecomp-talways-scoordfull-truthrem075-tpow1-seed10-s12000
+c120-v07-timeline-indrecomp-blend-noscoord-truthrem075-tpow1-seed9-s12000
+c120-v12-deep-sea-indrecomp-tgated-noscoord-truthrem075-tpow1-seed11-s12000
 ```
 
 Suggested `results.tsv` header:
