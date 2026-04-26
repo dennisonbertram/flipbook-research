@@ -254,17 +254,17 @@ C11.8 is complete. It is a stronger pass-stability result, not a universal-quali
 
 C11.9 is complete and gives the current generalization answer. A universal source-coordinate policy does not generalize, but a small conditional policy is plausible. Orbit no-source is strong (`1.0000` OCR / `0.0372` residual), transit midpoint-gated source coordinates repeat (`0.6829` / `0.0539`), and reef full-source coordinates beat reef no-source on OCR (`0.7143` vs `0.5217`) with similar residual. Timeline midpoint-gated source coordinates pass but residual regresses (`0.0707`), deep-sea midpoint-gated source coordinates pass but are not residual-best, and naturalist remains split between no-source residual (`0.1149`, OCR fail at `0.3400`) and midscale `0.25` OCR pass (`0.4580`, residual `0.1538`). C12.0 is a freeze validation, not a new knob sweep.
 
-Next experiments:
+C12.0 is complete. It validates the conditional policy as the useful stopping point for this branch. Naturalist no-source passes and beats midscale `0.25` (`0.4138` OCR / `0.1076` residual vs OCR fail `0.3061` / `0.1224`), deep-sea no-source is residual-clean (`0.7857` / `0.0017`), reef full-source repeats (`0.7097` / `0.0455`), transit midpoint-gated source coordinates repeat (`0.6829` / `0.0482`), and orbit no-source remains a pass (`0.9333` / `0.0578`). Timeline no-source passes but is worse than the same-seed C11.9 midpoint-gated branch (`0.9032` / `0.0765` vs `0.9375` / `0.0707`). The Track C branch should now freeze this conditional recipe and move to visual audit/documentation rather than launching another scalar sweep.
+
+Frozen policy:
 
 ```text
-C120 policy-freeze validation:
-c120-v11-naturalist-indrecomp-talways-noscoord-truthrem075-tpow025-seed13-s12000
-c120-v11-naturalist-indrecomp-talways-scoordmid025-truthrem075-tpow025-seed13-s12000
-c120-v10-orbit-indrecomp-blend-noscoord-truthrem075-tpow1-seed12-s12000
-c120-v08-transit-indrecomp-blend-scoordmid0-truthrem075-tpow1-seed6-s12000
-c120-v09-reef-indrecomp-talways-scoordfull-truthrem075-tpow1-seed10-s12000
-c120-v07-timeline-indrecomp-blend-noscoord-truthrem075-tpow1-seed9-s12000
-c120-v12-deep-sea-indrecomp-tgated-noscoord-truthrem075-tpow1-seed11-s12000
+naturalist: no-source-coordinate, target_canvas=always, time_power=0.25
+orbit: no-source-coordinate, target_canvas=blend
+deep-sea: no-source-coordinate, target_canvas=gated
+reef: full source-coordinate features, target_canvas=always
+transit: midpoint-gated source-coordinate features at scale 0, target_canvas=blend
+timeline: midpoint-gated source-coordinate features at scale 0, target_canvas=blend
 ```
 
 Suggested `results.tsv` header:
