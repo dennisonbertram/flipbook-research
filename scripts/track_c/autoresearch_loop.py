@@ -2642,6 +2642,50 @@ C123_GEOMETRIC_RELAYOUT_DIAGNOSTIC_EXPERIMENTS = [
 ]
 
 
+C124_GENERATED_SOURCE_GEOMETRIC_RELAYOUT_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.10,
+        flow_scale=0.10,
+        steps=12000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        source_fixture_variant=source_variant,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        context_channels=0,
+        context_scale=0.25,
+        rgb_skip_scale=2.75,
+        rgb_skip_mode="source",
+        rgb_skip_base_scale=0.25,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.60,
+        layout_target_mid_sampling_ratio=0.35,
+        layout_target_mid_time_width=0.20,
+        layout_target_pair_ratio=0.20,
+        layout_target_pair_weight=1.0,
+        layout_mid_time_ratio=0.68,
+        layout_mid_time_width=0.24,
+        layout_endpoint_ratio=0.12,
+        layout_endpoint_target_ratio=0.50,
+        layout_oracle_flow=oracle_flow,
+        min_ocr=0.45,
+        min_motion=0.045,
+    )
+    for label, source_variant, seed, oracle_flow in [
+        ("c124-v13-glacier-geom-midforced-rgbskip-scoord-seed21-s12000", "glacier-field-guide", 21, None),
+        ("c124-v13-glacier-geom-oracle-rgbskip-scoord-seed21-s12000", "glacier-field-guide", 21, 1),
+        ("c124-v14-microchip-geom-midforced-rgbskip-scoord-seed22-s12000", "microchip-teardown", 22, None),
+        ("c124-v14-microchip-geom-oracle-rgbskip-scoord-seed22-s12000", "microchip-teardown", 22, 1),
+        ("c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000", "mycology-field-guide", 23, None),
+        ("c124-v15-mycology-geom-oracle-rgbskip-scoord-seed23-s12000", "mycology-field-guide", 23, 1),
+    ]
+]
+
+
 C98_TRANSITION_AWARE_EXPERIMENTS = [
     learned_layout_reflow_experiment(
         label,
@@ -3539,6 +3583,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C124_GENERATED_SOURCE_GEOMETRIC_RELAYOUT_EXPERIMENTS,
     *C123_GEOMETRIC_RELAYOUT_DIAGNOSTIC_EXPERIMENTS,
     *C122_GENERATED_HOLDOUT_SEED_REPEAT_EXPERIMENTS,
     *C121_GENERATED_HOLDOUT_FAMILY_EXPERIMENTS,
