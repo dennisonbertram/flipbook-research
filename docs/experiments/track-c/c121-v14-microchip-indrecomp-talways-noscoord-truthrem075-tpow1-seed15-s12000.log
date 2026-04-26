@@ -1,0 +1,244 @@
+✓ Initialized. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-2qxVgRHUEmVA6oR7ih1Gck
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/dennisonbertram/Develop/flipbook-research/scripts/track_c/modal_canva
+│   s_c2_lite.py
+└── 🔨 Created function train_and_render_motion.
+START 20260426T141002651680Z-c2-lite-glyph-layout-clean-independent-recompose-c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000-1536x864-s12000 config={"batch_size": 131072, "channels": 32, "clean_target_asset_path": "fixtures/track-c/generated-holdouts/microchip-teardown.png", "clean_target_asset_png_b64": "3103052 base64 chars", "clean_target_variant": "microchip-teardown", "context_channels": 0, "context_init_scale": 0.02, "context_sample_mode": "source", "context_scale": 0.25, "decoder_mode": "single", "detail_channels": 0, "detail_hidden": 160, "detail_init_scale": 0.01, "detail_scale": 0.0, "edge_loss_weight": 0.9, "edge_sample_ratio": 0.09, "element_anchor_mode": "line", "element_anchor_padding": 3, "element_mask_mode": "rectangle", "element_render_mode": "sequential", "element_scale_ratio": 0.25, "experiment_label": "c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000", "flow_scale": 0.1, "fps": 24, "frames": 33, "freq_bands": 10, "grad_clip": 0.5, "gradient_loss_offset_px": 1.0, "gradient_loss_ratio": 0.125, "gradient_loss_weight": 0.0, "hidden": 160, "l1_loss_weight": 0.0, "latent_neighborhood_mode": "cross", "latent_neighborhood_radius_px": 1.0, "latent_sample_mode": "source", "layout_endpoint_ratio": 0.14, "layout_endpoint_target_ratio": 0.55, "layout_flow_loss_weight": 0.0, "layout_mid_time_ratio": 0.68, "layout_mid_time_width": 0.24, "layout_motion_curriculum_ratio": 0.0, "layout_motion_curriculum_start": 0.0, "layout_oracle_flow": 0, "layout_supersample": 1.0, "layout_target_mid_sampling_ratio": 0.35, "layout_target_mid_time_width": 0.22, "layout_target_pair_ratio": 0.0, "layout_target_pair_weight": 1.0, "layout_target_sampling": 1, "layout_target_sampling_ratio": 0.65, "layout_target_weighting": 1, "layout_transform_pan": 0.0, "layout_transform_strength": 0.0, "lr": 0.01, "lr_schedule": "constant", "min_lr_ratio": 0.1, "min_motion_delta": 0.05, "min_ocr_similarity": 0.35, "motion_mode": "layout-clean-independent-recompose", "motion_strength": 1.0, "rgb_skip_base_scale": 1.0, "rgb_skip_gate_init": 0.5, "rgb_skip_gate_mode": "none", "rgb_skip_mode": "source", "rgb_skip_scale": 0.0, "seed": 15, "source_coord_features": 0, "source_coord_mid_scale": 1.0, "source_remnant_change_floor": 0.04, "source_remnant_direct_loss_weight": 0.0, "source_remnant_direct_region": "change", "source_remnant_loss_weight": 0.75, "source_remnant_margin": 0.025, "source_remnant_reference": "truth", "source_remnant_sample_ratio": 0.0, "source_remnant_sample_time_width": 0.18, "source_remnant_time_power": 1.0, "source_resolution": [1280, 736], "steps": 12000, "target_branch_hidden": 160, "target_branch_scale": 0.0, "target_canvas_init_scale": 0.02, "target_canvas_mode": "always", "text_box_loss_weight": 0.0, "text_box_min_conf": 55.0, "text_box_padding": 0, "text_box_sample_ratio": 0.0, "text_boxes": "0 boxes", "time_bands": 4, "train_resolution": "1536x864", "video_layout_mode": "none", "video_viewport_mode": "static", "viewport_pan": 0.0, "viewport_zoom": 0.0}
+{
+  "canvas_type": "time-conditioned-latent-feature-grid-learned-flow-mlp-glyph-weighted-latent-cross-neighborhood-target-canvas-always-clean-page-reflow",
+  "train_resolution": "1536x864",
+  "steps": 12000,
+  "batch_size": 131072,
+  "channels": 32,
+  "hidden": 160,
+  "detail_channels": 0,
+  "detail_hidden": 160,
+  "detail_scale": 0.0,
+  "detail_init_scale": 0.01,
+  "source_coord_features": 0,
+  "latent_neighborhood_mode": "cross",
+  "latent_neighborhood_radius_px": 1.0,
+  "latent_neighborhood_taps": 5,
+  "latent_sample_mode": "source",
+  "context_channels": 0,
+  "context_scale": 0.25,
+  "context_init_scale": 0.02,
+  "context_sample_mode": "source",
+  "context_resolution": [
+    0,
+    0
+  ],
+  "decoder_mode": "single",
+  "target_branch_scale": 0.0,
+  "target_branch_hidden": 160,
+  "target_canvas_mode": "always",
+  "target_canvas_init_scale": 0.02,
+  "rgb_skip_scale": 0.0,
+  "rgb_skip_mode": "source",
+  "rgb_skip_base_scale": 1.0,
+  "rgb_skip_gate_mode": "none",
+  "rgb_skip_gate_init": 0.5,
+  "freq_bands": 10,
+  "time_bands": 4,
+  "lr": 0.01,
+  "lr_schedule": "constant",
+  "min_lr_ratio": 0.1,
+  "grad_clip": 0.5,
+  "l1_loss_weight": 0.0,
+  "gradient_loss_weight": 0.0,
+  "gradient_loss_ratio": 0.125,
+  "gradient_loss_offset_px": 1.0,
+  "source_remnant_loss_weight": 0.75,
+  "source_remnant_margin": 0.025,
+  "source_remnant_change_floor": 0.04,
+  "source_remnant_reference": "truth",
+  "source_remnant_time_power": 1.0,
+  "source_remnant_sample_ratio": 0.0,
+  "source_remnant_sample_time_width": 0.18,
+  "source_remnant_direct_loss_weight": 0.0,
+  "source_remnant_direct_region": "change",
+  "seed": 15,
+  "experiment_label": "c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000",
+  "flow_scale": 0.1,
+  "motion_mode": "layout-clean-independent-recompose",
+  "motion_strength": 1.0,
+  "clean_target_variant": "microchip-teardown",
+  "clean_target_asset_path": "fixtures/track-c/generated-holdouts/microchip-teardown.png",
+  "video_viewport_mode": "static",
+  "viewport_zoom": 0.0,
+  "viewport_pan": 0.0,
+  "video_layout_mode": "none",
+  "layout_transform_strength": 0.0,
+  "layout_transform_pan": 0.0,
+  "layout_supersample": 1.0,
+  "layout_region_count": 0,
+  "element_scale_ratio": 0.25,
+  "element_anchor_padding": 3,
+  "element_mask_mode": "rectangle",
+  "element_anchor_mode": "line",
+  "element_render_mode": "sequential",
+  "element_line_count": 0,
+  "min_ocr_similarity": 0.35,
+  "min_motion_delta": 0.05,
+  "edge_sample_ratio": 0.09,
+  "edge_loss_weight": 0.9,
+  "text_box_sample_ratio": 0.0,
+  "text_box_loss_weight": 0.0,
+  "text_box_padding": 0,
+  "layout_target_sampling": 1,
+  "layout_target_weighting": 1,
+  "layout_target_sampling_ratio": 0.65,
+  "layout_target_mid_sampling_ratio": 0.35,
+  "layout_target_mid_time_width": 0.22,
+  "layout_target_pair_ratio": 0.0,
+  "layout_target_pair_weight": 1.0,
+  "layout_mid_time_ratio": 0.68,
+  "layout_mid_time_width": 0.24,
+  "layout_flow_loss_weight": 0.0,
+  "layout_oracle_flow": 0,
+  "layout_motion_curriculum_ratio": 0.0,
+  "layout_motion_curriculum_start": 0.0,
+  "layout_endpoint_ratio": 0.14,
+  "layout_endpoint_target_ratio": 0.55,
+  "text_box_count": 0,
+  "text_mask_coverage": 0.0,
+  "element_alpha_coverage": 0.0,
+  "compile_ms": 545376.481143,
+  "final_mse": 0.0027643777430057526,
+  "losses": [
+    {
+      "step": 0,
+      "mse": 0.22493378818035126
+    },
+    {
+      "step": 600,
+      "mse": 0.005003619939088821
+    },
+    {
+      "step": 1200,
+      "mse": 0.0038642757572233677
+    },
+    {
+      "step": 1800,
+      "mse": 0.004337996710091829
+    },
+    {
+      "step": 2400,
+      "mse": 0.0033516031689941883
+    },
+    {
+      "step": 3000,
+      "mse": 0.005388053134083748
+    },
+    {
+      "step": 3600,
+      "mse": 0.0030874493531882763
+    },
+    {
+      "step": 4200,
+      "mse": 0.003047714941203594
+    },
+    {
+      "step": 4800,
+      "mse": 0.003144764807075262
+    },
+    {
+      "step": 5400,
+      "mse": 0.0029508997686207294
+    },
+    {
+      "step": 6000,
+      "mse": 0.0030114026740193367
+    },
+    {
+      "step": 6600,
+      "mse": 0.0028872117400169373
+    },
+    {
+      "step": 7200,
+      "mse": 0.0028851928655058146
+    },
+    {
+      "step": 7800,
+      "mse": 0.0028685983270406723
+    },
+    {
+      "step": 8400,
+      "mse": 0.002800123766064644
+    },
+    {
+      "step": 9000,
+      "mse": 0.0028296320233494043
+    },
+    {
+      "step": 9600,
+      "mse": 0.0028024546336382627
+    },
+    {
+      "step": 10200,
+      "mse": 0.0027832714840769768
+    },
+    {
+      "step": 10800,
+      "mse": 0.0027639255858957767
+    },
+    {
+      "step": 11400,
+      "mse": 0.0027358876541256905
+    },
+    {
+      "step": 11999,
+      "mse": 0.0027643777430057526
+    }
+  ],
+  "render_times": {
+    "render-960.png": 23.623156999974526,
+    "render-mid.png": 23.495901000046615,
+    "render-last.png": 23.44930200001727,
+    "render-512.png": 6.952047000027051,
+    "crop-2x.png": 23.00078799999028
+  },
+  "render_960_ms": 23.623156999974526,
+  "render_33_wall_ms": 764.6298020000586,
+  "encode_ms": 262.3957700000119,
+  "resize_consistency": 0.9999558626253391,
+  "temporal_consistency": 0.9978567757643759,
+  "motion_delta_model": 0.12702307105064392,
+  "loop_error_model": 0.002143224235624075,
+  "description": "C8.6 neural canvas: learned clean two-state page reflow from x,y,t Clean target fixture variant: microchip-teardown. Generated clean-target asset: fixtures/track-c/generated-holdouts/microchip-teardown.png. Decoder samples a cross latent neighborhood with 1px radius for local glyph/detail context in source mode. Decoder also receives a separate always-visible target-state latent canvas initialized at scale 0.02. Training directly samples 0.35 of points from the reflowed midpoint glyph/text distribution. A contrastive source-remnant loss (0.75) penalizes midpoint pixels that are closer to the source page than the synthetic transition target by margin 0.025.",
+  "run_id": "20260426T141002651680Z-c2-lite-glyph-layout-clean-independent-recompose-c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000-1536x864-s12000",
+  "commit": "dirty",
+  "track": "C",
+  "width": 960,
+  "height": 544,
+  "frames": 33,
+  "fps": 24,
+  "artifacts": {
+    "input": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T141002651680Z-c2-lite-glyph-layout-clean-independent-recompose-c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000-1536x864-s12000/input.png",
+    "render_960": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T141002651680Z-c2-lite-glyph-layout-clean-independent-recompose-c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000-1536x864-s12000/render-960.png",
+    "render_mid": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T141002651680Z-c2-lite-glyph-layout-clean-independent-recompose-c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000-1536x864-s12000/render-mid.png",
+    "render_last": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T141002651680Z-c2-lite-glyph-layout-clean-independent-recompose-c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000-1536x864-s12000/render-last.png",
+    "render_512": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T141002651680Z-c2-lite-glyph-layout-clean-independent-recompose-c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000-1536x864-s12000/render-512.png",
+    "crop_2x": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T141002651680Z-c2-lite-glyph-layout-clean-independent-recompose-c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000-1536x864-s12000/crop-2x.png",
+    "text_mask": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T141002651680Z-c2-lite-glyph-layout-clean-independent-recompose-c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000-1536x864-s12000/text-mask.png",
+    "element_alpha_mask": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T141002651680Z-c2-lite-glyph-layout-clean-independent-recompose-c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000-1536x864-s12000/element-alpha-mask.png",
+    "target_mid": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T141002651680Z-c2-lite-glyph-layout-clean-independent-recompose-c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000-1536x864-s12000/target-mid.png",
+    "target_crop_2x": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T141002651680Z-c2-lite-glyph-layout-clean-independent-recompose-c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000-1536x864-s12000/target-crop-2x.png",
+    "target_mid_crop_2x": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T141002651680Z-c2-lite-glyph-layout-clean-independent-recompose-c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000-1536x864-s12000/target-mid-crop-2x.png",
+    "text_boxes": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T141002651680Z-c2-lite-glyph-layout-clean-independent-recompose-c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000-1536x864-s12000/text-boxes.json",
+    "output": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T141002651680Z-c2-lite-glyph-layout-clean-independent-recompose-c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000-1536x864-s12000/output.mp4",
+    "metrics": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T141002651680Z-c2-lite-glyph-layout-clean-independent-recompose-c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000-1536x864-s12000/metrics.json",
+    "quality": "/Users/dennisonbertram/Develop/flipbook-research/outputs/track-c/20260426T141002651680Z-c2-lite-glyph-layout-clean-independent-recompose-c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000-1536x864-s12000/quality.json"
+  },
+  "ocr_similarity": 0.7017543859649122,
+  "layout_similarity": 0.9999558626253391,
+  "motion_delta": 0.1125960722565651,
+  "loop_error": 0.001504062325693667,
+  "status": "pass"
+}
+DONE 20260426T141002651680Z-c2-lite-glyph-layout-clean-independent-recompose-c121-v14-microchip-indrecomp-talways-noscoord-truthrem075-tpow1-seed15-s12000-1536x864-s12000 quality=0.7018 motion=0.1126
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/dennisonbertram/main/ap-2qxVgRHUEmVA6oR7ih1Gck

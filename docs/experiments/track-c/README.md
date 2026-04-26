@@ -256,7 +256,9 @@ C11.9 is complete and gives the current generalization answer. A universal sourc
 
 C12.0 is complete. It validates the conditional policy as the useful stopping point for this branch. Naturalist no-source passes and beats midscale `0.25` (`0.4138` OCR / `0.1076` residual vs OCR fail `0.3061` / `0.1224`), deep-sea no-source is residual-clean (`0.7857` / `0.0017`), reef full-source repeats (`0.7097` / `0.0455`), transit midpoint-gated source coordinates repeat (`0.6829` / `0.0482`), and orbit no-source remains a pass (`0.9333` / `0.0578`). Timeline no-source passes but is worse than the same-seed C11.9 midpoint-gated branch (`0.9032` / `0.0765` vs `0.9375` / `0.0707`). The Track C branch should now freeze this conditional recipe and move to visual audit/documentation rather than launching another scalar sweep.
 
-Frozen policy:
+C12.1 is complete as a generated-holdout probe, not a new tuning sweep. GPT Image 2 assets for glacier field guide, microchip teardown, and mycology field guide produced four outright passes across six policy runs, with two near misses: glacier midpoint-gated source-coordinate improved OCR but missed latency by `15.1ms`, and mycology no-source missed OCR by `0.0022`. This is not a collapse on unseen page families, but it also weakens the C12.0 routing rule: microchip preferred no-source, glacier split quality-vs-latency, and mycology reversed toward midpoint-gated source coordinates. The mechanism generalizes as a conditional policy family; the exact router needs repeats across fresh assets/seeds before Track D should depend on it.
+
+C12.0 frozen policy candidate:
 
 ```text
 naturalist: no-source-coordinate, target_canvas=always, time_power=0.25
