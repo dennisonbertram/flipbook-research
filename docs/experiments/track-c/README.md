@@ -250,17 +250,20 @@ C11.6 is complete and strongly reopens the branch. No-source-coordinate variants
 
 C11.7 is complete. No-source-coordinate validates on fresh seeds with seven passes, including naturalist always, orbit, timeline, transit, reef, and both deep-sea modes. The residual story is mixed, though: naturalist remains high, and reef source-coordinate residual was better. C11.8 tests a hybrid source-coordinate midpoint gate: endpoint source-space detail stays available, but source-coordinate features are scaled down at the transition midpoint.
 
+C11.8 is complete. It is a stronger pass-stability result, not a universal-quality result. All seven midpoint-gated source-coordinate runs pass, with good outcomes for timeline (`0.9677` OCR / `0.0634` residual), transit (`0.7000` / `0.0538`), and deep-sea (`0.8571` / `0.0051`). Orbit and reef are negative for the midpoint gate (`0.8000` OCR on orbit, `0.5116` OCR / `0.0576` residual on reef), and naturalist remains a tradeoff between OCR and residual. C11.9 validates a conditional policy on fresh seeds instead of promoting one source-coordinate setting globally.
+
 Next experiments:
 
 ```text
-C118 source-coordinate midpoint gate:
-c118-v11-naturalist-indrecomp-talways-scoordmid0-truthrem075-tpow025-seed11-s12000
-c118-v11-naturalist-indrecomp-talways-scoordmid025-truthrem075-tpow025-seed11-s12000
-c118-v10-orbit-indrecomp-blend-scoordmid0-truthrem075-tpow1-seed10-s12000
-c118-v07-timeline-indrecomp-blend-scoordmid0-truthrem075-tpow1-seed8-s12000
-c118-v12-deep-sea-indrecomp-tgated-scoordmid0-truthrem075-tpow1-seed10-s12000
-c118-v09-reef-indrecomp-talways-scoordmid0-truthrem075-tpow1-seed8-s12000
-c118-v08-transit-indrecomp-blend-scoordmid0-truthrem075-tpow1-seed4-s12000
+C119 conditional source-coordinate policy:
+c119-v11-naturalist-indrecomp-talways-noscoord-truthrem075-tpow025-seed12-s12000
+c119-v11-naturalist-indrecomp-talways-scoordmid025-truthrem075-tpow025-seed12-s12000
+c119-v10-orbit-indrecomp-blend-noscoord-truthrem075-tpow1-seed11-s12000
+c119-v07-timeline-indrecomp-blend-scoordmid0-truthrem075-tpow1-seed9-s12000
+c119-v12-deep-sea-indrecomp-tgated-scoordmid0-truthrem075-tpow1-seed11-s12000
+c119-v08-transit-indrecomp-blend-scoordmid0-truthrem075-tpow1-seed5-s12000
+c119-v09-reef-indrecomp-talways-noscoord-truthrem075-tpow1-seed9-s12000
+c119-v09-reef-indrecomp-talways-scoordfull-truthrem075-tpow1-seed9-s12000
 ```
 
 Suggested `results.tsv` header:
