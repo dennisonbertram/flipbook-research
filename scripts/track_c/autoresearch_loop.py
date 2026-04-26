@@ -2138,6 +2138,54 @@ C114_MODE_POLICY_VALIDATION_EXPERIMENTS = [
 ]
 
 
+C115_HOLDOUT_FIXTURE_CORRECTION_EXPERIMENTS = [
+    learned_layout_reflow_experiment(
+        label,
+        amount=1.0,
+        flow_scale=0.10,
+        steps=12000,
+        seed=seed,
+        channels=32,
+        hidden=160,
+        source_coord_features=1,
+        latent_neighborhood_mode="cross",
+        latent_neighborhood_radius_px=1.0,
+        latent_sample_mode="source",
+        target_canvas_mode=target_canvas_mode,
+        target_canvas_init_scale=0.02,
+        layout_target_sampling=1,
+        layout_target_weighting=1,
+        layout_target_sampling_ratio=0.65,
+        layout_target_mid_sampling_ratio=0.35,
+        layout_target_mid_time_width=0.22,
+        layout_mid_time_ratio=0.68,
+        layout_mid_time_width=0.24,
+        layout_endpoint_ratio=0.14,
+        layout_endpoint_target_ratio=0.55,
+        source_remnant_loss_weight=0.75,
+        source_remnant_margin=0.025,
+        source_remnant_change_floor=0.04,
+        source_remnant_reference="truth",
+        source_remnant_time_power=1.0,
+        motion_mode="layout-clean-independent-recompose",
+        clean_target_variant=variant,
+        min_ocr=0.35,
+        min_motion=0.05,
+    )
+    for (
+        label,
+        variant,
+        seed,
+        target_canvas_mode,
+    ) in [
+        ("c115-v08-transit-indrecomp-blend-truthrem075-tpow1-seed3-s12000", "transit-illustration", 3, "blend"),
+        ("c115-v08-transit-indrecomp-talways-truthrem075-tpow1-seed3-s12000", "transit-illustration", 3, "always"),
+        ("c115-v09-reef-indrecomp-blend-truthrem075-tpow1-seed7-s12000", "reef-topic", 7, "blend"),
+        ("c115-v09-reef-indrecomp-talways-truthrem075-tpow1-seed7-s12000", "reef-topic", 7, "always"),
+    ]
+]
+
+
 C98_TRANSITION_AWARE_EXPERIMENTS = [
     learned_layout_reflow_experiment(
         label,
@@ -3035,6 +3083,7 @@ C70_TARGET_MID_EXPERIMENTS = [
 
 
 EXPERIMENTS = [
+    *C115_HOLDOUT_FIXTURE_CORRECTION_EXPERIMENTS,
     *C114_MODE_POLICY_VALIDATION_EXPERIMENTS,
     *C113_TARGET_CANVAS_MODE_COMPARISON_EXPERIMENTS,
     *C112_TARGET_CANVAS_ALWAYS_VALIDATION_EXPERIMENTS,
