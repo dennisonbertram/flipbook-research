@@ -80,6 +80,7 @@ Conclusion: fal-hosted LTX 2.3 Fast is much faster than the older fal LTX endpoi
 | `20260426T233957Z-ltx-api-ltx-2-3-fast-official-ltx-api-text-preservation-1920x1080` | 6s, 144 frames, 1080p | `17.400s` | quality fail | First frame preserves the page, but mid/last frames invent lower-page cards and unreadable pseudo-text. OCR proxy falls from `0.9488` on first frame to near zero by mid/last. |
 | `20260426T234111Z-ltx-api-ltx-2-3-fast-official-ltx-api-naturalist-1920x1080` | 6s, 144 frames, 1080p | `22.081s` | visual pass / proxy pass | Better than fal-hosted naturalist: preserves the full plate composition through mid/last, with softening and small label drift rather than collapse into close-up linework. |
 | `20260426T234547Z-ltx-api-ltx-2-fast-official-ltx2-fast-text-preservation-1920x1080` | 6s, 153 frames, 1080p | `36.783s` | quality fail | Slower than `ltx-2-3-fast` on the same dense page and still loses text by mid/last frame. |
+| `20260427T235031Z-ltx-api-ltx-2-3-fast-official-ltx-api-text-lastframe-1920x1080` | 6s, 144 frames, 1080p, source image also supplied as last frame | `18.426s` | near miss / quality fail | Best dense-text LTX signal so far: first and last frames preserve text (`0.9588`, `0.9358`), but the mid frame invents a page-fold artifact and drops to `0.1636`, making the aggregate text score `0.6861`. |
 
 Conclusion: the official sync API is a cleaner and slightly faster hosted LTX reference than fal for this test. It still fails dense document preservation, but it may be viable as a bridge model for illustration-first pages where exact labels are not the product promise.
 
@@ -95,6 +96,8 @@ Detailed note:
 - `docs/experiments/track-v/track-v-camera-path-diagnostic-2026-04-27.md`
 
 Current read: use LTX as a generated-pixel component only behind a document-preserving control layer. Do not trust it to preserve dense text end-to-end.
+
+Follow-up result: using the source image as both first and last frame is the strongest dense-text hosted signal so far. It proves LTX can be temporally anchored back to the page, but the midpoint still needs control. Post-hoc protected compositing improved OCR from `0.3633` to `0.5009`, but looked incoherent because the source layer floated over a collapsed/generated page. The control has to happen before or during generation, not only after it.
 
 ## Commands
 

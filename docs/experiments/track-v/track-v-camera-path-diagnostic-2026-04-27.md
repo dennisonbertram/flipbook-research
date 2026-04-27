@@ -13,6 +13,9 @@ This diagnostic asks whether generated frames are explainable as a crop/zoom of 
 | 20260426T234111Z-ltx-api-ltx-2-3-fast-official-ltx-api-naturalist-1920x1080 | ltx-api-ltx-2-3-fast | first | near-copy | 0.771 | 1.00 | 0.00,0.00,1.00,1.00 | 0.063 | 0.984 | 0.095 |
 | 20260426T234111Z-ltx-api-ltx-2-3-fast-official-ltx-api-naturalist-1920x1080 | ltx-api-ltx-2-3-fast | mid | partially-crop-explainable | 0.351 | 1.00 | 0.00,0.00,1.00,1.00 | 0.063 | 0.984 | 0.095 |
 | 20260426T234111Z-ltx-api-ltx-2-3-fast-official-ltx-api-naturalist-1920x1080 | ltx-api-ltx-2-3-fast | last | partially-crop-explainable | 0.355 | 1.10 | 0.04,0.04,0.91,0.91 | 0.063 | 0.984 | 0.095 |
+| 20260427T235031Z-ltx-api-ltx-2-3-fast-official-ltx-api-text-lastframe-1920x1080 | ltx-api-ltx-2-3-fast | first | near-copy | 0.854 | 1.00 | 0.00,0.00,1.00,1.00 | 0.686 | 0.990 | 0.102 |
+| 20260427T235031Z-ltx-api-ltx-2-3-fast-official-ltx-api-text-lastframe-1920x1080 | ltx-api-ltx-2-3-fast | mid | partially-crop-explainable | 0.455 | 1.00 | 0.00,0.00,1.00,1.00 | 0.686 | 0.990 | 0.102 |
+| 20260427T235031Z-ltx-api-ltx-2-3-fast-official-ltx-api-text-lastframe-1920x1080 | ltx-api-ltx-2-3-fast | last | near-copy | 0.931 | 1.00 | 0.00,0.00,1.00,1.00 | 0.686 | 0.990 | 0.102 |
 | 20260425T144658Z-fal-kling-fal-kling-naturalist-etching-960x540-960x540 | kling | first | near-copy | 0.997 | 1.00 | 0.00,0.00,1.00,1.00 | 0.038 | 0.999 | 0.015 |
 | 20260425T144658Z-fal-kling-fal-kling-naturalist-etching-960x540-960x540 | kling | mid | near-copy | 0.916 | 1.00 | 0.00,0.00,1.00,1.00 | 0.038 | 0.999 | 0.015 |
 | 20260425T144658Z-fal-kling-fal-kling-naturalist-etching-960x540-960x540 | kling | last | near-copy | 0.939 | 1.00 | 0.00,0.00,1.00,1.00 | 0.038 | 0.999 | 0.015 |

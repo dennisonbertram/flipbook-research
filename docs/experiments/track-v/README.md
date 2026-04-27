@@ -112,6 +112,7 @@ This used a slightly more "living illustration" prompt on the same naturalist pl
 
 - `track-v-camera-path-diagnostic-2026-04-27.md` checks whether first/mid/last frames are explainable as crops of the source page.
 - The diagnostic supports the working distinction between deterministic plate drift, conservative model plate motion, and generated-pixel document collapse.
+- The first/last-frame anchored LTX 2.3 Fast dense-text run is the strongest hosted signal so far: it preserves the first and last page but invents a bad mid-frame page-fold artifact.
 
 ## Sources
 
