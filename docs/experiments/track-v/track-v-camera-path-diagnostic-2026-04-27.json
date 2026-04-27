@@ -1,0 +1,267 @@
+[
+  {
+    "run_id": "20260426T234547Z-ltx-api-ltx-2-fast-official-ltx2-fast-text-preservation-1920x1080",
+    "run_dir": "outputs/track-v/20260426T234547Z-ltx-api-ltx-2-fast-official-ltx2-fast-text-preservation-1920x1080",
+    "model": "ltx-api-ltx-2-fast",
+    "status": "quality_fail",
+    "api_wall_ms": 36782.513041980565,
+    "duration_s": 6.12,
+    "output_frames": 153,
+    "quality": {
+      "text_score": 0.3633143850697161,
+      "layout_score": 0.9881104325398747,
+      "motion_score": 0.06535059213638306,
+      "loop_error": 0.07293841987848282
+    },
+    "crop_matches": [
+      {
+        "score": 0.8459781408309937,
+        "scale": 1.0,
+        "crop_x": 0.0,
+        "crop_y": 0.0,
+        "crop_w": 1.0,
+        "crop_h": 1.0,
+        "unexplained": 0.15402185916900635,
+        "label": "first",
+        "frame": "outputs/track-v/20260426T234547Z-ltx-api-ltx-2-fast-official-ltx2-fast-text-preservation-1920x1080/frame-first.png",
+        "classification": "near-copy"
+      },
+      {
+        "score": 0.3157880902290344,
+        "scale": 1.0,
+        "crop_x": 0.0,
+        "crop_y": 0.0,
+        "crop_w": 1.0,
+        "crop_h": 1.0,
+        "unexplained": 0.6842119097709656,
+        "label": "mid",
+        "frame": "outputs/track-v/20260426T234547Z-ltx-api-ltx-2-fast-official-ltx2-fast-text-preservation-1920x1080/frame-mid.png",
+        "classification": "not-crop-explainable"
+      },
+      {
+        "score": 0.2546123266220093,
+        "scale": 1.0,
+        "crop_x": 0.0,
+        "crop_y": 0.0,
+        "crop_w": 1.0,
+        "crop_h": 1.0,
+        "unexplained": 0.7453876733779907,
+        "label": "last",
+        "frame": "outputs/track-v/20260426T234547Z-ltx-api-ltx-2-fast-official-ltx2-fast-text-preservation-1920x1080/frame-last.png",
+        "classification": "not-crop-explainable"
+      }
+    ]
+  },
+  {
+    "run_id": "20260426T233957Z-ltx-api-ltx-2-3-fast-official-ltx-api-text-preservation-1920x1080",
+    "run_dir": "outputs/track-v/20260426T233957Z-ltx-api-ltx-2-3-fast-official-ltx-api-text-preservation-1920x1080",
+    "model": "ltx-api-ltx-2-3-fast",
+    "status": "quality_fail",
+    "api_wall_ms": 17400.35283297766,
+    "duration_s": 6.0,
+    "output_frames": 144,
+    "quality": {
+      "text_score": 0.3201382409473551,
+      "layout_score": 0.9739686542429343,
+      "motion_score": 0.14260753989219666,
+      "loop_error": 0.15370237827301025
+    },
+    "crop_matches": [
+      {
+        "score": 0.7429970502853394,
+        "scale": 1.0,
+        "crop_x": 0.0,
+        "crop_y": 0.0,
+        "crop_w": 1.0,
+        "crop_h": 1.0,
+        "unexplained": 0.25700294971466064,
+        "label": "first",
+        "frame": "outputs/track-v/20260426T233957Z-ltx-api-ltx-2-3-fast-official-ltx-api-text-preservation-1920x1080/frame-first.png",
+        "classification": "near-copy"
+      },
+      {
+        "score": 0.2328779399394989,
+        "scale": 1.0,
+        "crop_x": 0.0,
+        "crop_y": 0.0,
+        "crop_w": 1.0,
+        "crop_h": 1.0,
+        "unexplained": 0.7671220600605011,
+        "label": "mid",
+        "frame": "outputs/track-v/20260426T233957Z-ltx-api-ltx-2-3-fast-official-ltx-api-text-preservation-1920x1080/frame-mid.png",
+        "classification": "not-crop-explainable"
+      },
+      {
+        "score": 0.23514850437641144,
+        "scale": 1.0,
+        "crop_x": 0.0,
+        "crop_y": 0.0,
+        "crop_w": 1.0,
+        "crop_h": 1.0,
+        "unexplained": 0.7648514956235886,
+        "label": "last",
+        "frame": "outputs/track-v/20260426T233957Z-ltx-api-ltx-2-3-fast-official-ltx-api-text-preservation-1920x1080/frame-last.png",
+        "classification": "not-crop-explainable"
+      }
+    ]
+  },
+  {
+    "run_id": "20260426T234111Z-ltx-api-ltx-2-3-fast-official-ltx-api-naturalist-1920x1080",
+    "run_dir": "outputs/track-v/20260426T234111Z-ltx-api-ltx-2-3-fast-official-ltx-api-naturalist-1920x1080",
+    "model": "ltx-api-ltx-2-3-fast",
+    "status": "pass",
+    "api_wall_ms": 22081.223916029558,
+    "duration_s": 6.0,
+    "output_frames": 144,
+    "quality": {
+      "text_score": 0.06291048218283264,
+      "layout_score": 0.9842327940306662,
+      "motion_score": 0.09534049034118652,
+      "loop_error": 0.11015360057353973
+    },
+    "crop_matches": [
+      {
+        "score": 0.7706756591796875,
+        "scale": 1.0,
+        "crop_x": 0.0,
+        "crop_y": 0.0,
+        "crop_w": 1.0,
+        "crop_h": 1.0,
+        "unexplained": 0.2293243408203125,
+        "label": "first",
+        "frame": "outputs/track-v/20260426T234111Z-ltx-api-ltx-2-3-fast-official-ltx-api-naturalist-1920x1080/frame-first.png",
+        "classification": "near-copy"
+      },
+      {
+        "score": 0.3505561649799347,
+        "scale": 1.0,
+        "crop_x": 0.0,
+        "crop_y": 0.0,
+        "crop_w": 1.0,
+        "crop_h": 1.0,
+        "unexplained": 0.6494438350200653,
+        "label": "mid",
+        "frame": "outputs/track-v/20260426T234111Z-ltx-api-ltx-2-3-fast-official-ltx-api-naturalist-1920x1080/frame-mid.png",
+        "classification": "partially-crop-explainable"
+      },
+      {
+        "score": 0.3549788296222687,
+        "scale": 1.1,
+        "crop_x": 0.041666666666666664,
+        "crop_y": 0.037037037037037035,
+        "crop_w": 0.9083333333333333,
+        "crop_h": 0.9111111111111111,
+        "unexplained": 0.6450211703777313,
+        "label": "last",
+        "frame": "outputs/track-v/20260426T234111Z-ltx-api-ltx-2-3-fast-official-ltx-api-naturalist-1920x1080/frame-last.png",
+        "classification": "partially-crop-explainable"
+      }
+    ]
+  },
+  {
+    "run_id": "20260425T144658Z-fal-kling-fal-kling-naturalist-etching-960x540-960x540",
+    "run_dir": "outputs/track-v/20260425T144658Z-fal-kling-fal-kling-naturalist-etching-960x540-960x540",
+    "model": "kling",
+    "status": "pass",
+    "api_wall_ms": 47176.049250003416,
+    "duration_s": 5.041667,
+    "output_frames": 121,
+    "quality": {
+      "text_score": 0.037831489570488465,
+      "layout_score": 0.9989641851574035,
+      "motion_score": 0.014910319820046425,
+      "loop_error": 0.012101526372134686
+    },
+    "crop_matches": [
+      {
+        "score": 0.9967525005340576,
+        "scale": 1.0,
+        "crop_x": 0.0,
+        "crop_y": 0.0,
+        "crop_w": 1.0,
+        "crop_h": 1.0,
+        "unexplained": 0.003247499465942383,
+        "label": "first",
+        "frame": "outputs/track-v/20260425T144658Z-fal-kling-fal-kling-naturalist-etching-960x540-960x540/frame-first.png",
+        "classification": "near-copy"
+      },
+      {
+        "score": 0.91592937707901,
+        "scale": 1.0,
+        "crop_x": 0.0,
+        "crop_y": 0.0,
+        "crop_w": 1.0,
+        "crop_h": 1.0,
+        "unexplained": 0.08407062292098999,
+        "label": "mid",
+        "frame": "outputs/track-v/20260425T144658Z-fal-kling-fal-kling-naturalist-etching-960x540-960x540/frame-mid.png",
+        "classification": "near-copy"
+      },
+      {
+        "score": 0.9385420083999634,
+        "scale": 1.0,
+        "crop_x": 0.0,
+        "crop_y": 0.0,
+        "crop_w": 1.0,
+        "crop_h": 1.0,
+        "unexplained": 0.06145799160003662,
+        "label": "last",
+        "frame": "outputs/track-v/20260425T144658Z-fal-kling-fal-kling-naturalist-etching-960x540-960x540/frame-last.png",
+        "classification": "near-copy"
+      }
+    ]
+  },
+  {
+    "run_id": "20260427T004208Z-track-b-hybrid-naturalist-ffmpeg-drift-121-klingish-prefit-copy-960x540",
+    "run_dir": "outputs/track-b/20260427T004208Z-track-b-hybrid-naturalist-ffmpeg-drift-121-klingish-prefit-copy-960x540",
+    "model": null,
+    "status": "pass",
+    "api_wall_ms": null,
+    "duration_s": null,
+    "output_frames": null,
+    "quality": {
+      "text_score": 0.06995017455842684,
+      "layout_score": 0.9996610960561038,
+      "motion_score": 0.016931811347603798,
+      "loop_error": 0.0012228426057845354
+    },
+    "crop_matches": [
+      {
+        "score": 0.998263418674469,
+        "scale": 1.0,
+        "crop_x": 0.0,
+        "crop_y": 0.0,
+        "crop_w": 1.0,
+        "crop_h": 1.0,
+        "unexplained": 0.0017365813255310059,
+        "label": "first",
+        "frame": "outputs/track-b/20260427T004208Z-track-b-hybrid-naturalist-ffmpeg-drift-121-klingish-prefit-copy-960x540/frame-first.png",
+        "classification": "near-copy"
+      },
+      {
+        "score": 0.7845870852470398,
+        "scale": 1.0,
+        "crop_x": 0.0,
+        "crop_y": 0.0,
+        "crop_w": 1.0,
+        "crop_h": 1.0,
+        "unexplained": 0.2154129147529602,
+        "label": "mid",
+        "frame": "outputs/track-b/20260427T004208Z-track-b-hybrid-naturalist-ffmpeg-drift-121-klingish-prefit-copy-960x540/frame-mid.png",
+        "classification": "near-copy"
+      },
+      {
+        "score": 0.9987945556640625,
+        "scale": 1.0,
+        "crop_x": 0.0,
+        "crop_y": 0.0,
+        "crop_w": 1.0,
+        "crop_h": 1.0,
+        "unexplained": 0.0012054443359375,
+        "label": "last",
+        "frame": "outputs/track-b/20260427T004208Z-track-b-hybrid-naturalist-ffmpeg-drift-121-klingish-prefit-copy-960x540/frame-last.png",
+        "classification": "near-copy"
+      }
+    ]
+  }
+]

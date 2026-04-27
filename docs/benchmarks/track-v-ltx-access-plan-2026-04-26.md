@@ -83,6 +83,19 @@ Conclusion: fal-hosted LTX 2.3 Fast is much faster than the older fal LTX endpoi
 
 Conclusion: the official sync API is a cleaner and slightly faster hosted LTX reference than fal for this test. It still fails dense document preservation, but it may be viable as a bridge model for illustration-first pages where exact labels are not the product promise.
 
+## Generated-Pixel Diagnostic
+
+The `ltx-2-fast` dense-text run is still interesting because the mid/last frames are not merely deterministic drift or literal crop/zoom copies of the source page. `scripts/track_v/camera_path_diagnostic.py` compares generated frames to best-fit source crops and marks both the LTX 2 Fast and LTX 2.3 Fast dense-text mid/last frames as `not-crop-explainable`.
+
+That is a positive research signal: LTX is producing real generated pixels. It is also the failure mode: the model replaces the document with document-like generated imagery and loses text identity.
+
+Detailed note:
+
+- `docs/benchmarks/track-v-generated-pixel-diagnostic-2026-04-27.md`
+- `docs/experiments/track-v/track-v-camera-path-diagnostic-2026-04-27.md`
+
+Current read: use LTX as a generated-pixel component only behind a document-preserving control layer. Do not trust it to preserve dense text end-to-end.
+
 ## Commands
 
 Hosted LTX 2.3 Fast dense text smoke:

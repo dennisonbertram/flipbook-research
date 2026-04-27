@@ -108,6 +108,11 @@ outputs/track-v/20260425T160020Z-fal-kling-fal-kling-naturalist-etching-living-v
 
 This used a slightly more "living illustration" prompt on the same naturalist plate. It stayed visually stable and preserved the plate well, but did not add much more obvious motion than the first favorite. API wall time was `49.403s` for the same `5.042s`/`121` frame output, about `9.8x` slower than realtime from finished image to MP4.
 
+## Current Diagnostic Notes
+
+- `track-v-camera-path-diagnostic-2026-04-27.md` checks whether first/mid/last frames are explainable as crops of the source page.
+- The diagnostic supports the working distinction between deterministic plate drift, conservative model plate motion, and generated-pixel document collapse.
+
 ## Sources
 
 - Kling fal API: https://fal.ai/models/fal-ai/kling-video/v2.5-turbo/standard/image-to-video/api
