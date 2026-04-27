@@ -2499,3 +2499,12 @@
 [2026-04-27T13:27:17+00:00] eval 20260426T174830740031Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-oracle-rgbskip-scoord-seed23-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	787.795ms	ocr=0.1988
 [2026-04-27T13:27:17+00:00] eval 20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	1104.203ms	ocr=0.2099
 [2026-04-27T13:27:17+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
+[2026-04-27T13:27:18+00:00] published Track C docs update: 2026-04-27 13:27 UTC
+[2026-04-27T13:39:23+00:00] eval 20260426T171651815282Z-c2-lite-glyph-layout-reflow-c123-geom-flowloss-rgbskip-scoord-seed20-s14000-1536x864-s14000	layout-reflow-learned	quality_fail	942.603ms	ocr=0.5116
+[2026-04-27T13:39:23+00:00] eval 20260426T173748874077Z-c2-lite-glyph-layout-reflow-c124-v13-glacier-geom-midforced-rgbskip-scoord-seed21-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	920.263ms	ocr=0.1857
+[2026-04-27T13:39:23+00:00] eval 20260426T173748889298Z-c2-lite-glyph-layout-reflow-c124-v14-microchip-geom-midforced-rgbskip-scoord-seed22-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	939.557ms	ocr=0.2794
+[2026-04-27T13:39:23+00:00] eval 20260426T173748979000Z-c2-lite-glyph-layout-reflow-c124-v13-glacier-geom-oracle-rgbskip-scoord-seed21-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	798.222ms	ocr=0.2675
+[2026-04-27T13:39:23+00:00] eval 20260426T173749030751Z-c2-lite-glyph-layout-reflow-c124-v14-microchip-geom-oracle-rgbskip-scoord-seed22-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	792.544ms	ocr=0.3111
+[2026-04-27T13:39:23+00:00] eval 20260426T174830740031Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-oracle-rgbskip-scoord-seed23-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	787.795ms	ocr=0.1988
+[2026-04-27T13:39:23+00:00] eval 20260426T174830751323Z-c2-lite-glyph-layout-reflow-c124-v15-mycology-geom-midforced-rgbskip-scoord-seed23-s12000-1536x864-s12000	layout-reflow-learned	quality_fail	1104.203ms	ocr=0.2099
+[2026-04-27T13:39:23+00:00] eval WROTE docs/experiments/track-c/eval-results.tsv
