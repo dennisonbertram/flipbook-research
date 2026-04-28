@@ -116,6 +116,7 @@ This used a slightly more "living illustration" prompt on the same naturalist pl
 - The 2s first/last-frame anchored run with a strict locked-page prompt is the strongest hosted dense-text result so far: text `0.8099`, layout `0.9992`, API wall `14.762s`.
 - Ablations show both the anchor and the strict prompt are required. A 2s anchored default-prompt run fails text (`0.6476`), and a 2s locked-prompt run without the last-frame anchor fails harder (`0.3196`).
 - This is still a background enhancement path rather than realtime re-layout: the best hosted run takes about `15s` and is nearly static.
+- Modal old-LTX condition probes are faster but still fail dense text: `768x448` took `6.492s` wall with text `0.4604`; `960x544` took `9.766s` wall with text `0.2184`. Both stayed in page coordinates but were nearly static and text-damaging.
 
 ## Sources
 

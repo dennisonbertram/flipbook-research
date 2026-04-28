@@ -1,0 +1,3 @@
+run_id	commit	model_id	resolution	frames	fps	steps	wall_time_ms	model_ms	encode_ms	peak_vram_gb	text_score	layout_score	motion_score	loop_error	status	description
+20260428T003648Z-modal-ltx-condition-anchor-s8-seed0-768x448	37445fe	Lightricks/LTX-Video-0.9.7-distilled	768x448	49	24	8	6491.669	5457.709	453.626	36.5901	0.4604	0.9999	0.0017	0.0024	quality_fail	Modal Diffusers LTXConditionPipeline with source image at first and last frame
+20260428T003851Z-modal-ltx-condition-anchor-s8-seed0-960x544	37445fe	Lightricks/LTX-Video-0.9.7-distilled	960x544	49	24	8	9766.484	8812.373	597.283	36.8182	0.2184	0.9999	0.0017	0.0023	quality_fail	Modal Diffusers LTXConditionPipeline with source image at first and last frame

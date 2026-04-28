@@ -114,6 +114,23 @@ Follow-up result: using the source image as both first and last frame is the str
 
 Second follow-up: shortening the anchored run to 2s and using a strict locked-page prompt resolves the dense-text midpoint for the sampled page. The tradeoff is that the output becomes near-copy and low-motion, which makes it useful as "living paper" rather than as a video-model layout engine.
 
+## Modal Condition Probe
+
+The older public Diffusers `LTXConditionPipeline` can self-host first/last-frame conditioning without the missing LTX-2.3/Gemma token. We added:
+
+```text
+scripts/track_v/modal_ltx_condition_probe.py
+```
+
+Results on L40S:
+
+| Run | Shape | Wall | Model | Text | Layout | Motion | Status |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
+| `20260428T003648Z-modal-ltx-condition-anchor-s8-seed0-768x448` | 49 frames, 8 steps, `768x448` | `6.492s` | `5.458s` | `0.4604` | `0.9999` | `0.0017` | quality fail |
+| `20260428T003851Z-modal-ltx-condition-anchor-s8-seed0-960x544` | 49 frames, 8 steps, `960x544` | `9.766s` | `8.812s` | `0.2184` | `0.9999` | `0.0017` | quality fail |
+
+Read: old self-hosted LTX is faster than hosted LTX and stays in source-page coordinates under first/last conditioning, but it still damages dense text and produces almost no motion. This closes the "cheap old-LTX self-host anchor" branch for dense documents.
+
 ## Commands
 
 Hosted LTX 2.3 Fast dense text smoke:

@@ -50,6 +50,23 @@ Hugging Face metadata checked on 2026-04-26:
 
 We have an LTX API key now, but we do not yet have `HF_TOKEN` / `HUGGINGFACE_HUB_TOKEN`. If the native pipeline needs local Gemma, this blocks a clean self-host run until a Hugging Face token with Gemma access is available. LTX Desktop can use the LTX API key for cloud text encoding, but the native `ltx-pipelines` Python path documents local Gemma paths, so do not assume the API key alone is enough.
 
+## 2026-04-28 Modal Condition Probe
+
+To avoid blocking entirely on LTX-2.3/Gemma access, we tried the older public Diffusers condition path:
+
+```text
+scripts/track_v/modal_ltx_condition_probe.py
+```
+
+It uses `Lightricks/LTX-Video-0.9.7-distilled` through `LTXConditionPipeline`, with the source image pinned at frame 0 and the final frame.
+
+| Shape | Wall | Model | Peak VRAM | Text | Layout | Motion | Status |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| `768x448`, 49 frames, 8 steps | `6.492s` | `5.458s` | `36.59GB` | `0.4604` | `0.9999` | `0.0017` | quality fail |
+| `960x544`, 49 frames, 8 steps | `9.766s` | `8.812s` | `36.82GB` | `0.2184` | `0.9999` | `0.0017` | quality fail |
+
+Read: the first/last condition keeps the page in coordinates, but old LTX still repaints/softens small text and adds almost no useful motion. It is faster than hosted LTX but not useful for dense pages. Do not pursue old-LTX self-hosting for text-heavy documents.
+
 ## Which LTX-2.3 Pipeline To Try
 
 Start with `DistilledPipeline`:
