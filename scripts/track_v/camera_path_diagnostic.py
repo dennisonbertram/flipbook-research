@@ -98,7 +98,13 @@ def classify_match(match: dict[str, Any]) -> str:
 
 
 def analyze_run(run_dir: Path, args: argparse.Namespace) -> dict[str, Any]:
+    metrics_path = run_dir / "metrics.json"
+    metrics = json.loads(metrics_path.read_text()) if metrics_path.exists() else {}
     input_path = run_dir / "input.png"
+    if not input_path.exists():
+        artifact_input = metrics.get("artifacts", {}).get("input")
+        if artifact_input:
+            input_path = Path(artifact_input)
     if not input_path.exists():
         raise SystemExit(f"missing input image: {input_path}")
     frames = [
@@ -128,8 +134,6 @@ def analyze_run(run_dir: Path, args: argparse.Namespace) -> dict[str, Any]:
 
     quality_path = run_dir / "quality.json"
     quality = json.loads(quality_path.read_text()) if quality_path.exists() else {}
-    metrics_path = run_dir / "metrics.json"
-    metrics = json.loads(metrics_path.read_text()) if metrics_path.exists() else {}
     return {
         "run_id": run_dir.name,
         "run_dir": str(run_dir),

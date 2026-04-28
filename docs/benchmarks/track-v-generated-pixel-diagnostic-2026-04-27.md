@@ -82,6 +82,26 @@ That suggests the next hosted-model test should not be "free-run LTX plus repair
 - test whether the middle collapse shrinks when the temporal span is shorter;
 - reject runs where the mid frame becomes less crop-explainable than a threshold.
 
+## Short Anchor Probe
+
+Follow-up runs on 2026-04-28 tested exactly that constraint.
+
+| Run | Shape | API wall | Status | Read |
+| --- | --- | ---: | --- | --- |
+| `20260428T002049Z-ltx-api-ltx-2-3-fast-official-ltx-api-text-anchor-3s-locked-1920x1080` | 3s, 72 frames, 1080p, source as first and last frame | `18.953s` | pass | Better than the 6s anchor, but the midpoint is still only partially crop-explainable and text drops to `0.4931` at mid frame. |
+| `20260428T002056Z-ltx-api-ltx-2-3-fast-official-ltx-api-text-anchor-2s-locked-1920x1080` | 2s, 48 frames, 1080p, source as first and last frame | `14.762s` | pass | Best dense-text hosted LTX run so far: overall text `0.8099`, layout `0.9992`, all sampled frames classify as near-copy. |
+| `20260428T002253Z-ltx-api-ltx-2-3-fast-official-ltx-api-text-anchor-2s-defaultprompt-1920x1080` | 2s, anchored, default prompt | `15.814s` | quality fail | Shows the strict "locked document/no camera/no page turn" prompt matters; same anchor and duration still loses text. |
+| `20260428T002259Z-ltx-api-ltx-2-3-fast-official-ltx-api-text-noanchor-2s-locked-1920x1080` | 2s, locked prompt, no last frame | `13.555s` | quality fail | Shows the last-frame anchor matters; without it, the page crops/recomposes. |
+
+The current hosted recipe is therefore conditional:
+
+1. source image as both first and last frame;
+2. 2 second duration;
+3. strict no-camera/no-page-turn/no-crop prompt;
+4. family-specific negatives in the positive prompt, because the API does not expose a `negative_prompt` parameter.
+
+The official docs list the image-to-video endpoint parameters `image_uri`, `last_frame_uri`, `duration`, `resolution`, `fps`, and `camera_motion`, and note that `last_frame_uri` is only supported by `ltx-2-3` models. The live API accepted 2s and 3s requests even though the public model matrix lists longer durations; it rejected 1s and rejected `960x540`.
+
 ## Protected Composite Test
 
 Run:
@@ -115,3 +135,5 @@ The next promising path is not Track B-style whole-plate drift, and it is not po
 5. Use this diagnostic to reject runs where the model drifts away from the canonical page.
 
 That would let us keep the one good thing LTX is showing here, real generated pixels, without accepting its tendency to rewrite the document.
+
+The caveat is now sharper: the successful 2s LTX clip is also near-copy and almost static. Hosted LTX should be a background enhancement path, not the realtime or re-layout path.

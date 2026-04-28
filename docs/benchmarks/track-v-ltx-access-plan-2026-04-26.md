@@ -41,6 +41,15 @@ Rule of thumb: hosted LTX 2.3 Fast is roughly a `20s` generation call for our 6s
 
 The older official `ltx-2-fast` is not faster on the dense text page: the 6 second, 25 fps, 1080p control took `36.783s` and still failed text quality.
 
+Short anchored probes on 2026-04-28 found a narrower hosted floor:
+
+- `2s`, 48 frame, 1080p, source-as-first-and-last-frame dense text: `14.762s` API wall, quality pass.
+- `3s`, 72 frame, 1080p, source-as-first-and-last-frame dense text: `18.953s` API wall, quality pass but weaker midpoint.
+- `1s` at 1080p was rejected by the API.
+- `960x540` output was rejected by the API.
+
+This makes hosted LTX useful as a background enhancement path, not realtime. The shortest accepted hosted run still takes roughly `15s` wall time.
+
 ## Recommended Order
 
 1. **fal LTX 2.3 Fast smoke tests now**
@@ -81,8 +90,12 @@ Conclusion: fal-hosted LTX 2.3 Fast is much faster than the older fal LTX endpoi
 | `20260426T234111Z-ltx-api-ltx-2-3-fast-official-ltx-api-naturalist-1920x1080` | 6s, 144 frames, 1080p | `22.081s` | visual pass / proxy pass | Better than fal-hosted naturalist: preserves the full plate composition through mid/last, with softening and small label drift rather than collapse into close-up linework. |
 | `20260426T234547Z-ltx-api-ltx-2-fast-official-ltx2-fast-text-preservation-1920x1080` | 6s, 153 frames, 1080p | `36.783s` | quality fail | Slower than `ltx-2-3-fast` on the same dense page and still loses text by mid/last frame. |
 | `20260427T235031Z-ltx-api-ltx-2-3-fast-official-ltx-api-text-lastframe-1920x1080` | 6s, 144 frames, 1080p, source image also supplied as last frame | `18.426s` | near miss / quality fail | Best dense-text LTX signal so far: first and last frames preserve text (`0.9588`, `0.9358`), but the mid frame invents a page-fold artifact and drops to `0.1636`, making the aggregate text score `0.6861`. |
+| `20260428T002056Z-ltx-api-ltx-2-3-fast-official-ltx-api-text-anchor-2s-locked-1920x1080` | 2s, 48 frames, 1080p, source image also supplied as last frame | `14.762s` | pass | Best dense-text hosted LTX result so far: text `0.8099`, layout `0.9992`, motion `0.0082`. Very stable, but nearly static. |
+| `20260428T002253Z-ltx-api-ltx-2-3-fast-official-ltx-api-text-anchor-2s-defaultprompt-1920x1080` | 2s, 48 frames, 1080p, source image also supplied as last frame | `15.814s` | quality fail | Same duration and anchor as the best run, but default motion prompt drops text to `0.6476`. Strict document-lock prompting matters. |
+| `20260428T002259Z-ltx-api-ltx-2-3-fast-official-ltx-api-text-noanchor-2s-locked-1920x1080` | 2s, 48 frames, 1080p, no last frame | `13.555s` | quality fail | Same strict prompt as the best run, but no last-frame anchor. The model crops/recomposes the page and text drops to `0.3196`. |
+| `20260428T002357Z-ltx-api-ltx-2-3-fast-official-ltx-api-naturalist-anchor-2s-noshadow-1920x1080` | 2s, 48 frames, 1080p, source image also supplied as last frame | `14.707s` | visual pass / proxy pass | Naturalist illustration plate stays stable when the prompt explicitly forbids new objects, shadows, foreground leaves, and overlays. |
 
-Conclusion: the official sync API is a cleaner and slightly faster hosted LTX reference than fal for this test. It still fails dense document preservation, but it may be viable as a bridge model for illustration-first pages where exact labels are not the product promise.
+Conclusion: the official sync API is a cleaner and slightly faster hosted LTX reference than fal for this test. With a 2s first/last-frame anchor and strict page-lock prompt, it can preserve dense text better than earlier hosted runs. It is still not realtime and not re-layout; it is a background generated-pixel enhancement candidate.
 
 ## Generated-Pixel Diagnostic
 
@@ -98,6 +111,8 @@ Detailed note:
 Current read: use LTX as a generated-pixel component only behind a document-preserving control layer. Do not trust it to preserve dense text end-to-end.
 
 Follow-up result: using the source image as both first and last frame is the strongest dense-text hosted signal so far. It proves LTX can be temporally anchored back to the page, but the midpoint still needs control. Post-hoc protected compositing improved OCR from `0.3633` to `0.5009`, but looked incoherent because the source layer floated over a collapsed/generated page. The control has to happen before or during generation, not only after it.
+
+Second follow-up: shortening the anchored run to 2s and using a strict locked-page prompt resolves the dense-text midpoint for the sampled page. The tradeoff is that the output becomes near-copy and low-motion, which makes it useful as "living paper" rather than as a video-model layout engine.
 
 ## Commands
 
