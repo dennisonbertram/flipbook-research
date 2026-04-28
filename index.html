@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Realtime Generated Pages | Flipbook Research</title>
+    <meta
+      name="description"
+      content="A public research note on making generated pages feel alive while preserving text, layout, and identity."
+    >
+    <meta property="og:title" content="Realtime Generated Pages">
+    <meta
+      property="og:description"
+      content="What we learned trying to animate generated pages with deterministic motion, LTX video, and page-aware gates."
+    >
+    <meta property="og:image" content="assets/retrospective/naturalist-plate.jpg">
+    <meta name="theme-color" content="#13110f">
+    <link rel="stylesheet" href="assets/retrospective/site.css">
+  </head>
+  <body>
+    <header class="hero" id="top">
+      <img
+        class="hero__image"
+        src="assets/retrospective/naturalist-plate.jpg"
+        alt="Generated naturalist field-guide plate used as a page animation source."
+      >
+      <div class="hero__shade" aria-hidden="true"></div>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a class="site-nav__brand" href="#top">Flipbook Research</a>
+        <div class="site-nav__links">
+          <a href="#findings">Findings</a>
+          <a href="#evidence">Evidence</a>
+          <a href="#architecture">Architecture</a>
+          <a href="#next">Path</a>
+        </div>
+      </nav>
+      <div class="hero__content">
+        <p class="eyebrow">Public research retrospective</p>
+        <h1>Realtime Generated Pages</h1>
+        <p class="hero__lede">
+          We tried to make generated pages feel alive without letting video models
+          rewrite the page. The surprising answer was not one model. It was a
+          product architecture.
+        </p>
+        <div class="hero__actions" aria-label="Research links">
+          <a class="button button--light" href="https://github.com/dennisonbertram/flipbook-research/blob/main/docs/research/flipbook-research-retrospective-2026-04-28.md">
+            Read the full retrospective
+          </a>
+          <a class="button button--ghost" href="https://github.com/dennisonbertram/flipbook-research">
+            View the repo
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="claim-band" aria-label="Core claim">
+        <div class="wrap claim-grid">
+          <p class="claim">
+            Current video models are impressive motion priors, but unreliable
+            page renderers.
+          </p>
+          <p class="claim-copy">
+            They can produce beautiful movement, but dense text, labels, charts,
+            margins, and interface state are too important to be left to a model
+            that is free to repaint the document. The page has to remain the
+            source of truth.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="findings">
+        <div class="wrap">
+          <div class="section-heading">
+            <p class="eyebrow">What survived contact with the experiments</p>
+            <h2>The useful path is hybrid.</h2>
+          </div>
+
+          <div class="finding-grid" aria-label="Research findings">
+            <article class="finding finding--teal">
+              <span class="finding__number">01</span>
+              <h3>Immediate motion should be deterministic.</h3>
+              <p>
+                Track B generated 960x540 previews in roughly 100-200 ms across
+                page families while preserving text by construction.
+              </p>
+            </article>
+            <article class="finding finding--red">
+              <span class="finding__number">02</span>
+              <h3>LTX works best when it is tightly anchored.</h3>
+              <p>
+                The best hosted LTX 2.3 Fast result used first and last frame
+                anchors, a 2 second clip, and a strict preservation prompt.
+              </p>
+            </article>
+            <article class="finding finding--gold">
+              <span class="finding__number">03</span>
+              <h3>There is no universal prompt recipe.</h3>
+              <p>
+                Dense text, naturalist plates, diagrams, and ambient pages need
+                different policies. Generalization here is conditional.
+              </p>
+            </article>
+            <article class="finding finding--green">
+              <span class="finding__number">04</span>
+              <h3>Realtime re-layout remains unsolved.</h3>
+              <p>
+                The hard part is not adding motion. It is generating new pixels
+                while preserving semantics, coordinates, and readable text.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--ink">
+        <div class="wrap metrics">
+          <div class="metric">
+            <strong>100-200 ms</strong>
+            <span>Fast deterministic 121-frame 960x540 renders.</span>
+          </div>
+          <div class="metric">
+            <strong>14.762 s</strong>
+            <span>Best hosted LTX 2.3 Fast anchored run wall time.</span>
+          </div>
+          <div class="metric">
+            <strong>0.8099</strong>
+            <span>Proxy text score for the strongest anchored dense-text clip.</span>
+          </div>
+          <div class="metric">
+            <strong>0.9992</strong>
+            <span>Layout score for that same anchored clip.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="evidence">
+        <div class="wrap">
+          <div class="section-heading section-heading--wide">
+            <p class="eyebrow">Evidence wall</p>
+            <h2>The model can add life, but it wants to change the document.</h2>
+            <p>
+              These contact sheets are from the research runs. The interesting
+              pattern is not just success versus failure. It is where control
+              had to be introduced to keep the page identity intact.
+            </p>
+          </div>
+
+          <div class="evidence-grid">
+            <article class="evidence-card evidence-card--wide">
+              <img
+                src="assets/retrospective/ltx-anchor-2s.jpg"
+                alt="Contact sheet from an anchored LTX dense-text result."
+              >
+              <div class="evidence-card__body">
+                <p class="tag tag--good">Best gated result</p>
+                <h3>Anchored hosted LTX, dense text</h3>
+                <p>
+                  The page stayed legible because the generation was strongly
+                  constrained: first frame, last frame, short duration, and a
+                  strict no-camera prompt.
+                </p>
+              </div>
+            </article>
+
+            <article class="evidence-card">
+              <img
+                src="assets/retrospective/track-b-drift.jpg"
+                alt="Contact sheet from a deterministic Track B page animation."
+              >
+              <div class="evidence-card__body">
+                <p class="tag tag--neutral">Instant layer</p>
+                <h3>Deterministic Track B motion</h3>
+                <p>
+                  Not generated video, but fast and stable enough to carry the
+                  realtime experience.
+                </p>
+              </div>
+            </article>
+
+            <article class="evidence-card">
+              <img
+                src="assets/retrospective/ltx-naturalist-noshadow.jpg"
+                alt="Contact sheet from a naturalist illustration anchored LTX run."
+              >
+              <div class="evidence-card__body">
+                <p class="tag tag--good">Illustration-friendly</p>
+                <h3>Naturalist plate with tighter guardrails</h3>
+                <p>
+                  Illustration pages tolerate subtle generated texture better
+                  than dense documents, but still need family-specific prompts.
+                </p>
+              </div>
+            </article>
+
+            <article class="evidence-card">
+              <img
+                src="assets/retrospective/ltx-noanchor-fail.jpg"
+                alt="Contact sheet from an unanchored LTX dense-text failure."
+              >
+              <div class="evidence-card__body">
+                <p class="tag tag--risk">Failure mode</p>
+                <h3>Without anchors, the page becomes a vibe</h3>
+                <p>
+                  Free video generation preserved document-like texture better
+                  than the actual document.
+                </p>
+              </div>
+            </article>
+
+            <article class="evidence-card">
+              <img
+                src="assets/retrospective/modal-ltx-condition-fail.jpg"
+                alt="Contact sheet from a Modal self-hosted LTX condition probe."
+              >
+              <div class="evidence-card__body">
+                <p class="tag tag--risk">Fast but not enough</p>
+                <h3>Self-hosted old LTX stayed aligned but softened text</h3>
+                <p>
+                  The 6-10 second Modal runs were faster than hosted LTX, but
+                  did not preserve dense page text well enough.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--split" id="architecture">
+        <div class="wrap split-layout">
+          <div class="split-layout__copy">
+            <p class="eyebrow">Architecture</p>
+            <h2>The page stays sovereign.</h2>
+            <p>
+              The product should not be <code>image -&gt; video model -&gt; page</code>.
+              That puts text and layout under the control of a system optimized
+              for plausible motion, not document fidelity.
+            </p>
+            <p>
+              The stronger architecture keeps a canonical page state, renders
+              immediate motion from controlled layers, then lets video generation
+              compete for a gated background enhancement slot.
+            </p>
+          </div>
+
+          <div class="system-map" aria-label="Hybrid product architecture">
+            <div class="system-map__node system-map__node--source">
+              <span>Canonical page</span>
+              <strong>Text, layout, regions, identity</strong>
+            </div>
+            <div class="system-map__lane">
+              <div class="system-map__node">
+                <span>Immediate renderer</span>
+                <strong>Deterministic drift, parallax, lighting</strong>
+              </div>
+              <div class="system-map__node system-map__node--output">
+                <span>User sees</span>
+                <strong>Stable live page now</strong>
+              </div>
+            </div>
+            <div class="system-map__lane">
+              <div class="system-map__node">
+                <span>Background video model</span>
+                <strong>Anchored LTX or future model</strong>
+              </div>
+              <div class="system-map__node">
+                <span>Gates</span>
+                <strong>OCR, layout, crop, visual review</strong>
+              </div>
+              <div class="system-map__node system-map__node--output">
+                <span>If it passes</span>
+                <strong>Crossfade to richer clip</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--table" id="next">
+        <div class="wrap">
+          <div class="section-heading section-heading--wide">
+            <p class="eyebrow">What is possible now</p>
+            <h2>A router by page family beats a universal recipe.</h2>
+            <p>
+              The most useful next product is not a single magic prompt. It is a
+              page-aware runtime that decides where generative video is allowed
+              and where the deterministic renderer should remain in charge.
+            </p>
+          </div>
+
+          <div class="router-table" role="table" aria-label="Page family routing table">
+            <div class="router-row router-row--head" role="row">
+              <span role="columnheader">Page family</span>
+              <span role="columnheader">Primary path</span>
+              <span role="columnheader">Video role</span>
+            </div>
+            <div class="router-row" role="row">
+              <span role="cell">Dense text</span>
+              <span role="cell">Deterministic, text locked</span>
+              <span role="cell">Off by default</span>
+            </div>
+            <div class="router-row" role="row">
+              <span role="cell">Diagrams and labels</span>
+              <span role="cell">Protected linework</span>
+              <span role="cell">Only if gated</span>
+            </div>
+            <div class="router-row" role="row">
+              <span role="cell">Illustration-rich pages</span>
+              <span role="cell">Immediate deterministic motion</span>
+              <span role="cell">Background enhancement</span>
+            </div>
+            <div class="router-row" role="row">
+              <span role="cell">Ambient visual pages</span>
+              <span role="cell">Precompute or async</span>
+              <span role="cell">Acceptable with review</span>
+            </div>
+            <div class="router-row" role="row">
+              <span role="cell">True layout changes</span>
+              <span role="cell">Page/state renderer</span>
+              <span role="cell">Not the owner</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="closing">
+        <div class="wrap closing__grid">
+          <img
+            src="assets/retrospective/dense-page.png"
+            alt="Dense generated page used for text preservation tests."
+          >
+          <div>
+            <p class="eyebrow">The honest public claim</p>
+            <h2>Stable page liveness is already possible. Trustworthy generated re-layout is not here yet.</h2>
+            <p>
+              That is still real progress. The experiments showed where video
+              generation should sit in the system, what to gate, and which page
+              families deserve different treatment.
+            </p>
+            <a class="text-link" href="https://github.com/dennisonbertram/flipbook-research/blob/main/docs/research/flipbook-research-retrospective-2026-04-28.md">
+              Read the complete notes
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
