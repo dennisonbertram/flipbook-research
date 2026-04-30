@@ -28,6 +28,10 @@ RESULTS_TSV = ROOT / "docs" / "experiments" / "track-v" / "results.tsv"
 MODELS = {
     "kling": "fal-ai/kling-video/v2.5-turbo/standard/image-to-video",
     "ltx": "fal-ai/ltx-video-13b-distilled/image-to-video",
+    "ltx2-fast": "fal-ai/ltx-2/image-to-video/fast",
+    "ltx2-pro": "fal-ai/ltx-2/image-to-video",
+    "ltx23-fast": "fal-ai/ltx-2.3/image-to-video/fast",
+    "ltx23-pro": "fal-ai/ltx-2.3/image-to-video",
 }
 
 
@@ -186,24 +190,50 @@ def build_arguments(args: argparse.Namespace, image_url: str) -> dict[str, Any]:
             "cfg_scale": args.cfg_scale,
         }
 
-    return {
+    ltx_resolution = args.ltx_resolution
+    if ltx_resolution == "auto":
+        ltx_resolution = "480p" if args.model == "ltx" else "1080p"
+
+    if args.model == "ltx":
+        return {
+            "prompt": args.prompt,
+            "negative_prompt": args.negative_prompt,
+            "image_url": image_url,
+            "resolution": ltx_resolution,
+            "aspect_ratio": args.aspect_ratio,
+            "seed": args.seed,
+            "num_frames": args.frames,
+            "frame_rate": args.fps,
+            "first_pass_num_inference_steps": args.first_pass_steps,
+            "second_pass_num_inference_steps": args.second_pass_steps,
+            "second_pass_skip_initial_steps": args.second_pass_skip_steps,
+            "expand_prompt": False,
+            "reverse_video": False,
+            "enable_detail_pass": args.enable_detail_pass,
+            "enable_safety_checker": True,
+            "constant_rate_factor": args.crf,
+        }
+
+    fal_args = {
         "prompt": args.prompt,
-        "negative_prompt": args.negative_prompt,
         "image_url": image_url,
-        "resolution": args.ltx_resolution,
+        "resolution": ltx_resolution,
+        "duration": args.duration,
+        "fps": args.fps,
         "aspect_ratio": args.aspect_ratio,
-        "seed": args.seed,
-        "num_frames": args.frames,
-        "frame_rate": args.fps,
-        "first_pass_num_inference_steps": args.first_pass_steps,
-        "second_pass_num_inference_steps": args.second_pass_steps,
-        "second_pass_skip_initial_steps": args.second_pass_skip_steps,
-        "expand_prompt": False,
-        "reverse_video": False,
-        "enable_detail_pass": args.enable_detail_pass,
-        "enable_safety_checker": True,
-        "constant_rate_factor": args.crf,
+        "generate_audio": args.generate_audio,
     }
+    if args.end_image_url:
+        fal_args["end_image_url"] = args.end_image_url
+    return fal_args
+
+
+def requested_work(args: argparse.Namespace) -> str:
+    if args.model == "kling":
+        return f"{args.duration}s"
+    if args.model == "ltx":
+        return str(args.frames)
+    return f"{args.duration}s@{args.fps}fps"
 
 
 def evaluate_video(input_path: Path, video_path: Path, run_dir: Path, probe: dict[str, Any]) -> dict[str, Any]:
@@ -352,10 +382,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--fps", type=int, default=24)
     parser.add_argument("--frames", type=int, default=33)
-    parser.add_argument("--duration", type=int, default=5, choices=[5, 10], help="Kling duration in seconds.")
+    parser.add_argument("--duration", type=int, default=6, help="Requested video duration in seconds.")
     parser.add_argument("--cfg-scale", type=float, default=0.3)
-    parser.add_argument("--ltx-resolution", default="480p", choices=["480p", "720p"])
+    parser.add_argument("--ltx-resolution", default="auto")
     parser.add_argument("--aspect-ratio", default="16:9")
+    parser.add_argument("--generate-audio", action="store_true")
+    parser.add_argument("--end-image-url", default="")
     parser.add_argument("--first-pass-steps", type=int, default=2)
     parser.add_argument("--second-pass-steps", type=int, default=2)
     parser.add_argument("--second-pass-skip-steps", type=int, default=1)
@@ -373,6 +405,8 @@ def main() -> int:
         raise SystemExit("FAL_KEY is not set in the environment.")
     if not args.input.exists():
         raise SystemExit(f"Input image does not exist: {args.input}")
+    if args.model == "kling" and args.duration not in {5, 10}:
+        raise SystemExit("Kling duration must be 5 or 10 seconds.")
 
     width, height = args.prep_resolution
     run_id = utc_run_id(args.model, args.label, width, height)
@@ -417,7 +451,7 @@ def main() -> int:
         "endpoint": endpoint,
         "input_source": str(args.input),
         "input_resolution": f"{width}x{height}",
-        "requested_frames": args.frames if args.model == "ltx" else f"{args.duration}s",
+        "requested_frames": requested_work(args),
         "output_frames": output_frames,
         "duration_s": duration_s,
         "api_wall_ms": api_wall_ms,

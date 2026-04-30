@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Can Generated Pages Come Alive? | Flipbook Research</title>
+    <meta
+      name="description"
+      content="A plain-language research article about trying to make AI-generated pages move while keeping their meaning intact."
+    >
+    <meta property="og:title" content="Can Generated Pages Come Alive?">
+    <meta
+      property="og:description"
+      content="What we learned from experiments with generated video, lightweight page animation, and living documents."
+    >
+    <meta property="og:image" content="assets/retrospective/naturalist-plate.jpg">
+    <meta name="theme-color" content="#f4efe5">
+    <link rel="stylesheet" href="assets/retrospective/site.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="https://github.com/dennisonbertram/flipbook-research">Flipbook Research</a>
+      <a class="archive-link" href="#research">Research archive</a>
+    </header>
+
+    <main>
+      <article class="article">
+        <header class="article-header">
+          <p class="kicker">Public research note</p>
+          <h1>Can Generated Pages Come Alive?</h1>
+          <p class="dek">
+            We explored a simple dream: take an AI-generated page, like a field
+            guide or illustrated explainer, and make it feel alive without
+            losing the page itself.
+          </p>
+        </header>
+
+        <figure class="hero-figure">
+          <img
+            src="assets/retrospective/naturalist-plate.jpg"
+            alt="Generated naturalist field-guide plate with fern, moth, and handwritten labels."
+          >
+          <figcaption>
+            One of the generated page types we tested: a field-guide plate with
+            illustrations, labels, margins, and a clear printed identity.
+          </figcaption>
+        </figure>
+
+        <section class="article-section">
+          <p class="lead">
+            The question was not just “can we animate an image?” That is already
+            possible. The harder question was whether a page can move while
+            still remaining a page.
+          </p>
+          <p>
+            A page is different from a normal picture. If a generated landscape
+            changes a branch, the image may still work. If a generated page
+            changes a word, a label, a diagram, or the relationship between
+            sections, the meaning can change. That makes “living pages” a harder
+            problem than ordinary generated video.
+          </p>
+          <p>
+            We tried two broad approaches. One asked video models to animate the
+            whole page. The other tried smaller, more controlled page motion:
+            subtle movement, layout experiments, and lightweight animation that
+            kept the original page closer to the center.
+          </p>
+        </section>
+
+        <section class="article-section">
+          <h2>What We Saw</h2>
+          <p>
+            The best examples were not the cleanest successes. They were the
+            examples that made the tradeoff visible: beauty versus control,
+            motion versus meaning, atmosphere versus readability.
+          </p>
+
+          <figure class="example-figure">
+            <video
+              src="assets/retrospective/liked/ltx23-naturalist.mp4"
+              poster="assets/retrospective/liked/ltx23-naturalist.jpg"
+              autoplay
+              muted
+              loop
+              playsinline
+              controls
+            ></video>
+            <figcaption>
+              <span class="caption-label">Example 1: the field guide becomes cinematic.</span>
+              <span>
+                This is important because it shows why generated video is so
+                tempting. The page gains atmosphere and a sense of physical
+                presence. But it also shows the central risk: the model begins
+                inventing new foreground shapes and treating the page like a
+                scene instead of a document.
+              </span>
+              <span class="caption-note">
+                What it does: adds rich generated motion to an illustration-heavy
+                page, while drifting away from the original composition.
+              </span>
+            </figcaption>
+          </figure>
+
+          <figure class="example-figure">
+            <video
+              src="assets/retrospective/liked/ltx2-fast-text-preservation.mp4"
+              poster="assets/retrospective/liked/ltx2-fast-text-preservation.jpg"
+              autoplay
+              muted
+              loop
+              playsinline
+              controls
+            ></video>
+            <figcaption>
+              <span class="caption-label">Example 2: the explainer page stays recognizable, but not exact.</span>
+              <span>
+                This mattered because it was closer to a real informational
+                page. The model kept the broad identity: title, sections,
+                diagram, and layout. But the details softened and shifted. For a
+                visual impression, that can be acceptable. For a readable page,
+                it is not enough.
+              </span>
+              <span class="caption-note">
+                What it does: preserves the idea of the page while turning exact
+                text and diagram details into approximations.
+              </span>
+            </figcaption>
+          </figure>
+
+          <figure class="example-figure">
+            <video
+              src="assets/retrospective/liked/neural-text-flow-box8.mp4"
+              poster="assets/retrospective/liked/neural-text-flow-box8.jpg"
+              autoplay
+              muted
+              loop
+              playsinline
+              controls
+            ></video>
+            <figcaption>
+              <span class="caption-label">Example 3: small controlled motion is useful right now.</span>
+              <span>
+                This example is less dramatic, but it points toward a practical
+                product. The page can feel subtly alive without handing every
+                pixel to a video model. The result is calmer, but more stable.
+              </span>
+              <span class="caption-note">
+                What it does: gives the page a lightweight “breathing” motion
+                while keeping the page structure mostly intact.
+              </span>
+            </figcaption>
+          </figure>
+
+          <figure class="example-figure">
+            <video
+              src="assets/retrospective/liked/neural-glyph-reflow.mp4"
+              poster="assets/retrospective/liked/neural-glyph-reflow.jpg"
+              autoplay
+              muted
+              loop
+              playsinline
+              controls
+            ></video>
+            <figcaption>
+              <span class="caption-label">Example 4: the closest run to true re-layout also broke meaning.</span>
+              <span>
+                This was one of the most revealing failures. The page appears to
+                be trying to become a new arrangement, which is much closer to
+                the dream of a living document. But the text and content degrade
+                before the transformation becomes usable.
+              </span>
+              <span class="caption-note">
+                What it does: attempts to move beyond camera motion into actual
+                page transformation, but loses too much readability.
+              </span>
+            </figcaption>
+          </figure>
+        </section>
+
+        <section class="article-section">
+          <h2>What We Learned</h2>
+          <p>
+            The main lesson is simple: video models are powerful motion engines,
+            but they are not yet reliable page keepers.
+          </p>
+          <p>
+            They are good at atmosphere, texture, and plausible movement. They
+            are much weaker at preserving exact words, diagrams, margins, and
+            layout relationships. That means they can be useful for enhancement,
+            but risky as the thing that owns the page.
+          </p>
+          <p>
+            The more promising near-term path is hybrid. Keep the page itself as
+            the reference. Add controlled motion immediately. Then, for pages
+            that can tolerate it, try richer generated video in the background
+            and only use it when it still feels like the same page.
+          </p>
+        </section>
+
+        <section class="article-section">
+          <h2>What This Means</h2>
+          <p>
+            A useful product is possible before the full research dream is
+            solved. Generated reports, illustrated essays, educational pages,
+            product explainers, and field-guide-style pages can already become
+            more alive through careful, controlled motion.
+          </p>
+          <p>
+            But true generated re-layout is still open. To get there, the system
+            needs to understand the page as something structured: text, diagrams,
+            illustrations, locked regions, movable regions, and meaning. The
+            model cannot treat the whole thing as one picture and hope the
+            important details survive.
+          </p>
+        </section>
+
+        <section class="research-trail" id="research">
+          <h2>Research Trail</h2>
+          <p>
+            This article is the public summary. The underlying repo includes the
+            experiment notes, test writeups, and generated outputs that led to
+            these examples.
+          </p>
+          <div class="research-links">
+            <a href="https://github.com/dennisonbertram/flipbook-research">Repository</a>
+            <a href="https://github.com/dennisonbertram/flipbook-research/pull/1">Current research PR</a>
+            <a href="https://github.com/dennisonbertram/flipbook-research/blob/track-b-ltx-progress-20260427163911/docs/research/flipbook-research-retrospective-2026-04-28.md">
+              Longer retrospective
+            </a>
+          </div>
+        </section>
+      </article>
+    </main>
+  </body>
+</html>

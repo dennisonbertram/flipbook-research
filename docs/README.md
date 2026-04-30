@@ -12,6 +12,7 @@ This directory keeps the research organized around testable questions. The curre
 - `research/track-d-general-neural-canvas.md` defines the path from one-page overfit renderer experiments to a general amortized neural canvas model.
 - `poc/README.md` explains how the two tracks fit together and how to compare them.
 - `research/neural-canvas-renderer.md` frames the model-rendered-pixels architecture and research questions.
+- `research/flipbook-research-retrospective-2026-04-28.md` summarizes the public-facing lessons, path forward, and current product thesis.
 - `research/track-a-autoresearch-program.md` adapts Karpathy's `autoresearch` loop to Track A model-layer experiments.
 - `research/text-specialized-models.md` tracks models and papers that may help with text rendering or text preservation.
 - `research/text-preservation-strategies.md` documents overlay, mask-freeze, and residual-motion strategies.

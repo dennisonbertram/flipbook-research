@@ -7,6 +7,7 @@ __pycache__/
 .venv/
 venv/
 node_modules/
+tmp/secrets/
 
 # Generated run outputs can be huge. Keep lightweight showcase assets only.
 outputs/*
@@ -21,4 +22,3 @@ outputs/nano-banana/*
 !outputs/nano-banana/*.jpg
 !outputs/nano-banana/*.png
 !outputs/nano-banana/latest-*.json
-

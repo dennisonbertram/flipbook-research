@@ -108,6 +108,16 @@ outputs/track-v/20260425T160020Z-fal-kling-fal-kling-naturalist-etching-living-v
 
 This used a slightly more "living illustration" prompt on the same naturalist plate. It stayed visually stable and preserved the plate well, but did not add much more obvious motion than the first favorite. API wall time was `49.403s` for the same `5.042s`/`121` frame output, about `9.8x` slower than realtime from finished image to MP4.
 
+## Current Diagnostic Notes
+
+- `track-v-camera-path-diagnostic-2026-04-27.md` checks whether first/mid/last frames are explainable as crops of the source page.
+- The diagnostic supports the working distinction between deterministic plate drift, conservative model plate motion, and generated-pixel document collapse.
+- The 6s first/last-frame anchored LTX 2.3 Fast dense-text run preserves the first and last page but invents a bad mid-frame page-fold artifact.
+- The 2s first/last-frame anchored run with a strict locked-page prompt is the strongest hosted dense-text result so far: text `0.8099`, layout `0.9992`, API wall `14.762s`.
+- Ablations show both the anchor and the strict prompt are required. A 2s anchored default-prompt run fails text (`0.6476`), and a 2s locked-prompt run without the last-frame anchor fails harder (`0.3196`).
+- This is still a background enhancement path rather than realtime re-layout: the best hosted run takes about `15s` and is nearly static.
+- Modal old-LTX condition probes are faster but still fail dense text: `768x448` took `6.492s` wall with text `0.4604`; `960x544` took `9.766s` wall with text `0.2184`. Both stayed in page coordinates but were nearly static and text-damaging.
+
 ## Sources
 
 - Kling fal API: https://fal.ai/models/fal-ai/kling-video/v2.5-turbo/standard/image-to-video/api
