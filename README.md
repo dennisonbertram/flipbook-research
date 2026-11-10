@@ -14,7 +14,7 @@ Track C is the most promising path. It combines a stable learned canvas, a layou
 | Stable canvas + layout transform | 0.7091 | 0.3610 |
 | Stable canvas + OCR line anchors | 0.7321 | 0.4124 |
 
-- Rendering 33 frames at 1280x736 took about 302-442 ms. At 24 fps, 33 frames is 1.375 s of video, so rendering is faster than realtime. The 33-frame render times are in `docs/benchmarks/track-c-c0-neural-canvas-2026-04-24.md`.
+- Rendering 33 frames at 960x544 took about 302-442 ms. At 24 fps, 33 frames is 1.375 s of video, so rendering is faster than realtime. The 33-frame render times are in `docs/benchmarks/track-c-c0-neural-canvas-2026-04-24.md`.
 - The scores come from `docs/experiments/track-c/evaluate-c71.log`.
 - Text under strong motion is still poor, and the renderer is trained per page rather than general. Of about 900 logged Track C runs, 417 pass and 481 are near misses (`docs/experiments/track-c/results.tsv`). Recent runs on generated holdout pages (C124 in `docs/experiments/track-c/`) are mostly near misses.
 
